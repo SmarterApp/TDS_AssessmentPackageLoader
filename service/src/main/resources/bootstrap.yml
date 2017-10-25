@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: tds-aspl-service
+  cloud:
+    config:
+      uri: ${CONFIG_SERVICE_URL:http://localhost:8080}
+      enabled: ${CONFIG_SERVICE_ENABLED:false}
+      fail-fast: ${CONFIG_SERVICE_ENABLED:false}
