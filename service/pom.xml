@@ -4,16 +4,16 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.opentestsystem.delivery</groupId>
-	<artifactId>tds-aspl-service</artifactId>
+	<artifactId>tds-apl-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>service</name>
-	<description>TDS Assessment Scoring Package Loader Service</description>
+	<description>TDS Assessment Package Loader Service</description>
 
 	<parent>
 		<groupId>org.opentestsystem.delivery</groupId>
-		<artifactId>tds-aspl</artifactId>
+		<artifactId>tds-apl</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 

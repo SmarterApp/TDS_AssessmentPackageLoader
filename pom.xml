@@ -36,9 +36,9 @@
 	</properties>
 
 	<scm>
-		<connection>scm:git:https://github.com/SmarterApp/TDS_AssessmentScoringPackageLoader.git</connection>
-		<developerConnection>scm:git:git://github.com/SmarterApp/TDS_AssessmentScoringPackageLoader.git</developerConnection>
-		<url>https://github.com/SmarterApp/TDS_AssessmentScoringPackageLoader</url>
+		<connection>scm:git:https://github.com/SmarterApp/TDS_AssessmentPackageLoader.git</connection>
+		<developerConnection>scm:git:git://github.com/SmarterApp/TDS_AssessmentPackageLoader.git</developerConnection>
+		<url>https://github.com/SmarterApp/TDS_AssessmentPackageLoader</url>
 		<tag>HEAD</tag>
 	</scm>
 
