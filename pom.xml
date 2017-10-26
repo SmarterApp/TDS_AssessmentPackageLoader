@@ -6,7 +6,7 @@
 	<groupId>org.opentestsystem.delivery</groupId>
 	<artifactId>tds-apl</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<name>tds-apl</name>
 	<description>TDS Assessment Package Loader</description>
