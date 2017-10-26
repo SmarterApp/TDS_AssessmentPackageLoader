@@ -2,7 +2,7 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # File:  docker-startup.sh
 #
-# Desc:  Start the tds-aspl.jar with the appropriate properties.
+# Desc:  Start the tds-apl.jar with the appropriate properties.
 #
 #-----------------------------------------------------------------------------------------------------------------------
 
