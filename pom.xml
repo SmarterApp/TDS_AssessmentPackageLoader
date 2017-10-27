@@ -1,85 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.opentestsystem.delivery</groupId>
-	<artifactId>tds-apl</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <groupId>org.opentestsystem.delivery</groupId>
+    <artifactId>tds-apl</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<name>tds-apl</name>
-	<description>TDS Assessment Package Loader</description>
+    <name>tds-apl</name>
+    <description>TDS Assessment Package Loader</description>
 
-	<modules>
-		<module>client</module>
-		<module>service</module>
-	</modules>
+    <modules>
+        <module>client</module>
+        <module>service</module>
+    </modules>
 
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.8.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
-	</parent>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.8.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<java.version>1.8</java.version>
-		<docker.image.prefix>smarterbalanced</docker.image.prefix>
-		<tds-common.version>4.0.1.RELEASE</tds-common.version>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <docker.image.prefix>smarterbalanced</docker.image.prefix>
+        <tds-common.version>4.0.1.RELEASE</tds-common.version>
 
-		<maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
-		<maven.release.plugin.version>2.5.3</maven.release.plugin.version>
-		<maven.source.plugin.version>2.1.2</maven.source.plugin.version>
-	</properties>
+        <maven.compiler.plugin.version>3.5.1</maven.compiler.plugin.version>
+        <maven.release.plugin.version>2.5.3</maven.release.plugin.version>
+        <maven.source.plugin.version>2.1.2</maven.source.plugin.version>
+    </properties>
 
-	<scm>
-		<connection>scm:git:https://github.com/SmarterApp/TDS_AssessmentPackageLoader.git</connection>
-		<developerConnection>scm:git:git://github.com/SmarterApp/TDS_AssessmentPackageLoader.git</developerConnection>
-		<url>https://github.com/SmarterApp/TDS_AssessmentPackageLoader</url>
-		<tag>HEAD</tag>
-	</scm>
+    <scm>
+        <connection>scm:git:https://github.com/SmarterApp/TDS_AssessmentPackageLoader.git</connection>
+        <developerConnection>scm:git:git://github.com/SmarterApp/TDS_AssessmentPackageLoader.git</developerConnection>
+        <url>https://github.com/SmarterApp/TDS_AssessmentPackageLoader</url>
+        <tag>HEAD</tag>
+    </scm>
 
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>${maven.compiler.plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-release-plugin</artifactId>
-					<version>${maven.release.plugin.version}</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<version>${maven.source.plugin.version}</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		<plugins>
-			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagNameFormat>@{project.version}</tagNameFormat>
-					<useReleaseProfile>false</useReleaseProfile>
-					<releaseProfiles>release</releaseProfiles>
-					<autoVersionSubmodules>true</autoVersionSubmodules>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${maven.release.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven.source.plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <tagNameFormat>@{project.version}</tagNameFormat>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-	<distributionManagement>
-		<repository>
-			<id>central</id>
-			<name>airdev-releases</name>
-			<url>https://airdev.jfrog.io/airdev/libs-releases-local</url>
-		</repository>
-	</distributionManagement>
+    <distributionManagement>
+        <repository>
+            <id>central</id>
+            <name>airdev-releases</name>
+            <url>https://airdev.jfrog.io/airdev/libs-releases-local</url>
+        </repository>
+    </distributionManagement>
 </project>

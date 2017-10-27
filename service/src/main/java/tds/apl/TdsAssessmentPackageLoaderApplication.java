@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class TdsAssessmentPackageLoaderApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(TdsAssessmentPackageLoaderApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(TdsAssessmentPackageLoaderApplication.class, args);
+    }
 }
