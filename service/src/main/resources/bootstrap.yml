@@ -1,6 +1,6 @@
 spring:
   application:
-    name: tds-apl-service
+    name: tds-support-tool-service
   cloud:
     config:
       uri: ${CONFIG_SERVICE_URL:http://localhost:8080}

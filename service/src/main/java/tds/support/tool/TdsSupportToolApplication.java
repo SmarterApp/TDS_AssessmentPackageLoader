@@ -1,12 +1,12 @@
-package tds.apl;
+package tds.support.tool;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TdsAssessmentPackageLoaderApplication {
+public class TdsSupportToolApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(TdsAssessmentPackageLoaderApplication.class, args);
+        SpringApplication.run(TdsSupportToolApplication.class, args);
     }
 }

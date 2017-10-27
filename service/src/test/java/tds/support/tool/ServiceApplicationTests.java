@@ -1,4 +1,4 @@
-package tds.apl;
+package tds.support.tool;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
