@@ -4,16 +4,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.opentestsystem.delivery</groupId>
-    <artifactId>tds-apl</artifactId>
+    <artifactId>tds-support-tool</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>tds-apl</name>
-    <description>TDS Assessment Package Loader</description>
+    <name>tds-support-tool</name>
+    <description>TDS Support Tool</description>
 
     <modules>
         <module>client</module>
         <module>service</module>
+        <module>loader</module>
     </modules>
 
     <parent>

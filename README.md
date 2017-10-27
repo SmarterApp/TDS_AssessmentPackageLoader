@@ -1,9 +1,13 @@
-# TDS Assessment Package Loader
+# TDS Support Tool
 ## Overview
-The `TDS_AssessmentPackageLoader` consists of two modules:
+`TDS_SupportTool` provides a web interface for various support tools, with features such as assessment loading, test-specification 
+package validation, test-specification package conversion, and 
+
+The `TDS_SupportTool` consists of various modules:
 
 * **client:** Contains the POJOs/classes needed for a consumer to interact with the Assessment Package Loader
-* **service:** Contains the loader application service code
+* **service:** Contains the spring application code and the angular web application
+* **loader** Contains the loader application business logic
 
 
 ## Setup
@@ -13,7 +17,7 @@ The following tools will be needed to build the project.
 2. Java 8 
 
 ## Build
-To build the **client** and **service**, use the "parent" `pom.xml` that is contained in the `TDS_AssessmentPackageLoader` directory:
+To build all modules, use the "parent" `pom.xml` that is contained in the `TDS_AssessmentPackageLoader` directory:
 
 * `mvn clean install -f /path/to/parent/pom.xml`
 
@@ -41,7 +45,7 @@ To run the compiled jar built by one of the build commands above, use the follow
 
 ```
 java -Xms256m -Xmx512m \
-    -jar /path/to/target/tds-apl-service-0.0.1-SNAPSHOT.jar \
+    -jar /path/to/target/tds-support-tool-service-0.0.1-SNAPSHOT.jar \
     --server-port="8080" \
     --server.undertow.buffer-size=16384 \
     --server.undertow.buffers-per-region=20 \
@@ -57,8 +61,8 @@ The Docker container can be started via `docker-compose` or `docker run`:
 
 * The command for starting the container via `docker-compose`:  `docker-compose up -d -f /path/to/docker-compose.yml`
   * **NOTE:** If `docker-compose` is run in the same directory where the `docker-compose.yml` file is located, `docker-compose up -d` is sufficient to start the container
-* Alternately, `docker run` can be used to start up the container:  `docker run -d -p [open port on host]:8080 --env-file /path/to/apl.env fwsbac/tds-apl-service`
-  * example:  `docker run -d -p 23572:8080 --env-file apl.env fwsbac/tds-apl-service`
+* Alternately, `docker run` can be used to start up the container:  `docker run -d -p [open port on host]:8080 --env-file /path/to/apl.env fwsbac/tds-support-tool-service`
+  * example:  `docker run -d -p 23572:8080 --env-file support-tool.env fwsbac/tds-support-tool-service`
 
 To see the list of running Docker containers, use the following command:
 
@@ -67,7 +71,7 @@ To see the list of running Docker containers, use the following command:
  
 ```
 CONTAINER ID        IMAGE                        COMMAND                CREATED             STATUS              PORTS                     NAMES
-de37db84cb30        fwsbac/tds-apl-service   "/docker-startup.sh"   2 hours ago         Up 2 hours          0.0.0.0:23489->8080/tcp   docker_loader_1
+de37db84cb30        fwsbac/tds-support-tool-service   "/docker-startup.sh"   2 hours ago         Up 2 hours          0.0.0.0:23489->8080/tcp   docker_support-tool_1
 ```
 To tail the log files for the process(es) running on the Docker container:
 

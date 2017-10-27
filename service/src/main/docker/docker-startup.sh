@@ -2,8 +2,8 @@
 #-----------------------------------------------------------------------------------------------------------------------
 # File:  docker-startup.sh
 #
-# Desc:  Start the tds-apl.jar with the appropriate properties.
+# Desc:  Start the tds-support-tool.jar with the appropriate properties.
 #
 #-----------------------------------------------------------------------------------------------------------------------
 
-java $JAVA_OPTS -jar /tds-apl.jar
+java $JAVA_OPTS -jar /tds-support-tool.jar
