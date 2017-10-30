@@ -17,7 +17,7 @@ The following tools will be needed to build the project.
 2. Java 8 
 
 ## Build
-To build all modules, use the "parent" `pom.xml` that is contained in the `TDS_AssessmentPackageLoader` directory:
+To build all modules, use the "parent" `pom.xml` that is contained in the `TDS_SupportTool` directory:
 
 * `mvn clean install -f /path/to/parent/pom.xml`
 
