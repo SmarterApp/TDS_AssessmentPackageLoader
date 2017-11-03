@@ -1,15 +1,35 @@
-#Configure the Spring Actuator endpoints to require an authenticated user with the MANAGEMENT role
+# this app is expected to run inside the security perimeter so disable security for actuator end-points and,
+# since those are the only end-points, switch to a less standard port using the main server.port config
 management:
+  port: 8008
   security:
-    roles: MANAGEMENT
+    enabled: false
+  health:
+    redis:
+      enabled: false
+    rabbit:
+      enabled: true
 
----
+security:
+  basic:
+    enabled: false
+  user:
+    name: user
+    password: password
+
+server:
+  port: 8080
+  undertow:
+    buffer-size: 16384
+    io-threads: 64
+    worker-threads: 512
+    direct-buffers: true
+
 spring:
-  profiles: local-development
   mvc:
     throw-exception-if-no-handler-found: true
   resources:
-    add-mappings: false
+    add-mappings: true
   cloud:
     bus:
       enabled: false
@@ -17,26 +37,3 @@ spring:
 #Port defined in TDS_Build:docker-compose.yml
   rabbitmq:
     port: 32846
-
-management:
-  health:
-    redis:
-      enabled: false
-    rabbit:
-      enabled: false
-
-#Configure the default Spring Security user with the MANAGEMENT role
-security:
-  user:
-    name: user
-    password: password
-    role: MANAGEMENT
-
-server:
-  port: 32849
-  undertow:
-    buffer-size: 16384
-    io-threads: 64
-    worker-threads: 512
-    direct-buffers: true
-

@@ -180,3 +180,6 @@ $RECYCLE.BIN/
 service/src/main/resources/application.properties
 service/src/test/resources/application.properties
 service/logfile.*
+service/src/main/resources/static
+service/src/main/webapp/lib
+service/src/main/webapp/node
