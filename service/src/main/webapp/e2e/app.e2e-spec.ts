@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('tds-assessment-package-loader App', () => {
+describe('tds-support-tool App', () => {
   let page: AppPage;
 
   beforeEach(() => {

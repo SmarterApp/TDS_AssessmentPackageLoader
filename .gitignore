@@ -180,3 +180,7 @@ $RECYCLE.BIN/
 service/src/main/resources/application.properties
 service/src/test/resources/application.properties
 service/logfile.*
+service/package-lock.json
+service/lib
+service/node
+service/src/main/resources/static

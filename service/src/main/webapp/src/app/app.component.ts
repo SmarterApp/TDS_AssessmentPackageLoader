@@ -6,5 +6,5 @@ import {Component} from "@angular/core";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'TDS Assessment Package Loader';
+  title = 'TDS Support Tools';
 }
