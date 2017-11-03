@@ -95,7 +95,9 @@
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
                 <version>1.6</version>
-
+                <configuration>
+                    <workingDirectory>src/main/webapp</workingDirectory>
+                </configuration>
                 <executions>
                     <execution>
                         <id>install node and npm</id>
@@ -123,7 +125,7 @@
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>run-script prod --prefix src/main/webapp</arguments>
+                            <arguments>run-script prod</arguments>
                         </configuration>
                     </execution>
                 </executions>
