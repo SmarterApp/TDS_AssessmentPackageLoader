@@ -18,7 +18,7 @@ security:
     password: password
 
 server:
-  port: 8080
+  port: 32850
   undertow:
     buffer-size: 16384
     io-threads: 64
@@ -33,7 +33,20 @@ spring:
   cloud:
     bus:
       enabled: false
+  data:
+    mongodb:
+      host: localhost/support-tool
+      port: 27017
+      username: sbac-tds-support
+      password: password
 
 #Port defined in TDS_Build:docker-compose.yml
   rabbitmq:
     port: 32846
+
+data:
+  s3:
+    access-key: ${s3.key}
+    secret-key: ${s3.secret}
+    bucket-name: tds-resources
+    test-package-prefix: support-content/test-packages
