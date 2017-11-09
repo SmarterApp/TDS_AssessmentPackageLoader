@@ -1,5 +1,8 @@
 package tds.support.job;
 
+/**
+ * Contains error information for steps within a job
+ */
 public class Error {
     private String message;
     private ErrorSeverity severity;
@@ -11,6 +14,9 @@ public class Error {
         this.severity = severity;
     }
 
+    /**
+     * @return the error message containing why the error occurred
+     */
     public String getMessage() {
         return message;
     }
@@ -19,6 +25,9 @@ public class Error {
         this.message = message;
     }
 
+    /**
+     * @return the {@link tds.support.job.ErrorSeverity} of the error.
+     */
     public ErrorSeverity getSeverity() {
         return severity;
     }

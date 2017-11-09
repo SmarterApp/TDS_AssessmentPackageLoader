@@ -24,6 +24,13 @@ public class TestPackageController {
         this.jobService = jobService;
     }
 
+    /**
+     * Starts the test package job
+     *
+     * @param file the test package
+     * @return {@link org.springframework.http.ResponseEntity} containing the new {@link tds.support.job.Job}
+     * @throws IOException thrown if there is an issue with accessing the file
+     */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Job> loadPackage(@RequestParam("file") MultipartFile file) throws IOException {
         Job job = jobService.startPackageImport(file.getOriginalFilename(), file.getInputStream(), file.getSize());
