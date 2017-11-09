@@ -8,7 +8,7 @@ management:
     redis:
       enabled: false
     rabbit:
-      enabled: true
+      enabled: false
 
 security:
   basic:
@@ -35,10 +35,7 @@ spring:
       enabled: false
   data:
     mongodb:
-      host: localhost/support-tool
-      port: 27017
-      username: sbac-tds-support
-      password: password
+      uri: ${sbac.support.mongo.connection.uri}/support-tool
 
 #Port defined in TDS_Build:docker-compose.yml
   rabbitmq:
