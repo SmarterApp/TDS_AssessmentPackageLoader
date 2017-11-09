@@ -22,8 +22,8 @@ public class TestPackageServiceImpl implements TestPackageService {
     }
 
     @Override
-    public TestPackageMetadata saveTestPackage(final String jobId, final String packageName, final InputStream testPackageInputStream) {
-        String location = testPackageRepository.savePackage(jobId, packageName, testPackageInputStream);
+    public TestPackageMetadata saveTestPackage(final String jobId, final String packageName, final InputStream testPackageInputStream, long testPackageSize) {
+        String location = testPackageRepository.savePackage(jobId, packageName, testPackageInputStream, testPackageSize);
         TestPackageMetadata metadata = new TestPackageMetadata();
         metadata.setFileLocation(location);
         metadata.setJobId(jobId);

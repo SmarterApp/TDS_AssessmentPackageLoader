@@ -46,4 +46,4 @@ data:
     access-key: ${s3.key}
     secret-key: ${s3.secret}
     bucket-name: tds-resources
-    test-package-prefix: support-content/test-packages
+    test-package-prefix: support-content/dev/test-packages

@@ -9,6 +9,7 @@ public class S3Properties {
     private String accessKey;
     private String secretKey;
     private String bucketName;
+    private String testPackagePrefix;
 
     public String getAccessKey() {
         return accessKey;
@@ -32,5 +33,13 @@ public class S3Properties {
 
     public void setBucketName(final String bucketName) {
         this.bucketName = bucketName;
+    }
+
+    public String getTestPackagePrefix() {
+        return testPackagePrefix;
+    }
+
+    public void setTestPackagePrefix(final String testPackagePrefix) {
+        this.testPackagePrefix = testPackagePrefix;
     }
 }

@@ -1,5 +1,6 @@
 package tds.support.job;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Step {
@@ -30,4 +31,19 @@ public class Step {
         this.errors = errors;
     }
 
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(final Status status) {
+        this.status = status;
+    }
+
+    public void addError(Error error) {
+        if(errors == null) {
+            errors = new ArrayList<>();
+        }
+
+        errors.add(error);
+    }
 }

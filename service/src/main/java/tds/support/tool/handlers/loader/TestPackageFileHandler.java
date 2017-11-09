@@ -18,8 +18,8 @@ public class TestPackageFileHandler {
         this.testPackageService = testPackageService;
     }
 
-    public Step handleTestPackage(final String jobId, final String packageName, final InputStream testPackage) {
-        TestPackageMetadata testPackageMetadata = testPackageService.saveTestPackage(jobId, packageName, testPackage);
+    public Step handleTestPackage(final String jobId, final String packageName, final InputStream testPackage, long testPackageSize) {
+        TestPackageMetadata testPackageMetadata = testPackageService.saveTestPackage(jobId, packageName, testPackage, testPackageSize);
 
         return new Step(String.format(STEP_MESSAGE, packageName), Status.SUCCESS);
     }

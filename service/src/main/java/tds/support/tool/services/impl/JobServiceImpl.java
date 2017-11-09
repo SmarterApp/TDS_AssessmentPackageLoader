@@ -25,14 +25,14 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job startPackageImport(final String packageName, final InputStream testPackage) {
+    public Job startPackageImport(final String packageName, final InputStream testPackage, long testPackageSize) {
         Job job = new Job();
         job.setStatus(Status.IN_PROGRESS);
         job.setType(JobType.LOADER);
 
         Job persistedJob = jobRepository.save(job);
 
-        Step step = testPackageFileHandler.handleTestPackage(persistedJob.getId(), packageName, testPackage);
+        Step step = testPackageFileHandler.handleTestPackage(persistedJob.getId(), packageName, testPackage, testPackageSize);
 
         job.addStep(step);
 

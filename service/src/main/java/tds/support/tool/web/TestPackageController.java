@@ -26,7 +26,7 @@ public class TestPackageController {
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Job> loadPackage(@RequestParam("file") MultipartFile file) throws IOException {
-        Job job = jobService.startPackageImport(file.getName(), file.getInputStream());
+        Job job = jobService.startPackageImport(file.getOriginalFilename(), file.getInputStream(), file.getSize());
         return ResponseEntity.ok(job);
     }
 }
