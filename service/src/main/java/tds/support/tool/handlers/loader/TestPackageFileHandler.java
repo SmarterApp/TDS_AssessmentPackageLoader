@@ -23,7 +23,7 @@ public class TestPackageFileHandler {
     /**
      * @param testPackageService the {@link tds.support.tool.services.loader.TestPackageService} that handles loading the test package
      */
-    public TestPackageFileHandler(final TestPackageService testPackageService) {
+    TestPackageFileHandler(final TestPackageService testPackageService) {
         this.testPackageService = testPackageService;
     }
 
@@ -37,14 +37,17 @@ public class TestPackageFileHandler {
      * @return {@link tds.support.job.Step} defining the information for this step in the job
      */
     public Step handleTestPackage(final String jobId, final String packageName, final InputStream testPackage, long testPackageSize) {
-        Step step = new Step("Uploaded file " + packageName, Status.SUCCESS);
+        Step step = new Step("Uploading file " + packageName, Status.SUCCESS);
 
         try {
             testPackageService.saveTestPackage(jobId, packageName, testPackage, testPackageSize);
         } catch (Exception e) {
             log.error("Unexpected Error uploading the test package file " + testPackage, e);
             step.addError(new Error("Failed to upload file", ErrorSeverity.CRITICAL));
+            step.setStatus(Status.FAIL);
         }
+
+        //Send the "job message" onto RabbitMQ before returning the step
 
         return step;
     }
