@@ -7,8 +7,18 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+
+import tds.common.configuration.JacksonObjectMapperConfiguration;
+import tds.common.configuration.SecurityConfiguration;
+import tds.common.web.advice.ExceptionAdvice;
 
 @Configuration
+@Import({
+    ExceptionAdvice.class,
+    JacksonObjectMapperConfiguration.class,
+    SecurityConfiguration.class,
+})
 public class SupportToolServiceConfiguration {
     @Bean
     public AmazonS3 getAmazonS3(final S3Properties s3Properties) {
