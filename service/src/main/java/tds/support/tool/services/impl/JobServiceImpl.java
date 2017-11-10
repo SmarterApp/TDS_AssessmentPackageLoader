@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 
+import tds.support.job.Error;
+import tds.support.job.ErrorSeverity;
 import tds.support.job.Job;
 import tds.support.job.JobType;
 import tds.support.job.Status;
@@ -35,6 +37,13 @@ public class JobServiceImpl implements JobService {
         Step step = testPackageFileHandler.handleTestPackage(persistedJob.getId(), packageName, testPackage, testPackageSize);
 
         job.addStep(step);
+
+        for(Error error : step.getErrors()) {
+          if(error.getSeverity().equals(ErrorSeverity.CRITICAL)) {
+              job.setStatus(Status.FAIL);
+              break;
+          }
+        }
 
         return jobRepository.save(job);
     }
