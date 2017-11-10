@@ -7,7 +7,7 @@ public class Error {
     private String message;
     private ErrorSeverity severity;
 
-    public Error(){}
+    Error(){}
 
     public Error(final String message, final ErrorSeverity severity) {
         this.message = message;
@@ -21,7 +21,7 @@ public class Error {
         return message;
     }
 
-    public void setMessage(final String message) {
+    void setMessage(final String message) {
         this.message = message;
     }
 
@@ -32,7 +32,7 @@ public class Error {
         return severity;
     }
 
-    public void setSeverity(final ErrorSeverity severity) {
+    void setSeverity(final ErrorSeverity severity) {
         this.severity = severity;
     }
 }

@@ -1,6 +1,7 @@
 package tds.support.job;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -12,11 +13,13 @@ public class Step {
     private Status status;
 
     public Step() {
+        errors = new ArrayList<>();
     }
 
     public Step(String description, Status status) {
         this.description = description;
         this.status = status;
+        this.errors = new ArrayList<>();
     }
 
     /**
@@ -28,10 +31,6 @@ public class Step {
 
     public void setDescription(final String description) {
         this.description = description;
-    }
-
-    public void setErrors(final List<Error> errors) {
-        this.errors = errors;
     }
 
     /**
@@ -56,5 +55,16 @@ public class Step {
         }
 
         errors.add(error);
+    }
+
+    void setErrors(final List<Error> errors) {
+        this.errors = errors;
+    }
+
+    /**
+     * @return an unmodifiable list of errors. {@link tds.support.job.Error} associated with the object
+     */
+    public List<Error> getErrors() {
+        return Collections.unmodifiableList(errors);
     }
 }
