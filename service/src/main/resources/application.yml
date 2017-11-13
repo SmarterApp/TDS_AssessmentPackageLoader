@@ -8,7 +8,7 @@ management:
     redis:
       enabled: false
     rabbit:
-      enabled: true
+      enabled: false
 
 security:
   basic:
@@ -18,7 +18,7 @@ security:
     password: password
 
 server:
-  port: 8080
+  port: 32850
   undertow:
     buffer-size: 16384
     io-threads: 64
@@ -33,7 +33,17 @@ spring:
   cloud:
     bus:
       enabled: false
+  data:
+    mongodb:
+      uri: ${sbac.support.mongo.connection.uri}/support-tool
 
 #Port defined in TDS_Build:docker-compose.yml
   rabbitmq:
     port: 32846
+
+data:
+  s3:
+    access-key: ${s3.key}
+    secret-key: ${s3.secret}
+    bucket-name: tds-resources
+    test-package-prefix: support-content/dev/test-packages
