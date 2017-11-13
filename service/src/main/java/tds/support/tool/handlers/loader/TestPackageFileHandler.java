@@ -2,6 +2,7 @@ package tds.support.tool.handlers.loader;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
@@ -23,6 +24,7 @@ public class TestPackageFileHandler {
     /**
      * @param testPackageService the {@link tds.support.tool.services.loader.TestPackageService} that handles loading the test package
      */
+    @Autowired
     TestPackageFileHandler(final TestPackageService testPackageService) {
         this.testPackageService = testPackageService;
     }
