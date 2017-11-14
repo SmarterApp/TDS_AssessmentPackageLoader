@@ -11,15 +11,22 @@ public class Step {
     private String description;
     private List<Error> errors;
     private Status status;
+    private String name;
 
     public Step() {
         errors = new ArrayList<>();
     }
 
-    public Step(String description, Status status) {
+    public Step(final String description, final Status status) {
         this.description = description;
         this.status = status;
         this.errors = new ArrayList<>();
+    }
+
+    public Step(final String name, final String description) {
+        this.name = name;
+        this.description = description;
+        this.status = Status.NOT_STARTED;
     }
 
     /**
@@ -66,5 +73,16 @@ public class Step {
      */
     public List<Error> getErrors() {
         return Collections.unmodifiableList(errors);
+    }
+
+    /**
+     * @return the step name
+     */
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
     }
 }

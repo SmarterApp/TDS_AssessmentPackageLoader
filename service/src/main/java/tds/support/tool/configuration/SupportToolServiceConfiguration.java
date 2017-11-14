@@ -9,9 +9,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import tds.common.configuration.JacksonObjectMapperConfiguration;
 import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
+import tds.support.tool.handlers.loader.TestPackageFileHandler;
 
 @Configuration
 @Import({
@@ -29,5 +33,10 @@ public class SupportToolServiceConfiguration {
             .withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials))
             .withRegion(Regions.US_WEST_2)
             .build();
+    }
+
+    @Bean(name = "testPackageLoaderStepHandlers")
+    public Map<String, TestPackageFileHandler> getTestPackageLoaderStepHandlers() {
+        return new HashMap<>();
     }
 }
