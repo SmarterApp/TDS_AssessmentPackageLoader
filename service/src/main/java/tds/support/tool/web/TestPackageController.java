@@ -33,7 +33,7 @@ public class TestPackageController {
      */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Job> loadPackage(@RequestParam("file") MultipartFile file) throws IOException {
-        Job job = jobService.startPackageImport(file.getOriginalFilename(), file.getInputStream(), file.getSize());
+        Job job = jobService.startPackageImport(file.getOriginalFilename(), file.getInputStream(), file.getSize(), true);
         return ResponseEntity.ok(job);
     }
 }

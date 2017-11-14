@@ -48,6 +48,8 @@ public class JobServiceImpl implements JobService {
             job.setStatus(Status.FAIL);
         }
 
+        //Publish
+
         return jobRepository.save(persistedJob);
     }
 

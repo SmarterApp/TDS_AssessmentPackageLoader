@@ -9,6 +9,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.UUID;
 
 import tds.support.job.Job;
@@ -21,7 +22,6 @@ import tds.support.tool.repositories.JobRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
-import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -40,7 +40,7 @@ public class JobServiceImplTest {
 
     @Before
     public void setUp() {
-        jobService = new JobServiceImpl(mockJobRepository, mockTestPackageFileHandler);
+        jobService = new JobServiceImpl(mockJobRepository, mockTestPackageFileHandler, new HashMap<>());
     }
 
     @Test
@@ -55,9 +55,9 @@ public class JobServiceImplTest {
         Step step = new Step("description", Status.SUCCESS);
 
         when(mockJobRepository.save(isA(Job.class))).thenReturn(job);
-        when(mockTestPackageFileHandler.handleTestPackage(isA(String.class),eq("packageName"), isA(InputStream.class), eq(100L))).thenReturn(step);
+        when(mockTestPackageFileHandler.handleTestPackage(isA(Step.class), isA(String.class),eq("packageName"), isA(InputStream.class), eq(100L))).thenReturn(step);
 
-        jobService.startPackageImport("packageName", testPackageStream, 100L);
+        jobService.startPackageImport("packageName", testPackageStream, 100L, true);
 
         verify(mockJobRepository, times(2)).save(jobArgumentCaptor.capture());
 
