@@ -1,14 +1,18 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FileUploadModule } from "ng2-file-upload";
 
 import { AppComponent } from './app.component';
+import { TestPackageUploadComponent } from "./testpackage/testpackage-upload.component/testpackage-upload.component";
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TestPackageUploadComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FileUploadModule
   ],
   providers: [],
   bootstrap: [AppComponent]

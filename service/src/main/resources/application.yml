@@ -18,7 +18,7 @@ security:
     password: password
 
 server:
-  port: 32850
+  port: 8080
   undertow:
     buffer-size: 16384
     io-threads: 64
