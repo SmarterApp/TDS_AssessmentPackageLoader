@@ -1,32 +1,4 @@
-# this app is expected to run inside the security perimeter so disable security for actuator end-points and,
-# since those are the only end-points, switch to a less standard port using the main server.port config
-management:
-  port: 8008
-  security:
-    enabled: false
-  health:
-    redis:
-      enabled: false
-    rabbit:
-      enabled: false
-
-security:
-  basic:
-    enabled: false
-  user:
-    name: user
-    password: password
-
-server:
-  port: 8080
-  undertow:
-    buffer-size: 16384
-    io-threads: 64
-    worker-threads: 512
-    direct-buffers: true
-
 spring:
-  profiles: local-development
   mvc:
     throw-exception-if-no-handler-found: true
   resources:
@@ -52,6 +24,6 @@ data:
 # URLs for dependent services
 test-package-loader:
   art-rest-url: http://localhost:8080/rest
-  assessment-url: http://localhost:32841
+  assessment-url: http://assessment:8080
   thss-api-url: http://localhost:28039/api
   tis-api-url: http://localohst:53708/api
