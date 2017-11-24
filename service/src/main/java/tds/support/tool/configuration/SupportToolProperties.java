@@ -7,10 +7,19 @@ import java.util.Optional;
 
 /**
  * Configuration for the test package loader.
+ * <p>
+ *     If ART, TIS and/or THSS are not configured in the environment the Support Tool is intended to support, those
+ *     properties should be left blank/empty.  An environment without ART can still run in "GUEST" mode (that is,
+ *     users can take exams without a proctored session).  An environment without TIS or THSS can take exams through to
+ *     completion, but cannot have those exams scored.
+ *
+ *     Conversely, the Support Tool requires an instance of TDS to exist; otherwise there is no system to load test
+ *     packages into.
+ * </p>
  */
 @Component
-@ConfigurationProperties(prefix = "test-package-loader")
-public class TestPackageLoaderProperties {
+@ConfigurationProperties(prefix = "support-tool")
+public class SupportToolProperties {
     private String artRestUrl;
     private String assessmentUrl;
     private String thssApiUrl;

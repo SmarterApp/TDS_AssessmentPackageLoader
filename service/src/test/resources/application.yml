@@ -22,7 +22,7 @@ data:
     test-package-prefix: support-content/dev/test-packages
 
 # URLs for dependent services
-test-package-loader:
+support-tool:
   art-rest-url: http://localhost:8080/rest
   assessment-url: http://localhost:32841
   thss-api-url: http://localhost:28039/api
