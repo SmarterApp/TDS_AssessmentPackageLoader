@@ -24,6 +24,6 @@ data:
 # URLs for dependent services
 test-package-loader:
   art-rest-url: http://localhost:8080/rest
-  assessment-url: http://assessment:8080
+  assessment-url: http://localhost:32841
   thss-api-url: http://localhost:28039/api
   tis-api-url: http://localohst:53708/api
