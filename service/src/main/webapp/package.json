@@ -26,6 +26,7 @@
     "@sbac/sbac-ui-kit": "0.0.21",
     "core-js": "^2.4.1",
     "ng2-file-upload": "^1.2.1",
+    "primeng": "^5.0.0",
     "rxjs": "^5.4.2",
     "sbac-ui-kit": "git+https://github.com/SmarterApp/SBAC-Global-UI-Kit.git#v0.0.12",
     "zone.js": "^0.8.14"
