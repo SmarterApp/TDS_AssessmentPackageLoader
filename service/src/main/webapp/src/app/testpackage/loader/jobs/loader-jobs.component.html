@@ -23,9 +23,13 @@
                  [paginator]="true"
                  [rows]="10"
                  (onRowSelect)="onRowSelect($event)">
-      <p-column field="testPackageName" header="Test Package Name" [sortable]="true"></p-column>
-      <p-column field="dateCreated" header="Date Created" [sortable]="true"></p-column>
       <p-column field="id" header="ID" [sortable]="true"></p-column>
+      <p-column field="testPackageName" header="Test Package Name" [sortable]="true"></p-column>
+      <p-column field="dateCreated" header="Date Created" [sortable]="true">
+        <ng-template let-job="rowData" pTemplate="body">
+          {{ job.dateCreated | date: 'short' }}
+        </ng-template>
+      </p-column>
       <p-column field="tdsSuccess" header="TDS">
         <ng-template let-job="rowData" pTemplate="body">
           <i *ngIf="job.tdsErrors.length === 0" class="fa fa-check-circle"></i>

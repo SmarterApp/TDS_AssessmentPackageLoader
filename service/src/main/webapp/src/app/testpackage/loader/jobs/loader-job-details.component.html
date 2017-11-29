@@ -1,6 +1,3 @@
-
-
-
 <div class="mb-md">
   <!-- No selection -->
   <div *ngIf="!selectedJob" class="loader-none-selected">
@@ -8,21 +5,26 @@
   </div>
   <span *ngIf="selectedJob" class="h3 blue-dark">{{selectedJob.testPackageName}}</span>
   <!-- Success view -->
-  <div *ngIf="selectedJob.errors.length === 0" class="loader-details-success">
+  <div *ngIf="selectedJob?.errors.length === 0" class="loader-details-success">
     <h3><i class="fa fa-check-circle"></i>The test package was successfully loaded</h3>
   </div>
 
   <!-- Failure view -->
-  <div *ngIf="selectedJob && selectedJob.errors.length > 0" class="loader-details-failure">
+  <div *ngIf="selectedJob?.errors.length > 0" class="loader-details-failure">
     <div class="loader-job-error-list-container">
       <p-dataTable [value]="selectedJob.errors"
                    emptyMessage="No errors found"
                    dataKey="id"
-                   tableStyleClass="table table-striped table-hover overflow"
-                   [paginator]="true"
-                   [rows]="10">
+                   tableStyleClass="table table-striped table-hover"
+                   [scrollable]="true"
+                   scrollHeight="230px">
         <p-column field="system" header="System" [sortable]="true" [style]="{width:'100px'}"></p-column>
-        <p-column field="severity" header="Severity" [sortable]="true" [style]="{width:'105px'}"></p-column>
+        <p-column field="severity" header="Severity" [sortable]="true" [style]="{width:'105px'}">
+          <ng-template let-error="rowData" pTemplate="body">
+            <span *ngIf="error.severity === 'Error'" class="error">{{error.severity}}</span>
+            <span *ngIf="error.severity === 'Warn'" class="warn">{{error.severity}}</span>
+          </ng-template>
+        </p-column>
         <p-column field="message" header="Message"></p-column>
       </p-dataTable>
     </div>

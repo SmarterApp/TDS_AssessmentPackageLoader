@@ -13,11 +13,14 @@ export class LoaderJobService {
   }
 
   getLoaderJobs(): Observable<LoaderJob[]> {
-    // let params: URLSearchParams = this.mapQueryToParams(query);
+
+    //TODO: Right now, we're just mocking out some data. Here is where we'd hook things up to the backend
 
     // return this.dataService
-    //   .get("/loader-Jobs", { search: params })
-    //   .map(groups => groups.map(this.mapGroupFromApi));
+    //   .get("/api/load")
+    //   .map(jobs => jobs.map(this.mapJobsFromApi));
+
+
     let error = new JobError();
     error.message = "This is an error";
     error.severity = "Error";
@@ -27,12 +30,23 @@ export class LoaderJobService {
     for (var i = 0; i < 30; i++) {
       let job = new LoaderJob();
       job.id = i;
-      job.testPackageName = 'testPackage' + i;
+      job.testPackageName = '(SBAC_PT)SBAC-ELA-G7-MATH' + i + '.xml';
       job.dateCreated = new Date().toString();
       job.type = "Create";
 
 
       job.errors = i % 3 ? [] : [error];
+
+      if (i === 7) {
+        for (var j = 0; j < 20; j++) {
+          let error2 = new JobError();
+          error2.message = "This is a really really really long test delivery system error that should go beyond the width of the data grid. Should be fully displayable in a onhover tooltipe";
+          error2.severity = "Error";
+          error2.system = 'TDS';
+          job.errors.push(error2);
+        }
+      }
+
       jobs.push(job);
     }
 

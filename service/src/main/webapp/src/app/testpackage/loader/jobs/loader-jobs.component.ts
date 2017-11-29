@@ -7,7 +7,7 @@ import {LoaderJob} from "./model/loader-job.model";
   selector: 'loader-jobs',
   templateUrl: './loader-jobs.component.html'
 })
-export class LoaderJobsComponent implements OnInit, OnDestroy {
+export class LoaderJobsComponent implements OnInit {
   // query: LoaderJobsQuery;
   searchTerm: string = '';
   @Input()
@@ -32,16 +32,11 @@ export class LoaderJobsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.params.subscribe((params: any) => {
-      // this.query.school = this.filterOptions.schools.find(school => school.id == params.schoolId) || this.filterOptions.schools[ 0 ];
-      // this.query.schoolYear = this.filterOptions.schoolYears.find(year => year === +params.schoolYear) || this.filterOptions.schoolYears[ 0 ];
-      // this.query.subject = this.filterOptions.subjects.find(subject => subject === params.subject) || this.filterOptions.subjects[ 0 ];
+      //TODO: Here is where we would pass in our query params filters
       this.updateResults();
     });
   }
 
-  ngOnDestroy() {
-    // this.unsubscribe();
-  }
 
   updateResults() {
     this.service

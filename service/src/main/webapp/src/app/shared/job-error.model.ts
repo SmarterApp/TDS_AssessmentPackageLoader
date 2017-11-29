@@ -1,5 +1,5 @@
 export class JobError {
-  id: int;
+  id: number;
   system: string;
   severity: string;
   message: string;
