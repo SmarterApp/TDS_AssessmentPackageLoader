@@ -6,6 +6,7 @@ import {LoaderJobDetailsComponent} from "./jobs/loader-job-details.component";
 import {FormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
 import {DataTableModule} from "primeng/primeng";
+import {UploadLoaderJobModule} from "./jobs/upload/upload-loader-job.module";
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import {DataTableModule} from "primeng/primeng";
     LoaderJobsModule,
     BrowserModule,
     DataTableModule,
-    FormsModule
+    FormsModule,
+    UploadLoaderJobModule
   ],
   exports: [
     LoaderComponent,

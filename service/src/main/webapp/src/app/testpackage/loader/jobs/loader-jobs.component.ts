@@ -60,4 +60,8 @@ export class LoaderJobsComponent implements OnInit {
     this.selectedJob = event.data;
     this.selectedLoaderJobChange.emit(this.selectedJob);
   }
+
+  uploadClick() {
+    this.router.navigateByUrl('/loader/upload');
+  }
 }

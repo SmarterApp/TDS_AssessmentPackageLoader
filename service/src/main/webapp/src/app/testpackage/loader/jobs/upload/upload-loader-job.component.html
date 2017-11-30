@@ -1,0 +1,35 @@
+<div class="well">
+  <div class="alert alert-warning">
+    <strong class="mr-xs">WARNING</strong> Test packages in the uploaded file will replace existing test packages if they have the same Test Package ID and publisher.
+    <p>All other test packages will not be deleted or changed.</p>
+  </div>
+  <div ng2FileDrop
+       *ngIf="!uploader.isUploading && !isReadOnly"
+       class="well my-drop-zone point"
+       [class.nv-file-over]="hasDropZoneOver"
+       [uploader]="uploader"
+       (fileOver)="fileOverBase($event)"
+       (click)="openFileDialog()">
+    <div class="center-center pt-sm">
+      <span class="gray-dark"><i class="fa fa-cloud-upload"></i> Drag and drop to upload or&nbsp;</span><span
+      class="aqua">browse for<span *ngIf="isMultiple === false" class="aqua"> a</span> file<span
+      *ngIf="isMultiple === true" class="aqua">s</span></span>
+    </div>
+  </div>
+  <div *ngIf="uploader.isUploading"
+       class="well my-drop-zone nv-file-over">
+    <div class="center-center pt-sm"><span class="gray-dark">Files are currently being uploaded</span></div>
+  </div>
+  <div hidden *ngIf="isMultiple === true">
+    <input #fileDialog type="file" ng2FileSelect [uploader]="uploader" multiple/>
+  </div>
+  <div hidden *ngIf="isMultiple === false">
+    <input #fileDialog type="file" ng2FileSelect [uploader]="uploader"/>
+  </div>
+
+  <div class="mt-md mb-md">
+    <div *ngIf="uploader.isUploading" class="progress">
+      <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+    </div>
+  </div>
+</div>
