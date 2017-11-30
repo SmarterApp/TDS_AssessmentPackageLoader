@@ -1,11 +1,59 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <img src="/assets/image/SmarterBalanced-Logo.png">
-  <h1>
-    Welcome to {{title}}! Hello World!
-  </h1>
-  <testpackage-upload-component
-                         [isReadOnly]="false"
-                         [isMultiple]="true">
-  </testpackage-upload-component>
+<!-- Notifications -->
+<!--<app-notifications></app-notifications>-->
+
+<!-- Header -->
+<header>
+  <base href="/">
+  <div class="container">
+    <div class="well">
+      <div class="well-body">
+        <!-- Navbar -->
+        <nav class="navbar navbar-default">
+          <div class="navbar-header">
+            <a class="navbar-brand hidden-xs" href="/" title="{{'application.home'}}"><img src="assets/image/SmarterBalanced-Logo.png" alt="{{'messages.organization'}}"></a>
+            <span class="application-title">{{title}}</span>
+          </div>
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+              <li class="navbar-link"><a routerLink="/loader">Test Package Loader</a></li>
+              <li class="navbar-link"><a href="packager">Fixed Form Packager</a></li>
+              <li class="navbar-link"></li>
+              <li class="navbar-link">
+                <div class="btn-group" dropdown>
+                  <button type="button" dropdownToggle class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-user-circle"></i> <span *ngIf="user">{{'welcome'}}</span> <span class="caret"></span>
+                  </button>
+                  <ul *dropdownMenu class="dropdown-menu mt-md" role="menu">
+                    <li role="menuitem">
+                      <a class="dropdown-item" href="javascript:void(0)" onclick="window.document.logoutForm.submit()">{{'messages.logout'}}</a>
+                      <form name="logoutForm" method="post" action="/saml/logout" class="hidden"></form>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Breadcrumbs -->
+<breadcrumbs></breadcrumbs>
+
+<!-- Page View -->
+<div class="page-view">
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div>
 </div>
+
+<!-- Footer -->
+<footer class="mt-md mb-md">
+  <div class="container">
+    <p class="text-right black">{{footer}}</p>
+  </div>
+</footer>
+
+<!--<loader></loader>-->

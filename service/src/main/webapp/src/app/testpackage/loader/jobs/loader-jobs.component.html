@@ -1,0 +1,59 @@
+<div>
+  <!-- Loader Jobs Table -->
+  <div class="form-group">
+    <div class="flex-children gray-lightest pt-sm pr-sm pb-sm pl-sm loader-jobs-search-form-container">
+      <label for="search" class="sr-only">Search by Test Package Name</label>
+      <div class="flex-child grow">
+        <input [(ngModel)]="searchTerm" class="flex-child search form-control" id="search" type="text" placeholder="Search by Test Package Name"
+             autocomplete="off" (ngModelChange)="onSearchChange()">
+      </div>
+      <div class="flex-child"><button class="flex-child btn view-loaded-test-packages">View Loaded Test Packages</button></div>
+      <div class="flex-child"><button class="btn btn-primary upload-test-package">Upload New Test Package</button></div>
+    </div>
+  </div>
+  <div class="loader-jobs-list-container">
+    <p-dataTable [value]="filteredLoaderJobs"
+                 emptyMessage="No Test Package load jobs found for the specific test package id."
+                 dataKey="id"
+                 sortField="dateCreated"
+                 sortOrder="-1"
+                 selectionMode="single"
+                 [(selection)]="selectedJob"
+                 tableStyleClass="table table-striped table-hover overflow"
+                 [paginator]="true"
+                 [rows]="10"
+                 (onRowSelect)="onRowSelect($event)">
+      <p-column field="id" header="ID" [sortable]="true"></p-column>
+      <p-column field="testPackageName" header="Test Package Name" [sortable]="true"></p-column>
+      <p-column field="dateCreated" header="Date Created" [sortable]="true">
+        <ng-template let-job="rowData" pTemplate="body">
+          {{ job.dateCreated | date: 'short' }}
+        </ng-template>
+      </p-column>
+      <p-column field="tdsSuccess" header="TDS">
+        <ng-template let-job="rowData" pTemplate="body">
+          <i *ngIf="job.tdsErrors.length === 0" class="fa fa-check-circle"></i>
+          <i *ngIf="job.tdsErrors.length > 0"class="fa fa-exclamation-circle"></i>
+        </ng-template>
+      </p-column>
+      <p-column field="artSuccess" header="ART">
+        <ng-template let-job="rowData" pTemplate="body">
+          <i *ngIf="job.artErrors.length === 0" class="fa fa-check-circle"></i>
+          <i *ngIf="job.artErrors.length > 0" class="fa fa-exclamation-circle"></i>
+        </ng-template>
+      </p-column>
+      <p-column field="tisSuccess" header="TIS">
+        <ng-template let-job="rowData" pTemplate="body">
+          <i *ngIf="job.tisErrors.length === 0" class="fa fa-check-circle"></i>
+          <i *ngIf="job.tisErrors.length > 0"class="fa fa-exclamation-circle"></i>
+        </ng-template>
+      </p-column>
+      <p-column field="thssSuccess" header="THSS">
+        <ng-template let-job="rowData" pTemplate="body">
+          <i *ngIf="job.thssErrors.length === 0" class="fa fa-check-circle"></i>
+          <i *ngIf="job.thssErrors.length > 0"class="fa fa-exclamation-circle"></i>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
+</div>

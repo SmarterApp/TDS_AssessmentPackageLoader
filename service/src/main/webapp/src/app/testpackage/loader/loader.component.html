@@ -1,0 +1,22 @@
+<div class ="loader-jobs-container">
+  <h3 class="blue mb-md">Test Package Loader Jobs</h3>
+
+  <div class="well">
+    <!-- Loader Jobs Search -->
+    <div>
+      <div class="loader-jobs-search-container well">
+        <loader-jobs [selectedJob]="selectedJob"
+                     (selectedLoaderJobChange)="selectedLoaderJobChange($event)"></loader-jobs>
+      </div>
+    </div>
+
+    <!--<div class="flex-child grow">-->
+      <!--<label>Test Package Loader Details</label>-->
+    <!--</div>-->
+    <div>
+      <div class="loader-jobs-details well gray-lightest">
+        <loader-job-details [selectedJob]=selectedJob (onBeforeToggle)="onDetailsToggle($event)"></loader-job-details>
+      </div>
+    </div>
+  </div>
+</div>
