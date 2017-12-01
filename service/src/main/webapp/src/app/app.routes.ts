@@ -27,12 +27,18 @@ export const routes: Routes = [
           }, {
             path: 'upload',
             pathMatch: 'prefix',
-            component: UploadLoaderJobComponent,
             data: {
               breadcrumb: {
                 label: "Create Test Package Loader Jobs"
               }
-            }
+            },
+            children: [
+              {
+                path: '',
+                pathMatch: 'prefix',
+                component: UploadLoaderJobComponent
+              }
+            ]
           }
         ]
       }

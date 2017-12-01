@@ -37,7 +37,6 @@ export class LoaderJobsComponent implements OnInit {
     });
   }
 
-
   updateResults() {
     this.service
       .getLoaderJobs()
