@@ -11,10 +11,10 @@ export const BreadCrumbsTitleDelimiter = ' < ';
  * Interface for defining breadcrumbs in the route data param.
  *
  * Example usages:
- * data: { breadcrumb: { resolve: 'path.to.property.in.route.data' }
+ * data: { breadcrumb: { label: 'My View' }
  */
 export interface BreadcrumbOptions {
-  resolve?: string;
+  label: string;
 }
 
 /**
@@ -123,13 +123,10 @@ export class BreadcrumbsComponent implements OnInit {
   }
 
   private createBreadcrumb(options: BreadcrumbOptions, routeData: any, routerLinkParameters: any[]): Breadcrumb {
-    // if (options.resolve) {
       return {
         text: options.label,
         routerLinkParameters: routerLinkParameters
       }
-    // }
-    // throw new Error('Invalid route breadcrumb options. You must provide a "resolve" property.');
   }
 
   private createTitle(breadcrumbs: any[]): string {
