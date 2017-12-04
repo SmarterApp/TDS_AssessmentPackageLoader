@@ -2,6 +2,7 @@ import {UploadLoaderJobComponent} from "./upload-loader-job.component";
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {FileUploadModule} from "ng2-file-upload";
+import {DataTableModule} from "primeng/primeng";
 
 @NgModule({
   declarations: [
@@ -9,7 +10,8 @@ import {FileUploadModule} from "ng2-file-upload";
   ],
   imports: [
     CommonModule,
-    FileUploadModule
+    FileUploadModule,
+    DataTableModule
   ],
   exports: [
     UploadLoaderJobComponent

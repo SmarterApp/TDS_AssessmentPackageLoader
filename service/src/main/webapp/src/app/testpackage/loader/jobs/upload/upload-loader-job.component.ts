@@ -1,5 +1,7 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from "@angular/core";
 import {FileItem, FileUploader, ParsedResponseHeaders} from "ng2-file-upload";
+import {LoaderJob} from "../model/loader-job.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'upload-loader-job',
@@ -10,15 +12,19 @@ export class UploadLoaderJobComponent implements OnInit{
   serviceUrl = '/api/load';
   uploader: FileUploader;
   hasDropZoneOver = false;
+  skipArt: boolean = false;
+  skipScoring: boolean = false;
   @ViewChild("fileDialog") fileDialog: ElementRef;
   @Input() isReadOnly: boolean;
-  @Input() isMultiple: boolean;
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit() {
-    this.uploader = new FileUploader({url: this.serviceUrl});
+    this.uploader = new FileUploader({
+      url: this.serviceUrl
+      // removeAfterUpload: true
+    });
     this.uploader.setOptions({autoUpload: false});
     this.uploader.isUploading = false;
 
@@ -28,16 +34,7 @@ export class UploadLoaderJobComponent implements OnInit{
 
     this.uploader.onErrorItem = (item: FileItem, response: string, status: number, headers: ParsedResponseHeaders) => {
       console.log('onErrorItem status: ' + status);
-    };
-
-    this.uploader.onAfterAddingAll = () => {
-      if (this.isMultiple === false && this.uploader.queue.length > 1) {
-        this.uploader.cancelAll();
-        console.log('File Upload Error', 'Only one file at a time may be uploaded for this resource.');
-        this.uploader.clearQueue();
-        return;
-      }
-      this.uploader.uploadAll();
+      this.uploader.clearQueue();
     };
 
     this.uploader.onBeforeUploadItem = (fileItem: FileItem) => {
@@ -46,6 +43,7 @@ export class UploadLoaderJobComponent implements OnInit{
 
     this.uploader.onCompleteAll = () => {
       this.uploader.clearQueue();
+      this.router.navigateByUrl('/loader');
     };
   }
 
@@ -55,5 +53,18 @@ export class UploadLoaderJobComponent implements OnInit{
 
   openFileDialog() {
     this.fileDialog.nativeElement.click();
+  }
+
+  onSubmit() {
+    this.uploader.options.additionalParameter =  {
+      'skipArt': this.skipArt,
+      'skipScoring': this.skipScoring
+    };
+    this.uploader.uploadAll();
+  }
+
+  onCancel() {
+    this.uploader.clearQueue();
+    this.router.navigateByUrl('/loader');
   }
 }

@@ -4,8 +4,9 @@ export class LoaderJob {
   id: number;
   testPackageName: string;
   dateCreated: string; //TODO: Date datatype?
-  type: string;
   errors: JobError[] = new Array<JobError>();
+  state: string = 'Pending'; // The first state of a job is "pending"
+  type: string;
 
   get tdsErrors(): JobError[] {
     return this.errors.filter(err => err.system === 'TDS')
