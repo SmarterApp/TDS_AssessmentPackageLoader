@@ -16,6 +16,7 @@ import tds.common.configuration.JacksonObjectMapperConfiguration;
 import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
 import tds.support.tool.handlers.loader.TestPackageFileHandler;
+import tds.support.tool.handlers.loader.TestPackageHandler;
 
 @Configuration
 @Import({
@@ -36,7 +37,7 @@ public class SupportToolServiceConfiguration {
     }
 
     @Bean(name = "testPackageLoaderStepHandlers")
-    public Map<String, TestPackageFileHandler> getTestPackageLoaderStepHandlers() {
+    public Map<String, TestPackageHandler> getTestPackageLoaderStepHandlers() {
         return new HashMap<>();
     }
 }
