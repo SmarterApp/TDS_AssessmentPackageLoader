@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Job {
     @Id
@@ -46,5 +47,9 @@ public class Job {
 
     public void addStep(final Step step) {
         steps.add(step);
+    }
+
+    public Optional<Step> getStepByName(final String stepName) {
+        return steps.stream().filter(step -> stepName.equals(step.getName())).findFirst();
     }
 }

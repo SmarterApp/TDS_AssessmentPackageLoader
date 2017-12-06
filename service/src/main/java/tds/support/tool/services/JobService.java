@@ -16,9 +16,10 @@ public interface JobService {
      * @param packageName     the test package name
      * @param testPackage     the {@link java.io.InputStream} containing the test package
      * @param testPackageSize the size of the test package
-     * @return
+     * @param includeScoring  {@code true} if scoring is to be included in the upload
+     * @return the {@link tds.support.job.Job} created
      */
-    Job startPackageImport(final String packageName, final InputStream testPackage, long testPackageSize);
+    Job startPackageImport(final String packageName, final InputStream testPackage, long testPackageSize, final boolean includeScoring);
 
     /**
      * Finds all jobs matching a specific {@link tds.support.job.JobType}
@@ -27,4 +28,6 @@ public interface JobService {
      * @return A collection of all jobs matching
      */
     List<Job> findJobs(final JobType jobType);
+
+    Job handleJobStep(final String jobId, final String stepName);
 }
