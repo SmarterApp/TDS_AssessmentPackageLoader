@@ -1,8 +1,10 @@
 package tds.support.tool.services;
 
 import java.io.InputStream;
+import java.util.List;
 
 import tds.support.job.Job;
+import tds.support.job.JobType;
 
 /**
  * Service handling the {@link tds.support.job.Job}
@@ -17,4 +19,12 @@ public interface JobService {
      * @return
      */
     Job startPackageImport(final String packageName, final InputStream testPackage, long testPackageSize);
+
+    /**
+     * Finds all jobs matching a specific {@link tds.support.job.JobType}
+     *
+     * @param jobType The type of jobs to fetch
+     * @return A collection of all jobs matching
+     */
+    List<Job> findJobs(final JobType jobType);
 }

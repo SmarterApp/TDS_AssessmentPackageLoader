@@ -5,8 +5,12 @@ export class LoaderJob {
   testPackageName: string;
   dateCreated: string; //TODO: Date datatype?
   errors: JobError[] = new Array<JobError>();
-  state: string = 'Pending'; // The first state of a job is "pending"
-  type: string;
+  type: string; // create or delete
+  // Initialize the steps as "in progress"
+  tdsStepStatus: StepStatus = StepStatus.NotApplicable;
+  artStepStatus: StepStatus = StepStatus.NotApplicable;
+  tisStepStatus: StepStatus = StepStatus.NotApplicable;
+  thssStepStatus: StepStatus = StepStatus.NotApplicable;
 
   get tdsErrors(): JobError[] {
     return this.errors.filter(err => err.system === 'TDS')
@@ -23,4 +27,12 @@ export class LoaderJob {
   get thssErrors(): JobError[] {
     return this.errors.filter(err => err.system === 'THSS')
   }
+}
+
+export enum StepStatus {
+  // The default starting status - this is before the the job is placed "in progresss"
+  NotApplicable = "NOT_APPLICABLE",
+  InProgress = "IN_PROGRESS",
+  Success = "SUCCESS",
+  Failed = "FAILED"
 }

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {LoaderJobService} from "./loader-jobs.service";
-import {LoaderJob} from "./model/loader-job.model";
+import {LoaderJob, StepStatus} from "./model/loader-job.model";
 
 @Component({
   selector: 'loader-jobs',
@@ -9,6 +9,7 @@ import {LoaderJob} from "./model/loader-job.model";
 })
 export class LoaderJobsComponent implements OnInit {
   // query: LoaderJobsQuery;
+  StepStatus: StepStatus = StepStatus; // Need to include the enum as a property to access it in template
   searchTerm: string = '';
   @Input()
   selectedJob: LoaderJob;
