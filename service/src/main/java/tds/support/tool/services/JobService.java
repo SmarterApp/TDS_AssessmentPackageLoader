@@ -30,6 +30,4 @@ public interface JobService {
      * @return A collection of all jobs matching
      */
     List<Job> findJobs(final JobType jobType);
-
-    Job handleJobStep(final String jobId, final String stepName);
 }

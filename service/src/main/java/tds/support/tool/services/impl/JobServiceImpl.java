@@ -58,25 +58,6 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job handleJobStep(final String jobId, final String stepName) {
-        Job job = jobRepository.findOne(jobId);
-
-        TestPackageHandler handler = testPackageLoaderStepHandlers.get(stepName);
-        Step step = job.getStepByName(stepName).get();
-        step.setStatus(Status.IN_PROGRESS);
-
-        job = jobRepository.save(job);
-
-        Step updatedStep = handler.handle(job, step);
-
-        if(updatedStep.getErrors().stream().anyMatch(error -> ErrorSeverity.CRITICAL.equals(error.getSeverity()))) {
-            job.setStatus(Status.FAIL);
-        }
-
-        return jobRepository.save(job);
-    }
-
-    @Override
     public List<Job> findJobs(final JobType jobType) {
         if (jobType != null) {
             return jobRepository.findByType(jobType);
