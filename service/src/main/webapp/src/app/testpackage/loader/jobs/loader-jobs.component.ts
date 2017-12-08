@@ -2,17 +2,20 @@ import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angula
 import {ActivatedRoute, Router} from "@angular/router";
 import {LoaderJobService} from "./loader-jobs.service";
 import {LoaderJob, StepStatus} from "./model/loader-job.model";
+import {TimerObservable} from "rxjs/observable/TimerObservable";
+import 'rxjs/add/operator/takeWhile';
 
 @Component({
   selector: 'loader-jobs',
   templateUrl: './loader-jobs.component.html'
 })
-export class LoaderJobsComponent implements OnInit {
+export class LoaderJobsComponent implements OnInit, OnDestroy {
   // query: LoaderJobsQuery;
-  StepStatus: StepStatus = StepStatus; // Need to include the enum as a property to access it in template
+  StepStatuses = StepStatus; // Need to include the enum as a property to access it in template
   searchTerm: string = '';
   @Input()
   selectedJob: LoaderJob;
+  private alive: boolean; // used to unsubscribe from the TimerObservable when OnDestroy is called.
   @Output() selectedLoaderJobChange: EventEmitter<LoaderJob> = new EventEmitter<LoaderJob>();
   filteredLoaderJobs: LoaderJob[];
   private _loaderJobs: LoaderJob[];
@@ -20,6 +23,7 @@ export class LoaderJobsComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private router: Router,
               private service: LoaderJobService) {
+    this.alive = true;
   }
 
   get loaderJobs(): LoaderJob[] {
@@ -32,10 +36,17 @@ export class LoaderJobsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe((params: any) => {
-      //TODO: Here is where we would pass in our query params filters
-      this.updateResults();
-    });
+    //TODO: Here is where we would pass in our query params filters
+    //this.updateResults()
+    TimerObservable.create(0, 5000)
+      .takeWhile(() => this.alive)
+      .subscribe(() => {
+        this.updateResults();
+      });
+  }
+
+  ngOnDestroy() {
+    this.alive = false;
   }
 
   updateResults() {
@@ -56,7 +67,6 @@ export class LoaderJobsComponent implements OnInit {
   }
 
   onRowSelect(event) {
-    console.log("onRowSelect: " + event.data.testPackageName);
     this.selectedJob = event.data;
     this.selectedLoaderJobChange.emit(this.selectedJob);
   }

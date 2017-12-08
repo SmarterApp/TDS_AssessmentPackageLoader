@@ -10,10 +10,9 @@ export class DataService {
   constructor(private http: HttpClient)  {
   }
 
-  get(url, options?: HttpParams): Observable<any> {
+  get(url, options?: any): Observable<any> {
     return this.http
-      .get(`/api${url}`, options)
-      .map(response => response.json());
+      .get(`/api${url}`, options);
   }
 
   // delete(url, options?: RequestOptionsArgs): Observable<any> {

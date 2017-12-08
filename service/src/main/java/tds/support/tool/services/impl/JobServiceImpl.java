@@ -36,9 +36,11 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Job startPackageImport(final String packageName, final InputStream testPackage, final long testPackageSize, final boolean includeScoring) {
-        Job job = new TestPackageLoadJob(includeScoring);
+    public Job startPackageImport(final String packageName, final InputStream testPackage, final long testPackageSize,
+                                  final boolean skipArt, final boolean skipScoring) {
+        Job job = new TestPackageLoadJob(packageName, skipArt, skipScoring);
         job.setStatus(Status.IN_PROGRESS);
+        job.setType(JobType.LOADER);
 
         Step step = job.getSteps().stream().filter(potentialStep -> TestPackageLoadJob.FILE_UPLOAD.equals(potentialStep.getName())).findFirst().orElseThrow(() -> new IllegalStateException("First step in the loader job is not correctly configured"));
         step.setStatus(Status.IN_PROGRESS);
@@ -52,7 +54,6 @@ public class JobServiceImpl implements JobService {
         }
 
         //Publish
-
         return jobRepository.save(persistedJob);
     }
 
@@ -72,47 +73,15 @@ public class JobServiceImpl implements JobService {
             job.setStatus(Status.FAIL);
         }
 
-//        createTdsStep(job);
-//        createArtStep(job);
-//        createTisStep(job);
-//        createThssStep(job);
-
         return jobRepository.save(job);
     }
 
-//    //TODO: Placeholder - this code should call the TDS CREATE endpoint once it is complete to load the test package
-//    private Job createTdsStep(final Job job) {
-//        Step tdsLoadStep = new Step("Loading into TDS", Status.IN_PROGRESS, System.TDS);
-//        job.addStep(tdsLoadStep);
-//        return job;
-//    }
-//
-//    //TODO: Placeholder - this code should call the ART CREATE endpoint once it is complete to load the test package
-//    private Job createArtStep(final Job job) {
-//        Step artLoadStep = new Step("Loading into ART", Status.IN_PROGRESS, System.ART);
-//        job.addStep(artLoadStep);
-//        return job;
-//    }
-//
-//    //TODO: Placeholder - this code should call the TIS CREATE endpoint once it is complete to load the test package
-//    private Job createTisStep(final Job job) {
-//        Step tisLoadStep = new Step("Loading into TIS", Status.IN_PROGRESS, System.TIS);
-//        job.addStep(tisLoadStep);
-//        return job;
-//    }
-//
-//    //TODO: Placeholder - this code should call the THSS CREATE endpoint once it is complete to load the test package
-//    private Job createThssStep(final Job job) {
-//        Step thssLoadStep = new Step("Loading into THSS", Status.IN_PROGRESS, System.THSS);
-//        job.addStep(thssLoadStep);
-//        return job;
-//    }
-
     @Override
     public List<Job> findJobs(final JobType jobType) {
-        List<Job> allJobs =  jobRepository.findAll();
-        return allJobs.stream()
-            .filter(job -> job.getType() == jobType)
-            .collect(Collectors.toList());
+        if (jobType != null) {
+            return jobRepository.findByType(jobType);
+        }
+
+        return jobRepository.findAll();
     }
 }

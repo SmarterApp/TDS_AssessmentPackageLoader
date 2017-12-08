@@ -9,18 +9,12 @@ import java.util.List;
  */
 public class Step {
     private String description;
-    private List<Error> errors;
+    private List<Error> errors = new ArrayList<>();
     private Status status;
     private String name;
 
     public Step() {
         errors = new ArrayList<>();
-    }
-
-    public Step(final String description, final Status status) {
-        this.description = description;
-        this.status = status;
-        this.errors = new ArrayList<>();
     }
 
     public Step(final String name, final String description) {
@@ -29,6 +23,11 @@ public class Step {
         this.status = Status.NOT_STARTED;
     }
 
+    public Step(final String name, final String description, final Status status) {
+        this.name = name;
+        this.description = description;
+        this.status = status;
+    }
     /**
      * @return description for the step in the job
      */

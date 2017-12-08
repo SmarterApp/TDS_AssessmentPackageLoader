@@ -32,34 +32,38 @@
       </p-column>
       <p-column field="tdsStepStatus" header="TDS">
         <ng-template let-job="rowData" pTemplate="body">
-          <i *ngIf="job.tdsStepStatus === StepStatus.Success" class="fa fa-check-circle" title="The job was successful"></i>
-          <i *ngIf="job.tdsStepStatus === StepStatus.Failed" class="fa fa-exclamation-circle" title="The job has failures"></i>
-          <i *ngIf="job.tdsStepStatus === StepStatus.NotApplicable" class="fa fa-minus"></i>
-          <i *ngIf="job.tdsStepStatus === StepStatus.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
+          <i *ngIf="job.tdsStepStatus === StepStatuses.Success" class="fa fa-check-circle" title="The job was successful"></i>
+          <i *ngIf="job.tdsStepStatus === StepStatuses.Failed" class="fa fa-exclamation-circle" title="The job has failures"></i>
+          <i *ngIf="job.tdsStepStatus === StepStatuses.NotApplicable" class="fa fa-minus"></i>
+          <i *ngIf="job.tdsStepStatus === StepStatuses.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
+          <i *ngIf="job.tdsStepStatus === StepStatuses.NotStarted" class="fa fa-hourglass" title="The job is pending"></i>
         </ng-template>
       </p-column>
       <p-column field="artStepStatus" header="ART">
         <ng-template let-job="rowData" pTemplate="body">
-          <i *ngIf="job.artStepStatus === StepStatus.Success" class="fa fa-check-circle" title="The job was successful"></i>
-          <i *ngIf="job.artStepStatus === StepStatus.Failed" class="fa fa-exclamation-circle" title="The job has failures"></i>
-          <i *ngIf="job.artStepStatus === StepStatus.NotApplicable" class="fa fa-minus"></i>
-          <i *ngIf="job.artStepStatus === StepStatus.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
+          <i *ngIf="job.artStepStatus === StepStatuses.Success" class="fa fa-check-circle" title="The job was successful"></i>
+          <i *ngIf="job.artStepStatus === StepStatuses.Failed" class="fa fa-exclamation-circle" title="The job has failures"></i>
+          <i *ngIf="job.artStepStatus === StepStatuses.NotApplicable" class="fa fa-minus"></i>
+          <i *ngIf="job.artStepStatus === StepStatuses.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
+          <i *ngIf="job.artStepStatus === StepStatuses.NotStarted" class="fa fa-hourglass" title="The job is pending"></i>
         </ng-template>
       </p-column>
       <p-column field="tisStepStatus" header="TIS">
         <ng-template let-job="rowData" pTemplate="body">
-          <i *ngIf="job.tisStepStatus === StepStatus.Success" class="fa fa-check-circle" title="The job was successful"></i>
-          <i *ngIf="job.tisStepStatus === StepStatus.Failed" class="fa fa-exclamation-circle" title="The job has failures"></i>
-          <i *ngIf="job.tisStepStatus === StepStatus.NotApplicable" class="fa fa-minus"></i>
-          <i *ngIf="job.tisStepStatus === StepStatus.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
+          <i *ngIf="job.tisStepStatus === StepStatuses.Success" class="fa fa-check-circle" title="The job was successful"></i>
+          <i *ngIf="job.tisStepStatus === StepStatuses.Failed" class="fa fa-exclamation-circle" title="The job has failures"></i>
+          <i *ngIf="job.tisStepStatus === StepStatuses.NotApplicable" class="fa fa-minus"></i>
+          <i *ngIf="job.tisStepStatus === StepStatuses.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
+          <i *ngIf="job.tisStepStatus === StepStatuses.NotStarted" class="fa fa-hourglass" title="The job is pending"></i>
         </ng-template>
       </p-column>
       <p-column field="thssStepStatus" header="THSS">
         <ng-template let-job="rowData" pTemplate="body">
-          <i *ngIf="job.thssStepStatus === StepStatus.Success" class="fa fa-check-circle" title="The job was successful"></i>
-          <i *ngIf="job.thssStepStatus === StepStatus.Failed" class="fa fa-exclamation-circle" title="The job has failures"></i>
-          <i *ngIf="job.thssStepStatus === StepStatus.NotApplicable" class="fa fa-minus"></i>
-          <i *ngIf="job.thssStepStatus === StepStatus.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
+          <i *ngIf="job.thssStepStatus === StepStatuses.Success" class="fa fa-check-circle" title="The job was successful"></i>
+          <i *ngIf="job.thssStepStatus === StepStatuses.Failed" class="fa fa-exclamation-circle" title="The job has failures"></i>
+          <i *ngIf="job.thssStepStatus === StepStatuses.NotApplicable" class="fa fa-minus"></i>
+          <i *ngIf="job.thssStepStatus === StepStatuses.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
+          <i *ngIf="job.thssStepStatus === StepStatuses.NotStarted" class="fa fa-hourglass" title="The job is pending"></i>
         </ng-template>
       </p-column>
     </p-dataTable>

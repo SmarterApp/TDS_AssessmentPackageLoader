@@ -35,21 +35,22 @@ public class TestPackageController {
      * @throws IOException thrown if there is an issue with accessing the file
      */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Job> loadPackage(@RequestParam("file") MultipartFile file) throws IOException {
-        Job job = jobService.startPackageImport(file.getOriginalFilename(), file.getInputStream(), file.getSize(), true);
+    public ResponseEntity<Job> loadPackage(@RequestParam("file") MultipartFile file,
+                                           @RequestParam("skipArt") final boolean skipArt,
+                                           @RequestParam("skipScoring") final boolean skipScoring) throws IOException {
+        Job job = jobService.startPackageImport(file.getOriginalFilename(), file.getInputStream(), file.getSize(), skipArt, skipScoring);
         return ResponseEntity.ok(job);
     }
 
     /**
      * Gets the test package jobs
      *
-     * @param file the test package
+     * @param jobType the job type to fetch
      * @return {@link org.springframework.http.ResponseEntity} containing the new {@link tds.support.job.Job}
      * @throws IOException thrown if there is an issue with accessing the file
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Job>> getJobs(@RequestParam(value = "jobType", required = false) JobType jobType) throws IOException {
-        List<Job> jobs = jobService.findJobs(jobType);
-        return ResponseEntity.ok(jobs);
+        return ResponseEntity.ok(jobService.findJobs(jobType));
     }
 }

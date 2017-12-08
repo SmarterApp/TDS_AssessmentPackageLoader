@@ -5,7 +5,7 @@
   </div>
   <span *ngIf="selectedJob" class="h3 blue-dark">{{selectedJob.testPackageName}}</span>
   <!-- Success view -->
-  <div *ngIf="selectedJob?.errors.length === 0" class="loader-details-success">
+  <div *ngIf="selectedJob?.isSuccessful()" class="loader-details-success">
     <h3><i class="fa fa-check-circle"></i>The test package was successfully loaded</h3>
   </div>
 

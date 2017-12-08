@@ -1,7 +1,10 @@
 package tds.support.job;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.springframework.data.annotation.Id;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -9,6 +12,8 @@ import java.util.Optional;
 public class Job {
     @Id
     private String id;
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    private LocalDateTime createdDate = LocalDateTime.now();
     private JobType type;
     private Status status;
     private List<Step> steps = new ArrayList<>();
@@ -19,6 +24,14 @@ public class Job {
 
     public void setId(final String id) {
         this.id = id;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(final LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
     public JobType getType() {

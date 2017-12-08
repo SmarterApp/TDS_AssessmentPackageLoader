@@ -40,7 +40,6 @@ public class TestPackageFileHandlerTest {
 
         verify(mockTestPackageService).saveTestPackage("jobId", "packageName", mockTestPackageStream, 100L);
 
-        assertThat(step.getDescription()).isEqualTo("Uploading file packageName");
         assertThat(step.getStatus()).isEqualTo(Status.SUCCESS);
         assertThat(step.getErrors()).isEmpty();
     }
@@ -54,7 +53,6 @@ public class TestPackageFileHandlerTest {
 
         verify(mockTestPackageService).saveTestPackage("jobId", "packageName", mockTestPackageStream, 100L);
 
-        assertThat(step.getDescription()).isEqualTo("Uploading file packageName");
         assertThat(step.getStatus()).isEqualTo(Status.FAIL);
         assertThat(step.getErrors()).hasSize(1);
 
