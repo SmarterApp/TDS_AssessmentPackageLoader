@@ -9,19 +9,28 @@ import java.util.List;
  */
 public class Step {
     private String description;
-    private List<Error> errors;
+    private List<Error> errors = new ArrayList<>();
     private Status status;
+    private String name;
 
-    public Step() {
-        errors = new ArrayList<>();
+    /**
+     * For frameworks/serialization
+     */
+    private Step() {
+
     }
 
-    public Step(String description, Status status) {
+    public Step(final String name, final String description) {
+        this.name = name;
+        this.description = description;
+        this.status = Status.NOT_STARTED;
+    }
+
+    public Step(final String name, final String description, final Status status) {
+        this.name = name;
         this.description = description;
         this.status = status;
-        this.errors = new ArrayList<>();
     }
-
     /**
      * @return description for the step in the job
      */
@@ -66,5 +75,16 @@ public class Step {
      */
     public List<Error> getErrors() {
         return Collections.unmodifiableList(errors);
+    }
+
+    /**
+     * @return the step name
+     */
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
     }
 }

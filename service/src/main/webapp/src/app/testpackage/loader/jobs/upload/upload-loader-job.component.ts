@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./upload-load-job.component.less'],
   templateUrl: './upload-loader-job.component.html'
 })
-export class UploadLoaderJobComponent implements OnInit{
+export class UploadLoaderJobComponent implements OnInit  {
   serviceUrl = '/api/load';
   uploader: FileUploader;
   hasDropZoneOver = false;
@@ -23,7 +23,6 @@ export class UploadLoaderJobComponent implements OnInit{
   ngOnInit() {
     this.uploader = new FileUploader({
       url: this.serviceUrl
-      // removeAfterUpload: true
     });
     this.uploader.setOptions({autoUpload: false});
     this.uploader.isUploading = false;

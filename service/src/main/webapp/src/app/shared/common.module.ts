@@ -2,7 +2,7 @@
 import {NgModule} from "@angular/core";
 import {BrowserModule} from "@angular/platform-browser";
 import {FormsModule} from "@angular/forms";
-import {HttpModule} from "@angular/http";
+import { HttpClientModule } from '@angular/common/http';
 import {RouterModule} from "@angular/router";
 import {DataService} from "./data/data.service";
 
@@ -10,7 +10,7 @@ import {DataService} from "./data/data.service";
   declarations: [
   ],
   imports: [
-    HttpModule,
+    HttpClientModule,
     FormsModule,
     BrowserModule
   ],
@@ -18,7 +18,8 @@ import {DataService} from "./data/data.service";
     RouterModule
   ],
   providers: [
-    DataService
+    DataService,
+    HttpClientModule
   ]
 })
 export class CommonModule {
