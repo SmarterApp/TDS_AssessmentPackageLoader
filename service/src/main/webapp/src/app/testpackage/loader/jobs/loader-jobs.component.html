@@ -50,6 +50,7 @@
             <i *ngSwitchCase="StepStatuses.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
             <i *ngSwitchCase="StepStatuses.NotStarted" class="fa fa-hourglass" title="The job is pending"></i>
           </ng-container>
+        </ng-template>
       </p-column>
       <p-column field="tisStepStatus" header="TIS">
         <ng-template let-job="rowData" pTemplate="body">
