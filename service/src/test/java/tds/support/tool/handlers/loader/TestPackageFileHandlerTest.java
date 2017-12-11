@@ -35,7 +35,7 @@ public class TestPackageFileHandlerTest {
 
     @Test
     public void shouldSaveTestPackage() {
-        Step stepToUpdate = new Step();
+        Step stepToUpdate = new Step("update step", "Update step description");
         Step step = fileHandler.handleTestPackage(stepToUpdate,"jobId", "packageName", mockTestPackageStream, 100L);
 
         verify(mockTestPackageService).saveTestPackage("jobId", "packageName", mockTestPackageStream, 100L);
@@ -46,7 +46,7 @@ public class TestPackageFileHandlerTest {
 
     @Test
     public void shouldReturnErrorsInStepDuringException() {
-        Step stepToUpdate = new Step();
+        Step stepToUpdate = new Step("update step", "Update step description");
         when(mockTestPackageService.saveTestPackage("jobId", "packageName", mockTestPackageStream, 100L)).thenThrow(new RuntimeException("Fail"));
 
         Step step = fileHandler.handleTestPackage(stepToUpdate,"jobId", "packageName", mockTestPackageStream, 100L);

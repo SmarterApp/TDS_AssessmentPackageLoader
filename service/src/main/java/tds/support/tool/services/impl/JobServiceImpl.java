@@ -40,7 +40,6 @@ public class JobServiceImpl implements JobService {
                                   final boolean skipArt, final boolean skipScoring) {
         Job job = new TestPackageLoadJob(packageName, skipArt, skipScoring);
         job.setStatus(Status.IN_PROGRESS);
-        job.setType(JobType.LOADER);
 
         Step step = job.getSteps().stream().filter(potentialStep -> TestPackageLoadJob.FILE_UPLOAD.equals(potentialStep.getName())).findFirst().orElseThrow(() -> new IllegalStateException("First step in the loader job is not correctly configured"));
         step.setStatus(Status.IN_PROGRESS);

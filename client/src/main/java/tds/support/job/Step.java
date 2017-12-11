@@ -13,8 +13,11 @@ public class Step {
     private Status status;
     private String name;
 
-    public Step() {
-        errors = new ArrayList<>();
+    /**
+     * For frameworks/serialization
+     */
+    private Step() {
+
     }
 
     public Step(final String name, final String description) {

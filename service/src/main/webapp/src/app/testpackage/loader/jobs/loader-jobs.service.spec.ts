@@ -31,7 +31,7 @@ describe("Loader Jobs Service", () => {
   it('Should map loader job data for job with no errors', () => {
     // No ART step - other systems in pending/not-started state
     let mockApiResult = [{
-      createdDate: "2017-12-06T13:56:07.917",
+      createdAt: "2017-12-06T13:56:07.917",
       id: "5a286777d66e2a30d10eef97",
       status: "IN_PROGRESS",
       steps: [
@@ -73,7 +73,7 @@ describe("Loader Jobs Service", () => {
     service.getLoaderJobs().subscribe(actual => {
       expect(actual.length).toBe(1);
       expect(actual[0].id).toBe(mockApiResult[0].id);
-      expect(actual[0].dateCreated.toLocaleString()).toBe(new Date(mockApiResult[0].createdDate).toLocaleString());
+      expect(actual[0].createdAt.toLocaleString()).toBe(new Date(mockApiResult[0].createdAt).toLocaleString());
       expect(actual[0].testPackageName).toBe(mockApiResult[0].testPackageFileName);
       expect(actual[0].tdsStepStatus).toBe('NOT_STARTED');
       expect(actual[0].artStepStatus).toBe('NOT_APPLICABLE');
@@ -92,7 +92,7 @@ describe("Loader Jobs Service", () => {
   it('Should map loader job data for job with errors', () => {
     // No ART step - other systems in pending/not-started state
     let mockApiResult = [{
-      createdDate: "2017-12-06T13:56:07.917",
+      createdAt: "2017-12-06T13:56:07.917",
       id: "5a286777d66e2a30d10eef97",
       status: "IN_PROGRESS",
       steps: [
@@ -148,7 +148,7 @@ describe("Loader Jobs Service", () => {
     service.getLoaderJobs().subscribe(actual => {
       expect(actual.length).toBe(1);
       expect(actual[0].id).toBe(mockApiResult[0].id);
-      expect(actual[0].dateCreated.toLocaleString()).toBe(new Date(mockApiResult[0].createdDate).toLocaleString());
+      expect(actual[0].createdAt.toLocaleString()).toBe(new Date(mockApiResult[0].createdAt).toLocaleString());
       expect(actual[0].testPackageName).toBe(mockApiResult[0].testPackageFileName);
       expect(actual[0].tdsStepStatus).toBe('NOT_STARTED');
       expect(actual[0].artStepStatus).toBe('NOT_APPLICABLE');

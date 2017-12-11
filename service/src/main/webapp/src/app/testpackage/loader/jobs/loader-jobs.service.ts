@@ -33,7 +33,7 @@ export class LoaderJobService {
       let job = new LoaderJob();
       job.id = i.toString();
       job.testPackageName = '(SBAC_PT)SBAC-ELA-G7-MATH' + i + '.xml';
-      job.dateCreated = new Date();
+      job.createdAt = new Date();
       job.type = "Create";
 
       if (i % 2 === 0) {
@@ -74,7 +74,7 @@ export class LoaderJobService {
     job.id = apiModel.id;
 
     job.testPackageName = apiModel.testPackageFileName;
-    job.dateCreated = new Date(apiModel.createdDate);
+    job.createdAt = new Date(apiModel.createdAt);
     job.tdsStepStatus = apiModel.steps
       .filter(step => step.name.indexOf('tds-upload') >= 0)
       .map(step => step.status)[0] || StepStatus.NotApplicable;

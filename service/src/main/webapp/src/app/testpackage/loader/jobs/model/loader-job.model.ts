@@ -3,7 +3,7 @@ import {JobError} from "../../../../shared/job-error.model";
 export class LoaderJob {
   id: string;
   testPackageName: string;
-  dateCreated: Date;
+  createdAt: Date;
   errors: JobError[] = new Array<JobError>();
   type: string; // load or delete
   // Initialize the steps as "in progress"

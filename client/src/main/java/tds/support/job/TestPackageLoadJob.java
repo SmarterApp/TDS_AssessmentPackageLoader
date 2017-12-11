@@ -12,9 +12,10 @@ public class TestPackageLoadJob extends Job {
     public static final String TDS_UPLOAD = TEST_PACKAGE_PREFIX + "-tds-upload";
     public static final String TIS_UPLOAD = TEST_PACKAGE_PREFIX + "-tis-upload";
     public static final String THSS_UPLOAD = TEST_PACKAGE_PREFIX + "-thss-upload";
-    /* These properties are not set in code - they  */
-    private boolean skipArt;
-    private boolean skipScoring;
+    // These properties are not set explicitly in code - these properties are automatically populated by
+    // Spring Data and serialized before being sent to the client. They do not require getters/setters
+    private final boolean skipArt;
+    private final boolean skipScoring;
 
     public TestPackageLoadJob(final String testPackageFileName, boolean skipArt, boolean skipScoring) {
         // Spring Data requires us to persist these variables

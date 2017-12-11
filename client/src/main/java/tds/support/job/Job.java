@@ -13,7 +13,7 @@ public class Job {
     @Id
     private String id;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime createdDate = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
     private JobType type;
     private Status status;
     private List<Step> steps = new ArrayList<>();
@@ -26,12 +26,12 @@ public class Job {
         this.id = id;
     }
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreatedDate(final LocalDateTime createdDate) {
-        this.createdDate = createdDate;
+    public void setCreatedAt(final LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 
     public JobType getType() {
