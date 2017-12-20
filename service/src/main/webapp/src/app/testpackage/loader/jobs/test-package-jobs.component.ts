@@ -1,38 +1,38 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
-import {LoaderJobService} from "./loader-jobs.service";
-import {LoaderJob, StepStatus} from "./model/loader-job.model";
+import {TestPackageJobService} from "./test-package-jobs.service";
+import {TestPackageJob, StepStatus} from "./model/test-package-job.model";
 import {TimerObservable} from "rxjs/observable/TimerObservable";
 import 'rxjs/add/operator/takeWhile';
 
 @Component({
-  selector: 'loader-jobs',
-  templateUrl: './loader-jobs.component.html'
+  selector: 'test-package-jobs',
+  templateUrl: './test-package-jobs.component.html'
 })
-export class LoaderJobsComponent implements OnInit, OnDestroy {
+export class TestPackageJobsComponent implements OnInit, OnDestroy {
   // query: LoaderJobsQuery;
   StepStatuses = StepStatus; // Need to include the enum as a property to access it in template
   searchTerm: string = '';
   @Input()
-  selectedJob: LoaderJob;
+  selectedJob: TestPackageJob;
   private alive: boolean; // used to unsubscribe from the TimerObservable when OnDestroy is called.
-  @Output() selectedLoaderJobChange: EventEmitter<LoaderJob> = new EventEmitter<LoaderJob>();
-  filteredLoaderJobs: LoaderJob[];
-  private _loaderJobs: LoaderJob[];
+  @Output() selectedTestPackageJobChange: EventEmitter<TestPackageJob> = new EventEmitter<TestPackageJob>();
+  filteredTestPackageJobs: TestPackageJob[];
+  private _testPackageJobs: TestPackageJob[];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private service: LoaderJobService) {
+              private service: TestPackageJobService) {
     this.alive = true;
   }
 
-  get loaderJobs(): LoaderJob[] {
-    return this._loaderJobs;
+  get testPackageJobs(): TestPackageJob[] {
+    return this._testPackageJobs;
   }
 
-  set loaderJobs(loaderJobs: LoaderJob[]) {
-    this._loaderJobs = loaderJobs;
-    this.updateFilteredLoaderJobs();
+  set testPackageJobs(loaderJobs: TestPackageJob[]) {
+    this._testPackageJobs = loaderJobs;
+    this.updateFilteredTestPackageJobs();
   }
 
   ngOnInit() {
@@ -51,24 +51,24 @@ export class LoaderJobsComponent implements OnInit, OnDestroy {
 
   updateResults() {
     this.service
-      .getLoaderJobs()
+      .getTestPackageJobs()
       .subscribe(loaderJobs => {
-        this.loaderJobs = loaderJobs;
+        this.testPackageJobs = loaderJobs;
       });
   }
 
   onSearchChange() {
-    this.updateFilteredLoaderJobs();
+    this.updateFilteredTestPackageJobs();
   }
 
-  updateFilteredLoaderJobs() {
-    this.filteredLoaderJobs = this.loaderJobs
+  updateFilteredTestPackageJobs() {
+    this.filteredTestPackageJobs = this.testPackageJobs
       .filter(x => x.testPackageName.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0);
   }
 
   onRowSelect(event) {
     this.selectedJob = event.data;
-    this.selectedLoaderJobChange.emit(this.selectedJob);
+    this.selectedTestPackageJobChange.emit(this.selectedJob);
   }
 
   uploadClick() {

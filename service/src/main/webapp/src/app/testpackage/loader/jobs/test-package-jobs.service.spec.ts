@@ -1,4 +1,4 @@
-import { LoaderJobService } from "./loader-jobs.service";
+import { TestPackageJobService } from "./loader-jobs.service";
 import {Observable} from "rxjs/Observable";
 import {DataService} from "../../../shared/data/data.service";
 
@@ -10,14 +10,14 @@ describe("Loader Jobs Service", () => {
   let service;
 
   beforeEach(() => {
-    service = new LoaderJobService(new MockDataService());
+    service = new TestPackageJobService(new MockDataService());
   });
 
   it('Should return an empty array for no test packages found', () => {
     // No ART step - other systems in pending/not-started state
     let mockApiResult = [];
 
-    service.getLoaderJobs().subscribe(actual => {
+    service.getTestPackageJobs().subscribe(actual => {
       expect(actual.length).toBe(0);
     });
 
@@ -70,7 +70,7 @@ describe("Loader Jobs Service", () => {
       type: "LOADER"
     }];
 
-    service.getLoaderJobs().subscribe(actual => {
+    service.getTestPackageJobs().subscribe(actual => {
       expect(actual.length).toBe(1);
       expect(actual[0].id).toBe(mockApiResult[0].id);
       expect(actual[0].createdAt.toLocaleString()).toBe(new Date(mockApiResult[0].createdAt).toLocaleString());
@@ -145,7 +145,7 @@ describe("Loader Jobs Service", () => {
       type: "LOADER"
     }];
 
-    service.getLoaderJobs().subscribe(actual => {
+    service.getTestPackageJobs().subscribe(actual => {
       expect(actual.length).toBe(1);
       expect(actual[0].id).toBe(mockApiResult[0].id);
       expect(actual[0].createdAt.toLocaleString()).toBe(new Date(mockApiResult[0].createdAt).toLocaleString());

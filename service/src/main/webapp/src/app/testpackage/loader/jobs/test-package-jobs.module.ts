@@ -1,6 +1,6 @@
 import {NgModule} from "@angular/core";
 import {DataTableModule} from "primeng/primeng";
-import {LoaderJobService} from "./loader-jobs.service";
+import {TestPackageJobService} from "./test-package-jobs.service";
 import {BrowserModule} from "@angular/platform-browser";
 import {FormsModule} from "@angular/forms";
 
@@ -11,8 +11,8 @@ import {FormsModule} from "@angular/forms";
     FormsModule
   ],
   providers: [
-    LoaderJobService
+    TestPackageJobService
   ]
 })
-export class LoaderJobsModule {
+export class TestPackageJobsModule {
 }

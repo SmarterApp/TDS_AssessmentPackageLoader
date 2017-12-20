@@ -50,7 +50,7 @@ public class TestPackageController {
      * @throws IOException thrown if there is an issue with accessing the file
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Job>> getJobs(@RequestParam(value = "jobType", required = false) JobType jobType) throws IOException {
-        return ResponseEntity.ok(jobService.findJobs(jobType));
+    public ResponseEntity<List<Job>> getJobs(@RequestParam(value = "jobType", required = false) JobType... jobTypes) throws IOException {
+        return ResponseEntity.ok(jobService.findJobs(jobTypes));
     }
 }

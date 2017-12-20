@@ -26,8 +26,10 @@ public interface JobService {
     /**
      * Finds all jobs matching a specific {@link tds.support.job.JobType}
      *
-     * @param jobType The type of jobs to fetch
+     * @param jobTypes The type of jobs to fetch
      * @return A collection of all jobs matching
      */
-    List<Job> findJobs(final JobType jobType);
+    List<Job> findJobs(final JobType... jobTypes);
+
+    void executeJobSteps(String jobId);
 }

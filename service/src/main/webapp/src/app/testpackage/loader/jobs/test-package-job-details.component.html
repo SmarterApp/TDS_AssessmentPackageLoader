@@ -1,0 +1,38 @@
+<div class="mb-md">
+  <!-- No selection -->
+  <div *ngIf="!selectedJob" class="test-package-none-selected">
+    <h3>Select a test package job to view more details</h3>
+  </div>
+  <span *ngIf="selectedJob" class="h3 blue-dark">{{selectedJob.testPackageName}}</span>
+  <!-- Success view -->
+  <div *ngIf="selectedJob?.isSuccessful()" class="test-package-details-success">
+    <h3 *ngIf="selectedJob?.type === 'LOADER'"><i class="fa fa-check-circle"></i>The test package was successfully loaded</h3>
+    <h3 *ngIf="selectedJob?.type === 'ROLLBACK'">
+      <i class="fa fa-check-circle"></i>
+      The loaded test package was successfully rolled back as a result from a failure in the job with id <strong>{{ selectedJob.parentJobId }}</strong>
+    </h3>
+    <h3 *ngIf="selectedJob?.type === 'DELETE'"><i class="fa fa-check-circle"></i>The test package was successfully deleted</h3>
+  </div>
+
+  <!-- Failure view -->
+  <div *ngIf="selectedJob?.errors.length > 0" class="test-package-details-failure">
+    <div class="test-package-job-error-list-container">
+      <p-dataTable [value]="selectedJob.errors"
+                   emptyMessage="No errors found"
+                   dataKey="id"
+                   tableStyleClass="table table-striped table-hover"
+                   [scrollable]="true"
+                   scrollHeight="230px">
+        <p-column field="system" header="System" [sortable]="true" [style]="{width:'100px'}"></p-column>
+        <p-column field="severity" header="Severity" [sortable]="true" [style]="{width:'105px'}">
+          <ng-template let-error="rowData" pTemplate="body">
+            <span *ngIf="error.severity === 'CRITICAL'" class="error">{{error.severity}}</span>
+            <span *ngIf="error.severity === 'WARN'" class="warn">{{error.severity}}</span>
+          </ng-template>
+        </p-column>
+        <p-column field="message" header="Message"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+
+</div>

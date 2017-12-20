@@ -19,6 +19,7 @@ import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
 import tds.support.job.Job;
 import tds.support.job.JobType;
+import tds.support.job.TestPackageLoadJob;
 import tds.support.tool.services.JobService;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.randomListOf;
@@ -42,7 +43,7 @@ public class TestPackageControllerIntegrationTests {
 
     @Test
     public void testFindLoaderJobs() throws Exception {
-        List<Job> mockJobs = randomListOf(3, Job.class);
+        List mockJobs = randomListOf(3, TestPackageLoadJob.class);
         when(mockJobService.findJobs(JobType.LOADER)).thenReturn(mockJobs);
 
         http.perform(get(new URI("/api/load"))
@@ -55,7 +56,7 @@ public class TestPackageControllerIntegrationTests {
 
     @Test
     public void testFindAllJobs() throws Exception {
-        List<Job> mockJobs = randomListOf(3, Job.class);
+        List mockJobs = randomListOf(3, TestPackageLoadJob.class);
         when(mockJobService.findJobs(null)).thenReturn(mockJobs);
 
         http.perform(get(new URI("/api/load"))

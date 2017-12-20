@@ -3,21 +3,19 @@ package tds.support.job;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestPackageLoadJob extends Job {
+public class TestPackageDeleteJob extends Job {
     private final String testPackageFileName;
     private static final String TEST_PACKAGE_PREFIX = "test-package";
-    public static final String FILE_UPLOAD = TEST_PACKAGE_PREFIX + "-file-upload";
-    public static final String VALIDATE = TEST_PACKAGE_PREFIX + "-validate";
-    public static final String ART_UPLOAD = TEST_PACKAGE_PREFIX + "-art-upload";
-    public static final String TDS_UPLOAD = TEST_PACKAGE_PREFIX + "-tds-upload";
-    public static final String TIS_UPLOAD = TEST_PACKAGE_PREFIX + "-tis-upload";
-    public static final String THSS_UPLOAD = TEST_PACKAGE_PREFIX + "-thss-upload";
+    public static final String ART_DELETE = TEST_PACKAGE_PREFIX + "-art-delete";
+    public static final String TDS_DELETE = TEST_PACKAGE_PREFIX + "-tds-delete";
+    public static final String TIS_DELETE = TEST_PACKAGE_PREFIX + "-tis-delete";
+    public static final String THSS_DELETE = TEST_PACKAGE_PREFIX + "-thss-delete";
     // These properties are not set explicitly in code - these properties are automatically populated by
     // Spring Data and serialized before being sent to the client.
     private final boolean skipArt;
     private final boolean skipScoring;
 
-    public TestPackageLoadJob(final String testPackageFileName, boolean skipArt, boolean skipScoring) {
+    public TestPackageDeleteJob(final String testPackageFileName, boolean skipArt, boolean skipScoring) {
         // Spring Data requires us to persist these variables
         this.testPackageFileName = testPackageFileName;
         this.skipArt = skipArt;
@@ -25,21 +23,20 @@ public class TestPackageLoadJob extends Job {
 
         //Create steps
         List<Step> steps = new ArrayList<>();
-        steps.add(new Step(FILE_UPLOAD, JobStepTarget.Internal,"Uploading test package"));
-        steps.add(new Step(VALIDATE, JobStepTarget.Internal, "Parsing and validating test package"));
-        steps.add(new Step(TDS_UPLOAD, JobStepTarget.TDS, "Uploading test package to Student and Proctor"));
+        steps.add(new Step(TDS_DELETE, JobStepTarget.TDS, "Deleting the test package from TDS (Student and Proctor)"));
 
         if (!skipArt) {
-            steps.add(new Step(ART_UPLOAD, JobStepTarget.ART,"Uploading test package to ART"));
+            steps.add(new Step(ART_DELETE, JobStepTarget.ART,"Deleting the test package from ART"));
         }
 
         if (!skipScoring) {
-            steps.add(new Step(TIS_UPLOAD, JobStepTarget.TIS, "Uploading test package to TIS"));
-            steps.add(new Step(THSS_UPLOAD, JobStepTarget.THSS,"Uploading test package to THSS"));
+            steps.add(new Step(TIS_DELETE, JobStepTarget.TIS, "Deleting the test package from TIS"));
+            steps.add(new Step(THSS_DELETE, JobStepTarget.THSS,"Deleting the test package from THSS"));
         }
 
         this.setSteps(steps);
-        this.setType(JobType.LOADER);
+        // Although these steps are functionally the same, we should be explicit about what type of job this is
+        this.setType(JobType.DELETE);
     }
 
     public String getTestPackageFileName() {

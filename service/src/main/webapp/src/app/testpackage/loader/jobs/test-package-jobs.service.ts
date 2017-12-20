@@ -2,17 +2,20 @@ import {Injectable} from "@angular/core";
 import {Observable} from "rxjs/Observable";
 import {DataService} from "../../../shared/data/data.service";
 import 'rxjs/add/observable/of';
-import {LoaderJob, StepStatus} from "./model/loader-job.model";
+import {TestPackageJob, StepStatus} from "./model/test-package-job.model";
 import {JobError} from "../../../shared/job-error.model";
 import {HttpParams} from '@angular/common/http';
 
 @Injectable()
-export class LoaderJobService {
+export class TestPackageJobService {
   constructor(private dataService: DataService) {
   }
 
-  getLoaderJobs(): Observable<LoaderJob[]> {
-    let params = new HttpParams().append('jobType', 'LOADER');
+  getTestPackageJobs(): Observable<TestPackageJob[]> {
+    let params = new HttpParams()
+      .append('jobType', 'LOADER')
+      .append('jobType', 'DELETE')
+      .append('jobType', 'ROLLBACK');
 
     return this.dataService
       .get("/load", { params: params})
@@ -22,22 +25,22 @@ export class LoaderJobService {
   }
 
   //TODO: Remove this mock method once we have a functional job system and real data
-  private createMockLoaderJobs(): LoaderJob[] {
+  private createMockLoaderJobs(): TestPackageJob[] {
     let error = new JobError();
     error.message = "This is an error";
     error.severity = "Error";
     error.system = 'TIS';
 
-    let jobs: LoaderJob[] = [];
+    let jobs: TestPackageJob[] = [];
     for (var i = 0; i < 30; i++) {
-      let job = new LoaderJob();
+      let job = new TestPackageJob();
       job.id = i.toString();
       job.testPackageName = '(SBAC_PT)SBAC-ELA-G7-MATH' + i + '.xml';
       job.createdAt = new Date();
       job.type = "Create";
 
       if (i % 2 === 0) {
-        job.tdsStepStatus = StepStatus.Failed;
+        job.tdsStepStatus = StepStatus.Fail;
         job.artStepStatus = StepStatus.Success;
         job.tisStepStatus = StepStatus.InProgress;
         job.thssStepStatus = StepStatus.InProgress;
@@ -55,7 +58,7 @@ export class LoaderJobService {
           error2.message = "This is a really really really long test delivery system error that should go beyond the width of the data grid. Should be fully displayable in a onhover tooltipe";
           error2.severity = "Error";
           error2.system = 'TDS';
-          job.tdsStepStatus = StepStatus.Failed;
+          job.tdsStepStatus = StepStatus.Fail;
           job.artStepStatus = StepStatus.NotApplicable;
           job.tisStepStatus = StepStatus.NotApplicable;
           job.thssStepStatus = StepStatus.NotApplicable;
@@ -69,23 +72,29 @@ export class LoaderJobService {
     return jobs;
   }
 
-  private mapLoaderJobsFromApi(apiModel): LoaderJob {
-    let job = new LoaderJob();
+  private mapLoaderJobsFromApi(apiModel): TestPackageJob {
+    let job = new TestPackageJob();
     job.id = apiModel.id;
 
     job.testPackageName = apiModel.testPackageFileName;
     job.createdAt = new Date(apiModel.createdAt);
+    job.type = apiModel.type;
+
+    if (job.type === 'ROLLBACK') {
+      job.parentJobId = apiModel.parentJobId;
+    }
+
     job.tdsStepStatus = apiModel.steps
-      .filter(step => step.name.indexOf('tds-upload') >= 0)
+      .filter(step => step.name.indexOf('test-package-tds') >= 0)
       .map(step => step.status)[0] || StepStatus.NotApplicable;
     job.artStepStatus = apiModel.steps
-      .filter(step => step.name.indexOf('art-upload') >= 0)
+      .filter(step => step.name.indexOf('test-package-art') >= 0)
       .map(step => step.status)[0] || StepStatus.NotApplicable;
     job.tisStepStatus = apiModel.steps
-      .filter(step => step.name.indexOf('tis-upload') >= 0)
+      .filter(step => step.name.indexOf('test-package-tis') >= 0)
       .map(step => step.status)[0] || StepStatus.NotApplicable;
     job.thssStepStatus = apiModel.steps
-      .filter(step => step.name.indexOf('thss-upload') >= 0)
+      .filter(step => step.name.indexOf('test-package-thss') >= 0)
       .map(step => step.status)[0] || StepStatus.NotApplicable;
 
     // Flatten all errors from each step into one array
@@ -95,16 +104,16 @@ export class LoaderJobService {
           let jobError = new JobError();
 
           switch (true) {
-            case /tds-upload/.test(step.name):
+            case /test-package-tds/.test(step.name):
               jobError.system = 'TDS';
               break;
-            case /art-upload/.test(step.name):
+            case /test-package-art/.test(step.name):
               jobError.system = 'ART';
               break;
-            case /tis-upload/.test(step.name):
+            case /test-package-tis/.test(step.name):
               jobError.system = 'TIS';
               break;
-            case /thss-upload/.test(step.name):
+            case /test-package-thss/.test(step.name):
               jobError.system = 'THSS';
               break;
           }

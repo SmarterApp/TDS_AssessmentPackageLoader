@@ -9,13 +9,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Job {
+public abstract class Job {
     @Id
     private String id;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime createdAt = LocalDateTime.now();
     private JobType type;
-    private Status status;
     private List<Step> steps = new ArrayList<>();
 
     public String getId() {
@@ -42,13 +41,7 @@ public class Job {
         this.type = type;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(final Status status) {
-        this.status = status;
-    }
+    public abstract Status getStatus();
 
     public List<Step> getSteps() {
         return steps;

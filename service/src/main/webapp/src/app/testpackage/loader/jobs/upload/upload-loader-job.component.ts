@@ -1,6 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild} from "@angular/core";
 import {FileItem, FileUploader, ParsedResponseHeaders} from "ng2-file-upload";
-import {LoaderJob} from "../model/loader-job.model";
+import {TestPackageJob} from "../model/test-package-job.model";
 import {Router} from "@angular/router";
 
 @Component({
