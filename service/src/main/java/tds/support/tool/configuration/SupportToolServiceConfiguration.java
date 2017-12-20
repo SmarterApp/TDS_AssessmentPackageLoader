@@ -5,6 +5,8 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -39,5 +41,12 @@ public class SupportToolServiceConfiguration {
     @Bean(name = "testPackageLoaderStepHandlers")
     public Map<String, TestPackageHandler> getTestPackageLoaderStepHandlers() {
         return new HashMap<>();
+    }
+
+    @Bean
+    public XmlMapper getXmlMapper() {
+        final XmlMapper xmlMapper = new XmlMapper();
+        xmlMapper.registerModule(new Jdk8Module());
+        return xmlMapper;
     }
 }
