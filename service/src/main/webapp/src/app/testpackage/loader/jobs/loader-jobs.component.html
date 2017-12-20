@@ -15,7 +15,7 @@
     <p-dataTable [value]="filteredLoaderJobs"
                  emptyMessage="No Test Package load jobs found for the specific test package id."
                  dataKey="id"
-                 sortField="dateCreated"
+                 sortField="createdAt"
                  sortOrder="-1"
                  selectionMode="single"
                  [(selection)]="selectedJob"
@@ -25,33 +25,53 @@
                  (onRowSelect)="onRowSelect($event)">
       <p-column field="id" header="ID" [sortable]="true"></p-column>
       <p-column field="testPackageName" header="Test Package Name" [sortable]="true"></p-column>
-      <p-column field="dateCreated" header="Date Created" [sortable]="true">
+      <p-column field="createdAt" header="Date Created" [sortable]="true">
         <ng-template let-job="rowData" pTemplate="body">
-          {{ job.dateCreated | date: 'short' }}
+          {{ job.createdAt | date: 'short' }}
         </ng-template>
       </p-column>
-      <p-column field="tdsSuccess" header="TDS">
+      <p-column field="tdsStepStatus" header="TDS">
         <ng-template let-job="rowData" pTemplate="body">
-          <i *ngIf="job.tdsErrors.length === 0" class="fa fa-check-circle"></i>
-          <i *ngIf="job.tdsErrors.length > 0"class="fa fa-exclamation-circle"></i>
+          <ng-container [ngSwitch]="job.tdsStepStatus">
+            <i *ngSwitchCase="StepStatuses.Success" class="fa fa-check-circle" title="The job was successful"></i>
+            <i *ngSwitchCase="StepStatuses.Failed" class="fa fa-exclamation-circle" title="The job has failures"></i>
+            <i *ngSwitchCase="StepStatuses.NotApplicable" class="fa fa-minus"></i>
+            <i *ngSwitchCase="StepStatuses.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
+            <i *ngSwitchCase="StepStatuses.NotStarted" class="fa fa-hourglass" title="The job is pending"></i>
+          </ng-container>
         </ng-template>
       </p-column>
-      <p-column field="artSuccess" header="ART">
+      <p-column field="artStepStatus" header="ART">
         <ng-template let-job="rowData" pTemplate="body">
-          <i *ngIf="job.artErrors.length === 0" class="fa fa-check-circle"></i>
-          <i *ngIf="job.artErrors.length > 0" class="fa fa-exclamation-circle"></i>
+          <ng-container [ngSwitch]="job.artStepStatus">
+            <i *ngSwitchCase="StepStatuses.Success" class="fa fa-check-circle" title="The job was successful"></i>
+            <i *ngSwitchCase="StepStatuses.Failed" class="fa fa-exclamation-circle" title="The job has failures"></i>
+            <i *ngSwitchCase="StepStatuses.NotApplicable" class="fa fa-minus"></i>
+            <i *ngSwitchCase="StepStatuses.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
+            <i *ngSwitchCase="StepStatuses.NotStarted" class="fa fa-hourglass" title="The job is pending"></i>
+          </ng-container>
         </ng-template>
       </p-column>
-      <p-column field="tisSuccess" header="TIS">
+      <p-column field="tisStepStatus" header="TIS">
         <ng-template let-job="rowData" pTemplate="body">
-          <i *ngIf="job.tisErrors.length === 0" class="fa fa-check-circle"></i>
-          <i *ngIf="job.tisErrors.length > 0"class="fa fa-exclamation-circle"></i>
+          <ng-container [ngSwitch]="job.tisStepStatus">
+            <i *ngSwitchCase="StepStatuses.Success" class="fa fa-check-circle" title="The job was successful"></i>
+            <i *ngSwitchCase="StepStatuses.Failed" class="fa fa-exclamation-circle" title="The job has failures"></i>
+            <i *ngSwitchCase="StepStatuses.NotApplicable" class="fa fa-minus"></i>
+            <i *ngSwitchCase="StepStatuses.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
+            <i *ngSwitchCase="StepStatuses.NotStarted" class="fa fa-hourglass" title="The job is pending"></i>
+          </ng-container>
         </ng-template>
       </p-column>
-      <p-column field="thssSuccess" header="THSS">
+      <p-column field="thssStepStatus" header="THSS">
         <ng-template let-job="rowData" pTemplate="body">
-          <i *ngIf="job.thssErrors.length === 0" class="fa fa-check-circle"></i>
-          <i *ngIf="job.thssErrors.length > 0"class="fa fa-exclamation-circle"></i>
+          <ng-container [ngSwitch]="job.thssStepStatus">
+            <i *ngSwitchCase="StepStatuses.Success" class="fa fa-check-circle" title="The job was successful"></i>
+            <i *ngSwitchCase="StepStatuses.Failed" class="fa fa-exclamation-circle" title="The job has failures"></i>
+            <i *ngSwitchCase="StepStatuses.NotApplicable" class="fa fa-minus"></i>
+            <i *ngSwitchCase="StepStatuses.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
+            <i *ngSwitchCase="StepStatuses.NotStarted" class="fa fa-hourglass" title="The job is pending"></i>
+          </ng-container>
         </ng-template>
       </p-column>
     </p-dataTable>

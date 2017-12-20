@@ -35,24 +35,24 @@ public class TestPackageFileHandlerTest {
 
     @Test
     public void shouldSaveTestPackage() {
-        Step step = fileHandler.handleTestPackage("jobId", "packageName", mockTestPackageStream, 100L);
+        Step stepToUpdate = new Step("update step", "Update step description");
+        Step step = fileHandler.handleTestPackage(stepToUpdate,"jobId", "packageName", mockTestPackageStream, 100L);
 
         verify(mockTestPackageService).saveTestPackage("jobId", "packageName", mockTestPackageStream, 100L);
 
-        assertThat(step.getDescription()).isEqualTo("Uploading file packageName");
         assertThat(step.getStatus()).isEqualTo(Status.SUCCESS);
         assertThat(step.getErrors()).isEmpty();
     }
 
     @Test
     public void shouldReturnErrorsInStepDuringException() {
+        Step stepToUpdate = new Step("update step", "Update step description");
         when(mockTestPackageService.saveTestPackage("jobId", "packageName", mockTestPackageStream, 100L)).thenThrow(new RuntimeException("Fail"));
 
-        Step step = fileHandler.handleTestPackage("jobId", "packageName", mockTestPackageStream, 100L);
+        Step step = fileHandler.handleTestPackage(stepToUpdate,"jobId", "packageName", mockTestPackageStream, 100L);
 
         verify(mockTestPackageService).saveTestPackage("jobId", "packageName", mockTestPackageStream, 100L);
 
-        assertThat(step.getDescription()).isEqualTo("Uploading file packageName");
         assertThat(step.getStatus()).isEqualTo(Status.FAIL);
         assertThat(step.getErrors()).hasSize(1);
 

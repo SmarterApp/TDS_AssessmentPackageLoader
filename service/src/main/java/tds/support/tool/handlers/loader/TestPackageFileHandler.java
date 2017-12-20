@@ -38,18 +38,16 @@ public class TestPackageFileHandler {
      * @param testPackageSize the size of the input stream
      * @return {@link tds.support.job.Step} defining the information for this step in the job
      */
-    public Step handleTestPackage(final String jobId, final String packageName, final InputStream testPackage, long testPackageSize) {
-        Step step = new Step("Uploading file " + packageName, Status.SUCCESS);
-
+    public Step handleTestPackage(final Step step, final String jobId, final String packageName,
+                                  final InputStream testPackage, long testPackageSize) {
         try {
             testPackageService.saveTestPackage(jobId, packageName, testPackage, testPackageSize);
+            step.setStatus(Status.SUCCESS);
         } catch (Exception e) {
             log.error("Unexpected Error uploading the test package file " + testPackage, e);
             step.addError(new Error("Failed to upload file", ErrorSeverity.CRITICAL));
             step.setStatus(Status.FAIL);
         }
-
-        //Send the "job message" onto RabbitMQ before returning the step
 
         return step;
     }

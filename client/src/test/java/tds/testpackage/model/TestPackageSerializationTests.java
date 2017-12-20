@@ -23,6 +23,7 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 @RunWith(SpringRunner.class)
 public class TestPackageSerializationTests {
 	private ObjectMapper objectMapper;
+	private XmlMapper xmlMapper;
 
 	private String expectedJSON = "{\"publisher\":\"SBAC_PT\",\"publishDate\":\"2015-08-19T18:13:51.0\",\"subject\":\"MATH\",\"type\":\"summative\",\"version\":8185,\"bankKey\":187,\"academicYear\":\"2017-2018\"," +
 		"\"blueprint\":[" +
@@ -44,6 +45,9 @@ public class TestPackageSerializationTests {
 	public void setUp() {
 		objectMapper = new ObjectMapper();
 		objectMapper.registerModule(new Jdk8Module());
+
+		xmlMapper = new XmlMapper();
+		xmlMapper.registerModule(new Jdk8Module());
 	}
 
 	@Test
@@ -142,9 +146,6 @@ public class TestPackageSerializationTests {
 
 	@Test
 	public void shouldDeserializeFromXml() throws IOException {
-		XmlMapper xmlMapper = new XmlMapper();
-		xmlMapper.registerModule(new Jdk8Module());
-
 		InputStream inputStream = TestPackageSerializationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml");
 		TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
 		assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
