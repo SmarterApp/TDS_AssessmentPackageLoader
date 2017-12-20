@@ -1,6 +1,8 @@
 package tds.testpackage.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,26 +28,23 @@ public class TestPackageSerializationTests {
 	private ObjectMapper objectMapper;
 	private XmlMapper xmlMapper;
 
-	private String expectedJSON = "{\"publisher\":\"SBAC_PT\",\"publishDate\":\"2015-08-19T18:13:51.0\",\"subject\":\"MATH\",\"type\":\"summative\",\"version\":8185,\"bankKey\":187,\"academicYear\":\"2017-2018\"," +
-		"\"blueprint\":[" +
-		"{\"id\":\"SBAC-IRP-COMBINED-MATH-11\",\"type\":\"combined\",\"scoring\":null," +
-		"\"blueprintElements\":null}]," +
-		"\"assessments\":[{\"id\":\"SBAC-IRP-CAT-MATH-11\",\"label\":\"IRP CAT Grade 11 Math\"," +
-		"\"grades\":[{\"value\":\"11\"}]," +
-		"\"segments\":[{\"id\":\"SBAC-IRP-Perf-MATH-11\",\"position\":1,\"algorithmType\":\"fixedform\",\"algorithmImplementation\":\"FAIRWAY ROUNDROBIN\",\"segmentBlueprint\":null," +
-		"\"pool\":[{\"id\":\"id\",\"stimulus\":null," +
-		"\"items\":[{\"id\":\"id\",\"type\":\"type\",\"position\":null,\"presentations\":[\"ENU\"]," +
+	private String expectedJSON = "{\"publisher\":\"SBAC_PT\",\"publishDate\":\"2015-08-19T18:13:51.0\",\"subject\":\"MATH\",\"type\":\"summative\",\"version\":\"8185\",\"bankKey\":187,\"academicYear\":\"2017-2018\"," +
+		"\"blueprint\":[{\"id\":\"SBAC-IRP-COMBINED-MATH-11\",\"type\":\"combined\",\"scoring\":null}]," +
+		"\"assessments\":[{\"id\":\"SBAC-IRP-CAT-MATH-11\",\"label\":\"IRP CAT Grade 11 Math\",\"grades\":[{\"value\":\"11\"}]," +
+		"\"segments\":[{\"id\":\"SBAC-IRP-Perf-MATH-11\",\"algorithmType\":\"fixedform\",\"algorithmImplementation\":\"FAIRWAY ROUNDROBIN\"," +
+		"\"pool\":[{\"id\":\"id\",\"stimulus\":null,\"items\":[{\"id\":\"id\",\"type\":\"type\",\"position\":null,\"presentations\":[\"ENU\"]," +
 		"\"blueprintReferences\":[{\"idRef\":\"SBAC-IRP-CAT-MATH-11\"}]," +
 		"\"itemScoreDimension\":{\"measurementModel\":\"IRT3PLn\",\"scorePoints\":\"1\",\"weight\":1.0," +
-		"\"itemScoreParameters\":[{\"measurementParameter\":\"a\",\"value\":6.3}]}}]}]," +
-		"\"segmentForms\":null}],\"tools\":[" +
-		"{\"name\":\"tool\",\"studentPackageFieldName\":\"TDSAcc\",\"allowChange\":null," +
-		"\"options\":[{\"code\":\"TDS_Other\",\"sortOrder\":0,\"dependencies\":[{\"ifToolType\":\"ifToolType\",\"ifToolCode\":\"ifToolCode\",\"enabled\":true}]}]}]}]}";
+		"\"itemScoreParameters\":[{\"measurementParameter\":\"a\",\"value\":6.3}]}}]}]}]," +
+		"\"tools\":[{\"name\":\"tool\",\"studentPackageFieldName\":\"TDSAcc\",\"allowChange\":null,\"required\":null,\"sortOrder\":null,\"disableOnGuest\":null," +
+		"\"options\":[{\"code\":\"TDS_Other\",\"sortOrder\":0,\"dependencies\":[{\"ifToolType\":\"ifToolType\",\"ifToolCode\":\"ifToolCode\"}]}]}]}]}";
+
 
 	@Before
 	public void setUp() {
 		objectMapper = new ObjectMapper();
 		objectMapper.registerModule(new Jdk8Module());
+		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
 
 		xmlMapper = new XmlMapper();
 		xmlMapper.registerModule(new Jdk8Module());
@@ -99,7 +99,6 @@ public class TestPackageSerializationTests {
 			.build();
 
 		Dependency dependency = Dependency.builder()
-			.setEnabled(true)
 			.setIfToolType("ifToolType")
 			.setIfToolCode("ifToolCode")
 			.build();
@@ -129,7 +128,7 @@ public class TestPackageSerializationTests {
 			.setPublishDate("2015-08-19T18:13:51.0")
 			.setSubject("MATH")
 			.setType("summative")
-			.setVersion(8185)
+			.setVersion("8185")
 			.setBankKey(187)
 			.setAcademicYear("2017-2018")
 			.setBlueprint(Arrays.asList(blueprintElement))
@@ -150,6 +149,24 @@ public class TestPackageSerializationTests {
 		TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
 		assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
 		assertThat(testPackage.getSubject()).isEqualTo("MATH");
+	}
+
+
+	@Test
+	public void shouldDeserializeFromXmlWithBooleanDefaults() throws IOException {
+		InputStream inputStream = TestPackageSerializationTests.class.getClassLoader().getResourceAsStream("Dependencies-boolean-defaults.xml");
+		List<Dependency> dependencies = xmlMapper.readValue(inputStream, new TypeReference<List<Dependency>>() {});
+
+		assertThat(dependencies.size()).isEqualTo(7);
+		assertThat(dependencies.get(0).enabled()).isEqualTo(false);
+		assertThat(dependencies.get(1).enabled()).isEqualTo(true);
+		assertThat(dependencies.get(3).enabled()).isEqualTo(false);
+		assertThat(dependencies.get(4).enabled()).isEqualTo(true);
+
+		assertThat(dependencies.get(0).defaultValue()).isEqualTo(false);
+		assertThat(dependencies.get(2).defaultValue()).isEqualTo(true);
+		assertThat(dependencies.get(5).defaultValue()).isEqualTo(true);
+		assertThat(dependencies.get(6).defaultValue()).isEqualTo(false);
 	}
 
 	@Test

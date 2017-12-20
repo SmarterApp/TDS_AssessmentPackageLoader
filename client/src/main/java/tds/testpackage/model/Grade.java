@@ -4,6 +4,11 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
+/**
+ * The Grade element contains the following attributes:
+ value: The grade code/integer value for the grade (e.g., "KR", "1", "12")
+ label: The human readable label of the grade (e.g., "Kindergarden", "Grade 12")
+ */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Grade.Builder.class)
 public abstract class Grade {

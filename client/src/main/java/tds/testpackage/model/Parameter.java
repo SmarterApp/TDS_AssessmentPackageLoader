@@ -1,17 +1,17 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
-
 import java.util.List;
-import java.util.Optional;
 
+/**
+ * A parameter for a computation rule
+ */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Parameter.Builder.class)
 public abstract class Parameter {

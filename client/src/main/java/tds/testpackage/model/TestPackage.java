@@ -8,6 +8,10 @@ import com.google.auto.value.AutoValue;
 
 import java.util.List;
 
+/**
+ * The test package.
+ * contains an optional <Scoring> element (for test packages that contain COMBINED scoring data, such as ICA assessments).
+ */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_TestPackage.Builder.class)
 public abstract class TestPackage {
@@ -15,7 +19,7 @@ public abstract class TestPackage {
     public abstract String getPublishDate();
     public abstract String getSubject();
     public abstract String getType();
-    public abstract int getVersion();
+    public abstract String getVersion();
     public abstract int getBankKey();
     public abstract String getAcademicYear();
     public abstract List<BlueprintElement> getBlueprint();
@@ -36,7 +40,7 @@ public abstract class TestPackage {
 
         public abstract Builder setType(String newType);
 
-        public abstract Builder setVersion(int newVersion);
+        public abstract Builder setVersion(String newVersion);
 
         public abstract Builder setBankKey(int newBankKey);
 

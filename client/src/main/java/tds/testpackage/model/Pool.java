@@ -1,6 +1,5 @@
 package tds.testpackage.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
 import java.util.List;

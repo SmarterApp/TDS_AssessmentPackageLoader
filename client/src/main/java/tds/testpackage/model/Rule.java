@@ -1,18 +1,20 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
+/**
+ * A rule for computing a score element, such as
+ * - overall theta or scaled score
+ * - strand score
+ * - benchmark score
+ */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Rule.Builder.class)
 public abstract class Rule {
