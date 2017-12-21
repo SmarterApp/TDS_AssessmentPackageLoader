@@ -45,7 +45,7 @@ public class TestPackageController {
     /**
      * Gets the test package jobs
      *
-     * @param jobType the job type to fetch
+     * @param jobTypes the job types to fetch
      * @return {@link org.springframework.http.ResponseEntity} containing the new {@link tds.support.job.Job}
      * @throws IOException thrown if there is an issue with accessing the file
      */

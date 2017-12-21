@@ -1,4 +1,4 @@
-import { TestPackageJobService } from "./loader-jobs.service";
+import { TestPackageJobService } from "./test-package-jobs.service";
 import {Observable} from "rxjs/Observable";
 import {DataService} from "../../../shared/data/data.service";
 
