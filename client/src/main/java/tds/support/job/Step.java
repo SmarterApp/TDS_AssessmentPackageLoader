@@ -88,6 +88,9 @@ public class Step {
         this.name = name;
     }
 
+    /**
+     * @return The system being targeted by the job step
+     */
     public JobStepTarget getJobStepTarget() {
         return this.target;
     }
