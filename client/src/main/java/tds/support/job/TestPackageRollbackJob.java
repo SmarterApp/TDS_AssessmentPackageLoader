@@ -9,6 +9,9 @@ public class TestPackageRollbackJob extends TestPackageDeleteJob {
         this.parentJobId = parentJobId;
     }
 
+    /**
+     * @return The id of the {@link tds.support.job.TestPackageLoadJob} that triggered this rollback job
+     */
     public String getParentJobId() {
         return parentJobId;
     }
