@@ -22,7 +22,18 @@ import java.util.Map;
 import tds.common.configuration.JacksonObjectMapperConfiguration;
 import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
+import tds.support.job.TestPackageDeleteJob;
+import tds.support.job.TestPackageLoadJob;
 import tds.support.tool.handlers.loader.TestPackageHandler;
+import tds.support.tool.handlers.loader.impl.ARTDeleteStepHandler;
+import tds.support.tool.handlers.loader.impl.ARTLoaderStepHandler;
+import tds.support.tool.handlers.loader.impl.ParseAndValidateHandler;
+import tds.support.tool.handlers.loader.impl.TDSDeleteStepHandler;
+import tds.support.tool.handlers.loader.impl.TDSLoaderStepHandler;
+import tds.support.tool.handlers.loader.impl.THSSDeleteStepHandler;
+import tds.support.tool.handlers.loader.impl.THSSLoaderStepHandler;
+import tds.support.tool.handlers.loader.impl.TISDeleteStepHandler;
+import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
 
 @EnableAsync
 @Configuration
@@ -44,8 +55,30 @@ public class SupportToolServiceConfiguration {
     }
 
     @Bean(name = "testPackageLoaderStepHandlers")
-    public Map<String, TestPackageHandler> getTestPackageLoaderStepHandlers() {
-        return new HashMap<>();
+    public Map<String, TestPackageHandler> getTestPackageLoaderStepHandlers(
+        final ParseAndValidateHandler parseAndValidateHandler,
+        final TDSLoaderStepHandler tdsLoaderStepHandler,
+        final ARTLoaderStepHandler artLoaderStepHandler,
+        final TISLoaderStepHandler tisLoaderStepHandler,
+        final THSSLoaderStepHandler thssLoaderStepHandler,
+        final TDSDeleteStepHandler tdsDeleteStepHandler,
+        final ARTDeleteStepHandler artDeleteStepHandler,
+        final TISDeleteStepHandler tisDeleteStepHandler,
+        final THSSDeleteStepHandler thssDeleteStepHandler
+        ) {
+
+        final Map<String, TestPackageHandler> handlerMap = new HashMap<>();
+        handlerMap.put(TestPackageLoadJob.VALIDATE, parseAndValidateHandler);
+        handlerMap.put(TestPackageLoadJob.TDS_UPLOAD, tdsLoaderStepHandler);
+        handlerMap.put(TestPackageLoadJob.ART_UPLOAD, artLoaderStepHandler);
+        handlerMap.put(TestPackageLoadJob.TIS_UPLOAD, tisLoaderStepHandler);
+        handlerMap.put(TestPackageLoadJob.THSS_UPLOAD, thssLoaderStepHandler);
+        handlerMap.put(TestPackageDeleteJob.TDS_DELETE, tdsDeleteStepHandler);
+        handlerMap.put(TestPackageDeleteJob.ART_DELETE, artDeleteStepHandler);
+        handlerMap.put(TestPackageDeleteJob.TIS_DELETE, tisDeleteStepHandler);
+        handlerMap.put(TestPackageDeleteJob.THSS_DELETE, thssDeleteStepHandler);
+
+        return handlerMap;
     }
 
     @Bean(name = "xmlMapper")
@@ -58,7 +91,7 @@ public class SupportToolServiceConfiguration {
     @Primary
     @Bean
     public ObjectMapper getObjectMapper() {
-        final ObjectMapper mapper = new ObjectMapper()
+         final ObjectMapper mapper = new ObjectMapper()
             .registerModule(new Jdk8Module())
             .registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);

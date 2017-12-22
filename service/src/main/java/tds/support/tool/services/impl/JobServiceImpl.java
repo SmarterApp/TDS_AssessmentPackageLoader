@@ -6,11 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
-import tds.support.job.ErrorSeverity;
 import tds.support.job.Job;
 import tds.support.job.JobType;
 import tds.support.job.Status;
@@ -28,14 +27,14 @@ public class JobServiceImpl implements JobService {
     private static final Logger log = LoggerFactory.getLogger(JobServiceImpl.class);
     private final JobRepository jobRepository;
     private final TestPackageFileHandler testPackageFileHandler;
-    private final List<TestPackageHandler> testPackageLoaderStepHandlers;
+    private final Map<String, TestPackageHandler> testPackageLoaderStepHandlers;
     private final MessagingService messagingService;
 
     @Autowired
     public JobServiceImpl(final JobRepository jobRepository,
                           final TestPackageFileHandler testPackageFileHandler,
                           final MessagingService messagingService,
-                          final List<TestPackageHandler> testPackageLoaderStepHandlers) {
+                          final Map<String, TestPackageHandler> testPackageLoaderStepHandlers) {
         this.jobRepository = jobRepository;
         this.testPackageFileHandler = testPackageFileHandler;
         this.testPackageLoaderStepHandlers = testPackageLoaderStepHandlers;
@@ -85,7 +84,7 @@ public class JobServiceImpl implements JobService {
 
         // Handle each job step
         job.getSteps().forEach(step ->
-            testPackageLoaderStepHandlers.forEach(handler -> handler.handle(job, step)));
+            testPackageLoaderStepHandlers.get(step.getName()).handle(job, step));
 
         // Only rollback failed "LOADER" jobs
         if (job.getType() == JobType.LOADER && hasJobStepFailure(job)) {

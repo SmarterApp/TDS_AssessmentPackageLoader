@@ -1,5 +1,6 @@
 package tds.support.tool.services.impl;
 
+import com.google.common.collect.ImmutableMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,7 +56,8 @@ public class JobServiceImplTest {
 
     @Before
     public void setUp() {
-        jobService = new JobServiceImpl(mockJobRepository, mockTestPackageFileHandler, mockMessagingService, Arrays.asList(mockTestPackageHandler));
+        jobService = new JobServiceImpl(mockJobRepository, mockTestPackageFileHandler, mockMessagingService,
+            ImmutableMap.of("handler", mockTestPackageHandler));
     }
 
     @Test

@@ -19,11 +19,6 @@ public class THSSDeleteStepHandler implements TestPackageHandler {
 
     @Override
     public void handle(final Job job, final Step step) {
-        if ((job.getType() != JobType.DELETE && job.getType() != JobType.ROLLBACK)
-            || step.getJobStepTarget() != JobStepTarget.THSS) {
-            return;
-        }
-
         try {
             //TODO: Call the THSS DELETE API and update the step with results
             step.setStatus(Status.SUCCESS);

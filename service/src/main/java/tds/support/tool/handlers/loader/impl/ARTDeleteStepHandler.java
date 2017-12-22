@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 import tds.support.job.Error;
 import tds.support.job.ErrorSeverity;
 import tds.support.job.Job;
-import tds.support.job.JobStepTarget;
-import tds.support.job.JobType;
 import tds.support.job.Status;
 import tds.support.job.Step;
 import tds.support.tool.handlers.loader.TestPackageHandler;
@@ -19,11 +17,6 @@ public class ARTDeleteStepHandler implements TestPackageHandler {
 
     @Override
     public void handle(final Job job, final Step step) {
-        if ((job.getType() != JobType.DELETE && job.getType() != JobType.ROLLBACK)
-            || step.getJobStepTarget() != JobStepTarget.ART) {
-            return;
-        }
-
         try {
             //TODO: Call the ART DELETE API and update the step with results
             step.setStatus(Status.SUCCESS);

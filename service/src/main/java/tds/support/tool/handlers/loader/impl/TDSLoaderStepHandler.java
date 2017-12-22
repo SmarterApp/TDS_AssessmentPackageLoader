@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 import tds.support.job.Error;
 import tds.support.job.ErrorSeverity;
 import tds.support.job.Job;
-import tds.support.job.JobStepTarget;
-import tds.support.job.JobType;
 import tds.support.job.Status;
 import tds.support.job.Step;
 import tds.support.tool.handlers.loader.TestPackageHandler;
@@ -17,12 +15,9 @@ import tds.support.tool.handlers.loader.TestPackageHandler;
 @Component
 public class TDSLoaderStepHandler implements TestPackageHandler {
     private static final Logger log = LoggerFactory.getLogger(TDSLoaderStepHandler.class);
+
     @Override
     public void handle(final Job job, final Step step) {
-        if (job.getType() != JobType.LOADER || step.getJobStepTarget() != JobStepTarget.TDS) {
-            return;
-        }
-
         try {
             //TODO: Call the TDS Load API and update the step with results
             step.setStatus(Status.SUCCESS);

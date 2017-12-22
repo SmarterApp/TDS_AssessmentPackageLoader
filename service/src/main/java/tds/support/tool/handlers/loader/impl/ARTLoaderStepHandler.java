@@ -19,10 +19,6 @@ public class ARTLoaderStepHandler implements TestPackageHandler {
 
     @Override
     public void handle(final Job job, final Step step) {
-        if (job.getType() != JobType.LOADER || step.getJobStepTarget() != JobStepTarget.ART) {
-            return;
-        }
-
         try {
             //TODO: Call the ART Load API and update the step with results
             //TODO: Remove this mock "exception"

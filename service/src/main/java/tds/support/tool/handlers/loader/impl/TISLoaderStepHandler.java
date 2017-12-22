@@ -19,10 +19,6 @@ public class TISLoaderStepHandler implements TestPackageHandler {
 
     @Override
     public void handle(final Job job, final Step step) {
-        if (job.getType() != JobType.LOADER || step.getJobStepTarget() != JobStepTarget.TIS) {
-            return;
-        }
-
         try {
             //TODO: Call the TIS Load API and update the step with results
             step.setStatus(Status.SUCCESS);
