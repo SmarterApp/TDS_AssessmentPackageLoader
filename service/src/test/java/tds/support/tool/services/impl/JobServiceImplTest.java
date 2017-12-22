@@ -57,7 +57,7 @@ public class JobServiceImplTest {
     @Before
     public void setUp() {
         jobService = new JobServiceImpl(mockJobRepository, mockTestPackageFileHandler, mockMessagingService,
-            ImmutableMap.of("handler", mockTestPackageHandler));
+            ImmutableMap.of(TestPackageLoadJob.TDS_UPLOAD, mockTestPackageHandler));
     }
 
     @Test
@@ -141,7 +141,7 @@ public class JobServiceImplTest {
         when(mockJobRepository.findOne(loaderJob.getId())).thenReturn(loaderJob);
         jobService.executeJobSteps(loaderJob.getId());
         verify(mockJobRepository).findOne(loaderJob.getId());
-        verify(mockTestPackageHandler, times(6)).handle(eq(loaderJob), isA(Step.class));
+        verify(mockTestPackageHandler).handle(eq(loaderJob), isA(Step.class));
         verify(mockJobRepository, times(2)).save(jobArgumentCaptor.capture());
 
         List<Job> savedJobs = jobArgumentCaptor.getAllValues();
@@ -164,7 +164,7 @@ public class JobServiceImplTest {
         when(mockJobRepository.save(isA(Job.class))).thenReturn(rollbackJob);
         jobService.executeJobSteps(loaderJob.getId());
         verify(mockJobRepository).findOne(loaderJob.getId());
-        verify(mockTestPackageHandler, times(6)).handle(eq(loaderJob), isA(Step.class));
+        verify(mockTestPackageHandler).handle(eq(loaderJob), isA(Step.class));
         verify(mockMessagingService).sendJobStepExecute(isA(String.class));
         // 2 saves for the loader job (in progress/fail status) and 1 for the rollback job creation
         verify(mockJobRepository, times(3)).save(jobArgumentCaptor.capture());

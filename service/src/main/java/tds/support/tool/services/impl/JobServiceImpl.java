@@ -83,8 +83,13 @@ public class JobServiceImpl implements JobService {
         jobRepository.save(job);
 
         // Handle each job step
-        job.getSteps().forEach(step ->
-            testPackageLoaderStepHandlers.get(step.getName()).handle(job, step));
+        job.getSteps().forEach(step -> {
+                if (testPackageLoaderStepHandlers.containsKey(step.getName())) {
+                    testPackageLoaderStepHandlers.get(step.getName()).handle(job, step);
+                } else {
+                    log.error("Attempting to call the step {} when it has not been registered to the loader step handler map.", step.getName());
+                }
+            });
 
         // Only rollback failed "LOADER" jobs
         if (job.getType() == JobType.LOADER && hasJobStepFailure(job)) {
