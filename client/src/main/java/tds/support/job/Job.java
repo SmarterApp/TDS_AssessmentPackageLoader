@@ -9,15 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class Job {
+public abstract class Job {
     @Id
     private String id;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime createdAt = LocalDateTime.now();
     private JobType type;
-    private Status status;
     private List<Step> steps = new ArrayList<>();
 
+    /**
+     * @return The identifier of the {@link tds.support.job.Job}
+     */
     public String getId() {
         return id;
     }
@@ -26,6 +28,9 @@ public class Job {
         this.id = id;
     }
 
+    /**
+     * @return The time and date that the {@link tds.support.job.Job} was created
+     */
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -34,6 +39,9 @@ public class Job {
         this.createdAt = createdAt;
     }
 
+    /**
+     * @return The type of the {@link tds.support.job.Job}
+     */
     public JobType getType() {
         return type;
     }
@@ -42,18 +50,18 @@ public class Job {
         this.type = type;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(final Status status) {
-        this.status = status;
-    }
+    /**
+     * @return The current status of the {@link tds.support.job.Job}
+     */
+    public abstract Status getStatus();
 
     public List<Step> getSteps() {
         return steps;
     }
 
+    /**
+     * @param steps The steps (sequential) of the {@link tds.support.job.Job}
+     */
     public void setSteps(final List<Step> steps) {
         this.steps = steps;
     }
@@ -62,6 +70,12 @@ public class Job {
         steps.add(step);
     }
 
+    /**
+     * A helper method for fetching a {@link tds.support.job.Step} in the job based on its name
+     *
+     * @param stepName The name of the step to fetch
+     * @return The step with the matching name
+     */
     public Optional<Step> getStepByName(final String stepName) {
         return steps.stream().filter(step -> stepName.equals(step.getName())).findFirst();
     }

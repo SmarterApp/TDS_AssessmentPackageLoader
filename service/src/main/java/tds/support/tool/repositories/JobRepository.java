@@ -17,5 +17,5 @@ public interface JobRepository extends MongoRepository<Job, String> {
      * @param type The type of jobs to fetch
      * @return a collection of jobs corresponding to the specified job type
      */
-    List<Job> findByType(JobType type);
+    List<Job> findByTypeIn(JobType... type);
 }

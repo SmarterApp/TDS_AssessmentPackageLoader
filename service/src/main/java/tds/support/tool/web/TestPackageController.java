@@ -45,12 +45,12 @@ public class TestPackageController {
     /**
      * Gets the test package jobs
      *
-     * @param jobType the job type to fetch
+     * @param jobTypes the job types to fetch
      * @return {@link org.springframework.http.ResponseEntity} containing the new {@link tds.support.job.Job}
      * @throws IOException thrown if there is an issue with accessing the file
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Job>> getJobs(@RequestParam(value = "jobType", required = false) JobType jobType) throws IOException {
-        return ResponseEntity.ok(jobService.findJobs(jobType));
+    public ResponseEntity<List<Job>> getJobs(@RequestParam(value = "jobType", required = false) JobType... jobTypes) throws IOException {
+        return ResponseEntity.ok(jobService.findJobs(jobTypes));
     }
 }

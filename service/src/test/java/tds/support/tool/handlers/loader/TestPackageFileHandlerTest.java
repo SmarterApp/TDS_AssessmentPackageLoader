@@ -10,6 +10,7 @@ import java.io.InputStream;
 
 import tds.support.job.Error;
 import tds.support.job.ErrorSeverity;
+import tds.support.job.JobStepTarget;
 import tds.support.job.Status;
 import tds.support.job.Step;
 import tds.support.tool.services.loader.TestPackageService;
@@ -35,7 +36,7 @@ public class TestPackageFileHandlerTest {
 
     @Test
     public void shouldSaveTestPackage() {
-        Step stepToUpdate = new Step("update step", "Update step description");
+        Step stepToUpdate = new Step("update step", JobStepTarget.Internal, "Update step description");
         Step step = fileHandler.handleTestPackage(stepToUpdate,"jobId", "packageName", mockTestPackageStream, 100L);
 
         verify(mockTestPackageService).saveTestPackage("jobId", "packageName", mockTestPackageStream, 100L);
@@ -46,8 +47,9 @@ public class TestPackageFileHandlerTest {
 
     @Test
     public void shouldReturnErrorsInStepDuringException() {
-        Step stepToUpdate = new Step("update step", "Update step description");
-        when(mockTestPackageService.saveTestPackage("jobId", "packageName", mockTestPackageStream, 100L)).thenThrow(new RuntimeException("Fail"));
+        Step stepToUpdate = new Step("update step", JobStepTarget.Internal, "Update step description");
+        when(mockTestPackageService.saveTestPackage("jobId", "packageName", mockTestPackageStream, 100L))
+            .thenThrow(new RuntimeException("Fail"));
 
         Step step = fileHandler.handleTestPackage(stepToUpdate,"jobId", "packageName", mockTestPackageStream, 100L);
 

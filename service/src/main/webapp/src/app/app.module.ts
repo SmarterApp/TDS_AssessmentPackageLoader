@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {RouterModule} from "@angular/router";
 import {routes} from "./app.routes";
-import {LoaderModule} from "./testpackage/loader/loader.module";
+import {TestPackageModule} from "./testpackage/loader/test-package.module";
 import {BreadcrumbsComponent} from "./breadcrumbs/breadcrumbs.component";
 import {CommonModule} from "./shared/common.module";
 
@@ -16,7 +16,7 @@ import {CommonModule} from "./shared/common.module";
   imports: [
     BrowserModule,
     CommonModule,
-    LoaderModule,
+    TestPackageModule,
     RouterModule.forRoot(routes)
   ],
   providers: [],

@@ -1,5 +1,5 @@
 import {Routes} from "@angular/router";
-import {LoaderComponent} from "./testpackage/loader/loader.component";
+import {TestPackageComponent} from "./testpackage/loader/test-package.component";
 import {UploadLoaderJobComponent} from "./testpackage/loader/jobs/upload/upload-loader-job.component";
 
 export const routes: Routes = [
@@ -23,7 +23,7 @@ export const routes: Routes = [
           {
             path: '',
             pathMatch: 'prefix',
-            component: LoaderComponent
+            component: TestPackageComponent
           }, {
             path: 'upload',
             pathMatch: 'prefix',

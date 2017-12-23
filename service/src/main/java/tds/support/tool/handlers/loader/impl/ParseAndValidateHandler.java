@@ -10,7 +10,7 @@ import tds.support.tool.handlers.loader.TestPackageHandler;
 public class ParseAndValidateHandler implements TestPackageHandler {
 
     @Override
-    public Step handle(final Job job, final Step step) {
-        return null;
+    public void handle(final Job job, final Step step) {
+        return;
     }
 }
