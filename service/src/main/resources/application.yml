@@ -19,6 +19,7 @@ security:
 
 server:
   port: 8080
+  context-path: /supporttool
   undertow:
     buffer-size: 16384
     io-threads: 64
