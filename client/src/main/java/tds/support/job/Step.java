@@ -13,6 +13,7 @@ public class Step {
     private Status status;
     private String name;
     private JobStepTarget target;
+    private boolean complete;
 
     /**
      * For frameworks/serialization
@@ -93,5 +94,13 @@ public class Step {
      */
     public JobStepTarget getJobStepTarget() {
         return this.target;
+    }
+
+    public void setComplete(final boolean complete) {
+        this.complete = complete;
+    }
+
+    public boolean isComplete() {
+        return complete;
     }
 }

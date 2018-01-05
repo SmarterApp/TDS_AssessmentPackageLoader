@@ -1,9 +1,12 @@
 package tds.support.tool.services.loader.impl;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -22,7 +25,8 @@ public class TestPackageServiceImpl implements TestPackageService {
     private final XmlMapper xmlMapper;
 
     @Autowired
-    public TestPackageServiceImpl(final TestPackageRepository testPackageRepository, final TestPackageMetadataRepository testPackageMetadataRepository,
+    public TestPackageServiceImpl(final TestPackageRepository testPackageRepository,
+                                  final TestPackageMetadataRepository testPackageMetadataRepository,
                                   final MongoTestPackageRepository mongoTestPackageRepository,
                                   final XmlMapper xmlMapper) {
         this.testPackageRepository = testPackageRepository;
@@ -33,19 +37,26 @@ public class TestPackageServiceImpl implements TestPackageService {
 
     @Override
     public TestPackageMetadata saveTestPackage(final String jobId, final String packageName, final InputStream testPackageInputStream, long testPackageSize) {
-        String location = testPackageRepository.savePackage(jobId, packageName, testPackageInputStream, testPackageSize);
         try {
-            final TestPackage testPackage = xmlMapper.readValue(testPackageInputStream, TestPackage.class);
+            // Create a copy of the input stream (since it can only be read from once, and we need it twice (for persistence and deserialization)
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            IOUtils.copy(testPackageInputStream, baos);
+            byte[] bytes = baos.toByteArray();
+            ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+
+            final String location = testPackageRepository.savePackage(jobId, packageName, bais, testPackageSize);
+            // Reset the input stream so it can be read from twice
+            bais.reset();
+
+            final TestPackage testPackage = xmlMapper.readValue(bais, TestPackage.class);
             mongoTestPackageRepository.save(testPackage);
+            TestPackageMetadata metadata = new TestPackageMetadata();
+            metadata.setFileLocation(location);
+            metadata.setJobId(jobId);
+            return testPackageMetadataRepository.save(metadata);
         } catch (IOException e) {
             throw new RuntimeException(
                 String.format("Exception occurred while deserializing test package. JobID: %s Package Name: %s", jobId, packageName), e);
         }
-
-        TestPackageMetadata metadata = new TestPackageMetadata();
-        metadata.setFileLocation(location);
-        metadata.setJobId(jobId);
-
-        return testPackageMetadataRepository.save(metadata);
     }
 }

@@ -30,5 +30,7 @@ public class TDSDeleteStepHandler implements TestPackageHandler {
             step.setStatus(Status.FAIL);
             step.addError(new Error("Error occurred while communicating with TDS", ErrorSeverity.CRITICAL));
         }
+
+        step.setComplete(true);
     }
 }

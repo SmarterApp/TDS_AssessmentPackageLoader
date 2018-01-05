@@ -3,6 +3,7 @@ package tds.support.tool.services.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,7 @@ public class JobServiceImpl implements JobService {
     public JobServiceImpl(final JobRepository jobRepository,
                           final TestPackageFileHandler testPackageFileHandler,
                           final MessagingService messagingService,
+                          @Qualifier("testPackageLoaderStepHandlers")
                           final Map<String, TestPackageHandler> testPackageLoaderStepHandlers) {
         this.jobRepository = jobRepository;
         this.testPackageFileHandler = testPackageFileHandler;
@@ -83,7 +85,9 @@ public class JobServiceImpl implements JobService {
         jobRepository.save(job);
 
         // Handle each job step
-        job.getSteps().forEach(step -> {
+        job.getSteps().stream()
+            .filter(step -> !step.isComplete())
+            .forEach(step -> {
                 if (testPackageLoaderStepHandlers.containsKey(step.getName())) {
                     testPackageLoaderStepHandlers.get(step.getName()).handle(job, step);
                 } else {

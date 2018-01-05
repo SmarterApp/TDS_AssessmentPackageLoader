@@ -29,5 +29,7 @@ public class TDSLoaderStepHandler implements TestPackageHandler {
             step.setStatus(Status.FAIL);
             step.addError(new Error("Error occurred while communicating with TDS", ErrorSeverity.CRITICAL));
         }
+
+        step.setComplete(true);
     }
 }
