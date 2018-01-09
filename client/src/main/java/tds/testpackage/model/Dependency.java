@@ -1,6 +1,7 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
@@ -30,10 +31,12 @@ public abstract class Dependency {
     protected abstract Optional<String> getEnabled();
     protected abstract Optional<String> getDefault();
 
+    @JsonProperty("enabled")
     public boolean enabled() {
         return parseBoolean(getEnabled(), true);
     }
 
+    @JsonProperty("default")
     public boolean defaultValue() {
         return parseBoolean(getDefault(), false);
     }

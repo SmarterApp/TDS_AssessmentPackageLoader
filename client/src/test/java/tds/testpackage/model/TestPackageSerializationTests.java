@@ -29,22 +29,21 @@ public class TestPackageSerializationTests {
 	private XmlMapper xmlMapper;
 
 	private String expectedJSON = "{\"publisher\":\"SBAC_PT\",\"publishDate\":\"2015-08-19T18:13:51.0\",\"subject\":\"MATH\",\"type\":\"summative\",\"version\":\"8185\",\"bankKey\":187,\"academicYear\":\"2017-2018\"," +
-		"\"blueprint\":[{\"id\":\"SBAC-IRP-COMBINED-MATH-11\",\"type\":\"combined\",\"scoring\":null}]," +
+		"\"blueprint\":[{\"id\":\"SBAC-IRP-COMBINED-MATH-11\",\"type\":\"combined\"}]," +
 		"\"assessments\":[{\"id\":\"SBAC-IRP-CAT-MATH-11\",\"label\":\"IRP CAT Grade 11 Math\",\"grades\":[{\"value\":\"11\"}]," +
 		"\"segments\":[{\"id\":\"SBAC-IRP-Perf-MATH-11\",\"algorithmType\":\"fixedform\",\"algorithmImplementation\":\"FAIRWAY ROUNDROBIN\"," +
-		"\"pool\":[{\"id\":\"id\",\"stimulus\":null,\"items\":[{\"id\":\"id\",\"type\":\"type\",\"position\":null,\"presentations\":[\"ENU\"]," +
+		"\"pool\":[{\"id\":\"id\",\"items\":[{\"id\":\"id\",\"type\":\"type\",\"presentations\":[\"ENU\"]," +
 		"\"blueprintReferences\":[{\"idRef\":\"SBAC-IRP-CAT-MATH-11\"}]," +
 		"\"itemScoreDimension\":{\"measurementModel\":\"IRT3PLn\",\"scorePoints\":\"1\",\"weight\":1.0," +
 		"\"itemScoreParameters\":[{\"measurementParameter\":\"a\",\"value\":6.3}]}}]}]}]," +
-		"\"tools\":[{\"name\":\"tool\",\"studentPackageFieldName\":\"TDSAcc\",\"allowChange\":null,\"required\":null,\"sortOrder\":null,\"disableOnGuest\":null," +
+		"\"tools\":[{\"name\":\"tool\",\"studentPackageFieldName\":\"TDSAcc\"," +
 		"\"options\":[{\"code\":\"TDS_Other\",\"sortOrder\":0,\"dependencies\":[{\"ifToolType\":\"ifToolType\",\"ifToolCode\":\"ifToolCode\"}]}]}]}]}";
-
 
 	@Before
 	public void setUp() {
 		objectMapper = new ObjectMapper();
 		objectMapper.registerModule(new Jdk8Module());
-		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+		objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
 
 		xmlMapper = new XmlMapper();
 		xmlMapper.registerModule(new Jdk8Module());
@@ -149,6 +148,19 @@ public class TestPackageSerializationTests {
 		assertThat(testPackage.getSubject()).isEqualTo("MATH");
 	}
 
+	/**
+	 * Ensure that optional values are not deserialized as null.
+	 * 
+	 * @throws IOException
+	 */
+	@Test
+	public void shouldDeserializeWithoutNulls() throws IOException {
+		InputStream inputStream = TestPackageSerializationTests.class.getClassLoader().getResourceAsStream("scoring-rules.xml");
+		TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
+		String json = objectMapper.writeValueAsString(testPackage);
+		assertThat(json.indexOf("null")).isEqualTo(-1);
+	}
+
 
 	@Test
 	public void shouldDeserializeFromXmlWithBooleanDefaults() throws IOException {
@@ -173,5 +185,24 @@ public class TestPackageSerializationTests {
 
 		assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
 		assertThat(testPackage.getSubject()).isEqualTo("MATH");
+	}
+
+	/**
+	 * Both the files below represent the same test package:
+	 * V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml and V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.json
+	 *
+	 * Deserializing xml and json formats and comparing the in memory object model.
+	 *
+	 * @throws IOException
+	 */
+	@Test
+	public void shouldDeserializeFromJsonAndXmlAsSameObject() throws IOException {
+		InputStream xmlInputStream = TestPackageSerializationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml");
+		InputStream jsonInputStream = TestPackageSerializationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.json");
+
+		TestPackage testPackageXml = xmlMapper.readValue(xmlInputStream, TestPackage.class);
+		TestPackage testPackageJson = objectMapper.readValue(jsonInputStream, TestPackage.class);
+
+		assertThat(testPackageXml).isEqualTo(testPackageJson);
 	}
 }

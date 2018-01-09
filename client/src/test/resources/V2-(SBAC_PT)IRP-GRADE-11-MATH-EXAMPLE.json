@@ -1,0 +1,2766 @@
+{
+  "publisher": "SBAC_PT",
+  "publishDate": "2015-08-19T18:13:51.0",
+  "subject": "MATH",
+  "type": "summative",
+  "version": "8185",
+  "bankKey": 187,
+  "academicYear": "2017-2018",
+  "blueprint": [
+    {
+      "id": "SBAC-IRP-COMBINED-MATH-11",
+      "type": "combined",
+      "scoring": {
+        "performanceLevels": [
+          {
+            "scaledLo": 2280,
+            "scaledHi": 2543,
+            "pLevel": 1
+          },
+          {
+            "scaledLo": 2543,
+            "scaledHi": 2628,
+            "pLevel": 2
+          },
+          {
+            "scaledLo": 2628,
+            "scaledHi": 2718,
+            "pLevel": 3
+          },
+          {
+            "scaledLo": 2718,
+            "scaledHi": 2862,
+            "pLevel": 4
+          }
+        ],
+        "rules": [
+          {
+            "name": "RawScore",
+            "computationOrder": 110
+          },
+          {
+            "name": "SBACCATTheta",
+            "computationOrder": 20,
+            "parameters": [
+              {
+                "id": "686D3098-28B0-40A0-AC92-EB71DD389125",
+                "name": "LOT",
+                "type": "double",
+                "position": 1,
+                "values": [
+                  {
+                    "value": "-2.9564"
+                  }
+                ]
+              },
+              {
+                "id": "686D3098-28B0-40A0-AC92-EB71DD389125",
+                "name": "HOT",
+                "type": "double",
+                "position": 2,
+                "values": [
+                  {
+                    "value": "4.3804"
+                  }
+                ]
+              },
+              {
+                "id": "686D3098-28B0-40A0-AC92-EB71DD389125",
+                "name": "seLimit",
+                "type": "double",
+                "position": 3,
+                "values": [
+                  {
+                    "value": "2.5"
+                  }
+                ]
+              },
+              {
+                "id": "686D3098-28B0-40A0-AC92-EB71DD389125",
+                "name": "averageA",
+                "type": "double",
+                "position": 4,
+                "values": [
+                  {
+                    "value": "0.53"
+                  }
+                ]
+              },
+              {
+                "id": "686D3098-28B0-40A0-AC92-EB71DD389125",
+                "name": "averageB",
+                "type": "double",
+                "position": 5,
+                "values": [
+                  {
+                    "value": "2.71"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "SBACAttemptedness",
+            "computationOrder": 10,
+            "parameters": [
+              {
+                "id": "686D3098-28B0-40A0-AC92-EB71DD389125",
+                "name": "testPart",
+                "type": "int",
+                "position": 1,
+                "values": [
+                  {
+                    "index": "SBAC-IRP-CAT-COMBINED-MATH-11",
+                    "value": "1"
+                  },
+                  {
+                    "index": "SBAC-IRP-Perf-COMBINED-MATH-11",
+                    "value": "2"
+                  }
+                ],
+                "properties": [
+                  {
+                    "name": "indextype",
+                    "value": "string"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "blueprintElements": [
+        {
+          "id": "SBAC-IRP-CAT-MATH-11",
+          "type": "assessment"
+        },
+        {
+          "id": "SBAC-IRP-Perf-MATH-11",
+          "type": "assessment"
+        }
+      ]
+    },
+    {
+      "id": "G11Math_Claim1_MC/MS",
+      "type": "affinitygroup"
+    },
+    {
+      "id": "G11Math_Claim2/4",
+      "type": "affinitygroup"
+    },
+    {
+      "id": "G11Math_DOK2",
+      "type": "affinitygroup"
+    },
+    {
+      "id": "SOCK2",
+      "type": "sock",
+      "scoring": {
+        "rules": [
+          {
+            "name": "ScaleScore",
+            "computationOrder": 71
+          },
+          {
+            "name": "SBACCATMultiStrandTheta",
+            "computationOrder": 20,
+            "parameters": [
+              {
+                "id": "686D3098-28B0-40A0-AC92-EB71DD389125",
+                "name": "LOT",
+                "type": "double",
+                "position": 1,
+                "values": [
+                  {
+                    "value": "-2.9564"
+                  }
+                ]
+              },
+              {
+                "id": "686D3098-28B0-40A0-AC92-EB71DD389125",
+                "name": "HOT",
+                "type": "double",
+                "position": 2,
+                "values": [
+                  {
+                    "value": "4.3804"
+                  }
+                ]
+              },
+              {
+                "id": "686D3098-28B0-40A0-AC92-EB71DD389125",
+                "name": "seLimit",
+                "type": "double",
+                "position": 3,
+                "values": [
+                  {
+                    "value": "2.5"
+                  }
+                ]
+              },
+              {
+                "id": "686D3098-28B0-40A0-AC92-EB71DD389125",
+                "name": "strands",
+                "type": "string",
+                "position": 4,
+                "values": [
+                  {
+                    "index": "1",
+                    "value": "2"
+                  },
+                  {
+                    "index": "2",
+                    "value": "4"
+                  }
+                ]
+              },
+              {
+                "id": "686D3098-28B0-40A0-AC92-EB71DD389125",
+                "name": "averageA",
+                "type": "double",
+                "position": 5,
+                "values": [
+                  {
+                    "value": "0.53"
+                  }
+                ]
+              },
+              {
+                "id": "686D3098-28B0-40A0-AC92-EB71DD389125",
+                "name": "averageB",
+                "type": "double",
+                "position": 6,
+                "values": [
+                  {
+                    "value": "2.71"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "1",
+      "type": "strand",
+      "blueprintElements": [
+        {
+          "id": "1|A-REI",
+          "type": "contentlevel",
+          "blueprintElements": [
+            {
+              "id": "1|A-REI|H",
+              "type": "contentlevel",
+              "blueprintElements": [
+                {
+                  "id": "1|A-REI|H|m",
+                  "type": "contentlevel",
+                  "blueprintElements": [
+                    {
+                      "id": "1|A-REI|H|m|A-REI.2",
+                      "type": "contentlevel"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "1|A-REI|I",
+              "type": "contentlevel",
+              "blueprintElements": [
+                {
+                  "id": "1|A-REI|I|m",
+                  "type": "contentlevel",
+                  "blueprintElements": [
+                    {
+                      "id": "1|A-REI|I|m|A-REI.4b",
+                      "type": "contentlevel"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1|A-SSE",
+          "type": "contentlevel",
+          "blueprintElements": [
+            {
+              "id": "1|A-SSE|D",
+              "type": "contentlevel",
+              "blueprintElements": [
+                {
+                  "id": "1|A-SSE|D|m",
+                  "type": "contentlevel",
+                  "blueprintElements": [
+                    {
+                      "id": "1|A-SSE|D|m|A-SSE.2",
+                      "type": "contentlevel"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "1|A-SSE|E",
+              "type": "contentlevel",
+              "blueprintElements": [
+                {
+                  "id": "1|A-SSE|E|m",
+                  "type": "contentlevel",
+                  "blueprintElements": [
+                    {
+                      "id": "1|A-SSE|E|m|A-SSE.3b",
+                      "type": "contentlevel"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1|F-IF",
+          "type": "contentlevel",
+          "blueprintElements": [
+            {
+              "id": "1|F-IF|K",
+              "type": "contentlevel",
+              "blueprintElements": [
+                {
+                  "id": "1|F-IF|K|m",
+                  "type": "contentlevel",
+                  "blueprintElements": [
+                    {
+                      "id": "1|F-IF|K|m|F-IF.1",
+                      "type": "contentlevel"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "1|F-IF|M",
+              "type": "contentlevel",
+              "blueprintElements": [
+                {
+                  "id": "1|F-IF|M|m",
+                  "type": "contentlevel",
+                  "blueprintElements": [
+                    {
+                      "id": "1|F-IF|M|m|F-IF.7a",
+                      "type": "contentlevel"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1|G-SRT",
+          "type": "contentlevel",
+          "blueprintElements": [
+            {
+              "id": "1|G-SRT|P",
+              "type": "contentlevel",
+              "blueprintElements": [
+                {
+                  "id": "1|G-SRT|P|m",
+                  "type": "contentlevel",
+                  "blueprintElements": [
+                    {
+                      "id": "1|G-SRT|P|m|G-SRT.8",
+                      "type": "contentlevel"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1|N-Q",
+          "type": "contentlevel",
+          "blueprintElements": [
+            {
+              "id": "1|N-Q|C",
+              "type": "contentlevel",
+              "blueprintElements": [
+                {
+                  "id": "1|N-Q|C|m",
+                  "type": "contentlevel",
+                  "blueprintElements": [
+                    {
+                      "id": "1|N-Q|C|m|N-Q.1",
+                      "type": "contentlevel"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "1|N-RN",
+          "type": "contentlevel",
+          "blueprintElements": [
+            {
+              "id": "1|N-RN|A",
+              "type": "contentlevel",
+              "blueprintElements": [
+                {
+                  "id": "1|N-RN|A|a/s",
+                  "type": "contentlevel",
+                  "blueprintElements": [
+                    {
+                      "id": "1|N-RN|A|a/s|N-RN.2",
+                      "type": "contentlevel"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "type": "strand",
+      "blueprintElements": [
+        {
+          "id": "2|A-CED",
+          "type": "contentlevel",
+          "blueprintElements": [
+            {
+              "id": "2|A-CED|A",
+              "type": "contentlevel"
+            }
+          ]
+        },
+        {
+          "id": "2|F-IF",
+          "type": "contentlevel",
+          "blueprintElements": [
+            {
+              "id": "2|F-IF|A",
+              "type": "contentlevel"
+            }
+          ]
+        },
+        {
+          "id": "2|G-SRT",
+          "type": "contentlevel",
+          "blueprintElements": [
+            {
+              "id": "2|G-SRT|D",
+              "type": "contentlevel",
+              "blueprintElements": [
+                {
+                  "id": "2|G-SRT|D|NA",
+                  "type": "contentlevel",
+                  "blueprintElements": [
+                    {
+                      "id": "2|G-SRT|D|NA|NA",
+                      "type": "contentlevel"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "2|S-CP",
+          "type": "contentlevel",
+          "blueprintElements": [
+            {
+              "id": "2|S-CP|A",
+              "type": "contentlevel"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "type": "strand",
+      "scoring": {
+        "rules": [
+          {
+            "name": "RawScore",
+            "computationOrder": 142
+          }
+        ]
+      },
+      "blueprintElements": [
+        {
+          "id": "3|A-REI",
+          "type": "contentlevel",
+          "blueprintElements": [
+            {
+              "id": "3|A-REI|D",
+              "type": "contentlevel",
+              "blueprintElements": [
+                {
+                  "id": "3|A-REI|D|NA",
+                  "type": "contentlevel",
+                  "blueprintElements": [
+                    {
+                      "id": "3|A-REI|D|NA|NA",
+                      "type": "contentlevel"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "3|A-REI|G",
+              "type": "contentlevel",
+              "blueprintElements": [
+                {
+                  "id": "3|A-REI|G|NA",
+                  "type": "contentlevel",
+                  "blueprintElements": [
+                    {
+                      "id": "3|A-REI|G|NA|NA",
+                      "type": "contentlevel"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3|F-IF",
+          "type": "contentlevel",
+          "blueprintElements": [
+            {
+              "id": "3|F-IF|B",
+              "type": "contentlevel"
+            }
+          ]
+        },
+        {
+          "id": "3|G-SRT",
+          "type": "contentlevel",
+          "blueprintElements": [
+            {
+              "id": "3|G-SRT|A",
+              "type": "contentlevel",
+              "blueprintElements": [
+                {
+                  "id": "3|G-SRT|A|NA",
+                  "type": "contentlevel",
+                  "blueprintElements": [
+                    {
+                      "id": "3|G-SRT|A|NA|NA",
+                      "type": "contentlevel"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "3|N-RN",
+          "type": "contentlevel",
+          "blueprintElements": [
+            {
+              "id": "3|N-RN|E",
+              "type": "contentlevel",
+              "blueprintElements": [
+                {
+                  "id": "3|N-RN|E|NA",
+                  "type": "contentlevel",
+                  "blueprintElements": [
+                    {
+                      "id": "3|N-RN|E|NA|NA",
+                      "type": "contentlevel"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "type": "strand",
+      "blueprintElements": [
+        {
+          "id": "4|G-MG",
+          "type": "contentlevel",
+          "blueprintElements": [
+            {
+              "id": "4|G-MG|A",
+              "type": "contentlevel",
+              "blueprintElements": [
+                {
+                  "id": "4|G-MG|A|NA",
+                  "type": "contentlevel",
+                  "blueprintElements": [
+                    {
+                      "id": "4|G-MG|A|NA|NA",
+                      "type": "contentlevel"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "4|S-ID",
+          "type": "contentlevel",
+          "blueprintElements": [
+            {
+              "id": "4|S-ID|A",
+              "type": "contentlevel"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "assessments": [
+    {
+      "id": "SBAC-IRP-CAT-MATH-11",
+      "label": "IRP CAT Grade 11 Math",
+      "grades": [
+        {
+          "value": "11"
+        }
+      ],
+      "segments": [
+        {
+          "id": "SBAC-IRP-CAT-MATH-11",
+          "algorithmType": "adaptive",
+          "algorithmImplementation": "AIR ADAPTIVE",
+          "segmentBlueprint": [
+            {
+              "idRef": "SBAC-IRP-CAT-MATH-11",
+              "minExamItems": 8,
+              "maxExamItems": 8,
+              "itemSelection": [
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                },
+                {
+                  "name": "startability",
+                  "value": "0.506053"
+                },
+                {
+                  "name": "startinfo",
+                  "value": "0.2"
+                },
+                {
+                  "name": "cset1size",
+                  "value": "5"
+                },
+                {
+                  "name": "cset1order",
+                  "value": "ABILITY"
+                },
+                {
+                  "name": "cset2random",
+                  "value": "3"
+                },
+                {
+                  "name": "cset2initialrandom",
+                  "value": "18"
+                },
+                {
+                  "name": "abilityoffset",
+                  "value": "0"
+                },
+                {
+                  "name": "itemweight",
+                  "value": "1"
+                },
+                {
+                  "name": "slope",
+                  "value": "79.3"
+                },
+                {
+                  "name": "intercept",
+                  "value": "2514.9"
+                },
+                {
+                  "name": "precisiontarget",
+                  "value": "1"
+                },
+                {
+                  "name": "adaptivecut",
+                  "value": "0"
+                },
+                {
+                  "name": "toocloseses",
+                  "value": "0"
+                },
+                {
+                  "name": "abilityweight",
+                  "value": "1"
+                },
+                {
+                  "name": "computeabilityestimates",
+                  "value": "false"
+                },
+                {
+                  "name": "rcabilityweight",
+                  "value": "0"
+                },
+                {
+                  "name": "precisionTargetMetWeight",
+                  "value": "1"
+                },
+                {
+                  "name": "precisionTargetNotMetWeight",
+                  "value": "1"
+                },
+                {
+                  "name": "terminationOverallInfo",
+                  "value": "false"
+                },
+                {
+                  "name": "terminationRCInfo",
+                  "value": "false"
+                },
+                {
+                  "name": "terminationMinCount",
+                  "value": "true"
+                },
+                {
+                  "name": "terminationTooClose",
+                  "value": "false"
+                },
+                {
+                  "name": "terminationFlagsAnd",
+                  "value": "false"
+                },
+                {
+                  "name": "offGradeMinItemsAdministered",
+                  "value": "30"
+                },
+                {
+                  "name": "proficientPLevel",
+                  "value": "3"
+                },
+                {
+                  "name": "offGradeProbAffectProficiency",
+                  "value": "0.01"
+                }
+              ]
+            },
+            {
+              "idRef": "1",
+              "minExamItems": 4,
+              "maxExamItems": 4,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                },
+                {
+                  "name": "adaptivecut",
+                  "value": "-31.7137"
+                },
+                {
+                  "name": "startability",
+                  "value": "-31.7137"
+                },
+                {
+                  "name": "startinfo",
+                  "value": "0"
+                },
+                {
+                  "name": "scalar",
+                  "value": "5"
+                }
+              ]
+            },
+            {
+              "idRef": "2",
+              "minExamItems": 0,
+              "maxExamItems": 2,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                },
+                {
+                  "name": "adaptivecut",
+                  "value": "-31.7137"
+                },
+                {
+                  "name": "startability",
+                  "value": "-31.7137"
+                },
+                {
+                  "name": "startinfo",
+                  "value": "0"
+                },
+                {
+                  "name": "scalar",
+                  "value": "5"
+                }
+              ]
+            },
+            {
+              "idRef": "3",
+              "minExamItems": 2,
+              "maxExamItems": 2,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                },
+                {
+                  "name": "adaptivecut",
+                  "value": "-31.7137"
+                },
+                {
+                  "name": "startability",
+                  "value": "-31.7137"
+                },
+                {
+                  "name": "startinfo",
+                  "value": "0"
+                },
+                {
+                  "name": "scalar",
+                  "value": "5"
+                }
+              ]
+            },
+            {
+              "idRef": "4",
+              "minExamItems": 0,
+              "maxExamItems": 2,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                },
+                {
+                  "name": "adaptivecut",
+                  "value": "-31.7137"
+                },
+                {
+                  "name": "startability",
+                  "value": "-31.7137"
+                },
+                {
+                  "name": "startinfo",
+                  "value": "0"
+                },
+                {
+                  "name": "scalar",
+                  "value": "5"
+                }
+              ]
+            },
+            {
+              "idRef": "1|A-REI",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|A-SSE",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|F-IF",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|G-SRT",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|N-Q",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|N-RN",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "2|G-SRT",
+              "minExamItems": 0,
+              "maxExamItems": 0,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "2|S-CP",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "3|A-REI",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "3|G-SRT",
+              "minExamItems": 0,
+              "maxExamItems": 0,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "3|N-RN",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "4|G-MG",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|A-REI|H",
+              "minExamItems": 0,
+              "maxExamItems": 0,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|A-REI|I",
+              "minExamItems": 0,
+              "maxExamItems": 0,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|A-SSE|D",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|A-SSE|E",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|F-IF|K",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|F-IF|M",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|G-SRT|P",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|N-Q|C",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|N-RN|A",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "2|G-SRT|D",
+              "minExamItems": 0,
+              "maxExamItems": 0,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "2|S-CP|A",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "3|A-REI|D",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "3|A-REI|G",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "3|G-SRT|A",
+              "minExamItems": 0,
+              "maxExamItems": 0,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "3|N-RN|E",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "4|G-MG|A",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|A-REI|H|m",
+              "minExamItems": 0,
+              "maxExamItems": 0,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|A-REI|I|m",
+              "minExamItems": 0,
+              "maxExamItems": 0,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|A-SSE|D|m",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|A-SSE|E|m",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|F-IF|K|m",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|F-IF|M|m",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|G-SRT|P|m",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|N-Q|C|m",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|N-RN|A|a/s",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "2|G-SRT|D|NA",
+              "minExamItems": 0,
+              "maxExamItems": 0,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "3|A-REI|D|NA",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "3|A-REI|G|NA",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "3|G-SRT|A|NA",
+              "minExamItems": 0,
+              "maxExamItems": 0,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "3|N-RN|E|NA",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "4|G-MG|A|NA",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|A-REI|H|m|A-REI.2",
+              "minExamItems": 0,
+              "maxExamItems": 0,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|A-REI|I|m|A-REI.4b",
+              "minExamItems": 0,
+              "maxExamItems": 0,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|A-SSE|D|m|A-SSE.2",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|A-SSE|E|m|A-SSE.3b",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|F-IF|K|m|F-IF.1",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|F-IF|M|m|F-IF.7a",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|G-SRT|P|m|G-SRT.8",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|N-Q|C|m|N-Q.1",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "1|N-RN|A|a/s|N-RN.2",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "2|G-SRT|D|NA|NA",
+              "minExamItems": 0,
+              "maxExamItems": 0,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "3|A-REI|D|NA|NA",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "3|A-REI|G|NA|NA",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "3|G-SRT|A|NA|NA",
+              "minExamItems": 0,
+              "maxExamItems": 0,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "3|N-RN|E|NA|NA",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "4|G-MG|A|NA|NA",
+              "minExamItems": 0,
+              "maxExamItems": 1,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "G11Math_Claim1_MC/MS",
+              "minExamItems": 2,
+              "maxExamItems": 2,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "G11Math_Claim2/4",
+              "minExamItems": 2,
+              "maxExamItems": 2,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "idRef": "G11Math_DOK2",
+              "minExamItems": 2,
+              "maxExamItems": 8,
+              "itemSelection": [
+                {
+                  "name": "isstrictmax",
+                  "value": "true"
+                },
+                {
+                  "name": "bpweight",
+                  "value": "1"
+                }
+              ]
+            }
+          ],
+          "pool": [
+            {
+              "id": "I-187-1899",
+              "items": [
+                {
+                  "id": "1899",
+                  "type": "EQ",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "G11Math_DOK2"
+                    },
+                    {
+                      "idRef": "1|N-RN|A|a/s|N-RN.2"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRT3PLn",
+                    "scorePoints": "1",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 1
+                      },
+                      {
+                        "measurementParameter": "b",
+                        "value": 1e-15
+                      },
+                      {
+                        "measurementParameter": "c",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-1915",
+              "items": [
+                {
+                  "id": "1915",
+                  "type": "MI",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "1|A-SSE|D|m|A-SSE.2"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRT3PLn",
+                    "scorePoints": "1",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 1
+                      },
+                      {
+                        "measurementParameter": "b",
+                        "value": 1e-15
+                      },
+                      {
+                        "measurementParameter": "c",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-1916",
+              "items": [
+                {
+                  "id": "1916",
+                  "type": "EQ",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "G11Math_DOK2"
+                    },
+                    {
+                      "idRef": "1|A-SSE|E|m|A-SSE.3b"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRT3PLn",
+                    "scorePoints": "1",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 0.10172
+                      },
+                      {
+                        "measurementParameter": "b",
+                        "value": 2.54577
+                      },
+                      {
+                        "measurementParameter": "c",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-1926",
+              "items": [
+                {
+                  "id": "1926",
+                  "type": "MS",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "G11Math_Claim1_MC/MS"
+                    },
+                    {
+                      "idRef": "G11Math_DOK2"
+                    },
+                    {
+                      "idRef": "1|A-REI|H|m|A-REI.2"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRT3PLn",
+                    "scorePoints": "1",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 0.33779
+                      },
+                      {
+                        "measurementParameter": "b",
+                        "value": 4.64868
+                      },
+                      {
+                        "measurementParameter": "c",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-1927",
+              "items": [
+                {
+                  "id": "1927",
+                  "type": "TI",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "G11Math_Claim1_MC/MS"
+                    },
+                    {
+                      "idRef": "G11Math_DOK2"
+                    },
+                    {
+                      "idRef": "2|S-CP|A"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRTGPC",
+                    "scorePoints": "3",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 1
+                      },
+                      {
+                        "measurementParameter": "b0",
+                        "value": 1e-15
+                      },
+                      {
+                        "measurementParameter": "b1",
+                        "value": 1e-15
+                      },
+                      {
+                        "measurementParameter": "b2",
+                        "value": 1e-15
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-1929",
+              "items": [
+                {
+                  "id": "1929",
+                  "type": "EQ",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "G11Math_DOK2"
+                    },
+                    {
+                      "idRef": "1|A-REI|I|m|A-REI.4b"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRT3PLn",
+                    "scorePoints": "1",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 0.59889
+                      },
+                      {
+                        "measurementParameter": "b",
+                        "value": -1.68966
+                      },
+                      {
+                        "measurementParameter": "c",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-1930",
+              "items": [
+                {
+                  "id": "1930",
+                  "type": "EQ",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "G11Math_DOK2"
+                    },
+                    {
+                      "idRef": "1|G-SRT|P|m|G-SRT.8"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRT3PLn",
+                    "scorePoints": "1",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 1
+                      },
+                      {
+                        "measurementParameter": "b",
+                        "value": 1e-15
+                      },
+                      {
+                        "measurementParameter": "c",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-1936",
+              "items": [
+                {
+                  "id": "1936",
+                  "type": "MI",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "1|G-SRT|P|m|G-SRT.8"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRT3PLn",
+                    "scorePoints": "1",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 1
+                      },
+                      {
+                        "measurementParameter": "b",
+                        "value": -0.02856
+                      },
+                      {
+                        "measurementParameter": "c",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-1948",
+              "items": [
+                {
+                  "id": "1948",
+                  "type": "GI",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "G11Math_DOK2"
+                    },
+                    {
+                      "idRef": "1|F-IF|K|m|F-IF.1"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRTGPC",
+                    "scorePoints": "2",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 1
+                      },
+                      {
+                        "measurementParameter": "b0",
+                        "value": 1e-15
+                      },
+                      {
+                        "measurementParameter": "b1",
+                        "value": 1e-15
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-1956",
+              "items": [
+                {
+                  "id": "1956",
+                  "type": "MC",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "1|N-Q|C|m|N-Q.1"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRT3PLn",
+                    "scorePoints": "1",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 1
+                      },
+                      {
+                        "measurementParameter": "b",
+                        "value": 1e-15
+                      },
+                      {
+                        "measurementParameter": "c",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-1969",
+              "items": [
+                {
+                  "id": "1969",
+                  "type": "GI",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "G11Math_DOK2"
+                    },
+                    {
+                      "idRef": "1|F-IF|M|m|F-IF.7a"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRT3PLn",
+                    "scorePoints": "1",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 1
+                      },
+                      {
+                        "measurementParameter": "b",
+                        "value": 1e-15
+                      },
+                      {
+                        "measurementParameter": "c",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-1997",
+              "items": [
+                {
+                  "id": "1997",
+                  "type": "MI",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "G11Math_Claim1_MC/MS"
+                    },
+                    {
+                      "idRef": "G11Math_DOK2"
+                    },
+                    {
+                      "idRef": "2|G-SRT|D|NA|NA"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRT3PLn",
+                    "scorePoints": "1",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 0.83185
+                      },
+                      {
+                        "measurementParameter": "b",
+                        "value": 0.72615
+                      },
+                      {
+                        "measurementParameter": "c",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-1998",
+              "items": [
+                {
+                  "id": "1998",
+                  "type": "MC",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "3|A-REI|G|NA|NA"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRT3PLn",
+                    "scorePoints": "1",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 0.74118
+                      },
+                      {
+                        "measurementParameter": "b",
+                        "value": 1.23858
+                      },
+                      {
+                        "measurementParameter": "c",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-1999",
+              "items": [
+                {
+                  "id": "1999",
+                  "type": "EQ",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "G11Math_DOK2"
+                    },
+                    {
+                      "idRef": "3|A-REI|D|NA|NA"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRT3PLn",
+                    "scorePoints": "1",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 1.14098
+                      },
+                      {
+                        "measurementParameter": "b",
+                        "value": 2.10347
+                      },
+                      {
+                        "measurementParameter": "c",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-2005",
+              "items": [
+                {
+                  "id": "2005",
+                  "type": "MC",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "3|N-RN|E|NA|NA"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRT3PLn",
+                    "scorePoints": "1",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 1.47345
+                      },
+                      {
+                        "measurementParameter": "b",
+                        "value": -0.67605
+                      },
+                      {
+                        "measurementParameter": "c",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-2006",
+              "items": [
+                {
+                  "id": "2006",
+                  "type": "MS",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "G11Math_DOK2"
+                    },
+                    {
+                      "idRef": "4"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRT3PLn",
+                    "scorePoints": "1",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 0.84445
+                      },
+                      {
+                        "measurementParameter": "b",
+                        "value": 3.01363
+                      },
+                      {
+                        "measurementParameter": "c",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-2029",
+              "items": [
+                {
+                  "id": "2029",
+                  "type": "GI",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "G11Math_DOK2"
+                    },
+                    {
+                      "idRef": "3|G-SRT|A|NA|NA"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRT3PLn",
+                    "scorePoints": "1",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 0.53279
+                      },
+                      {
+                        "measurementParameter": "b",
+                        "value": 0.67803
+                      },
+                      {
+                        "measurementParameter": "c",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "id": "I-187-2032",
+              "items": [
+                {
+                  "id": "2032",
+                  "type": "EQ",
+                  "presentations": [
+                    "\n                                    ENU\n                                "
+                  ],
+                  "blueprintReferences": [
+                    {
+                      "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "G11Math_Claim1_MC/MS"
+                    },
+                    {
+                      "idRef": "G11Math_DOK2"
+                    },
+                    {
+                      "idRef": "4|G-MG|A|NA|NA"
+                    }
+                  ],
+                  "itemScoreDimension": {
+                    "measurementModel": "IRT3PLn",
+                    "scorePoints": "1",
+                    "weight": 1,
+                    "itemScoreParameters": [
+                      {
+                        "measurementParameter": "a",
+                        "value": 0.72637
+                      },
+                      {
+                        "measurementParameter": "b",
+                        "value": -1.49786
+                      },
+                      {
+                        "measurementParameter": "c",
+                        "value": 0
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "tools": [
+        {
+          "name": "Calculator",
+          "studentPackageFieldName": "TDSAcc-Calculator",
+          "allowChange": "1",
+          "options": [
+            {
+              "code": "TDS_Calc0",
+              "sortOrder": 0,
+              "dependencies": [
+                {
+                  "ifToolType": "Language",
+                  "ifToolCode": "ENU-Braille",
+                  "enabled": false
+                }
+              ]
+            },
+            {
+              "code": "TDS_CalcSciInv&TDS_CalcGraphingInv&TDS_CalcRegress",
+              "sortOrder": 1,
+              "dependencies": [
+                {
+                  "ifToolType": "Language",
+                  "ifToolCode": "ENU-Braille",
+                  "enabled": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Expandable Passages",
+          "studentPackageFieldName": "TDSAcc-ExpandablePassages",
+          "options": [
+            {
+              "code": "TDS_ExpandablePassages0",
+              "sortOrder": 0
+            },
+            {
+              "code": "TDS_ExpandablePassages1",
+              "sortOrder": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "SBAC-IRP-Perf-MATH-11",
+      "label": "IRP Perf Grade 11 Math",
+      "grades": [
+        {
+          "value": "11"
+        }
+      ],
+      "segments": [
+        {
+          "id": "SBAC-IRP-Perf-MATH-11",
+          "algorithmType": "fixedform",
+          "algorithmImplementation": "FAIRWAY ROUNDROBIN",
+          "segmentForms": [
+            {
+              "id": "IRP::MathG11::Perf::SP15",
+              "cohort": "Default",
+              "presentations": [
+                "ENU"
+              ],
+              "itemGroup": [
+                {
+                  "id": "I-187-3688",
+                  "stimulus": {
+                    "id": "3688"
+                  },
+                  "items": [
+                    {
+                      "id": "1434",
+                      "type": "GI",
+                      "position": 1,
+                      "presentations": [
+                        "ENU"
+                      ],
+                      "blueprintReferences": [
+                        {
+                          "idRef": "SBAC-IRP-CAT-MATH-11"
+                        },
+                        {
+                          "idRef": "2|F-IF|A"
+                        }
+                      ],
+                      "itemScoreDimension": {
+                        "measurementModel": "IRT3PLn",
+                        "scorePoints": "1",
+                        "weight": 1,
+                        "itemScoreParameters": [
+                          {
+                            "measurementParameter": "a",
+                            "value": 0.63893
+                          },
+                          {
+                            "measurementParameter": "b",
+                            "value": 3.02733
+                          },
+                          {
+                            "measurementParameter": "c",
+                            "value": 0
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "id": "1432",
+                      "type": "ER",
+                      "position": 2,
+                      "presentations": [
+                        "ENU"
+                      ],
+                      "blueprintReferences": [
+                        {
+                          "idRef": "SBAC-IRP-CAT-MATH-11"
+                        },
+                        {
+                          "idRef": "3|F-IF|B"
+                        }
+                      ],
+                      "itemScoreDimension": {
+                        "measurementModel": "IRTGPC",
+                        "scorePoints": "2",
+                        "weight": 1,
+                        "itemScoreParameters": [
+                          {
+                            "measurementParameter": "a",
+                            "value": 0.74799
+                          },
+                          {
+                            "measurementParameter": "b0",
+                            "value": -0.40155
+                          },
+                          {
+                            "measurementParameter": "b1",
+                            "value": 0.76237
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "position": 1
+        }
+      ],
+      "tools": [
+        {
+          "name": "Calculator",
+          "studentPackageFieldName": "TDSAcc-Calculator",
+          "allowChange": "1",
+          "options": [
+            {
+              "code": "TDS_Calc0",
+              "sortOrder": 0,
+              "dependencies": [
+                {
+                  "ifToolType": "Language",
+                  "ifToolCode": "ENU-Braille",
+                  "enabled": false
+                }
+              ]
+            },
+            {
+              "code": "TDS_CalcSciInv&TDS_CalcGraphingInv&TDS_CalcRegress",
+              "sortOrder": 1,
+              "dependencies": [
+                {
+                  "ifToolType": "Language",
+                  "ifToolCode": "ENU-Braille",
+                  "enabled": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Expandable Passages",
+          "studentPackageFieldName": "TDSAcc-ExpandablePassages",
+          "options": [
+            {
+              "code": "TDS_ExpandablePassages0",
+              "sortOrder": 0
+            },
+            {
+              "code": "TDS_ExpandablePassages1",
+              "sortOrder": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,7 @@ public abstract class ItemGroup {
 
     public abstract Optional<Stimulus> getStimulus();
 
+    @Nullable
     public abstract List<Item> getItems();
 
     public static Builder builder() {
