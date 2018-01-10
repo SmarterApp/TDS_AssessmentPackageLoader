@@ -29,6 +29,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <docker.image.prefix>smarterbalanced</docker.image.prefix>
+        <integration-tests.skip>true</integration-tests.skip>
         <tds-common.version>4.0.1.RELEASE</tds-common.version>
         <jackson.version>2.9.2</jackson.version>
 
@@ -163,14 +164,6 @@
                     <useReleaseProfile>false</useReleaseProfile>
                     <releaseProfiles>release</releaseProfiles>
                     <autoVersionSubmodules>true</autoVersionSubmodules>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>**/*IntegrationTests.java</exclude>
-                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
