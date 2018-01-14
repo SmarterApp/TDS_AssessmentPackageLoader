@@ -1,6 +1,7 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
@@ -39,6 +40,7 @@ import static tds.testpackage.model.XmlUtil.*;
 public abstract class Segment {
     public abstract String getId();
 
+    @JsonProperty("position")
     protected abstract Optional<Integer> getPosition();
 
     protected abstract Optional<String> getEntryApproval();

@@ -1,5 +1,6 @@
 package tds.testpackage.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
@@ -25,6 +26,7 @@ public abstract class Scoring {
     }
 
     @AutoValue.Builder
+    @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     public abstract static class Builder {
         @JacksonXmlProperty(localName = "PerformanceLevels")
         public abstract Builder setPerformanceLevels(List<PerformanceLevel> newPerformanceLevels);

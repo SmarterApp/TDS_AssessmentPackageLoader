@@ -1,5 +1,7 @@
 package tds.testpackage.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
@@ -11,6 +13,7 @@ import com.google.auto.value.AutoValue;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_PerformanceLevel.Builder.class)
 public abstract class PerformanceLevel {
+    @JsonProperty("pLevel")
     public abstract int getPLevel();
     public abstract double getScaledLo();
     public abstract double getScaledHi();
@@ -21,8 +24,10 @@ public abstract class PerformanceLevel {
 
 
     @AutoValue.Builder
+    @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     public abstract static class Builder {
         @JacksonXmlProperty(localName = "pLevel")
+        @JsonProperty("pLevel")
         public abstract Builder setPLevel(int newPLevel);
 
         @JacksonXmlProperty(localName = "scaledLo")

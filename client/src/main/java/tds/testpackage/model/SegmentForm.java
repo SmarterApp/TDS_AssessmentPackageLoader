@@ -2,9 +2,12 @@ package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
+import org.jetbrains.annotations.Nullable;
 
+import javax.xml.bind.annotation.XmlElementWrapper;
 import java.util.List;
 
 @AutoValue
@@ -13,7 +16,8 @@ public abstract class SegmentForm {
     public abstract String getId();
     public abstract String getCohort();
     public abstract List<String> getPresentations();
-    public abstract ItemGroup getItemGroup();
+    @Nullable
+    public abstract List<ItemGroup> getItemGroup();
 
     public static Builder builder() {
         return new AutoValue_SegmentForm.Builder();
@@ -29,8 +33,9 @@ public abstract class SegmentForm {
         @JacksonXmlProperty(localName = "Presentations")
         public abstract Builder setPresentations(List<String> newPresentations);
 
+        @JacksonXmlElementWrapper(useWrapping = false)
         @JacksonXmlProperty(localName = "ItemGroup")
-        public abstract Builder setItemGroup(ItemGroup newItemGroup);
+        public abstract Builder setItemGroup(List<ItemGroup> newItemGroup);
 
         public abstract SegmentForm build();
     }
