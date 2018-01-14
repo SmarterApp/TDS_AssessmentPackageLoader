@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import tds.common.configuration.JacksonObjectMapperConfiguration;
+import tds.common.configuration.RestTemplateConfiguration;
 import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
 import tds.support.job.TestPackageDeleteJob;
@@ -42,6 +43,7 @@ import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
     ExceptionAdvice.class,
     JacksonObjectMapperConfiguration.class,
     SecurityConfiguration.class,
+    RestTemplateConfiguration.class
 })
 public class SupportToolServiceConfiguration {
     @Bean

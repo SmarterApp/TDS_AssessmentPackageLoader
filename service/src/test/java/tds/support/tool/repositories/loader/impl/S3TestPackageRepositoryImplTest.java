@@ -10,6 +10,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import tds.support.tool.configuration.S3Properties;
@@ -38,7 +39,7 @@ public class S3TestPackageRepositoryImplTest {
     }
 
     @Test
-    public void shouldSaveTestPackageToS3() {
+    public void shouldSaveTestPackageToS3() throws IOException {
         repository.savePackage("jobId", "testPackageName", mockTestPackageStream, 100);
 
         ArgumentCaptor<ObjectMetadata> objectMetadataArgumentCaptor = ArgumentCaptor.forClass(ObjectMetadata.class);

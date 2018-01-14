@@ -30,5 +30,7 @@ public class TISDeleteStepHandler implements TestPackageHandler {
             step.setStatus(Status.FAIL);
             step.addError(new Error("Error occurred while communicating with TIS", ErrorSeverity.CRITICAL));
         }
+
+        step.setComplete(true);
     }
 }

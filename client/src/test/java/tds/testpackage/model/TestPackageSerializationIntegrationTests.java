@@ -14,17 +14,14 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-public class TestPackageSerializationTests {
+public class TestPackageSerializationIntegrationTests {
 	private ObjectMapper objectMapper;
 	private XmlMapper xmlMapper;
 
@@ -142,7 +139,7 @@ public class TestPackageSerializationTests {
 
 	@Test
 	public void shouldDeserializeFromXml() throws IOException {
-		InputStream inputStream = TestPackageSerializationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml");
+		InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml");
 		TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
 		assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
 		assertThat(testPackage.getSubject()).isEqualTo("MATH");
@@ -164,7 +161,7 @@ public class TestPackageSerializationTests {
 
 	@Test
 	public void shouldDeserializeFromXmlWithBooleanDefaults() throws IOException {
-		InputStream inputStream = TestPackageSerializationTests.class.getClassLoader().getResourceAsStream("Dependencies-boolean-defaults.xml");
+		InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("Dependencies-boolean-defaults.xml");
 		List<Dependency> dependencies = xmlMapper.readValue(inputStream, new TypeReference<List<Dependency>>() {});
 
 		assertThat(dependencies.size()).isEqualTo(7);

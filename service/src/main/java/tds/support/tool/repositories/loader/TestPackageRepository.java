@@ -1,5 +1,6 @@
 package tds.support.tool.repositories.loader;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 
@@ -16,5 +17,5 @@ public interface TestPackageRepository {
      * @param testPackageSize the size of the content
      * @return the location of the test package
      */
-    String savePackage(final String jobId, final String packageName, final InputStream inputStream, long testPackageSize);
+    String savePackage(final String jobId, final String packageName, final InputStream inputStream, long testPackageSize) throws IOException;
 }
