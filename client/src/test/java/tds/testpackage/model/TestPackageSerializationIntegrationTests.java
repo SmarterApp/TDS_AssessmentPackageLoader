@@ -31,11 +31,11 @@ public class TestPackageSerializationIntegrationTests {
 		"\"segments\":[{\"id\":\"SBAC-IRP-Perf-MATH-11\",\"algorithmType\":\"fixedform\",\"algorithmImplementation\":\"FAIRWAY ROUNDROBIN\"," +
 		"\"pool\":[{\"id\":\"id\",\"items\":[{\"id\":\"id\",\"type\":\"type\",\"presentations\":[\"ENU\"]," +
 		"\"blueprintReferences\":[{\"idRef\":\"SBAC-IRP-CAT-MATH-11\"}]," +
-		"\"itemScoreDimension\":{\"measurementModel\":\"IRT3PLn\",\"scorePoints\":\"1\",\"weight\":1.0," +
-		"\"itemScoreParameters\":[{\"measurementParameter\":\"a\",\"value\":6.3}]}}]}]}]," +
-		"\"tools\":[{\"name\":\"tool\",\"studentPackageFieldName\":\"TDSAcc\"," +
-		"\"options\":[{\"code\":\"TDS_Other\",\"sortOrder\":0,\"dependencies\":[{\"ifToolType\":\"ifToolType\",\"ifToolCode\":\"ifToolCode\"}]}]}]}]}";
-
+		"\"itemScoreDimension\":{\"measurementModel\":\"IRT3PLn\",\"scorePoints\":1,\"weight\":1.0," +
+		"\"itemScoreParameters\":[{\"measurementParameter\":\"a\",\"value\":6.3}]}}]}]," +
+		"\"position\":1}],\"tools\":[{\"name\":\"tool\",\"studentPackageFieldName\":\"TDSAcc\"," +
+		"\"options\":[{\"code\":\"TDS_Other\",\"sortOrder\":0,\"dependencies\":[{\"ifToolType\":\"ifToolType\",\"ifToolCode\":\"ifToolCode\",\"enabled\":true,\"default\":false}]}]}]}]}";
+	
 	@Before
 	public void setUp() {
 		objectMapper = new ObjectMapper();
@@ -67,7 +67,7 @@ public class TestPackageSerializationIntegrationTests {
 			.build();
 
 		ItemScoreDimension itemScoreDimension = ItemScoreDimension.builder()
-			.setScorePoints("1")
+			.setScorePoints(1)
 			.setMeasurementModel("IRT3PLn")
 			.setWeight(1)
 			.setItemScoreParameters(Arrays.asList(itemScoreParameter))
@@ -152,7 +152,7 @@ public class TestPackageSerializationIntegrationTests {
 	 */
 	@Test
 	public void shouldDeserializeWithoutNulls() throws IOException {
-		InputStream inputStream = TestPackageSerializationTests.class.getClassLoader().getResourceAsStream("scoring-rules.xml");
+		InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("scoring-rules.xml");
 		TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
 		String json = objectMapper.writeValueAsString(testPackage);
 		assertThat(json.indexOf("null")).isEqualTo(-1);
@@ -194,8 +194,8 @@ public class TestPackageSerializationIntegrationTests {
 	 */
 	@Test
 	public void shouldDeserializeFromJsonAndXmlAsSameObject() throws IOException {
-		InputStream xmlInputStream = TestPackageSerializationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml");
-		InputStream jsonInputStream = TestPackageSerializationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.json");
+		InputStream xmlInputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml");
+		InputStream jsonInputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.json");
 
 		TestPackage testPackageXml = xmlMapper.readValue(xmlInputStream, TestPackage.class);
 		TestPackage testPackageJson = objectMapper.readValue(jsonInputStream, TestPackage.class);
