@@ -61,6 +61,7 @@ public abstract class Dependency {
         }
 
         @JacksonXmlProperty(localName = "default")
+        @JsonProperty("default")
         protected abstract Builder setDefault(Optional<String> newDefault);
 
         public Builder setDefault(boolean newDefault) {
