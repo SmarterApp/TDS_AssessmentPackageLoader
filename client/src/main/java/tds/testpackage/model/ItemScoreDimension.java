@@ -13,7 +13,7 @@ import java.util.List;
 @JsonDeserialize(builder = AutoValue_ItemScoreDimension.Builder.class)
 public abstract class ItemScoreDimension {
     public abstract String getMeasurementModel();
-    public abstract String getScorePoints();
+    public abstract int getScorePoints();
     public abstract double getWeight();
     @Nullable
     public abstract List<ItemScoreParameter> getItemScoreParameters();
@@ -28,7 +28,7 @@ public abstract class ItemScoreDimension {
     public abstract static class Builder {
         public abstract Builder setMeasurementModel(String newMeasurementModel);
 
-        public abstract Builder setScorePoints(String newScorePoints);
+        public abstract Builder setScorePoints(int newScorePoints);
 
         public abstract Builder setWeight(double newWeight);
 
