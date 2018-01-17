@@ -23,15 +23,15 @@ public class TestPackageDeleteJob extends Job {
 
         //Create steps
         List<Step> steps = new ArrayList<>();
-        steps.add(new Step(TDS_DELETE, JobStepTarget.TDS, "Deleting the test package from TDS (Student and Proctor)"));
+        steps.add(new Step(TDS_DELETE, TargetSystem.TDS, "Deleting the test package from TDS (Student and Proctor)"));
 
         if (!skipArt) {
-            steps.add(new Step(ART_DELETE, JobStepTarget.ART,"Deleting the test package from ART"));
+            steps.add(new Step(ART_DELETE, TargetSystem.ART,"Deleting the test package from ART"));
         }
 
         if (!skipScoring) {
-            steps.add(new Step(TIS_DELETE, JobStepTarget.TIS, "Deleting the test package from TIS"));
-            steps.add(new Step(THSS_DELETE, JobStepTarget.THSS,"Deleting the test package from THSS"));
+            steps.add(new Step(TIS_DELETE, TargetSystem.TIS, "Deleting the test package from TIS"));
+            steps.add(new Step(THSS_DELETE, TargetSystem.THSS,"Deleting the test package from THSS"));
         }
 
         this.setSteps(steps);

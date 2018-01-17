@@ -4,9 +4,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import tds.support.job.JobStepTarget;
-import tds.support.job.JobType;
-import tds.support.tool.configuration.JobMessagingConfiguration;
 import tds.support.tool.services.loader.MessagingService;
 
 import static tds.support.tool.configuration.JobMessagingConfiguration.*;

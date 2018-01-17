@@ -25,17 +25,17 @@ public class TestPackageLoadJob extends Job {
 
         //Create steps
         List<Step> steps = new ArrayList<>();
-        steps.add(new Step(FILE_UPLOAD, JobStepTarget.Internal,"Uploading test package"));
-        steps.add(new Step(VALIDATE, JobStepTarget.Internal, "Parsing and validating test package"));
-        steps.add(new Step(TDS_UPLOAD, JobStepTarget.TDS, "Uploading test package to Student and Proctor"));
+        steps.add(new Step(FILE_UPLOAD, TargetSystem.Internal,"Uploading test package"));
+        steps.add(new Step(VALIDATE, TargetSystem.Internal, "Parsing and validating test package"));
+        steps.add(new Step(TDS_UPLOAD, TargetSystem.TDS, "Uploading test package to Student and Proctor"));
 
         if (!skipArt) {
-            steps.add(new Step(ART_UPLOAD, JobStepTarget.ART,"Uploading test package to ART"));
+            steps.add(new Step(ART_UPLOAD, TargetSystem.ART,"Uploading test package to ART"));
         }
 
         if (!skipScoring) {
-            steps.add(new Step(TIS_UPLOAD, JobStepTarget.TIS, "Uploading test package to TIS"));
-            steps.add(new Step(THSS_UPLOAD, JobStepTarget.THSS,"Uploading test package to THSS"));
+            steps.add(new Step(TIS_UPLOAD, TargetSystem.TIS, "Uploading test package to TIS"));
+            steps.add(new Step(THSS_UPLOAD, TargetSystem.THSS,"Uploading test package to THSS"));
         }
 
         this.setSteps(steps);

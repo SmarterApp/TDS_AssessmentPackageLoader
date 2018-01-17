@@ -17,7 +17,7 @@ import java.util.UUID;
 import tds.support.job.Error;
 import tds.support.job.ErrorSeverity;
 import tds.support.job.Job;
-import tds.support.job.JobStepTarget;
+import tds.support.job.TargetSystem;
 import tds.support.job.JobType;
 import tds.support.job.Status;
 import tds.support.job.Step;
@@ -99,7 +99,7 @@ public class JobServiceImplTest {
         assertThat(jobAfterUpload.getSteps()).hasSize(6);
 
         Step tdsJobStep = jobAfterUpload.getSteps().stream()
-            .filter(s -> s.getJobStepTarget() == JobStepTarget.TDS)
+            .filter(s -> s.getJobStepTarget() == TargetSystem.TDS)
             .findFirst().get();
 
         assertThat(tdsJobStep.getName()).contains("tds-upload");
