@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import org.junit.Before;
@@ -25,17 +27,17 @@ public class TestPackageSerializationIntegrationTests {
 	private ObjectMapper objectMapper;
 	private XmlMapper xmlMapper;
 
-	private String expectedJSON = "{\"publisher\":\"SBAC_PT\",\"publishDate\":\"2015-08-19T18:13:51.0\",\"subject\":\"MATH\",\"type\":\"summative\",\"version\":\"8185\",\"bankKey\":187,\"academicYear\":\"2017-2018\"," +
-		"\"blueprint\":[{\"id\":\"SBAC-IRP-COMBINED-MATH-11\",\"type\":\"combined\"}]," +
-		"\"assessments\":[{\"id\":\"SBAC-IRP-CAT-MATH-11\",\"label\":\"IRP CAT Grade 11 Math\",\"grades\":[{\"value\":\"11\"}]," +
-		"\"segments\":[{\"id\":\"SBAC-IRP-Perf-MATH-11\",\"algorithmType\":\"fixedform\",\"algorithmImplementation\":\"FAIRWAY ROUNDROBIN\"," +
-		"\"pool\":[{\"id\":\"id\",\"items\":[{\"id\":\"id\",\"type\":\"type\",\"presentations\":[\"ENU\"]," +
-		"\"blueprintReferences\":[{\"idRef\":\"SBAC-IRP-CAT-MATH-11\"}]," +
-		"\"itemScoreDimension\":{\"measurementModel\":\"IRT3PLn\",\"scorePoints\":1,\"weight\":1.0," +
-		"\"itemScoreParameters\":[{\"measurementParameter\":\"a\",\"value\":6.3}]}}]}]," +
-		"\"position\":1}],\"tools\":[{\"name\":\"tool\",\"studentPackageFieldName\":\"TDSAcc\"," +
-		"\"options\":[{\"code\":\"TDS_Other\",\"sortOrder\":0,\"dependencies\":[{\"ifToolType\":\"ifToolType\",\"ifToolCode\":\"ifToolCode\",\"enabled\":true,\"default\":false}]}]}]}]}";
-	
+    private String expectedJSON = "{\"publisher\":\"SBAC_PT\",\"publishDate\":\"2015-08-19T18:13:51.0\",\"subject\":\"MATH\",\"type\":\"summative\",\"version\":\"8185\",\"bankKey\":187,\"academicYear\":\"2017-2018\"," +
+        "\"blueprint\":[{\"id\":\"SBAC-IRP-COMBINED-MATH-11\",\"type\":\"combined\"}]," +
+        "\"assessments\":[{\"id\":\"SBAC-IRP-CAT-MATH-11\",\"label\":\"IRP CAT Grade 11 Math\",\"grades\":[{\"value\":\"11\"}]," +
+        "\"segments\":[{\"id\":\"SBAC-IRP-Perf-MATH-11\",\"algorithmType\":\"fixedform\",\"algorithmImplementation\":\"FAIRWAY ROUNDROBIN\"," +
+        "\"pool\":[{\"id\":\"id\",\"items\":[{\"id\":\"id\",\"type\":\"type\",\"presentations\":[\"ENU\"]," +
+        "\"blueprintReferences\":[{\"idRef\":\"SBAC-IRP-CAT-MATH-11\"},{\"idRef\":\"G11Math_DOK2\"}]," +
+        "\"itemScoreDimension\":{\"measurementModel\":\"IRT3PLn\",\"scorePoints\":1,\"weight\":1.0," +
+        "\"itemScoreParameters\":[{\"measurementParameter\":\"a\",\"value\":6.3}]}}]}]," +
+        "\"position\":1}],\"tools\":[{\"name\":\"tool\",\"studentPackageFieldName\":\"TDSAcc\"," +
+        "\"options\":[{\"code\":\"TDS_Other\",\"sortOrder\":0,\"dependencies\":[{\"ifToolType\":\"ifToolType\",\"ifToolCode\":\"ifToolCode\",\"enabled\":true,\"default\":false}]}]}]}]}";
+
 	@Before
 	public void setUp() {
 		objectMapper = new ObjectMapper();
@@ -57,9 +59,13 @@ public class TestPackageSerializationIntegrationTests {
 			.setValue("11")
 			.build();
 
-		BlueprintReference blueprintReference = BlueprintReference.builder()
+		BlueprintReference blueprintReference1 = BlueprintReference.builder()
 			.setIdRef("SBAC-IRP-CAT-MATH-11")
 			.build();
+
+        BlueprintReference blueprintReference2 = BlueprintReference.builder()
+            .setIdRef("G11Math_DOK2")
+            .build();
 
 		ItemScoreParameter itemScoreParameter = ItemScoreParameter.builder()
 			.setMeasurementParameter("a")
@@ -75,7 +81,7 @@ public class TestPackageSerializationIntegrationTests {
 
 		Item item = Item.builder()
 			.setPresentations(Arrays.asList("ENU"))
-			.setBlueprintReferences(Arrays.asList(blueprintReference))
+			.setBlueprintReferences(Arrays.asList(blueprintReference1, blueprintReference2))
 			.setId("id")
 			.setType("type")
 			.setItemScoreDimension(itemScoreDimension)
@@ -133,6 +139,7 @@ public class TestPackageSerializationIntegrationTests {
 
 		String json = objectMapper.writeValueAsString(testPackage);
 
+		System.out.println(json);
 		assertThatJson(json)
 			.isEqualTo(expectedJSON);
 	}
@@ -143,6 +150,20 @@ public class TestPackageSerializationIntegrationTests {
 		TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
 		assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
 		assertThat(testPackage.getSubject()).isEqualTo("MATH");
+        assertThat(testPackage.getAssessments().get(0).getSegments().get(0).getPool().get(0).getItems().get(0).getBlueprintReferences().size()).isEqualTo(3);
+	}
+
+	@Test
+	public void shouldDeserializeItemFromXmlWithAssessmentKey() throws IOException {
+        JacksonXmlModule module = new JacksonXmlModule();
+		module.addDeserializer(Item.class, new ItemXmlDeserializer(Item.class));
+		xmlMapper.registerModule(module);
+
+		InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml");
+		TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
+		assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
+		assertThat(testPackage.getSubject()).isEqualTo("MATH");
+		assertThat(testPackage.getAssessments().get(0).getSegments().get(0).getPool().get(0).getItems().get(0).getBlueprintReferences().size()).isEqualTo(3);
 	}
 
 	/**
