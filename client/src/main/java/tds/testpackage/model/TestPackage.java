@@ -1,6 +1,9 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -13,7 +16,8 @@ import java.util.List;
  * contains an optional <Scoring> element (for test packages that contain COMBINED scoring data, such as ICA assessments).
  */
 @AutoValue
-@JsonDeserialize(builder = AutoValue_TestPackage.Builder.class)
+@JsonDeserialize(using = TestPackageDeserializer.class,  builder = AutoValue_TestPackage.Builder.class)
+@JsonRootName(value = "TestPackage")
 public abstract class TestPackage {
     public abstract String getPublisher();
     public abstract String getPublishDate();

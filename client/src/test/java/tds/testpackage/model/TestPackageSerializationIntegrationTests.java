@@ -3,8 +3,8 @@ package tds.testpackage.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
@@ -144,7 +144,7 @@ public class TestPackageSerializationIntegrationTests {
 			.isEqualTo(expectedJSON);
 	}
 
-	@Test
+    @Test
 	public void shouldDeserializeFromXml() throws IOException {
 		InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml");
 		TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
@@ -156,7 +156,7 @@ public class TestPackageSerializationIntegrationTests {
 	@Test
 	public void shouldDeserializeItemFromXmlWithAssessmentKey() throws IOException {
         JacksonXmlModule module = new JacksonXmlModule();
-		module.addDeserializer(Item.class, new ItemXmlDeserializer(Item.class));
+		module.addDeserializer(TestPackage.class, new TestPackageDeserializer());
 		xmlMapper.registerModule(module);
 
 		InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml");
@@ -164,6 +164,8 @@ public class TestPackageSerializationIntegrationTests {
 		assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
 		assertThat(testPackage.getSubject()).isEqualTo("MATH");
 		assertThat(testPackage.getAssessments().get(0).getSegments().get(0).getPool().get(0).getItems().get(0).getBlueprintReferences().size()).isEqualTo(3);
+		assertThat(testPackage.getAssessments().get(0).getKey()).isEqualTo("(SBAC_PT)SBAC-IRP-CAT-MATH-11-2017-2018");
+		assertThat(testPackage.getAssessments().get(0).getSegments().get(0).getKey()).isEqualTo("(SBAC_PT)SBAC-IRP-CAT-MATH-11-2017-2018");
 	}
 
 	/**
@@ -179,6 +181,13 @@ public class TestPackageSerializationIntegrationTests {
 		assertThat(json.indexOf("null")).isEqualTo(-1);
 	}
 
+    @Test
+    public void shouldDeserializePresentationsWithoutTrailingWhitespace() throws IOException {
+        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml");
+        TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
+        String presentation = testPackage.getAssessments().get(0).getSegments().get(0).getPool().get(0).getItems().get(0).getPresentations().get(0);
+        assertThat(presentation).isEqualTo(presentation.trim());
+    }
 
 	@Test
 	public void shouldDeserializeFromXmlWithBooleanDefaults() throws IOException {

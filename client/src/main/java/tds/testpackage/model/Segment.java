@@ -1,6 +1,7 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -90,6 +91,21 @@ public abstract class Segment {
      */
     @Nullable
     public abstract List<SegmentForm> getSegmentForms();
+
+    private Assessment assessment;
+
+    /**
+     * Reference to parent assessment to access test package fields to construct composite key
+     * @param assessment
+     */
+    public void setAssessment(Assessment assessment) {
+        this.assessment = assessment;
+    }
+
+    @JsonIgnore
+    public String getKey() {
+        return String.format("(%s)%s-%s", assessment.getTestPackage().getPublisher(), getId(), assessment.getTestPackage().getAcademicYear());
+    }
 
     public static Builder builder() {
         return new AutoValue_Segment.Builder().setPosition(1);
