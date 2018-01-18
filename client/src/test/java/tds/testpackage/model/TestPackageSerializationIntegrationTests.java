@@ -139,7 +139,6 @@ public class TestPackageSerializationIntegrationTests {
 
 		String json = objectMapper.writeValueAsString(testPackage);
 
-		System.out.println(json);
 		assertThatJson(json)
 			.isEqualTo(expectedJSON);
 	}
