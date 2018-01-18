@@ -8,19 +8,29 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
+import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import tds.support.job.Job;
 import tds.support.job.JobType;
 import tds.support.job.Status;
 import tds.support.job.Step;
+import tds.support.job.TargetSystem;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.job.TestPackageRollbackJob;
+import tds.support.job.TestPackageStatus;
+import tds.support.job.TestPackageTargetSystemStatus;
 import tds.support.tool.handlers.loader.TestPackageFileHandler;
 import tds.support.tool.handlers.loader.TestPackageHandler;
 import tds.support.tool.repositories.JobRepository;
+import tds.support.tool.repositories.loader.TestPackageStatusRepository;
 import tds.support.tool.services.JobService;
+import tds.support.tool.services.TestPackageStatusService;
 import tds.support.tool.services.loader.MessagingService;
 
 @Service
@@ -30,17 +40,19 @@ public class JobServiceImpl implements JobService {
     private final TestPackageFileHandler testPackageFileHandler;
     private final Map<String, TestPackageHandler> testPackageLoaderStepHandlers;
     private final MessagingService messagingService;
+    private final TestPackageStatusService testPackageStatusService;
 
     @Autowired
     public JobServiceImpl(final JobRepository jobRepository,
                           final TestPackageFileHandler testPackageFileHandler,
                           final MessagingService messagingService,
-                          @Qualifier("testPackageLoaderStepHandlers")
-                          final Map<String, TestPackageHandler> testPackageLoaderStepHandlers) {
+                          final TestPackageStatusService testPackageStatusService,
+                          @Qualifier("testPackageLoaderStepHandlers") final Map<String, TestPackageHandler> testPackageLoaderStepHandlers) {
         this.jobRepository = jobRepository;
         this.testPackageFileHandler = testPackageFileHandler;
         this.testPackageLoaderStepHandlers = testPackageLoaderStepHandlers;
         this.messagingService = messagingService;
+        this.testPackageStatusService = testPackageStatusService;
     }
 
     @Override
@@ -60,6 +72,8 @@ public class JobServiceImpl implements JobService {
         testPackageFileHandler.handleTestPackage(step, persistedJob.getId(), packageName, testPackage, testPackageSize);
 
         messagingService.sendJobStepExecute(job.getId());
+
+        testPackageStatusService.create(persistedJob, packageName);
 
         //Publish
         return jobRepository.save(persistedJob);
