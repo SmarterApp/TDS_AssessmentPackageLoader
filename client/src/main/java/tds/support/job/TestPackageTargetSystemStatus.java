@@ -16,6 +16,21 @@ public final class TestPackageTargetSystemStatus {
     private LocalDateTime statusDate = LocalDateTime.now();
 
     /**
+     * Private constructor for frameworks
+     */
+    private TestPackageTargetSystemStatus() {
+
+    }
+
+    public TestPackageTargetSystemStatus(final TargetSystem target,
+                                         final Status status,
+                                         final LocalDateTime statusDate) {
+        this.target = target;
+        this.status = status;
+        this.statusDate = statusDate;
+    }
+
+    /**
      * @return The system for which this status is being reported.
      */
     public TargetSystem getTarget() {
@@ -48,6 +63,16 @@ public final class TestPackageTargetSystemStatus {
         this.statusDate = statusDate;
     }
 
+    /**
+     * Each {@link tds.support.job.TargetSystem} can only be loaded into once.  For example, a
+     * {@link tds.support.job.TestPackageStatus} should not have more than one
+     * {@link tds.support.job.TestPackageTargetSystemStatus} representing TDS.  Therefore, the target system is what
+     * makes this value type "unique".
+     *
+     * @param o The object being compared
+     * @return True if the object's {@link tds.support.job.TargetSystem} is the same as this instance's
+     * {@link tds.support.job.TargetSystem}; otherwise false.
+     */
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -62,7 +87,6 @@ public final class TestPackageTargetSystemStatus {
     public int hashCode() {
         return getTarget().hashCode();
     }
-
 
     @Override
     public String toString() {

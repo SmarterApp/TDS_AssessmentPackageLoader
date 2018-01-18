@@ -5,7 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * Represents the state of a Test Package that is managed by the Support Tool.
@@ -17,7 +17,7 @@ public class TestPackageStatus {
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime uploadedAt = LocalDateTime.now();
-    private Set<TestPackageTargetSystemStatus> targets;
+    private Map<TargetSystem, TestPackageTargetSystemStatus> targets;
 
     /**
      * Private constructor for frameworks
@@ -26,11 +26,9 @@ public class TestPackageStatus {
 
     }
 
-    public TestPackageStatus(final String id,
-                             final String name,
+    public TestPackageStatus(final String name,
                              final LocalDateTime uploadedAt,
-                             final Set<TestPackageTargetSystemStatus> targets) {
-        this.id = id;
+                             final Map<TargetSystem, TestPackageTargetSystemStatus> targets) {
         this.name = name;
         this.uploadedAt = uploadedAt;
         this.targets = targets;
@@ -83,11 +81,11 @@ public class TestPackageStatus {
      * target system.
      * </p>
      */
-    public Set<TestPackageTargetSystemStatus> getTargets() {
+    public Map<TargetSystem, TestPackageTargetSystemStatus> getTargets() {
         return targets;
     }
 
-    public void setTargets(final Set<TestPackageTargetSystemStatus> targets) {
+    public void setTargets(final Map<TargetSystem, TestPackageTargetSystemStatus> targets) {
         this.targets = targets;
     }
 }
