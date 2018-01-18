@@ -7,9 +7,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser;
-import com.fasterxml.jackson.dataformat.xml.deser.XmlReadContext;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,7 +60,7 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
             }
         }
 
-        TestPackage testPackage = TestPackage.builder().
+        final TestPackage testPackage = TestPackage.builder().
             setPublisher(publisher).
             setPublishDate(publishDate).
             setSubject(subject).

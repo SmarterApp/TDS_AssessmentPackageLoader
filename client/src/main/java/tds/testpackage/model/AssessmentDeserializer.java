@@ -7,8 +7,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser;
 
 import java.io.IOException;
 import java.util.List;
@@ -47,7 +45,7 @@ public class AssessmentDeserializer extends StdDeserializer<Assessment> {
             }
         }
 
-        Assessment assessment = Assessment.builder()
+        final Assessment assessment = Assessment.builder()
             .setId(id)
             .setLabel(label)
             .setGrades(grades)
