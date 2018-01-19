@@ -9,15 +9,52 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static tds.testpackage.model.XmlUtil.parseBoolean;
+
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Item.Builder.class)
 public abstract class Item {
     public abstract String getId();
     public abstract String getType();
-    public abstract Optional<Integer> getPosition();
+    protected abstract Optional<Integer> getPosition();
+
+    public int position() {
+        return getPosition().orElse(1);
+    }
+
     public abstract List<String> getPresentations();
     public abstract List<BlueprintReference> getBlueprintReferences();
     public abstract ItemScoreDimension getItemScoreDimension();
+
+    protected abstract Optional<String> getFieldTest();
+    public boolean fieldTest() {
+        return parseBoolean(getFieldTest(), false);
+    }
+
+    protected abstract Optional<String> getAdministrationRequired();
+    public boolean administrationRequired() {
+        return parseBoolean(getAdministrationRequired(), true);
+    }
+
+    protected abstract Optional<String> getActive();
+    public boolean active() {
+        return parseBoolean(getActive(), true);
+    }
+
+    protected abstract Optional<String> getResponseRequired();
+    public boolean responseRequired() {
+        return parseBoolean(getResponseRequired(), true);
+    }
+
+    protected abstract Optional<String> getHandScored();
+    public boolean handScored() {
+        return parseBoolean(getHandScored(), false);
+    }
+
+    protected abstract Optional<String> getDoNotScore();
+    public boolean doNotScore() {
+        return parseBoolean(getDoNotScore(), false);
+    }
 
     public static Builder builder() {
         return new AutoValue_Item.Builder();
@@ -43,6 +80,24 @@ public abstract class Item {
         public abstract Builder setItemScoreDimension(ItemScoreDimension newItemScoreDimension);
 
         abstract List<String> getPresentations(); // must match method name in Item
+
+        @JacksonXmlProperty(localName = "fieldTest")
+        public abstract Builder setFieldTest(Optional<String> newFieldTest);
+
+        @JacksonXmlProperty(localName = "administrationRequired")
+        public abstract Builder setAdministrationRequired(Optional<String> newAdministrationRequired);
+
+        @JacksonXmlProperty(localName = "active")
+        public abstract Builder setActive(Optional<String> newActive);
+
+        @JacksonXmlProperty(localName = "responseRequired")
+        public abstract Builder setResponseRequired(Optional<String> newResponseRequired);
+
+        @JacksonXmlProperty(localName = "handScored")
+        public abstract Builder setHandScored(Optional<String> newHandScored);
+
+        @JacksonXmlProperty(localName = "doNotScore")
+        public abstract Builder setDoNotScore(Optional<String> newDoNotScore);
 
         abstract Item autoBuild(); // not public
 
