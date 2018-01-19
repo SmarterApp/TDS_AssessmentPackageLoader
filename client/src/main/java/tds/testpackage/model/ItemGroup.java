@@ -15,6 +15,21 @@ import java.util.Optional;
 public abstract class ItemGroup {
     public abstract String getId();
 
+    protected abstract Optional<Integer> getPosition();
+
+    public int position() {
+        return getPosition().orElse(1);
+    }
+
+    protected abstract Optional<String> getMaxItems();
+    public String maxItems() {
+        return getMaxItems().orElse("ALL");
+    }
+
+    protected abstract Optional<String> getMaxResponses();
+    public String maxResponses() {
+        return getMaxResponses().orElse("ALL");
+    }
     public abstract Optional<Stimulus> getStimulus();
 
     @Nullable
@@ -28,6 +43,15 @@ public abstract class ItemGroup {
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     public abstract static class Builder {
         public abstract Builder setId(String newId);
+
+        @JacksonXmlProperty(localName = "position")
+        public abstract Builder setPosition(Optional<Integer> newPosition);
+
+        @JacksonXmlProperty(localName = "maxItems")
+        public abstract Builder setMaxItems(Optional<String> newMaxItems);
+
+        @JacksonXmlProperty(localName = "maxResponses")
+        public abstract Builder setMaxResponses(Optional<String> newMaxResponses);
 
         @JacksonXmlProperty(localName = "Stimulus")
         public abstract Builder setStimulus(Optional<Stimulus> newStimulus);

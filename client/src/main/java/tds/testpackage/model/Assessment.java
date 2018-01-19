@@ -1,11 +1,13 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 
 import java.util.List;
+
 
 /**
  * The Assessment node contains the following attributes:
@@ -21,13 +23,29 @@ import java.util.List;
  *   subType: (OPTIONAL) A subtype classification of the exam (e.g., "ICA", "IAB")
  */
 @AutoValue
-@JsonDeserialize(builder = AutoValue_Assessment.Builder.class)
+@JsonDeserialize(using = AssessmentDeserializer.class, builder = AutoValue_Assessment.Builder.class)
 public abstract class Assessment {
     public abstract String getId();
     public abstract String getLabel();
     public abstract List<Grade> getGrades();
     public abstract List<Segment> getSegments();
     public abstract List<Tool> getTools();
+
+    private TestPackage testPackage;
+
+    public void setTestPackage(TestPackage testPackage) {
+        this.testPackage = testPackage;
+    }
+
+    @JsonIgnore
+    public TestPackage getTestPackage() {
+        return this.testPackage;
+    }
+
+    @JsonIgnore
+    public String getKey() {
+        return String.format("(%s)%s-%s", testPackage.getPublisher(), getId(), testPackage.getAcademicYear());
+    }
 
     public static Builder builder() {
         return new AutoValue_Assessment.Builder();

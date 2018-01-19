@@ -17,7 +17,7 @@ public abstract class SegmentForm {
     public abstract String getCohort();
     public abstract List<String> getPresentations();
     @Nullable
-    public abstract List<ItemGroup> getItemGroup();
+    public abstract List<ItemGroup> getItemGroups();
 
     public static Builder builder() {
         return new AutoValue_SegmentForm.Builder();
@@ -35,7 +35,7 @@ public abstract class SegmentForm {
 
         @JacksonXmlElementWrapper(useWrapping = false)
         @JacksonXmlProperty(localName = "ItemGroup")
-        public abstract Builder setItemGroup(List<ItemGroup> newItemGroup);
+        public abstract Builder setItemGroups(List<ItemGroup> newItemGroups);
 
         public abstract SegmentForm build();
     }
