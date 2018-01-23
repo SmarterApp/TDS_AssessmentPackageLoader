@@ -8,6 +8,7 @@ import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_ItemScoreDimension.Builder.class)
@@ -15,6 +16,7 @@ public abstract class ItemScoreDimension {
     public abstract String getMeasurementModel();
     public abstract int getScorePoints();
     public abstract double getWeight();
+    public abstract Optional<String> getDimension();
     @Nullable
     public abstract List<ItemScoreParameter> getItemScoreParameters();
 
@@ -35,6 +37,8 @@ public abstract class ItemScoreDimension {
         @JacksonXmlElementWrapper(useWrapping = false)
         @JacksonXmlProperty(localName = "ItemScoreParameter")
         public abstract Builder setItemScoreParameters(List<ItemScoreParameter> newItemScoreParameters);
+
+        public abstract Builder setDimension(Optional<String> newDimension);
 
         public abstract ItemScoreDimension build();
     }

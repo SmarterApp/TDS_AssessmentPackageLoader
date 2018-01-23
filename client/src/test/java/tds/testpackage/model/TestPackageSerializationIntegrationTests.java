@@ -3,7 +3,6 @@ package tds.testpackage.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -181,6 +180,16 @@ public class TestPackageSerializationIntegrationTests {
     }
 
     @Test
+    public void shouldHaveItemsScoreParameterWithDimension() throws IOException {
+        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("scoring-rules.xml");
+        TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
+        String dimension = testPackage.getAssessments().get(0).getSegments().get(0).
+            getSegmentForms().get(0).getItemGroups().get(0).getItems().get(0).
+            getItemScoreDimension().getDimension().get();
+        assertThat(dimension).isEqualTo("test-dimension");
+    }
+
+    @Test
     public void shouldDeserializePresentationsWithoutTrailingWhitespace() throws IOException {
         InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
@@ -204,6 +213,16 @@ public class TestPackageSerializationIntegrationTests {
         assertThat(dependencies.get(2).defaultValue()).isEqualTo(true);
         assertThat(dependencies.get(5).defaultValue()).isEqualTo(true);
         assertThat(dependencies.get(6).defaultValue()).isEqualTo(false);
+    }
+
+    @Test
+    public void shouldDeserializeSegmentBlueprintElementFromXmlWithEmptyListDefaults() throws IOException {
+        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("segment-blueprint-element.xml");
+        TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
+
+        assertThat(testPackage.getAssessments().get(0).getSegments().get(0).getSegmentBlueprint().get(0).itemSelection().size()).isEqualTo(1);
+        assertThat(testPackage.getAssessments().get(0).getSegments().get(0).getSegmentBlueprint().get(1).itemSelection().size()).isEqualTo(1);
+        assertThat(testPackage.getAssessments().get(0).getSegments().get(0).getSegmentBlueprint().get(2).itemSelection().size()).isEqualTo(0);
     }
 
     @Test
