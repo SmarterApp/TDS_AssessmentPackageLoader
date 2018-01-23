@@ -73,7 +73,7 @@ public class JobServiceImpl implements JobService {
 
         messagingService.sendJobStepExecute(job.getId());
 
-        testPackageStatusService.create(persistedJob, packageName);
+        testPackageStatusService.create((TestPackageLoadJob) persistedJob);
 
         //Publish
         return jobRepository.save(persistedJob);

@@ -22,12 +22,9 @@ public final class TestPackageTargetSystemStatus {
 
     }
 
-    public TestPackageTargetSystemStatus(final TargetSystem target,
-                                         final Status status,
-                                         final LocalDateTime statusDate) {
+    public TestPackageTargetSystemStatus(final TargetSystem target, final Status status) {
         this.target = target;
         this.status = status;
-        this.statusDate = statusDate;
     }
 
     /**

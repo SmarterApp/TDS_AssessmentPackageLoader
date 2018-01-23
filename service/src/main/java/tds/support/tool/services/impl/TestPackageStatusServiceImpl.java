@@ -9,7 +9,6 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import tds.support.job.Job;
 import tds.support.job.TargetSystem;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.job.TestPackageStatus;
@@ -27,13 +26,13 @@ public class TestPackageStatusServiceImpl implements TestPackageStatusService {
     }
 
     @Override
-    public TestPackageStatus create(final Job job, final String testPackageName) {
+    public TestPackageStatus create(final TestPackageLoadJob job) {
         final Map<TargetSystem, TestPackageTargetSystemStatus> targetSystems = job.getSteps().stream()
-            .filter(s -> !s.getName().equals(TestPackageLoadJob.FILE_UPLOAD))
-            .map(x -> new TestPackageTargetSystemStatus(x.getJobStepTarget(), x.getStatus(), LocalDateTime.now()))
+            .filter(step -> !step.getName().equals(TestPackageLoadJob.FILE_UPLOAD))
+            .map(step -> new TestPackageTargetSystemStatus(step.getJobStepTarget(), step.getStatus()))
             .collect(Collectors.toMap(TestPackageTargetSystemStatus::getTarget, Function.identity()));
 
-        final TestPackageStatus testPackageStatus = new TestPackageStatus(testPackageName,
+        final TestPackageStatus testPackageStatus = new TestPackageStatus(job.getTestPackageFileName(),
             LocalDateTime.now(),
             targetSystems);
 
@@ -41,7 +40,7 @@ public class TestPackageStatusServiceImpl implements TestPackageStatusService {
     }
 
     @Override
-    public TestPackageStatus save(final TestPackageStatus testPackageStatus) {
+    public TestPackageStatus update(final TestPackageStatus testPackageStatus) {
         return testPackageStatusRepository.save(testPackageStatus);
     }
 

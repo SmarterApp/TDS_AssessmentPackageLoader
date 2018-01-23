@@ -27,6 +27,7 @@ import tds.support.job.TestPackageRollbackJob;
 import tds.support.tool.handlers.loader.TestPackageFileHandler;
 import tds.support.tool.handlers.loader.TestPackageHandler;
 import tds.support.tool.repositories.JobRepository;
+import tds.support.tool.services.TestPackageStatusService;
 import tds.support.tool.services.loader.MessagingService;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,11 +53,17 @@ public class JobServiceImplTest {
     @Mock
     private TestPackageHandler mockTestPackageHandler;
 
+    @Mock
+    private TestPackageStatusService mockTestPackageStatusService;
+
     private JobServiceImpl jobService;
 
     @Before
     public void setUp() {
-        jobService = new JobServiceImpl(mockJobRepository, mockTestPackageFileHandler, mockMessagingService,
+        jobService = new JobServiceImpl(mockJobRepository,
+            mockTestPackageFileHandler,
+            mockMessagingService,
+            mockTestPackageStatusService,
             ImmutableMap.of(TestPackageLoadJob.TDS_UPLOAD, mockTestPackageHandler));
     }
 
