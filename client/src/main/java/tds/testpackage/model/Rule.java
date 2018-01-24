@@ -1,13 +1,16 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A rule for computing a score element, such as
@@ -21,7 +24,11 @@ public abstract class Rule {
     public abstract String getName();
     public abstract int getComputationOrder();
     @Nullable
-    public abstract List<Parameter> getParameters();
+    protected abstract List<Parameter> getParameters();
+    @JsonProperty(value = "parameters")
+    public List<Parameter> parameters() {
+        return Optional.ofNullable(getParameters()).orElse(new ArrayList<>());
+    }
 
     public static Builder builder() {
         return new AutoValue_Rule.Builder();

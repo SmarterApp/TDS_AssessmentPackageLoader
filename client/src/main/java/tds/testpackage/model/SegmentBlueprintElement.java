@@ -1,6 +1,7 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
@@ -54,6 +55,7 @@ public abstract class SegmentBlueprintElement {
 
     protected abstract Optional<List<Property>> getItemSelection();
 
+    @JsonProperty(value = "itemSelection")
     public List<Property> itemSelection() {
         return getItemSelection().orElse(new ArrayList<>());
     }

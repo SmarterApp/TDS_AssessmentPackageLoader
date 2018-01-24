@@ -27,15 +27,33 @@ public class TestPackageSerializationIntegrationTests {
     private XmlMapper xmlMapper;
 
     private String expectedJSON = "{\"publisher\":\"SBAC_PT\",\"publishDate\":\"2015-08-19T18:13:51.0\",\"subject\":\"MATH\",\"type\":\"summative\",\"version\":\"8185\",\"bankKey\":187,\"academicYear\":\"2017-2018\"," +
-        "\"blueprint\":[{\"id\":\"SBAC-IRP-COMBINED-MATH-11\",\"type\":\"combined\"}]," +
+        "\"blueprint\":[{\"id\":\"SBAC-IRP-COMBINED-MATH-11\",\"type\":\"combined\"," +
+        "\"scoring\":{\"rules\":[{\"name\":\"rule-name\",\"computationOrder\":1," +
+        "\"parameters\":[{\"id\":\"id\",\"name\":\"parameter-name\",\"type\":\"type\",\"position\":1,\"values\":[{\"value\":\"value\"}]," +
+        "\"properties\":[{\"name\":\"property-name\",\"value\":\"property-value\"}]}]}]," +
+        "\"performanceLevels\":[{\"scaledLo\":1.0,\"scaledHi\":10.0,\"pLevel\":1}]}}," +
+        "{\"id\":\"nested-parent\",\"type\":\"combined\",\"blueprintElements\":[{\"id\":\"nested-child\",\"type\":\"combined\"}]}]," +
         "\"assessments\":[{\"id\":\"SBAC-IRP-CAT-MATH-11\",\"label\":\"IRP CAT Grade 11 Math\",\"grades\":[{\"value\":\"11\"}]," +
-        "\"segments\":[{\"id\":\"SBAC-IRP-Perf-MATH-11\",\"algorithmType\":\"fixedform\",\"algorithmImplementation\":\"FAIRWAY ROUNDROBIN\"," +
+        "\"segments\":[{\"id\":\"SBAC-IRP-Perf-MATH-11\",\"algorithmType\":\"fixedform\",\"algorithmImplementation\":\"FAIRWAY ROUNDROBIN\",\"position\":1," +
         "\"pool\":[{\"id\":\"id\",\"items\":[{\"id\":\"id\",\"type\":\"type\",\"presentations\":[\"ENU\"]," +
         "\"blueprintReferences\":[{\"idRef\":\"SBAC-IRP-CAT-MATH-11\"},{\"idRef\":\"G11Math_DOK2\"}]," +
         "\"itemScoreDimension\":{\"measurementModel\":\"IRT3PLn\",\"scorePoints\":1,\"weight\":1.0," +
         "\"itemScoreParameters\":[{\"measurementParameter\":\"a\",\"value\":6.3}]}}]}]," +
-        "\"position\":1}],\"tools\":[{\"name\":\"tool\",\"studentPackageFieldName\":\"TDSAcc\"," +
+        "\"segmentForms\":[{\"id\":\"id\",\"cohort\":\"Cohort\",\"presentations\":[\"ENU\"]," +
+        "\"itemGroups\":[{\"id\":\"item-group-id2\",\"items\":[{\"id\":\"item-id2\",\"type\":\"type\",\"presentations\":[\"ENU\"]," +
+        "\"blueprintReferences\":[{\"idRef\":\"blueprintReference3\"}]," +
+        "\"itemScoreDimension\":{\"measurementModel\":\"model2\",\"scorePoints\":1,\"weight\":0.0}}]}]}]}]," +
+        "\"tools\":[{\"name\":\"tool\",\"studentPackageFieldName\":\"TDSAcc\"," +
         "\"options\":[{\"code\":\"TDS_Other\",\"sortOrder\":0,\"dependencies\":[{\"ifToolType\":\"ifToolType\",\"ifToolCode\":\"ifToolCode\",\"enabled\":true,\"default\":false}]}]}]}]}";
+
+    private String expectedJSON2 = "{\"publisher\":\"SBAC_PT\",\"publishDate\":\"2015-08-19T18:13:51.0\",\"subject\":\"MATH\",\"type\":\"summative\",\"version\":\"8185\",\"bankKey\":187,\"academicYear\":\"2017-2018\"," +
+        "\"blueprint\":[{\"id\":\"SBAC-IRP-COMBINED-MATH-11\",\"type\":\"combined\"," +
+        "\"scoring\":{\"rules\":[{\"name\":\"rule-name\",\"computationOrder\":1," +
+        "\"parameters\":[{\"id\":\"id\",\"name\":\"parameter-name\",\"type\":\"type\",\"position\":1,\"values\":[{\"value\":\"value\"}]," +
+        "\"properties\":[{\"name\":\"property-name\",\"value\":\"property-value\"}]}]}]," +
+        "\"performanceLevels\":[{\"scaledLo\":1.0,\"scaledHi\":10.0,\"pLevel\":1}]}}," +
+        "{\"id\":\"nested-parent\",\"type\":\"combined\",\"blueprintElements\":[{\"id\":\"nested-child\",\"type\":\"combined\"}]}]," +
+        "\"assessments\":[{\"id\":\"SBAC-IRP-CAT-MATH-11\",\"label\":\"IRP CAT Grade 11 Math\",\"grades\":[{\"value\":\"11\"}],\"segments\":[{\"id\":\"SBAC-IRP-Perf-MATH-11\",\"algorithmType\":\"fixedform\",\"algorithmImplementation\":\"FAIRWAY ROUNDROBIN\",\"position\":1,\"pool\":[{\"id\":\"id\",\"items\":[{\"id\":\"id\",\"type\":\"type\",\"presentations\":[\"ENU\"],\"blueprintReferences\":[{\"idRef\":\"SBAC-IRP-CAT-MATH-11\"},{\"idRef\":\"G11Math_DOK2\"}],\"itemScoreDimension\":{\"measurementModel\":\"IRT3PLn\",\"scorePoints\":1,\"weight\":1.0,\"itemScoreParameters\":[{\"measurementParameter\":\"a\",\"value\":6.3}]}}]}],\"segmentForms\":[{\"id\":\"id\",\"cohort\":\"Cohort\",\"presentations\":[\"ENU\"],\"itemGroups\":[{\"id\":\"item-group-id2\",\"items\":[{\"id\":\"item-id2\",\"type\":\"type\",\"presentations\":[\"ENU\"],\"blueprintReferences\":[{\"idRef\":\"blueprintReference3\"}],\"itemScoreDimension\":{\"measurementModel\":\"model2\",\"scorePoints\":1,\"weight\":0.0}}]}]}]}],\"tools\":[{\"name\":\"tool\",\"studentPackageFieldName\":\"TDSAcc\",\"options\":[{\"code\":\"TDS_Other\",\"sortOrder\":0,\"dependencies\":[{\"ifToolType\":\"ifToolType\",\"ifToolCode\":\"ifToolCode\",\"enabled\":true,\"default\":false}]}]}]}]}";
 
     @Before
     public void setUp() {
@@ -49,9 +67,58 @@ public class TestPackageSerializationIntegrationTests {
 
     @Test
     public void shouldSerializeToJson() throws JsonProcessingException {
+        Value value = Value.builder()
+            .setValue("value")
+            .build();
+
+        Property property = Property.builder()
+            .setName("property-name")
+            .setValue("property-value")
+            .build();
+
+        Parameter parameter = Parameter.builder()
+            .setId("id")
+            .setName("parameter-name")
+            .setType("type")
+            .setPosition(1)
+            .setProperties(Arrays.asList(property))
+            .setValues(Arrays.asList(value))
+            .build();
+
+        Rule rule = Rule.builder()
+            .setName("rule-name")
+            .setParameters(Arrays.asList(parameter))
+            .setComputationOrder(1)
+            .build();
+
+        PerformanceLevel performanceLevel = PerformanceLevel.builder()
+            .setPLevel(1)
+            .setScaledHi(10)
+            .setScaledLo(1)
+            .build();
+
+        Scoring scoring = Scoring.builder()
+            .setPerformanceLevels(Arrays.asList(performanceLevel))
+            .setRules(Arrays.asList(rule))
+            .build();
+
         BlueprintElement blueprintElement = BlueprintElement.builder()
             .setId("SBAC-IRP-COMBINED-MATH-11")
             .setType("combined")
+            .setScoring(scoring)
+            .build();
+
+        BlueprintElement nestedBlueprintElementChild = BlueprintElement.builder()
+            .setId("nested-child")
+            .setType("combined")
+            .setScoring(Optional.empty())
+            .build();
+
+        BlueprintElement nestedBlueprintElementParent = BlueprintElement.builder()
+            .setId("nested-parent")
+            .setType("combined")
+            .setScoring(Optional.empty())
+            .setBlueprintElements(Arrays.asList(nestedBlueprintElementChild))
             .build();
 
         Grade grade = Grade.builder()
@@ -66,6 +133,10 @@ public class TestPackageSerializationIntegrationTests {
             .setIdRef("G11Math_DOK2")
             .build();
 
+        BlueprintReference blueprintReference3 = BlueprintReference.builder()
+            .setIdRef("blueprintReference3")
+            .build();
+
         ItemScoreParameter itemScoreParameter = ItemScoreParameter.builder()
             .setMeasurementParameter("a")
             .setValue(6.3)
@@ -76,6 +147,12 @@ public class TestPackageSerializationIntegrationTests {
             .setMeasurementModel("IRT3PLn")
             .setWeight(1)
             .setItemScoreParameters(Arrays.asList(itemScoreParameter))
+            .build();
+
+        ItemScoreDimension itemScoreDimension2 = ItemScoreDimension.builder()
+            .setScorePoints(1)
+            .setWeight(0.0)
+            .setMeasurementModel("model2")
             .build();
 
         Item item = Item.builder()
@@ -91,12 +168,33 @@ public class TestPackageSerializationIntegrationTests {
             .setItems(Arrays.asList(item))
             .build();
 
+        Item item2 = Item.builder()
+            .setPresentations(Arrays.asList("ENU"))
+            .setBlueprintReferences(Arrays.asList(blueprintReference3))
+            .setId("item-id2")
+            .setType("type")
+            .setItemScoreDimension(itemScoreDimension2)
+            .build();
+
+        ItemGroup itemGroup2 = ItemGroup.builder()
+            .setId("item-group-id2")
+            .setItems(Arrays.asList(item2))
+            .build();
+
+        SegmentForm segmentForm = SegmentForm.builder()
+            .setId("id")
+            .setCohort("Cohort")
+            .setPresentations(Arrays.asList("ENU"))
+            .setItemGroups(Arrays.asList(itemGroup2))
+            .build();
+
         Segment segment = Segment.builder()
             .setId("SBAC-IRP-Perf-MATH-11")
-            .setPosition(Optional.of(1))
+            .setPosition(1)
             .setAlgorithmType("fixedform")
             .setAlgorithmImplementation("FAIRWAY ROUNDROBIN")
             .setPool(Arrays.asList(itemGroup))
+            .setSegmentForms(Arrays.asList(segmentForm))
             .build();
 
         Dependency dependency = Dependency.builder()
@@ -132,7 +230,7 @@ public class TestPackageSerializationIntegrationTests {
             .setVersion("8185")
             .setBankKey(187)
             .setAcademicYear("2017-2018")
-            .setBlueprint(Arrays.asList(blueprintElement))
+            .setBlueprint(Arrays.asList(blueprintElement, nestedBlueprintElementParent))
             .setAssessments(Arrays.asList(assessment))
             .build();
 
@@ -220,9 +318,10 @@ public class TestPackageSerializationIntegrationTests {
         InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("segment-blueprint-element.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
 
-        assertThat(testPackage.getAssessments().get(0).getSegments().get(0).getSegmentBlueprint().get(0).itemSelection().size()).isEqualTo(1);
-        assertThat(testPackage.getAssessments().get(0).getSegments().get(0).getSegmentBlueprint().get(1).itemSelection().size()).isEqualTo(1);
-        assertThat(testPackage.getAssessments().get(0).getSegments().get(0).getSegmentBlueprint().get(2).itemSelection().size()).isEqualTo(0);
+        List<SegmentBlueprintElement> segmentBlueprint = testPackage.getAssessments().get(0).getSegments().get(0).getSegmentBlueprint();
+        assertThat(segmentBlueprint.get(0).itemSelection().size()).isEqualTo(1);
+        assertThat(segmentBlueprint.get(1).itemSelection().size()).isEqualTo(1);
+        assertThat(segmentBlueprint.get(2).itemSelection().size()).isEqualTo(0);
     }
 
     @Test
@@ -231,6 +330,26 @@ public class TestPackageSerializationIntegrationTests {
 
         assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
         assertThat(testPackage.getSubject()).isEqualTo("MATH");
+        BlueprintElement nestedChildBlueprintElement = testPackage.getBlueprint().get(1).blueprintElements().get(0);
+        assertThat(nestedChildBlueprintElement.getId()).isEqualTo("nested-child");
+
+        SegmentForm segmentForm = testPackage.getAssessments().get(0).getSegments().get(0).getSegmentForms().get(0);
+        Item item = segmentForm.itemGroups().get(0).items().get(0);
+        assertThat(item.getId()).isEqualTo("item-id2");
+
+        Scoring scoring = testPackage.getBlueprint().get(0).getScoring().get();
+        PerformanceLevel performanceLevel = scoring.performanceLevels().get(0);
+        assertThat(performanceLevel.getPLevel()).isEqualTo(1);
+        assertThat(performanceLevel.getScaledHi()).isEqualTo(10);
+        assertThat(performanceLevel.getScaledLo()).isEqualTo(1);
+
+        Rule rule = scoring.getRules().get(0);
+        assertThat(rule.getName()).isEqualTo("rule-name");
+        Parameter parameter = rule.getParameters().get(0);
+        assertThat(parameter.getName()).isEqualTo("parameter-name");
+        assertThat(parameter.getProperties().get(0).getName()).isEqualTo("property-name");
+        assertThat(parameter.getProperties().get(0).getValue()).isEqualTo("property-value");
+        assertThat(parameter.getValues().get(0).getValue()).isEqualTo("value");
     }
 
     /**

@@ -52,6 +52,7 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
                     jp.nextToken();
                     blueprint = xmlMapper.readValue(jp, new TypeReference<List<BlueprintElement>>() {});
                 } else if ("Assessment".equals(jp.getCurrentName())) {
+                    jp.nextToken();
                     assessments.add(xmlMapper.readValue(jp, Assessment.class));
                 } else if ("assessments".equals(jp.getCurrentName())) {
                     jp.nextToken();
@@ -72,8 +73,27 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
             setAssessments(assessments).
             build();
 
-        assessments.stream().forEach(a -> a.setTestPackage(testPackage));
+        assessments.forEach(assessment -> {
+            assessment.setTestPackage(testPackage);
+            assessment.getSegments().forEach(segment -> {
+                segment.setAssessment(assessment);
+                segment.segmentForms().forEach(segmentForm -> {
+                    segmentForm.setSegment(segment);
+                    segmentForm.itemGroups().forEach(itemGroup -> setItemGroup(itemGroup, segment));
+
+                });
+                segment.pool().forEach(itemGroup -> setItemGroup(itemGroup, segment));
+            });
+        });
 
         return testPackage;
+    }
+
+    private static void setItemGroup(final ItemGroup itemGroup, final Segment segment) {
+        itemGroup.setSegment(segment);
+        itemGroup.getItems().forEach(item ->
+            item.setItemGroup(itemGroup));
+        itemGroup.getStimulus().ifPresent(
+            stimulus -> stimulus.setItemGroup(itemGroup));
     }
 }
