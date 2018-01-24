@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,11 +54,12 @@ public abstract class SegmentBlueprintElement {
         return getMaxFieldTestItems().orElse(0);
     }
 
-    protected abstract Optional<List<Property>> getItemSelection();
+    @Nullable
+    protected abstract List<Property> getItemSelection();
 
     @JsonProperty(value = "itemSelection")
     public List<Property> itemSelection() {
-        return getItemSelection().orElse(new ArrayList<>());
+        return Optional.ofNullable(getItemSelection()).orElse(new ArrayList<>());
     }
 
     public static Builder builder() {
@@ -87,7 +89,7 @@ public abstract class SegmentBlueprintElement {
         }
 
         @JacksonXmlProperty(localName = "ItemSelection")
-        protected abstract Builder setItemSelection(Optional<List<Property>> newItemSelection);
+        protected abstract Builder setItemSelection(List<Property> newItemSelection);
 
         public abstract SegmentBlueprintElement build();
     }

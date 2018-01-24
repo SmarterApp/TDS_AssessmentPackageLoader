@@ -45,16 +45,7 @@ public class TestPackageSerializationIntegrationTests {
         "\"itemScoreDimension\":{\"measurementModel\":\"model2\",\"scorePoints\":1,\"weight\":0.0}}]}]}]}]," +
         "\"tools\":[{\"name\":\"tool\",\"studentPackageFieldName\":\"TDSAcc\"," +
         "\"options\":[{\"code\":\"TDS_Other\",\"sortOrder\":0,\"dependencies\":[{\"ifToolType\":\"ifToolType\",\"ifToolCode\":\"ifToolCode\",\"enabled\":true,\"default\":false}]}]}]}]}";
-
-    private String expectedJSON2 = "{\"publisher\":\"SBAC_PT\",\"publishDate\":\"2015-08-19T18:13:51.0\",\"subject\":\"MATH\",\"type\":\"summative\",\"version\":\"8185\",\"bankKey\":187,\"academicYear\":\"2017-2018\"," +
-        "\"blueprint\":[{\"id\":\"SBAC-IRP-COMBINED-MATH-11\",\"type\":\"combined\"," +
-        "\"scoring\":{\"rules\":[{\"name\":\"rule-name\",\"computationOrder\":1," +
-        "\"parameters\":[{\"id\":\"id\",\"name\":\"parameter-name\",\"type\":\"type\",\"position\":1,\"values\":[{\"value\":\"value\"}]," +
-        "\"properties\":[{\"name\":\"property-name\",\"value\":\"property-value\"}]}]}]," +
-        "\"performanceLevels\":[{\"scaledLo\":1.0,\"scaledHi\":10.0,\"pLevel\":1}]}}," +
-        "{\"id\":\"nested-parent\",\"type\":\"combined\",\"blueprintElements\":[{\"id\":\"nested-child\",\"type\":\"combined\"}]}]," +
-        "\"assessments\":[{\"id\":\"SBAC-IRP-CAT-MATH-11\",\"label\":\"IRP CAT Grade 11 Math\",\"grades\":[{\"value\":\"11\"}],\"segments\":[{\"id\":\"SBAC-IRP-Perf-MATH-11\",\"algorithmType\":\"fixedform\",\"algorithmImplementation\":\"FAIRWAY ROUNDROBIN\",\"position\":1,\"pool\":[{\"id\":\"id\",\"items\":[{\"id\":\"id\",\"type\":\"type\",\"presentations\":[\"ENU\"],\"blueprintReferences\":[{\"idRef\":\"SBAC-IRP-CAT-MATH-11\"},{\"idRef\":\"G11Math_DOK2\"}],\"itemScoreDimension\":{\"measurementModel\":\"IRT3PLn\",\"scorePoints\":1,\"weight\":1.0,\"itemScoreParameters\":[{\"measurementParameter\":\"a\",\"value\":6.3}]}}]}],\"segmentForms\":[{\"id\":\"id\",\"cohort\":\"Cohort\",\"presentations\":[\"ENU\"],\"itemGroups\":[{\"id\":\"item-group-id2\",\"items\":[{\"id\":\"item-id2\",\"type\":\"type\",\"presentations\":[\"ENU\"],\"blueprintReferences\":[{\"idRef\":\"blueprintReference3\"}],\"itemScoreDimension\":{\"measurementModel\":\"model2\",\"scorePoints\":1,\"weight\":0.0}}]}]}]}],\"tools\":[{\"name\":\"tool\",\"studentPackageFieldName\":\"TDSAcc\",\"options\":[{\"code\":\"TDS_Other\",\"sortOrder\":0,\"dependencies\":[{\"ifToolType\":\"ifToolType\",\"ifToolCode\":\"ifToolCode\",\"enabled\":true,\"default\":false}]}]}]}]}";
-
+    
     @Before
     public void setUp() {
         objectMapper = new ObjectMapper();

@@ -126,7 +126,6 @@ public abstract class Segment {
         return assessment;
     }
 
-
     @JsonIgnore
     public String getKey() {
         return String.format("(%s)%s-%s", assessment.getTestPackage().getPublisher(), getId(), assessment.getTestPackage().getAcademicYear());

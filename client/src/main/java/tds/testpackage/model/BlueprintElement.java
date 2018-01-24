@@ -70,7 +70,6 @@ public abstract class BlueprintElement {
             return this;
         }
 
-
         @JacksonXmlElementWrapper(useWrapping = false)
         @JacksonXmlProperty(localName = "BlueprintElement")
         public abstract Builder setBlueprintElements(List<BlueprintElement> newBlueprintElements);

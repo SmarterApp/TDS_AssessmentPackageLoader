@@ -73,7 +73,6 @@ public abstract class Item {
         return String.format("%s-%s", getItemGroup().getSegment().getAssessment().getTestPackage().getBankKey(), getId());
     }
 
-
     public static Builder builder() {
         return new AutoValue_Item.Builder();
     }
