@@ -1,12 +1,15 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +36,20 @@ public abstract class ItemGroup {
     public abstract Optional<Stimulus> getStimulus();
 
     @Nullable
-    public abstract List<Item> getItems();
+    protected abstract List<Item> getItems();
+    @JsonProperty(value = "items")
+    public List<Item> items() {
+        return Optional.ofNullable(getItems()).orElse(new ArrayList<>());
+    }
+
+    private Segment segment;
+    public void setSegment(Segment segment) {
+        this.segment = segment;
+    }
+    @JsonIgnore
+    public Segment getSegment() {
+        return this.segment;
+    }
 
     public static Builder builder() {
         return new AutoValue_ItemGroup.Builder();

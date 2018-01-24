@@ -23,7 +23,7 @@ import java.util.List;
  *   subType: (OPTIONAL) A subtype classification of the exam (e.g., "ICA", "IAB")
  */
 @AutoValue
-@JsonDeserialize(using = AssessmentDeserializer.class, builder = AutoValue_Assessment.Builder.class)
+@JsonDeserialize(builder = AutoValue_Assessment.Builder.class)
 public abstract class Assessment {
     public abstract String getId();
     public abstract String getLabel();

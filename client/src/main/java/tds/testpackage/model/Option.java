@@ -1,11 +1,13 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +34,11 @@ public abstract class Option {
      * @return
      */
     @Nullable
-    public abstract List<Dependency> getDependencies();
+    protected abstract List<Dependency> getDependencies();
+    @JsonProperty(value = "dependencies")
+    public List<Dependency> dependencies() {
+        return Optional.ofNullable(getDependencies()).orElse(new ArrayList<>());
+    }
 
     public static Builder builder() {
         return new AutoValue_Option.Builder();

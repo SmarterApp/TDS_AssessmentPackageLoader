@@ -1,6 +1,7 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
@@ -54,6 +55,22 @@ public abstract class Item {
     protected abstract Optional<String> getDoNotScore();
     public boolean doNotScore() {
         return parseBoolean(getDoNotScore(), false);
+    }
+
+    private ItemGroup itemGroup;
+
+    public void setItemGroup(ItemGroup itemGroup) {
+        this.itemGroup = itemGroup;
+    }
+
+    @JsonIgnore
+    public ItemGroup getItemGroup() {
+        return this.itemGroup;
+    }
+
+    @JsonIgnore
+    public String getKey() {
+        return String.format("%s-%s", getItemGroup().getSegment().getAssessment().getTestPackage().getBankKey(), getId());
     }
 
     public static Builder builder() {

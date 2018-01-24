@@ -62,7 +62,7 @@
                                 <BlueprintReferences>
                                     <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
                                 </BlueprintReferences>
-                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000" dimension="test-dimension">
                                     <ItemScoreParameter measurementParameter="a" value="6.389300000000000e-001" />
                                     <ItemScoreParameter measurementParameter="b" value="3.027330000000000e+000" />
                                     <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000" />

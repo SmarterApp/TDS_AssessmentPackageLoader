@@ -8,6 +8,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,13 +65,21 @@ public abstract class Segment {
 
     public abstract String getAlgorithmImplementation();
 
+    @Nullable
+    protected abstract List<SegmentBlueprintElement> getSegmentBlueprint();
+
     /**
      * A segment-level Blueprint that defines item selection rules for adaptive segments
      *
      * @return
      */
+    @JsonProperty(value = "segmentBlueprint")
+    public List<SegmentBlueprintElement> segmentBlueprint() {
+        return Optional.ofNullable(getSegmentBlueprint()).orElse(new ArrayList<>());
+    }
+
     @Nullable
-    public abstract List<SegmentBlueprintElement> getSegmentBlueprint();
+    protected abstract List<ItemGroup> getPool();
 
     /**
      * The Segment's Pool - A list of items/itemgroups that is specific for adaptive segments.
@@ -80,8 +89,13 @@ public abstract class Segment {
      *
      * @return
      */
+    @JsonProperty(value = "pool")
+    public List<ItemGroup> pool() {
+        return Optional.ofNullable(getPool()).orElse(new ArrayList<>());
+    }
+
     @Nullable
-    public abstract List<ItemGroup> getPool();
+    protected abstract List<SegmentForm> getSegmentForms();
 
     /**
      * The forms available form selection for this assessment (typically based on subject and the form cohort),
@@ -89,8 +103,10 @@ public abstract class Segment {
      *
      * @return
      */
-    @Nullable
-    public abstract List<SegmentForm> getSegmentForms();
+    @JsonProperty(value = "segmentForms")
+    public List<SegmentForm> segmentForms() {
+        return Optional.ofNullable(getSegmentForms()).orElse(new ArrayList<>());
+    }
 
     private Assessment assessment;
 
@@ -100,6 +116,14 @@ public abstract class Segment {
      */
     public void setAssessment(Assessment assessment) {
         this.assessment = assessment;
+    }
+
+    /**
+     * Reference to parent assessment to access test package fields to construct composite key
+     */
+    @JsonIgnore
+    public Assessment getAssessment() {
+        return assessment;
     }
 
     @JsonIgnore

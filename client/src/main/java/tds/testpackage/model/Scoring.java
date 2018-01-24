@@ -1,18 +1,25 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Scoring.Builder.class)
 public abstract class Scoring {
     @Nullable
-    public abstract List<PerformanceLevel> getPerformanceLevels();
+    protected abstract List<PerformanceLevel> getPerformanceLevels();
+    @JsonProperty("performanceLevels")
+    public List<PerformanceLevel> performanceLevels() {
+        return Optional.ofNullable(getPerformanceLevels()).orElse(new ArrayList<>());
+    }
 
     /**
      * Configurations for scoring the test, consisting of
