@@ -12,7 +12,6 @@ import java.util.Map;
  */
 public class TestPackageStatus {
     @Id
-    private String id;
     private String name;
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -32,17 +31,6 @@ public class TestPackageStatus {
         this.name = name;
         this.uploadedAt = uploadedAt;
         this.targets = targets;
-    }
-
-    /**
-     * @return The unique identifier assigned by MongoDB.
-     */
-    public String getId() {
-        return id;
-    }
-
-    public void setId(final String id) {
-        this.id = id;
     }
 
     /**

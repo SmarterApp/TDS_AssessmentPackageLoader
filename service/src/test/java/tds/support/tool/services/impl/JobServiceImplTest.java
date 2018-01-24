@@ -9,9 +9,12 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import tds.support.job.Error;
@@ -24,6 +27,8 @@ import tds.support.job.Step;
 import tds.support.job.TestPackageDeleteJob;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.job.TestPackageRollbackJob;
+import tds.support.job.TestPackageStatus;
+import tds.support.job.TestPackageTargetSystemStatus;
 import tds.support.tool.handlers.loader.TestPackageFileHandler;
 import tds.support.tool.handlers.loader.TestPackageHandler;
 import tds.support.tool.repositories.JobRepository;
@@ -144,12 +149,24 @@ public class JobServiceImplTest {
         final Job loaderJob = new TestPackageLoadJob("TestPackageName", false, false);
         loaderJob.setId("myId");
 
+        final Map<TargetSystem, TestPackageTargetSystemStatus> mockTargetSystemStatusMap = new HashMap<>();
+        mockTargetSystemStatusMap.put(TargetSystem.TDS, new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS));
+
+        final TestPackageStatus mockLoaderJobStatus = new TestPackageStatus(loaderJob.getName(),
+            LocalDateTime.now(),
+            mockTargetSystemStatusMap);
+
         ArgumentCaptor<Job> jobArgumentCaptor = ArgumentCaptor.forClass(Job.class);
         when(mockJobRepository.findOne(loaderJob.getId())).thenReturn(loaderJob);
+        when(mockTestPackageStatusService.save(loaderJob)).thenReturn(mockLoaderJobStatus);
+
         jobService.executeJobSteps(loaderJob.getId());
+
         verify(mockJobRepository).findOne(loaderJob.getId());
         verify(mockTestPackageHandler).handle(eq(loaderJob), isA(Step.class));
         verify(mockJobRepository, times(2)).save(jobArgumentCaptor.capture());
+        // Only called once because there is only one handler configured in this test
+        verify(mockTestPackageStatusService, times(1)).save(jobArgumentCaptor.capture());
 
         List<Job> savedJobs = jobArgumentCaptor.getAllValues();
         assertThat(savedJobs).hasSize(2);
@@ -164,17 +181,29 @@ public class JobServiceImplTest {
         failedStep.setStatus(Status.FAIL);
         failedStep.addError(new Error("An error", ErrorSeverity.CRITICAL));
 
+        final Map<TargetSystem, TestPackageTargetSystemStatus> mockFailedSystemStatusMap = new HashMap<>();
+        mockFailedSystemStatusMap.put(TargetSystem.TDS, new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.FAIL));
+
+        final TestPackageStatus mockFailedJobStatus = new TestPackageStatus(loaderJob.getName(),
+            LocalDateTime.now(),
+            mockFailedSystemStatusMap);
+
         final Job rollbackJob = new TestPackageRollbackJob(loaderJob.getId(), "TestPackageName", false, false);
         rollbackJob.setId("rollbackId");
         ArgumentCaptor<Job> jobArgumentCaptor = ArgumentCaptor.forClass(Job.class);
         when(mockJobRepository.findOne(loaderJob.getId())).thenReturn(loaderJob);
         when(mockJobRepository.save(isA(Job.class))).thenReturn(rollbackJob);
+        when(mockTestPackageStatusService.save(loaderJob)).thenReturn(mockFailedJobStatus);
+
         jobService.executeJobSteps(loaderJob.getId());
+
         verify(mockJobRepository).findOne(loaderJob.getId());
         verify(mockTestPackageHandler).handle(eq(loaderJob), isA(Step.class));
         verify(mockMessagingService).sendJobStepExecute(isA(String.class));
         // 2 saves for the loader job (in progress/fail status) and 1 for the rollback job creation
         verify(mockJobRepository, times(3)).save(jobArgumentCaptor.capture());
+        // Still called once to indicate the loader job's failure
+        verify(mockTestPackageStatusService, times(1)).save(jobArgumentCaptor.capture());
 
         List<Job> savedJobs = jobArgumentCaptor.getAllValues();
         assertThat(savedJobs).hasSize(3);
@@ -193,4 +222,34 @@ public class JobServiceImplTest {
         assertThat(savedFailedLoaderJob.getId()).isEqualTo(loaderJobPreStepHandlers.getId());
     }
 
+    @Test
+    public void shouldDeleteTestPackageStatusRecordWhenJobIsARollbackJob() {
+        final Job rollbackJob = new TestPackageRollbackJob("parentJobId",
+            "TestPackageName",
+            false,
+            false);
+        rollbackJob.setId("rollbackId");
+
+        when(mockJobRepository.findOne(rollbackJob.getId())).thenReturn(rollbackJob);
+        when(mockJobRepository.save(isA(Job.class))).thenReturn(rollbackJob);
+
+        jobService.executeJobSteps(rollbackJob.getId());
+        verify(mockTestPackageStatusService, times(0)).save(rollbackJob);
+        verify(mockTestPackageStatusService, times(1)).delete(rollbackJob.getName());
+    }
+
+    @Test
+    public void shouldDeleteTestPackageStatusRecordWhenJobIsADeleteJob() {
+        final Job deleteJob = new TestPackageDeleteJob("TestPackageName",
+            false,
+            false);
+        deleteJob.setId("deleteId");
+
+        when(mockJobRepository.findOne(deleteJob.getId())).thenReturn(deleteJob);
+        when(mockJobRepository.save(isA(Job.class))).thenReturn(deleteJob);
+
+        jobService.executeJobSteps(deleteJob.getId());
+        verify(mockTestPackageStatusService, times(0)).save(deleteJob);
+        verify(mockTestPackageStatusService, times(1)).delete(deleteJob.getName());
+    }
 }

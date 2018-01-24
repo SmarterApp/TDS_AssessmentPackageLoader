@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import tds.support.job.Job;
 import tds.support.job.TargetSystem;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.job.TestPackageStatus;
@@ -26,13 +27,13 @@ public class TestPackageStatusServiceImpl implements TestPackageStatusService {
     }
 
     @Override
-    public TestPackageStatus create(final TestPackageLoadJob job) {
+    public TestPackageStatus save(final Job job) {
         final Map<TargetSystem, TestPackageTargetSystemStatus> targetSystems = job.getSteps().stream()
             .filter(step -> !step.getName().equals(TestPackageLoadJob.FILE_UPLOAD))
             .map(step -> new TestPackageTargetSystemStatus(step.getJobStepTarget(), step.getStatus()))
             .collect(Collectors.toMap(TestPackageTargetSystemStatus::getTarget, Function.identity()));
 
-        final TestPackageStatus testPackageStatus = new TestPackageStatus(job.getTestPackageFileName(),
+        final TestPackageStatus testPackageStatus = new TestPackageStatus(job.getName(),
             LocalDateTime.now(),
             targetSystems);
 
@@ -40,12 +41,12 @@ public class TestPackageStatusServiceImpl implements TestPackageStatusService {
     }
 
     @Override
-    public TestPackageStatus update(final TestPackageStatus testPackageStatus) {
-        return testPackageStatusRepository.save(testPackageStatus);
+    public List<TestPackageStatus> getAll() {
+        return testPackageStatusRepository.findAll();
     }
 
     @Override
-    public List<TestPackageStatus> getAll() {
-        return testPackageStatusRepository.findAll();
+    public void delete(final String testPackageName) {
+        testPackageStatusRepository.delete(testPackageName);
     }
 }

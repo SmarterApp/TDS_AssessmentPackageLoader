@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestPackageLoadJob extends Job {
-    private final String testPackageFileName;
     private static final String TEST_PACKAGE_PREFIX = "test-package";
     public static final String FILE_UPLOAD = TEST_PACKAGE_PREFIX + "-file-upload";
     public static final String VALIDATE = TEST_PACKAGE_PREFIX + "-validate";
@@ -19,7 +18,7 @@ public class TestPackageLoadJob extends Job {
 
     public TestPackageLoadJob(final String testPackageFileName, boolean skipArt, boolean skipScoring) {
         // Spring Data requires us to persist these variables
-        this.testPackageFileName = testPackageFileName;
+        this.setName(testPackageFileName);
         this.skipArt = skipArt;
         this.skipScoring = skipScoring;
 
@@ -40,10 +39,6 @@ public class TestPackageLoadJob extends Job {
 
         this.setSteps(steps);
         this.setType(JobType.LOADER);
-    }
-
-    public String getTestPackageFileName() {
-        return this.testPackageFileName;
     }
 
     public boolean isSkipArt() {

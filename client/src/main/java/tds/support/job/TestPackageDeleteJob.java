@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestPackageDeleteJob extends Job {
-    private final String testPackageFileName;
     private static final String TEST_PACKAGE_PREFIX = "test-package";
     public static final String ART_DELETE = TEST_PACKAGE_PREFIX + "-art-delete";
     public static final String TDS_DELETE = TEST_PACKAGE_PREFIX + "-tds-delete";
@@ -17,7 +16,7 @@ public class TestPackageDeleteJob extends Job {
 
     public TestPackageDeleteJob(final String testPackageFileName, boolean skipArt, boolean skipScoring) {
         // Spring Data requires us to persist these variables
-        this.testPackageFileName = testPackageFileName;
+        this.setName(testPackageFileName);
         this.skipArt = skipArt;
         this.skipScoring = skipScoring;
 
@@ -39,9 +38,6 @@ public class TestPackageDeleteJob extends Job {
         this.setType(JobType.DELETE);
     }
 
-    public String getTestPackageFileName() {
-        return this.testPackageFileName;
-    }
 
     public boolean isSkipArt() {
         return skipArt;

@@ -2,6 +2,7 @@ package tds.support.tool.services;
 
 import java.util.List;
 
+import tds.support.job.Job;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.job.TestPackageStatus;
 
@@ -11,20 +12,12 @@ import tds.support.job.TestPackageStatus;
 public interface TestPackageStatusService {
     /**
      * Create a new {@link tds.support.job.TestPackageStatus} to record the state of the test package that is being
-     * loaded by the {@link tds.support.job.TestPackageLoadJob}.
+     * loaded by the {@link tds.support.job.Job}.
      *
-     * @param job The {@link tds.support.job.TestPackageLoadJob} that is loading the test package
+     * @param job The {@link tds.support.job.Job} that is loading the test package
      * @return The {@link tds.support.job.TestPackageStatus} that was created
      */
-    TestPackageStatus create(final TestPackageLoadJob job);
-
-    /**
-     * Update a {@link tds.support.job.TestPackageStatus} record with new data
-     *
-     * @param testPackageStatus The {@link tds.support.job.TestPackageStatus} to update
-     * @return The updated {@link tds.support.job.TestPackageStatus}
-     */
-    TestPackageStatus update(final TestPackageStatus testPackageStatus);
+    TestPackageStatus save(final Job job);
 
     /**
      * Fetch all {@link tds.support.job.TestPackageStatus}es
@@ -32,4 +25,12 @@ public interface TestPackageStatusService {
      * @return A collection of all the {@link tds.support.job.TestPackageStatus} records
      */
     List<TestPackageStatus> getAll();
+
+    /**
+     * Delete a {@link tds.support.job.TestPackageStatus} record for a {@link tds.testpackage.model.TestPackage} that is
+     * no longer in the system.
+     *
+     * @param testPackageName The name of the {@link tds.testpackage.model.TestPackage} to delete
+     */
+    void delete(final String testPackageName);
 }
