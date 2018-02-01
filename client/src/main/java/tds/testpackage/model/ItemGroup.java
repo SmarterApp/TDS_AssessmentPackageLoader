@@ -35,6 +35,34 @@ public abstract class ItemGroup {
     }
     public abstract Optional<Stimulus> getStimulus();
 
+    @JsonIgnore
+    public String getKey() {
+        /*
+            I-<bankkey>-<groupid> OR
+            G-<bankkey>-groupid>-<segmentPosition>
+
+            Rules:
+                If the item group contains more than one item, the prefix is "G", and the suffix is the
+                segment position (or "0" if this is a non-segmented assessment)
+
+                If the item group contains only one item, the prefix is "I" and there is no suffix
+         */
+        final String prefix = items().size() > 1 ? "G" : "I";
+        final String groupKey = items().size() > 1
+            ? String.format("%s-%s-%s-%s", prefix, getSegment().getAssessment().getTestPackage().getBankKey(), getId(), getGroupSuffix())
+            : String.format("%s-%s-%s", prefix, getSegment().getAssessment().getTestPackage().getBankKey(), getId());
+
+        return groupKey;
+    }
+
+    private String getGroupSuffix() {
+        if (getSegment().getAssessment().isSegmented()) {
+            return String.valueOf(getSegment().position());
+        }
+
+        return "0";
+    }
+
     @Nullable
     protected abstract List<Item> getItems();
     @JsonProperty(value = "items")

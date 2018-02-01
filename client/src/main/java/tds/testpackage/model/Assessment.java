@@ -31,6 +31,11 @@ public abstract class Assessment {
     public abstract List<Segment> getSegments();
     public abstract List<Tool> getTools();
 
+    @JsonIgnore
+    public boolean isSegmented() {
+        return getSegments().size() > 1;
+    }
+
     private TestPackage testPackage;
 
     public void setTestPackage(TestPackage testPackage) {
