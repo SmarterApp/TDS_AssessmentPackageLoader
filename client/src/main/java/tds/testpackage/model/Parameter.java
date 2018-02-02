@@ -1,13 +1,16 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A parameter for a computation rule
@@ -21,7 +24,11 @@ public abstract class Parameter {
     public abstract int getPosition();
     public abstract List<Value> getValues();
     @Nullable
-    public abstract List<Property> getProperties();
+    protected abstract List<Property> getProperties();
+    @JsonProperty(value = "properties")
+    public List<Property> properties() {
+        return Optional.ofNullable(getProperties()).orElse(new ArrayList<>());
+    }
 
     public static Builder builder() {
         return new AutoValue_Parameter.Builder();

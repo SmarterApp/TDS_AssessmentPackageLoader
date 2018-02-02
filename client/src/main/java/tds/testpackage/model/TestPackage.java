@@ -13,7 +13,7 @@ import java.util.List;
  * contains an optional <Scoring> element (for test packages that contain COMBINED scoring data, such as ICA assessments).
  */
 @AutoValue
-@JsonDeserialize(builder = AutoValue_TestPackage.Builder.class)
+@JsonDeserialize(using = TestPackageDeserializer.class,  builder = AutoValue_TestPackage.Builder.class)
 public abstract class TestPackage {
     public abstract String getPublisher();
     public abstract String getPublishDate();
