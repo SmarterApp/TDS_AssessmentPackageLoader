@@ -5,6 +5,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,7 +17,7 @@ public class TestPackageStatus {
 
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime uploadedAt = LocalDateTime.now();
-    private Map<TargetSystem, TestPackageTargetSystemStatus> targets;
+    private List<TestPackageTargetSystemStatus> targets;
 
     /**
      * Private constructor for frameworks
@@ -27,7 +28,7 @@ public class TestPackageStatus {
 
     public TestPackageStatus(final String name,
                              final LocalDateTime uploadedAt,
-                             final Map<TargetSystem, TestPackageTargetSystemStatus> targets) {
+                             final List<TestPackageTargetSystemStatus> targets) {
         this.name = name;
         this.uploadedAt = uploadedAt;
         this.targets = targets;
@@ -69,11 +70,11 @@ public class TestPackageStatus {
      * target system.
      * </p>
      */
-    public Map<TargetSystem, TestPackageTargetSystemStatus> getTargets() {
+    public List<TestPackageTargetSystemStatus> getTargets() {
         return targets;
     }
 
-    public void setTargets(final Map<TargetSystem, TestPackageTargetSystemStatus> targets) {
+    public void setTargets(final List<TestPackageTargetSystemStatus> targets) {
         this.targets = targets;
     }
 }

@@ -12,18 +12,16 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import tds.support.job.Error;
 import tds.support.job.ErrorSeverity;
 import tds.support.job.Job;
-import tds.support.job.TargetSystem;
 import tds.support.job.JobType;
 import tds.support.job.Status;
 import tds.support.job.Step;
+import tds.support.job.TargetSystem;
 import tds.support.job.TestPackageDeleteJob;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.job.TestPackageRollbackJob;
@@ -149,12 +147,12 @@ public class JobServiceImplTest {
         final Job loaderJob = new TestPackageLoadJob("TestPackageName", false, false);
         loaderJob.setId("myId");
 
-        final Map<TargetSystem, TestPackageTargetSystemStatus> mockTargetSystemStatusMap = new HashMap<>();
-        mockTargetSystemStatusMap.put(TargetSystem.TDS, new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS));
+        final List<TestPackageTargetSystemStatus> mockTargetSystemStatusList =
+            Collections.singletonList(new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS));
 
         final TestPackageStatus mockLoaderJobStatus = new TestPackageStatus(loaderJob.getName(),
             LocalDateTime.now(),
-            mockTargetSystemStatusMap);
+            mockTargetSystemStatusList);
 
         ArgumentCaptor<Job> jobArgumentCaptor = ArgumentCaptor.forClass(Job.class);
         when(mockJobRepository.findOne(loaderJob.getId())).thenReturn(loaderJob);
@@ -181,12 +179,12 @@ public class JobServiceImplTest {
         failedStep.setStatus(Status.FAIL);
         failedStep.addError(new Error("An error", ErrorSeverity.CRITICAL));
 
-        final Map<TargetSystem, TestPackageTargetSystemStatus> mockFailedSystemStatusMap = new HashMap<>();
-        mockFailedSystemStatusMap.put(TargetSystem.TDS, new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.FAIL));
+        final List<TestPackageTargetSystemStatus> mockFailedSystemStatusList =
+            Collections.singletonList(new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS));
 
         final TestPackageStatus mockFailedJobStatus = new TestPackageStatus(loaderJob.getName(),
             LocalDateTime.now(),
-            mockFailedSystemStatusMap);
+            mockFailedSystemStatusList);
 
         final Job rollbackJob = new TestPackageRollbackJob(loaderJob.getId(), "TestPackageName", false, false);
         rollbackJob.setId("rollbackId");
