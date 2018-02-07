@@ -173,7 +173,7 @@ public class JobServiceImplTest {
         verify(mockTestPackageStatusService, times(1)).save(jobArgumentCaptor.capture());
 
         List<Job> savedJobs = jobArgumentCaptor.getAllValues();
-        assertThat(savedJobs).hasSize(2);
+        assertThat(savedJobs).hasSize(3);
     }
 
 
@@ -210,17 +210,17 @@ public class JobServiceImplTest {
         verify(mockTestPackageStatusService, times(1)).save(jobArgumentCaptor.capture());
 
         List<Job> savedJobs = jobArgumentCaptor.getAllValues();
-        assertThat(savedJobs).hasSize(3);
+        assertThat(savedJobs).hasSize(4);
 
         Job loaderJobPreStepHandlers = savedJobs.get(0);
         assertThat(loaderJobPreStepHandlers.getType()).isEqualTo(JobType.LOADER);
         // Second save is our new "rollback" job
-        Job savedRollbackJob = savedJobs.get(1);
+        Job savedRollbackJob = savedJobs.get(2);
         assertThat(savedRollbackJob.getType()).isEqualTo(JobType.ROLLBACK);
         assertThat(savedRollbackJob.getStatus()).isEqualTo(Status.NOT_STARTED);
         assertThat(savedRollbackJob.getId()).isNotEqualTo(loaderJobPreStepHandlers.getId());
         // Third save is our loader jobs "fail" status save
-        Job savedFailedLoaderJob = savedJobs.get(2);
+        Job savedFailedLoaderJob = savedJobs.get(3);
         assertThat(savedFailedLoaderJob.getType()).isEqualTo(JobType.LOADER);
         assertThat(savedFailedLoaderJob.getStatus()).isEqualTo(Status.FAIL);
         assertThat(savedFailedLoaderJob.getId()).isEqualTo(loaderJobPreStepHandlers.getId());
