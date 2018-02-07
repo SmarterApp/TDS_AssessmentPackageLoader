@@ -15,6 +15,7 @@ import tds.support.job.Job;
 import tds.support.job.JobType;
 import tds.support.job.Status;
 import tds.support.job.Step;
+import tds.support.job.TestPackageDeleteJob;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.job.TestPackageRollbackJob;
 import tds.support.tool.handlers.loader.TestPackageFileHandler;
@@ -117,6 +118,25 @@ public class JobServiceImpl implements JobService {
         if (job.getType().equals(JobType.DELETE) || job.getType().equals(JobType.ROLLBACK)) {
             testPackageStatusService.delete(job.getName());
         }
+    }
+
+    @Override
+    public void startPackageDelete(final String testPackageName) {
+        final Job mostRecentLoaderJob = jobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(testPackageName,
+            JobType.LOADER);
+
+        // If there's no previous loader job for the specified test package, exit (because there's nothing to do).
+        if (mostRecentLoaderJob == null) {
+            return;
+        }
+
+        // Create a delete job from the most recent load job for the same test package.
+        final TestPackageLoadJob loadJobForPackageToDelete = (TestPackageLoadJob)mostRecentLoaderJob;
+        final Job persistedDeleteJob = jobRepository.save(new TestPackageDeleteJob(testPackageName,
+            loadJobForPackageToDelete.isSkipArt(),
+            loadJobForPackageToDelete.isSkipScoring()));
+
+        messagingService.sendJobStepExecute(persistedDeleteJob.getId());
     }
 
     private boolean hasJobStepFailure(final Job job) {
