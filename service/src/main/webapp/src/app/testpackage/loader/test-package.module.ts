@@ -7,12 +7,14 @@ import {FormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
 import {DataTableModule} from "primeng/primeng";
 import {UploadLoaderJobModule} from "./jobs/upload/upload-loader-job.module";
+import { TestPackageStatusComponent } from './status/test-package-status.component';
 
 @NgModule({
   declarations: [
     TestPackageComponent,
     TestPackageJobsComponent,
-    TestPackageJobDetailsComponent
+    TestPackageJobDetailsComponent,
+    TestPackageStatusComponent
   ],
   imports: [
     TestPackageJobsModule,
