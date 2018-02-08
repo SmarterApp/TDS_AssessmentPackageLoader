@@ -28,23 +28,23 @@ import static tds.testpackage.model.XmlUtil.*;
 public abstract class Dependency {
     public abstract String getIfToolType();
     public abstract String getIfToolCode();
+    @JsonProperty("enabled")
     protected abstract Optional<String> getEnabled();
     protected abstract Optional<String> getDefault();
 
-    @JsonProperty("enabled")
     public boolean enabled() {
         return parseBoolean(getEnabled(), true);
     }
 
-    @JsonProperty("default")
     public boolean defaultValue() {
         return parseBoolean(getDefault(), false);
     }
 
     public static Builder builder() {
-        return new AutoValue_Dependency.Builder().
-            setEnabled(Optional.of(Boolean.TRUE.toString())).
-            setDefault(Optional.of(Boolean.FALSE.toString()));
+        return new AutoValue_Dependency.Builder();
+//        return new AutoValue_Dependency.Builder().
+//            setEnabled(Optional.of(Boolean.TRUE.toString())).
+//            setDefault(Optional.of(Boolean.FALSE.toString()));
     }
 
     @AutoValue.Builder

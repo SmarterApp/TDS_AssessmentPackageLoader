@@ -11,28 +11,6 @@
       "id": "SBAC-IRP-COMBINED-MATH-11",
       "type": "combined",
       "scoring": {
-        "performanceLevels": [
-          {
-            "scaledLo": 2280,
-            "scaledHi": 2543,
-            "pLevel": 1
-          },
-          {
-            "scaledLo": 2543,
-            "scaledHi": 2628,
-            "pLevel": 2
-          },
-          {
-            "scaledLo": 2628,
-            "scaledHi": 2718,
-            "pLevel": 3
-          },
-          {
-            "scaledLo": 2718,
-            "scaledHi": 2862,
-            "pLevel": 4
-          }
-        ],
         "rules": [
           {
             "name": "RawScore",
@@ -126,6 +104,28 @@
                 ]
               }
             ]
+          }
+        ],
+        "performanceLevels": [
+          {
+            "scaledLo": 2280.0,
+            "scaledHi": 2543.0,
+            "pLevel": 1
+          },
+          {
+            "scaledLo": 2543.0,
+            "scaledHi": 2628.0,
+            "pLevel": 2
+          },
+          {
+            "scaledLo": 2628.0,
+            "scaledHi": 2718.0,
+            "pLevel": 3
+          },
+          {
+            "scaledLo": 2718.0,
+            "scaledHi": 2862.0,
+            "pLevel": 4
           }
         ]
       },
@@ -1812,7 +1812,9 @@
                   "id": "1899",
                   "type": "EQ",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -1827,20 +1829,20 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRT3PLn",
-                    "scorePoints": "1",
-                    "weight": 1,
+                    "scorePoints": 1,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
-                        "value": 1
+                        "value": 1.0
                       },
                       {
                         "measurementParameter": "b",
-                        "value": 1e-15
+                        "value": 1.0E-15
                       },
                       {
                         "measurementParameter": "c",
-                        "value": 0
+                        "value": 0.0
                       }
                     ]
                   }
@@ -1854,7 +1856,9 @@
                   "id": "1915",
                   "type": "MI",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -1866,20 +1870,20 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRT3PLn",
-                    "scorePoints": "1",
-                    "weight": 1,
+                    "scorePoints": 1,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
-                        "value": 1
+                        "value": 1.0
                       },
                       {
                         "measurementParameter": "b",
-                        "value": 1e-15
+                        "value": 1.0E-15
                       },
                       {
                         "measurementParameter": "c",
-                        "value": 0
+                        "value": 0.0
                       }
                     ]
                   }
@@ -1893,7 +1897,9 @@
                   "id": "1916",
                   "type": "EQ",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -1908,8 +1914,8 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRT3PLn",
-                    "scorePoints": "1",
-                    "weight": 1,
+                    "scorePoints": 1,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
@@ -1921,7 +1927,7 @@
                       },
                       {
                         "measurementParameter": "c",
-                        "value": 0
+                        "value": 0.0
                       }
                     ]
                   }
@@ -1935,7 +1941,9 @@
                   "id": "1926",
                   "type": "MS",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -1953,8 +1961,8 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRT3PLn",
-                    "scorePoints": "1",
-                    "weight": 1,
+                    "scorePoints": 1,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
@@ -1966,7 +1974,7 @@
                       },
                       {
                         "measurementParameter": "c",
-                        "value": 0
+                        "value": 0.0
                       }
                     ]
                   }
@@ -1980,7 +1988,9 @@
                   "id": "1927",
                   "type": "TI",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -1998,24 +2008,24 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRTGPC",
-                    "scorePoints": "3",
-                    "weight": 1,
+                    "scorePoints": 3,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
-                        "value": 1
+                        "value": 1.0
                       },
                       {
                         "measurementParameter": "b0",
-                        "value": 1e-15
+                        "value": 1.0E-15
                       },
                       {
                         "measurementParameter": "b1",
-                        "value": 1e-15
+                        "value": 1.0E-15
                       },
                       {
                         "measurementParameter": "b2",
-                        "value": 1e-15
+                        "value": 1.0E-15
                       }
                     ]
                   }
@@ -2029,7 +2039,9 @@
                   "id": "1929",
                   "type": "EQ",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -2044,8 +2056,8 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRT3PLn",
-                    "scorePoints": "1",
-                    "weight": 1,
+                    "scorePoints": 1,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
@@ -2057,7 +2069,7 @@
                       },
                       {
                         "measurementParameter": "c",
-                        "value": 0
+                        "value": 0.0
                       }
                     ]
                   }
@@ -2071,7 +2083,9 @@
                   "id": "1930",
                   "type": "EQ",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -2086,20 +2100,20 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRT3PLn",
-                    "scorePoints": "1",
-                    "weight": 1,
+                    "scorePoints": 1,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
-                        "value": 1
+                        "value": 1.0
                       },
                       {
                         "measurementParameter": "b",
-                        "value": 1e-15
+                        "value": 1.0E-15
                       },
                       {
                         "measurementParameter": "c",
-                        "value": 0
+                        "value": 0.0
                       }
                     ]
                   }
@@ -2113,7 +2127,9 @@
                   "id": "1936",
                   "type": "MI",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -2125,12 +2141,12 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRT3PLn",
-                    "scorePoints": "1",
-                    "weight": 1,
+                    "scorePoints": 1,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
-                        "value": 1
+                        "value": 1.0
                       },
                       {
                         "measurementParameter": "b",
@@ -2138,7 +2154,7 @@
                       },
                       {
                         "measurementParameter": "c",
-                        "value": 0
+                        "value": 0.0
                       }
                     ]
                   }
@@ -2152,7 +2168,9 @@
                   "id": "1948",
                   "type": "GI",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -2167,20 +2185,20 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRTGPC",
-                    "scorePoints": "2",
-                    "weight": 1,
+                    "scorePoints": 2,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
-                        "value": 1
+                        "value": 1.0
                       },
                       {
                         "measurementParameter": "b0",
-                        "value": 1e-15
+                        "value": 1.0E-15
                       },
                       {
                         "measurementParameter": "b1",
-                        "value": 1e-15
+                        "value": 1.0E-15
                       }
                     ]
                   }
@@ -2194,7 +2212,9 @@
                   "id": "1956",
                   "type": "MC",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -2206,20 +2226,20 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRT3PLn",
-                    "scorePoints": "1",
-                    "weight": 1,
+                    "scorePoints": 1,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
-                        "value": 1
+                        "value": 1.0
                       },
                       {
                         "measurementParameter": "b",
-                        "value": 1e-15
+                        "value": 1.0E-15
                       },
                       {
                         "measurementParameter": "c",
-                        "value": 0
+                        "value": 0.0
                       }
                     ]
                   }
@@ -2233,7 +2253,9 @@
                   "id": "1969",
                   "type": "GI",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -2248,20 +2270,20 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRT3PLn",
-                    "scorePoints": "1",
-                    "weight": 1,
+                    "scorePoints": 1,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
-                        "value": 1
+                        "value": 1.0
                       },
                       {
                         "measurementParameter": "b",
-                        "value": 1e-15
+                        "value": 1.0E-15
                       },
                       {
                         "measurementParameter": "c",
-                        "value": 0
+                        "value": 0.0
                       }
                     ]
                   }
@@ -2275,7 +2297,9 @@
                   "id": "1997",
                   "type": "MI",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -2293,8 +2317,8 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRT3PLn",
-                    "scorePoints": "1",
-                    "weight": 1,
+                    "scorePoints": 1,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
@@ -2306,7 +2330,7 @@
                       },
                       {
                         "measurementParameter": "c",
-                        "value": 0
+                        "value": 0.0
                       }
                     ]
                   }
@@ -2320,7 +2344,9 @@
                   "id": "1998",
                   "type": "MC",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -2332,8 +2358,8 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRT3PLn",
-                    "scorePoints": "1",
-                    "weight": 1,
+                    "scorePoints": 1,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
@@ -2345,7 +2371,7 @@
                       },
                       {
                         "measurementParameter": "c",
-                        "value": 0
+                        "value": 0.0
                       }
                     ]
                   }
@@ -2359,7 +2385,9 @@
                   "id": "1999",
                   "type": "EQ",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -2374,8 +2402,8 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRT3PLn",
-                    "scorePoints": "1",
-                    "weight": 1,
+                    "scorePoints": 1,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
@@ -2387,7 +2415,7 @@
                       },
                       {
                         "measurementParameter": "c",
-                        "value": 0
+                        "value": 0.0
                       }
                     ]
                   }
@@ -2401,7 +2429,9 @@
                   "id": "2005",
                   "type": "MC",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -2413,8 +2443,8 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRT3PLn",
-                    "scorePoints": "1",
-                    "weight": 1,
+                    "scorePoints": 1,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
@@ -2426,7 +2456,7 @@
                       },
                       {
                         "measurementParameter": "c",
-                        "value": 0
+                        "value": 0.0
                       }
                     ]
                   }
@@ -2440,7 +2470,9 @@
                   "id": "2006",
                   "type": "MS",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -2455,8 +2487,8 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRT3PLn",
-                    "scorePoints": "1",
-                    "weight": 1,
+                    "scorePoints": 1,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
@@ -2468,7 +2500,7 @@
                       },
                       {
                         "measurementParameter": "c",
-                        "value": 0
+                        "value": 0.0
                       }
                     ]
                   }
@@ -2482,7 +2514,9 @@
                   "id": "2029",
                   "type": "GI",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -2497,8 +2531,8 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRT3PLn",
-                    "scorePoints": "1",
-                    "weight": 1,
+                    "scorePoints": 1,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
@@ -2510,7 +2544,7 @@
                       },
                       {
                         "measurementParameter": "c",
-                        "value": 0
+                        "value": 0.0
                       }
                     ]
                   }
@@ -2524,7 +2558,9 @@
                   "id": "2032",
                   "type": "EQ",
                   "presentations": [
-                    "\n                                    ENU\n                                "
+                    {
+                      "code": "ENU"
+                    }
                   ],
                   "blueprintReferences": [
                     {
@@ -2542,8 +2578,8 @@
                   ],
                   "itemScoreDimension": {
                     "measurementModel": "IRT3PLn",
-                    "scorePoints": "1",
-                    "weight": 1,
+                    "scorePoints": 1,
+                    "weight": 1.0,
                     "itemScoreParameters": [
                       {
                         "measurementParameter": "a",
@@ -2555,7 +2591,7 @@
                       },
                       {
                         "measurementParameter": "c",
-                        "value": 0
+                        "value": 0.0
                       }
                     ]
                   }
@@ -2578,7 +2614,7 @@
                 {
                   "ifToolType": "Language",
                   "ifToolCode": "ENU-Braille",
-                  "enabled": false
+                  "enabled": "false"
                 }
               ]
             },
@@ -2589,7 +2625,7 @@
                 {
                   "ifToolType": "Language",
                   "ifToolCode": "ENU-Braille",
-                  "enabled": false
+                  "enabled": "false"
                 }
               ]
             }
@@ -2624,12 +2660,15 @@
           "id": "SBAC-IRP-Perf-MATH-11",
           "algorithmType": "fixedform",
           "algorithmImplementation": "FAIRWAY ROUNDROBIN",
+          "position": 1,
           "segmentForms": [
             {
               "id": "IRP::MathG11::Perf::SP15",
               "cohort": "Default",
               "presentations": [
-                "ENU"
+                {
+                  "code": "ENU"
+                }
               ],
               "itemGroups": [
                 {
@@ -2641,9 +2680,10 @@
                     {
                       "id": "1434",
                       "type": "GI",
-                      "position": 1,
                       "presentations": [
-                        "ENU"
+                        {
+                          "code": "ENU"
+                        }
                       ],
                       "blueprintReferences": [
                         {
@@ -2655,8 +2695,8 @@
                       ],
                       "itemScoreDimension": {
                         "measurementModel": "IRT3PLn",
-                        "scorePoints": "1",
-                        "weight": 1,
+                        "scorePoints": 1,
+                        "weight": 1.0,
                         "itemScoreParameters": [
                           {
                             "measurementParameter": "a",
@@ -2668,7 +2708,7 @@
                           },
                           {
                             "measurementParameter": "c",
-                            "value": 0
+                            "value": 0.0
                           }
                         ]
                       }
@@ -2676,9 +2716,10 @@
                     {
                       "id": "1432",
                       "type": "ER",
-                      "position": 2,
                       "presentations": [
-                        "ENU"
+                        {
+                          "code": "ENU"
+                        }
                       ],
                       "blueprintReferences": [
                         {
@@ -2690,8 +2731,8 @@
                       ],
                       "itemScoreDimension": {
                         "measurementModel": "IRTGPC",
-                        "scorePoints": "2",
-                        "weight": 1,
+                        "scorePoints": 2,
+                        "weight": 1.0,
                         "itemScoreParameters": [
                           {
                             "measurementParameter": "a",
@@ -2712,8 +2753,7 @@
                 }
               ]
             }
-          ],
-          "position": 1
+          ]
         }
       ],
       "tools": [
@@ -2729,7 +2769,7 @@
                 {
                   "ifToolType": "Language",
                   "ifToolCode": "ENU-Braille",
-                  "enabled": false
+                  "enabled": "false"
                 }
               ]
             },
@@ -2740,7 +2780,7 @@
                 {
                   "ifToolType": "Language",
                   "ifToolCode": "ENU-Braille",
-                  "enabled": false
+                  "enabled": "false"
                 }
               ]
             }

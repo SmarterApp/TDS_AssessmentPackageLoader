@@ -217,15 +217,15 @@ SUBELEMENTS:
     - ItemGroups: One or more groups of items (containg one or more items and potentially a stimuli) that make up the items in the form</xs:documentation>
                                                   </xs:annotation>
                                                   <xs:complexType>
-                                                  <xs:sequence>
-                                                  <xs:element ref="Presentations"/>
-                                                  <xs:element maxOccurs="unbounded" ref="ItemGroup"
-                                                  />
-                                                  </xs:sequence>
-                                                  <xs:attribute name="id" type="xs:token"
-                                                  use="required"/>
-                                                  <xs:attribute default="Default" name="cohort"
-                                                  type="xs:token" use="optional"/>
+                                                      <xs:sequence>
+                                                          <xs:element ref="Presentations"/>
+                                                          <xs:element maxOccurs="unbounded" ref="ItemGroup"
+                                                          />
+                                                      </xs:sequence>
+                                                      <xs:attribute name="id" type="xs:token"
+                                                      use="required"/>
+                                                      <xs:attribute default="Default" name="cohort"
+                                                      type="xs:token" use="optional"/>
                                                   </xs:complexType>
                                                   <xs:unique name="UniqueItemGroupPositionInFormKey">
                                                   <xs:selector xpath="./ItemGroup"/>

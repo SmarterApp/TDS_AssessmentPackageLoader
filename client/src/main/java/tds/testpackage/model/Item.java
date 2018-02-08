@@ -2,6 +2,7 @@ package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
@@ -17,13 +18,13 @@ import static tds.testpackage.model.XmlUtil.parseBoolean;
 public abstract class Item {
     public abstract String getId();
     public abstract String getType();
-    protected abstract Optional<Integer> getPosition();
 
+    @JsonProperty
     public int position() {
-        return getPosition().orElse(1);
+        return 1;
     }
 
-    public abstract List<String> getPresentations();
+    public abstract List<Presentation> getPresentations();
     public abstract List<BlueprintReference> getBlueprintReferences();
     public abstract ItemScoreDimension getItemScoreDimension();
 
@@ -84,19 +85,14 @@ public abstract class Item {
 
         public abstract Builder setType(String newType);
 
-        @JacksonXmlProperty(localName = "position")
-        public abstract Builder setPosition(Optional<Integer> newPosition);
-
         @JacksonXmlProperty(localName = "Presentations")
-        public abstract Builder setPresentations(List<String> newPresentations);
+        public abstract Builder setPresentations(List<Presentation> newPresentations);
 
         @JacksonXmlProperty(localName = "BlueprintReferences")
         public abstract Builder setBlueprintReferences(List<BlueprintReference> newBlueprintReferences);
 
         @JacksonXmlProperty(localName = "ItemScoreDimension")
         public abstract Builder setItemScoreDimension(ItemScoreDimension newItemScoreDimension);
-
-        abstract List<String> getPresentations(); // must match method name in Item
 
         @JacksonXmlProperty(localName = "fieldTest")
         public abstract Builder setFieldTest(Optional<String> newFieldTest);
@@ -116,11 +112,6 @@ public abstract class Item {
         @JacksonXmlProperty(localName = "doNotScore")
         public abstract Builder setDoNotScore(Optional<String> newDoNotScore);
 
-        abstract Item autoBuild(); // not public
-
-        public Item build() {
-            setPresentations(getPresentations().stream().map(String::trim).collect(Collectors.toList()));
-            return autoBuild();
-        }
+        public abstract Item build();
     }
 }
