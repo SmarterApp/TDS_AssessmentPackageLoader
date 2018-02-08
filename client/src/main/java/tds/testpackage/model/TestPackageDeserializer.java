@@ -80,24 +80,24 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
                 segment.setAssessment(assessment);
                 segment.segmentForms().forEach(segmentForm -> {
                     segmentForm.setSegment(segment);
-                    segmentForm.itemGroups().forEach(itemGroup -> setItemGroup(itemGroup, testPackage, segment, Optional.of(segmentForm)));
+                    segmentForm.itemGroups().forEach(itemGroup -> setItemGroup(itemGroup, testPackage, segment, segmentForm));
 
                 });
-                segment.pool().forEach(itemGroup -> setItemGroup(itemGroup, testPackage, segment, Optional.empty()));
+                segment.pool().forEach(itemGroup -> setItemGroup(itemGroup, testPackage, segment, null));
             });
         });
 
         return testPackage;
     }
 
-    private static void setItemGroup(final ItemGroup itemGroup, final TestPackage testPackage, final Segment segment, final Optional<SegmentForm> segmentForm) {
+    private static void setItemGroup(final ItemGroup itemGroup, final TestPackage testPackage, final Segment segment, final SegmentForm segmentForm) {
         itemGroup.setSegment(segment);
         itemGroup.getItems().forEach(item -> {
             item.setTestPackage(testPackage);
-            item.setItemGroup(itemGroup);
             item.setSegmentForm(segmentForm);
+            item.setItemGroup(itemGroup);
         });
         itemGroup.getStimulus().ifPresent(
-            stimulus -> stimulus.setItemGroup(itemGroup));
+            stimulus -> stimulus.setTestPackage(testPackage));
     }
 }

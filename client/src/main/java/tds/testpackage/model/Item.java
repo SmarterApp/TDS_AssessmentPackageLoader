@@ -2,6 +2,7 @@ package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
@@ -17,13 +18,8 @@ import static tds.testpackage.model.XmlUtil.parseBoolean;
 public abstract class Item {
     public abstract String getId();
     public abstract String getType();
-    protected abstract Optional<Integer> getPosition();
 
-    public int position() {
-        return getPosition().orElse(1);
-    }
-
-    public abstract List<String> getPresentations();
+    public abstract List<Presentation> getPresentations();
     public abstract List<BlueprintReference> getBlueprintReferences();
     public abstract ItemScoreDimension getItemScoreDimension();
 
@@ -57,17 +53,20 @@ public abstract class Item {
         return parseBoolean(getDoNotScore(), false);
     }
 
-    private TestPackage testPackage;
-
-    public void setTestPackage(TestPackage testPackage) {
-        this.testPackage = testPackage;
+    private SegmentForm segmentForm;
+    public void setSegmentForm(SegmentForm segmentForm) {
+        this.segmentForm = segmentForm;
     }
 
+    /**
+     * An item may belong to a segment form
+     *
+     * @returns parent segment form of this item
+     */
     @JsonIgnore
-    public TestPackage getTestPackage() {
-        return this.testPackage;
+    public Optional<SegmentForm> getSegmentForm() {
+        return Optional.ofNullable(this.segmentForm);
     }
-
 
     private ItemGroup itemGroup;
 
@@ -80,24 +79,49 @@ public abstract class Item {
         return this.itemGroup;
     }
 
-    private Optional<SegmentForm> segmentForm;
-    public void setSegmentForm(Optional<SegmentForm> segmentForm) {
-        this.segmentForm = segmentForm;
-    }
-    @JsonIgnore
-    /**
-     * An item may belong to a segment form
-     *
-     * @returns parent segment form of this item
-     */
-    public Optional<SegmentForm> getSegmentForm() {
-        return this.segmentForm;
+    private TestPackage testPackage;
+
+    public void setTestPackage(TestPackage testPackage) {
+        this.testPackage = testPackage;
     }
 
+    @JsonIgnore
+    public TestPackage getTestPackage() {
+        return this.testPackage;
+    }
 
     @JsonIgnore
     public String getKey() {
         return String.format("%s-%s", getTestPackage().getBankKey(), getId());
+    }
+
+    /**
+     * Item's position in its parents segment form.
+     * If there is no segment form, returns position in the item group.
+     *
+     * @return item's position
+     */
+    @JsonProperty
+    public int position() {
+        if (getSegmentForm().isPresent()) {
+            // jdk9 provides a take until method that would simplify this logic
+            // segmentForm.itemGroups().takeUntil(itemGroup.items().indexOf(this) > -1).
+            // map(itemGroup.items().size).sum + getItemGroup().items().indexOf(this) + 1
+            int position = 0;
+            final SegmentForm segmentForm = getSegmentForm().get();
+            for(final ItemGroup itemGroup: segmentForm.itemGroups()) {
+                final int index = itemGroup.items().indexOf(this);
+                if (index != -1) {
+                    position += index + 1;
+                    break;
+                } else {
+                    position += itemGroup.items().size();
+                }
+            }
+            return position;
+        } else {
+            return getItemGroup().items().indexOf(this) + 1;
+        }
     }
 
     public static Builder builder() {
@@ -111,19 +135,14 @@ public abstract class Item {
 
         public abstract Builder setType(String newType);
 
-        @JacksonXmlProperty(localName = "position")
-        public abstract Builder setPosition(Optional<Integer> newPosition);
-
         @JacksonXmlProperty(localName = "Presentations")
-        public abstract Builder setPresentations(List<String> newPresentations);
+        public abstract Builder setPresentations(List<Presentation> newPresentations);
 
         @JacksonXmlProperty(localName = "BlueprintReferences")
         public abstract Builder setBlueprintReferences(List<BlueprintReference> newBlueprintReferences);
 
         @JacksonXmlProperty(localName = "ItemScoreDimension")
         public abstract Builder setItemScoreDimension(ItemScoreDimension newItemScoreDimension);
-
-        abstract List<String> getPresentations(); // must match method name in Item
 
         @JacksonXmlProperty(localName = "fieldTest")
         public abstract Builder setFieldTest(Optional<String> newFieldTest);
@@ -143,11 +162,6 @@ public abstract class Item {
         @JacksonXmlProperty(localName = "doNotScore")
         public abstract Builder setDoNotScore(Optional<String> newDoNotScore);
 
-        abstract Item autoBuild(); // not public
-
-        public Item build() {
-            setPresentations(getPresentations().stream().map(String::trim).collect(Collectors.toList()));
-            return autoBuild();
-        }
+        public abstract Item build();
     }
 }
