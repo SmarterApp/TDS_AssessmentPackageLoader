@@ -57,6 +57,18 @@ public abstract class Item {
         return parseBoolean(getDoNotScore(), false);
     }
 
+    private TestPackage testPackage;
+
+    public void setTestPackage(TestPackage testPackage) {
+        this.testPackage = testPackage;
+    }
+
+    @JsonIgnore
+    public TestPackage getTestPackage() {
+        return this.testPackage;
+    }
+
+
     private ItemGroup itemGroup;
 
     public void setItemGroup(ItemGroup itemGroup) {
@@ -68,9 +80,24 @@ public abstract class Item {
         return this.itemGroup;
     }
 
+    private Optional<SegmentForm> segmentForm;
+    public void setSegmentForm(Optional<SegmentForm> segmentForm) {
+        this.segmentForm = segmentForm;
+    }
+    @JsonIgnore
+    /**
+     * An item may belong to a segment form
+     *
+     * @returns parent segment form of this item
+     */
+    public Optional<SegmentForm> getSegmentForm() {
+        return this.segmentForm;
+    }
+
+
     @JsonIgnore
     public String getKey() {
-        return String.format("%s-%s", getItemGroup().getSegment().getAssessment().getTestPackage().getBankKey(), getId());
+        return String.format("%s-%s", getTestPackage().getBankKey(), getId());
     }
 
     public static Builder builder() {
