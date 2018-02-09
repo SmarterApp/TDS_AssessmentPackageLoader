@@ -38,11 +38,11 @@ public class TestPackageSerializationIntegrationTests {
         "\"pool\":[{\"id\":\"id\",\"items\":[{\"id\":\"id\",\"type\":\"type\",\"presentations\":[{\"code\":\"ENU\"}]," +
         "\"blueprintReferences\":[{\"idRef\":\"SBAC-IRP-CAT-MATH-11\"},{\"idRef\":\"G11Math_DOK2\"}]," +
         "\"itemScoreDimension\":{\"measurementModel\":\"IRT3PLn\",\"scorePoints\":1,\"weight\":1.0," +
-        "\"itemScoreParameters\":[{\"measurementParameter\":\"a\",\"value\":6.3}]}}]}]," +
+        "\"itemScoreParameters\":[{\"measurementParameter\":\"a\",\"value\":6.3}]},\"position\":1}]}]," +
         "\"segmentForms\":[{\"id\":\"id\",\"cohort\":\"Cohort\",\"presentations\":[{\"code\":\"ENU\"}]," +
         "\"itemGroups\":[{\"id\":\"item-group-id2\",\"items\":[{\"id\":\"item-id2\",\"type\":\"type\",\"presentations\":[{\"code\":\"ENU\"}]," +
         "\"blueprintReferences\":[{\"idRef\":\"blueprintReference3\"}]," +
-        "\"itemScoreDimension\":{\"measurementModel\":\"model2\",\"scorePoints\":1,\"weight\":0.0}}]}]}]}]," +
+        "\"itemScoreDimension\":{\"measurementModel\":\"model2\",\"scorePoints\":1,\"weight\":0.0},\"position\":1}]}]}]}]," +
         "\"tools\":[{\"name\":\"tool\",\"studentPackageFieldName\":\"TDSAcc\"," +
         "\"options\":[{\"code\":\"TDS_Other\",\"sortOrder\":0,\"dependencies\":[{\"ifToolType\":\"ifToolType\",\"ifToolCode\":\"ifToolCode\"}]}]}]}]}";
 
@@ -230,9 +230,10 @@ public class TestPackageSerializationIntegrationTests {
             .setAssessments(Arrays.asList(assessment))
             .build();
 
-        String json = objectMapper.writeValueAsString(testPackage);
+        item.setItemGroup(itemGroup);
+        item2.setItemGroup(itemGroup2);
 
-        System.out.println(json);
+        String json = objectMapper.writeValueAsString(testPackage);
 
         assertThatJson(json)
             .isEqualTo(expectedJSON);

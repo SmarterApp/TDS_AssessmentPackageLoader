@@ -162,6 +162,15 @@ public abstract class Item {
         @JacksonXmlProperty(localName = "doNotScore")
         public abstract Builder setDoNotScore(Optional<String> newDoNotScore);
 
+        @JsonProperty(value = "position")
+        /**
+         *  Ignore setting position value.
+         *  Position is derived from it's nature order in the item group or segment form.
+         */
+        public Builder setPosition(int newPosition) {
+            return this;
+        }
+
         public abstract Item build();
     }
 }

@@ -28,7 +28,6 @@ import static tds.testpackage.model.XmlUtil.*;
 public abstract class Dependency {
     public abstract String getIfToolType();
     public abstract String getIfToolCode();
-    @JsonProperty("enabled")
     protected abstract Optional<String> getEnabled();
     protected abstract Optional<String> getDefault();
 
