@@ -1,3 +1,32 @@
-<p>
-  status works!
-</p>
+<div>
+  <div class="form-group">
+    <div class="flex-children gray-lightest pt-sm pr-sm pb-sm pl-sm test-package-jobs-search-form-container">
+      <label for="search" class="sr-only">Search by Test Package Name</label>
+      <div class="flex-child grow">
+        <input [(ngModel)]="searchTerm" class="flex-child search form-control" id="search" type="text" placeholder="Search by Test Package Name"
+               autocomplete="off" (ngModelChange)="onSearchChange()">
+      </div>
+      <div class="flex-child"><button class="flex-child btn view-loaded-test-packages" (click)="statusClick()">View Loaded Test Packages</button></div>
+      <div class="flex-child"><button class="btn btn-primary upload-test-package" (click)="uploadClick()">Upload New Test Package</button></div>
+    </div>
+  </div>
+  {{data | json}}
+  <div class="test-package-jobs-list-container">
+    <p-dataTable [value]="testPackageStatuses"
+                 emptyMessage="No Test Packages have been loaded."
+                 dataKey="name"
+                 sortField="uploadedAt"
+                 selectionMode="single"
+                 tableStyleClass="table table-striped table-hover overflow"
+                 [paginator]="true"
+                 [rows]="10">
+      <p-column field="name" header="Test Package Name" [sortable]="true"></p-column>
+      <p-column field="uploadedAt" header="Last Uploaded At" [sortable]="true"></p-column>
+      <p-column field="target.ART" header="ART" [sortable]="true"></p-column>
+      <p-column field="target.TDS" header="TDS" [sortable]="true"></p-column>
+      <p-column field="target.TIS" header="TIS" [sortable]="true"></p-column>
+      <p-column field="target.THSS" header="THSS" [sortable]="true"></p-column>
+      <p-column header="Delete"></p-column>
+    </p-dataTable>
+  </div>
+</div>
