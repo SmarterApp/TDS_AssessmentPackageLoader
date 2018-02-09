@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableMap;
 
+import java.util.Map;
 import java.util.Optional;
 
 @AutoValue
@@ -15,10 +17,20 @@ import java.util.Optional;
  * For fixed form item selection, an item MUST contain the language of the form it belongs to in order to be compatible.
  */
 public abstract class Presentation {
+    protected static Map<String, String> DEFAULT_LABELS = ImmutableMap.of(
+        "ENU", "English",
+        "ESN", "Spanish",
+        "ENU-Braille", "Braille");
+
     protected abstract Optional<String> getLabel();
 
+    /**
+     * Label provided in test specification,
+     * or label provided from list of known language codes,
+     * or the language code if label could not be found.
+     */
     public String label() {
-        return getLabel().orElse("Default Label");
+        return getLabel().orElse(DEFAULT_LABELS.getOrDefault(getCode(), getCode()));
     }
 
     public abstract String getCode();

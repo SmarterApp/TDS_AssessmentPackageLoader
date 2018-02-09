@@ -295,6 +295,14 @@ public class TestPackageSerializationIntegrationTests {
     }
 
     @Test
+    public void presentationsShouldHaveDefaultLabels() throws IOException {
+        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
+        TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
+        Presentation presentation = testPackage.getAssessments().get(0).getSegments().get(0).getPool().get(0).getItems().get(0).getPresentations().get(0);
+        assertThat(presentation.label()).isEqualTo("English");
+    }
+
+    @Test
     public void shouldDeserializeFromXmlWithBooleanDefaults() throws IOException {
         InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("dependencies-boolean-defaults.xml");
         List<Dependency> dependencies = xmlMapper.readValue(inputStream, new TypeReference<List<Dependency>>() {
