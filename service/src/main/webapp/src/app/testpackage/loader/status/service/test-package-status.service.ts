@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { TestPackageStatus } from "../model/test-package-status";
 import { DataService } from "../../../../shared/data/data.service";
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/mergeMap';
@@ -23,7 +22,7 @@ export class TestPackageStatusService {
    * package managed by the support tool.
    */
   getAll(): Observable<TestPackageStatusRow[]> {
-    return this.dataService.get('/load/status', { observe : 'response' })
+    return this.dataService.get('/load/status', {observe: 'response'})
       .map(response => {
         const statuses = response.body;
         return statuses.map(statusJson => TestPackageStatusRowMapper.map(statusJson))
