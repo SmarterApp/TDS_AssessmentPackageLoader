@@ -26,9 +26,7 @@ export class TestPackageStatusComponent implements OnInit {
 
   ngOnInit() {
     this.testPackageStatusService.getAll()
-      .subscribe(response => {
-        this.testPackageStatuses = response;
-      });
+      .subscribe(response => this.testPackageStatuses = response);
   }
 
   getDisplayIcon(status: StepStatus): string {
