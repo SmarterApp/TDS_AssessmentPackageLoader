@@ -1,5 +1,4 @@
 import { TestPackageStatus } from "../model/test-package-status";
-import { TargetSystemStatus } from "../model/target-system-status";
 import { TestPackageStatusRow, TestPackageStatusRowBuilder } from "../model/test-package-status-row";
 import { TargetSystem } from "../model/target-system.enum";
 import { StepStatus } from "../../jobs/model/test-package-job.model";
@@ -15,32 +14,18 @@ export class TestPackageStatusRowMapper {
    * @return {TestPackageStatusRow} A {TestPackageStatusRow} describing the state of the test package in the system
    */
   static map(result: TestPackageStatus): TestPackageStatusRow {
-    let statusRow = new TestPackageStatusRowBuilder(result.name)
+    // Map the target system to its status.  If a system does not exist in the map, then the test package has not been
+    // loaded into it.
+    let systemStatusMap = new Map(
+      result.targets.map(t => [t.target, t.status] as [TargetSystem, StepStatus])
+    );
+
+    return new TestPackageStatusRowBuilder(result.name)
       .withUploadedAt(result.uploadedAt)
-      .withTdsStatus(this.getStatusForTargetSystem(result.targets, TargetSystem.TDS))
-      .withArtStatus(this.getStatusForTargetSystem(result.targets, TargetSystem.ART))
-      .withTisStatus(this.getStatusForTargetSystem(result.targets, TargetSystem.TIS))
-      .withThssStatus(this.getStatusForTargetSystem(result.targets, TargetSystem.THSS))
+      .withTdsStatus(systemStatusMap.get(TargetSystem.TDS) || StepStatus.NotApplicable)
+      .withArtStatus(systemStatusMap.get(TargetSystem.ART) || StepStatus.NotApplicable)
+      .withTisStatus(systemStatusMap.get(TargetSystem.TIS) || StepStatus.NotApplicable)
+      .withThssStatus(systemStatusMap.get(TargetSystem.THSS) || StepStatus.NotApplicable)
       .build();
-
-    return statusRow;
-  }
-
-  /**
-   * Find the {StepStatus} for the specified {TargetSystem}.  If there is no record for the requested {TargetSystem}, a
-   * {StepStatus.NotApplicable} is returned (because the test package has not been loaded into the requested
-   * {TargetSystem}.
-   *
-   * @param {TargetSystemStatus[]} targets The collection of {TargetSystemStatus}es to evaluate
-   * @param {TargetSystem} system The {TargetSystem} to look for
-   * @return {StepStatus} The {StepStatus} of the requested {TargetSystem}; {StepStatus.NotApplicable} if the test
-   * package does not have a status for the requested system.
-   */
-  private static getStatusForTargetSystem(targets: TargetSystemStatus[], system: TargetSystem): StepStatus {
-    const target = targets.filter(t => t.target === system)[0];
-
-    return target
-      ? target.status
-      : StepStatus.NotApplicable;
   }
 }
