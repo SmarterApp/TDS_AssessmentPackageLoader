@@ -4,7 +4,7 @@ import {BrowserModule} from "@angular/platform-browser";
 import {FormsModule} from "@angular/forms";
 import { TestPackageStatusService } from "./service/test-package-status.service";
 import { TestPackageStatusComponent } from "./test-package-status.component";
-import { TestPackageStatusMapper } from "./service/test-package-status-mapper";
+import { TestPackageStatusRowMapper } from "./service/test-package-status-mapper";
 
 @NgModule({
   declarations: [

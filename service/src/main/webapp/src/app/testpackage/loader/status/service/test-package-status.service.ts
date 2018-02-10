@@ -3,7 +3,8 @@ import { TestPackageStatus } from "../model/test-package-status";
 import { DataService } from "../../../../shared/data/data.service";
 import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/mergeMap';
-import { TestPackageStatusMapper } from "./test-package-status-mapper";
+import { TestPackageStatusRowMapper } from "./test-package-status-mapper";
+import { TestPackageStatusRow } from "../model/test-package-status-row";
 
 
 /**
@@ -18,13 +19,14 @@ export class TestPackageStatusService {
   /**
    * Retrieve all the {TestPackageStatus} records from the server.
    *
-   * @return {TestPackageStatus[]} a collection of {TestPackageStatus} records
+   * @return {TestPackageStatusRow[]} a collection of {TestPackageStatusRow}s representing the state of each test
+   * package managed by the support tool.
    */
-  getAll(): Observable<TestPackageStatus[]> {
+  getAll(): Observable<TestPackageStatusRow[]> {
     return this.dataService.get('/load/status', { observe : 'response' })
       .map(response => {
         const statuses = response.body;
-        return statuses.map(statusJson => TestPackageStatusMapper.map(statusJson))
+        return statuses.map(statusJson => TestPackageStatusRowMapper.map(statusJson))
       });
   }
 }

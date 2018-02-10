@@ -10,22 +10,27 @@
       <div class="flex-child"><button class="btn btn-primary upload-test-package" (click)="uploadClick()">Upload New Test Package</button></div>
     </div>
   </div>
-  {{data | json}}
+
   <div class="test-package-jobs-list-container">
     <p-dataTable [value]="testPackageStatuses"
                  emptyMessage="No Test Packages have been loaded."
                  dataKey="name"
                  sortField="uploadedAt"
+                 [sortOrder]="-1"
                  selectionMode="single"
                  tableStyleClass="table table-striped table-hover overflow"
                  [paginator]="true"
                  [rows]="10">
       <p-column field="name" header="Test Package Name" [sortable]="true"></p-column>
-      <p-column field="uploadedAt" header="Last Uploaded At" [sortable]="true"></p-column>
-      <p-column field="target.ART" header="ART" [sortable]="true"></p-column>
-      <p-column field="target.TDS" header="TDS" [sortable]="true"></p-column>
-      <p-column field="target.TIS" header="TIS" [sortable]="true"></p-column>
-      <p-column field="target.THSS" header="THSS" [sortable]="true"></p-column>
+      <p-column field="uploadedAt" header="Last Uploaded At" [sortable]="true">
+        <ng-template let-status="rowData" pTemplate="body">
+          {{ status.uploadedAt | date: 'short' }}
+        </ng-template>
+      </p-column>
+      <p-column field="tdsStatus" header="TDS"></p-column>
+      <p-column field="artStatus" header="ART"></p-column>
+      <p-column field="tisStatus" header="TIS"></p-column>
+      <p-column field="thssStatus" header="THSS"></p-column>
       <p-column header="Delete"></p-column>
     </p-dataTable>
   </div>

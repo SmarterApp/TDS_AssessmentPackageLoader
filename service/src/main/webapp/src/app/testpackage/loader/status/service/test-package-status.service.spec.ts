@@ -1,7 +1,7 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { TestPackageStatusService } from './test-package-status.service';
-import { TestPackageStatusMapper } from "./test-package-status-mapper";
+import { TestPackageStatusRowMapper } from "./test-package-status-mapper";
 
 describe('TestPackageStatusService', () => {
   beforeEach(() => {
@@ -37,7 +37,7 @@ describe('TestPackageStatusService', () => {
       }]
     };
 
-    let status = TestPackageStatusMapper.map(mockApiResult);
+    let status = TestPackageStatusRowMapper.map(mockApiResult);
 
     expect(status.name).toBe("test package: all systems, some errors");
     expect(status.targets.length).toBe(4);

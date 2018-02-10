@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TestPackageStatusService } from "./service/test-package-status.service";
 import { TestPackageStatus } from "./model/test-package-status";
 import { TargetSystemStatus } from "./model/target-system-status";
+import { TestPackageStatusRow } from "./model/test-package-status-row";
+import { StepStatus } from "../jobs/model/test-package-job.model";
 
 
 @Component({
@@ -9,16 +11,16 @@ import { TargetSystemStatus } from "./model/target-system-status";
   styleUrls: ['./test-package-status.component.css']
 })
 export class TestPackageStatusComponent implements OnInit {
-  private _testPackageStatuses: TestPackageStatus[] = [];
+  private _testPackageStatuses: TestPackageStatusRow[] = [];
 
   constructor(private testPackageStatusService: TestPackageStatusService) {
   }
 
-  get testPackageStatuses(): TestPackageStatus[] {
+  get testPackageStatuses(): TestPackageStatusRow[] {
     return this._testPackageStatuses;
   }
 
-  set testPackageStatuses(value: TestPackageStatus[]) {
+  set testPackageStatuses(value: TestPackageStatusRow[]) {
     this._testPackageStatuses = value;
   }
 
@@ -27,5 +29,9 @@ export class TestPackageStatusComponent implements OnInit {
       .subscribe(response => {
         this.testPackageStatuses = response;
       });
+  }
+
+  getDisplayIcon(status: StepStatus): string {
+    return TestPackageStatusRow.getStatusIconClass(status);
   }
 }
