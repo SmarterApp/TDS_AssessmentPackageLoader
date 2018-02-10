@@ -51,13 +51,13 @@
                 <SegmentForms>
                     <SegmentForm id="IRP::MathG11::Perf::SP15" cohort="Default">
                         <Presentations>
-                            <Presentation>ENU</Presentation>
+                            <Presentation code="ENU"/>
                         </Presentations>
                         <ItemGroup id="I-187-3688">
                             <Stimulus id="3688" />
-                            <Item id="1434" type="GI" position="1">
+                            <Item id="1434" type="GI">
                                 <Presentations>
-                                    <Presentation>ENU</Presentation>
+                                    <Presentation code="ENU"/>
                                 </Presentations>
                                 <BlueprintReferences>
                                     <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
