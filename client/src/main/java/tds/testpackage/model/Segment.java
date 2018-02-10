@@ -57,6 +57,8 @@ public abstract class Segment {
         return parseBoolean(getExitApproval(), false);
     }
 
+    public abstract Optional<String> getLabel();
+
     public int position() {
         return getPosition().orElse(1);
     }
@@ -107,6 +109,15 @@ public abstract class Segment {
     public List<SegmentForm> segmentForms() {
         return Optional.ofNullable(getSegmentForms()).orElse(new ArrayList<>());
     }
+
+    @Nullable
+    protected abstract List<Tool> getTools();
+
+    @JsonProperty(value = "tools")
+    public List<Tool> tools() {
+        return Optional.ofNullable(getTools()).orElse(new ArrayList<>());
+    }
+
 
     private Assessment assessment;
 
@@ -160,6 +171,9 @@ public abstract class Segment {
         public Builder setExitApproval(boolean newExitApproval) {
             return setExitApproval(Optional.of(String.valueOf(newExitApproval)));
         }
+
+        public abstract Builder setLabel(Optional<String> newLabel);
+
         public abstract Builder setAlgorithmType(String newAlgorithmType);
 
         public abstract Builder setAlgorithmImplementation(String newAlgorithmImplementation);
@@ -172,6 +186,8 @@ public abstract class Segment {
 
         @JacksonXmlProperty(localName = "SegmentForms")
         public abstract Builder setSegmentForms(List<SegmentForm> newSegmentForm);
+
+        public abstract Builder setTools(List<Tool> newTools);
 
         public abstract Segment build();
     }

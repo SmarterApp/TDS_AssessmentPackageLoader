@@ -10,20 +10,20 @@ import com.google.auto.value.AutoValue;
 public abstract class Stimulus {
     public abstract String getId();
 
-    private ItemGroup itemGroup;
+    private TestPackage testPackage;
 
-    public void setItemGroup(ItemGroup itemGroup) {
-        this.itemGroup = itemGroup;
+    public void setTestPackage(TestPackage testPackage) {
+        this.testPackage = testPackage;
     }
 
     @JsonIgnore
-    public ItemGroup getItemGroup() {
-        return this.itemGroup;
+    public TestPackage getTestPackage() {
+        return this.testPackage;
     }
 
     @JsonIgnore
     public String getKey() {
-        return String.format("%s-%s", getItemGroup().getSegment().getAssessment().getTestPackage().getBankKey(), getId());
+        return String.format("%s-%s", getTestPackage().getBankKey(), getId());
     }
 
     public static Builder builder() {

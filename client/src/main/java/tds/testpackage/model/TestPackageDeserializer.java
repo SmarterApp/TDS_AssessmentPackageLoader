@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
     public TestPackageDeserializer() {
@@ -79,21 +80,24 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
                 segment.setAssessment(assessment);
                 segment.segmentForms().forEach(segmentForm -> {
                     segmentForm.setSegment(segment);
-                    segmentForm.itemGroups().forEach(itemGroup -> setItemGroup(itemGroup, segment));
+                    segmentForm.itemGroups().forEach(itemGroup -> setItemGroup(itemGroup, testPackage, segment, segmentForm));
 
                 });
-                segment.pool().forEach(itemGroup -> setItemGroup(itemGroup, segment));
+                segment.pool().forEach(itemGroup -> setItemGroup(itemGroup, testPackage, segment, null));
             });
         });
 
         return testPackage;
     }
 
-    private static void setItemGroup(final ItemGroup itemGroup, final Segment segment) {
+    private static void setItemGroup(final ItemGroup itemGroup, final TestPackage testPackage, final Segment segment, final SegmentForm segmentForm) {
         itemGroup.setSegment(segment);
-        itemGroup.getItems().forEach(item ->
-            item.setItemGroup(itemGroup));
+        itemGroup.getItems().forEach(item -> {
+            item.setTestPackage(testPackage);
+            item.setSegmentForm(segmentForm);
+            item.setItemGroup(itemGroup);
+        });
         itemGroup.getStimulus().ifPresent(
-            stimulus -> stimulus.setItemGroup(itemGroup));
+            stimulus -> stimulus.setTestPackage(testPackage));
     }
 }

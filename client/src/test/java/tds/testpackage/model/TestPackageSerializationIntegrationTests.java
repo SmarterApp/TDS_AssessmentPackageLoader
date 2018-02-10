@@ -35,17 +35,17 @@ public class TestPackageSerializationIntegrationTests {
         "{\"id\":\"nested-parent\",\"type\":\"combined\",\"blueprintElements\":[{\"id\":\"nested-child\",\"type\":\"combined\"}]}]," +
         "\"assessments\":[{\"id\":\"SBAC-IRP-CAT-MATH-11\",\"label\":\"IRP CAT Grade 11 Math\",\"grades\":[{\"value\":\"11\"}]," +
         "\"segments\":[{\"id\":\"SBAC-IRP-Perf-MATH-11\",\"algorithmType\":\"fixedform\",\"algorithmImplementation\":\"FAIRWAY ROUNDROBIN\",\"position\":1," +
-        "\"pool\":[{\"id\":\"id\",\"items\":[{\"id\":\"id\",\"type\":\"type\",\"presentations\":[\"ENU\"]," +
+        "\"pool\":[{\"id\":\"id\",\"items\":[{\"id\":\"id\",\"type\":\"type\",\"presentations\":[{\"code\":\"ENU\"}]," +
         "\"blueprintReferences\":[{\"idRef\":\"SBAC-IRP-CAT-MATH-11\"},{\"idRef\":\"G11Math_DOK2\"}]," +
         "\"itemScoreDimension\":{\"measurementModel\":\"IRT3PLn\",\"scorePoints\":1,\"weight\":1.0," +
-        "\"itemScoreParameters\":[{\"measurementParameter\":\"a\",\"value\":6.3}]}}]}]," +
-        "\"segmentForms\":[{\"id\":\"id\",\"cohort\":\"Cohort\",\"presentations\":[\"ENU\"]," +
-        "\"itemGroups\":[{\"id\":\"item-group-id2\",\"items\":[{\"id\":\"item-id2\",\"type\":\"type\",\"presentations\":[\"ENU\"]," +
+        "\"itemScoreParameters\":[{\"measurementParameter\":\"a\",\"value\":6.3}]},\"position\":1}]}]," +
+        "\"segmentForms\":[{\"id\":\"id\",\"cohort\":\"Cohort\",\"presentations\":[{\"code\":\"ENU\"}]," +
+        "\"itemGroups\":[{\"id\":\"item-group-id2\",\"items\":[{\"id\":\"item-id2\",\"type\":\"type\",\"presentations\":[{\"code\":\"ENU\"}]," +
         "\"blueprintReferences\":[{\"idRef\":\"blueprintReference3\"}]," +
-        "\"itemScoreDimension\":{\"measurementModel\":\"model2\",\"scorePoints\":1,\"weight\":0.0}}]}]}]}]," +
+        "\"itemScoreDimension\":{\"measurementModel\":\"model2\",\"scorePoints\":1,\"weight\":0.0},\"position\":1}]}]}]}]," +
         "\"tools\":[{\"name\":\"tool\",\"studentPackageFieldName\":\"TDSAcc\"," +
-        "\"options\":[{\"code\":\"TDS_Other\",\"sortOrder\":0,\"dependencies\":[{\"ifToolType\":\"ifToolType\",\"ifToolCode\":\"ifToolCode\",\"enabled\":true,\"default\":false}]}]}]}]}";
-    
+        "\"options\":[{\"code\":\"TDS_Other\",\"sortOrder\":0,\"dependencies\":[{\"ifToolType\":\"ifToolType\",\"ifToolCode\":\"ifToolCode\"}]}]}]}]}";
+
     @Before
     public void setUp() {
         objectMapper = new ObjectMapper();
@@ -146,8 +146,13 @@ public class TestPackageSerializationIntegrationTests {
             .setMeasurementModel("model2")
             .build();
 
+        Presentation englishPresentation = Presentation.builder()
+            .setCode("ENU")
+            .setLabel("English")
+            .build();
+
         Item item = Item.builder()
-            .setPresentations(Arrays.asList("ENU"))
+            .setPresentations(Arrays.asList(englishPresentation))
             .setBlueprintReferences(Arrays.asList(blueprintReference1, blueprintReference2))
             .setId("id")
             .setType("type")
@@ -160,7 +165,7 @@ public class TestPackageSerializationIntegrationTests {
             .build();
 
         Item item2 = Item.builder()
-            .setPresentations(Arrays.asList("ENU"))
+            .setPresentations(Arrays.asList(englishPresentation))
             .setBlueprintReferences(Arrays.asList(blueprintReference3))
             .setId("item-id2")
             .setType("type")
@@ -175,7 +180,7 @@ public class TestPackageSerializationIntegrationTests {
         SegmentForm segmentForm = SegmentForm.builder()
             .setId("id")
             .setCohort("Cohort")
-            .setPresentations(Arrays.asList("ENU"))
+            .setPresentations(Arrays.asList(englishPresentation))
             .setItemGroups(Arrays.asList(itemGroup2))
             .build();
 
@@ -225,6 +230,9 @@ public class TestPackageSerializationIntegrationTests {
             .setAssessments(Arrays.asList(assessment))
             .build();
 
+        item.setItemGroup(itemGroup);
+        item2.setItemGroup(itemGroup2);
+
         String json = objectMapper.writeValueAsString(testPackage);
 
         assertThatJson(json)
@@ -233,7 +241,7 @@ public class TestPackageSerializationIntegrationTests {
 
     @Test
     public void shouldDeserializeFromXml() throws IOException {
-        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml");
+        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
         assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
         assertThat(testPackage.getSubject()).isEqualTo("MATH");
@@ -246,7 +254,7 @@ public class TestPackageSerializationIntegrationTests {
         module.addDeserializer(TestPackage.class, new TestPackageDeserializer());
         xmlMapper.registerModule(module);
 
-        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml");
+        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
         assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
         assertThat(testPackage.getSubject()).isEqualTo("MATH");
@@ -280,15 +288,23 @@ public class TestPackageSerializationIntegrationTests {
 
     @Test
     public void shouldDeserializePresentationsWithoutTrailingWhitespace() throws IOException {
-        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml");
+        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
-        String presentation = testPackage.getAssessments().get(0).getSegments().get(0).getPool().get(0).getItems().get(0).getPresentations().get(0);
-        assertThat(presentation).isEqualTo(presentation.trim());
+        Presentation presentation = testPackage.getAssessments().get(0).getSegments().get(0).getPool().get(0).getItems().get(0).getPresentations().get(0);
+        assertThat(presentation.getCode()).isEqualTo(presentation.getCode().trim());
+    }
+
+    @Test
+    public void presentationsShouldHaveDefaultLabels() throws IOException {
+        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
+        TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
+        Presentation presentation = testPackage.getAssessments().get(0).getSegments().get(0).getPool().get(0).getItems().get(0).getPresentations().get(0);
+        assertThat(presentation.label()).isEqualTo("English");
     }
 
     @Test
     public void shouldDeserializeFromXmlWithBooleanDefaults() throws IOException {
-        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("Dependencies-boolean-defaults.xml");
+        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("dependencies-boolean-defaults.xml");
         List<Dependency> dependencies = xmlMapper.readValue(inputStream, new TypeReference<List<Dependency>>() {
         });
 
@@ -302,6 +318,15 @@ public class TestPackageSerializationIntegrationTests {
         assertThat(dependencies.get(2).defaultValue()).isEqualTo(true);
         assertThat(dependencies.get(5).defaultValue()).isEqualTo(true);
         assertThat(dependencies.get(6).defaultValue()).isEqualTo(false);
+    }
+
+    @Test
+    public void shouldDeserializePresentationsFromXml() throws IOException {
+        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("presentations.xml");
+        List<Presentation> presentations = xmlMapper.readValue(inputStream, new TypeReference<List<Presentation>>() {
+        });
+
+        assertThat(presentations.size()).isEqualTo(2);
     }
 
     @Test
@@ -345,7 +370,7 @@ public class TestPackageSerializationIntegrationTests {
 
     /**
      * Both the files below represent the same test package:
-     * V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml and V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.json
+     * test-specification-example-1.xml and test-specification-example-1.json
      * <p>
      * Deserializing xml and json formats and comparing the in memory object model.
      *
@@ -353,10 +378,13 @@ public class TestPackageSerializationIntegrationTests {
      */
     @Test
     public void shouldDeserializeFromJsonAndXmlAsSameObject() throws IOException {
-        InputStream xmlInputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.xml");
-        InputStream jsonInputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("V2-(SBAC_PT)IRP-GRADE-11-MATH-EXAMPLE.json");
+        InputStream xmlInputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
+        InputStream jsonInputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("test-specification-example-1.json");
 
         TestPackage testPackageXml = xmlMapper.readValue(xmlInputStream, TestPackage.class);
+        String json = objectMapper.writeValueAsString(testPackageXml);
+        System.out.println(json);
+
         TestPackage testPackageJson = objectMapper.readValue(jsonInputStream, TestPackage.class);
 
         assertThat(testPackageXml).isEqualTo(testPackageJson);

@@ -9,7 +9,6 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
-import javax.xml.bind.annotation.XmlElementWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +18,7 @@ import java.util.Optional;
 public abstract class SegmentForm {
     public abstract String getId();
     public abstract String getCohort();
-    public abstract List<String> getPresentations();
+    public abstract List<Presentation> getPresentations();
     @Nullable
     protected abstract List<ItemGroup> getItemGroups();
     @JsonProperty(value = "itemGroups")
@@ -50,7 +49,7 @@ public abstract class SegmentForm {
         public abstract Builder setCohort(String newCohort);
 
         @JacksonXmlProperty(localName = "Presentations")
-        public abstract Builder setPresentations(List<String> newPresentations);
+        public abstract Builder setPresentations(List<Presentation> newPresentations);
 
         @JacksonXmlElementWrapper(useWrapping = false)
         @JacksonXmlProperty(localName = "ItemGroup")
