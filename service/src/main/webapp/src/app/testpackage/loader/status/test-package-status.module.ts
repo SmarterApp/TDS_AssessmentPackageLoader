@@ -1,22 +1,25 @@
 import { NgModule } from '@angular/core';
-import { DataTableModule } from "primeng/primeng";
+import { ConfirmationService, ConfirmDialogModule, DataTableModule } from "primeng/primeng";
 import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
 import { TestPackageStatusService } from "./service/test-package-status.service";
 import { TestPackageStatusComponent } from "./test-package-status.component";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
     TestPackageStatusComponent
   ],
-  // TODO:  Do I need to do this?  They're already imported in the TestPackageModule
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     DataTableModule,
+    ConfirmDialogModule,
     FormsModule
   ],
   providers: [
-    TestPackageStatusService
+    TestPackageStatusService,
+    ConfirmationService
   ]
 })
 export class TestPackageStatusModule {
