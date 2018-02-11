@@ -73,20 +73,20 @@ export class TestPackageStatusRow {
    * @return {string} The CSS class to display the appropriate icon
    */
   static getStatusIconClass(status: StepStatus): string {
-    let cssClass = "fa fa-minus";
+    let cssClass = "fa fa-minus load-not-applicable";
 
     switch (status) {
       case StepStatus.Success:
-        cssClass = "fa fa-check-circle";
+        cssClass = "fa fa-check-circle load-success";
         break;
       case StepStatus.Fail:
-        cssClass = "fa fa-exclamation-circle";
+        cssClass = "fa fa-exclamation-circle load-failure";
         break;
       default:
         break;
     }
 
-    return cssClass;
+    return "load-status-icon " + cssClass;
   }
 }
 

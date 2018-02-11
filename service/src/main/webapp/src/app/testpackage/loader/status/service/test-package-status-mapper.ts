@@ -10,18 +10,18 @@ export class TestPackageStatusRowMapper {
   /**
    * Map a single JSON representation of a test package status from the server to a {TestPackageStatus}.
    *
-   * @param result {TestPackageStatus} A single JSON representation of a test package status record from the server
+   * @param status {TestPackageStatus} A single JSON representation of a test package status record from the server
    * @return {TestPackageStatusRow} A {TestPackageStatusRow} describing the state of the test package in the system
    */
-  static map(result: TestPackageStatus): TestPackageStatusRow {
+  static map(status: TestPackageStatus): TestPackageStatusRow {
     // Map the target system to its status.  If a system does not exist in the map, then the test package has not been
     // loaded into it.
-    let systemStatusMap = new Map(
-      result.targets.map(t => [t.target, t.status] as [TargetSystem, StepStatus])
+    const systemStatusMap = new Map(
+      status.targets.map(t => [t.target, t.status] as [TargetSystem, StepStatus])
     );
 
-    return new TestPackageStatusRowBuilder(result.name)
-      .withUploadedAt(result.uploadedAt)
+    return new TestPackageStatusRowBuilder(status.name)
+      .withUploadedAt(status.uploadedAt)
       .withTdsStatus(systemStatusMap.get(TargetSystem.TDS) || StepStatus.NotApplicable)
       .withArtStatus(systemStatusMap.get(TargetSystem.ART) || StepStatus.NotApplicable)
       .withTisStatus(systemStatusMap.get(TargetSystem.TIS) || StepStatus.NotApplicable)

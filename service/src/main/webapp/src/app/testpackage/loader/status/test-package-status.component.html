@@ -3,8 +3,13 @@
     <div class="flex-children gray-lightest pt-sm pr-sm pb-sm pl-sm test-package-jobs-search-form-container">
       <label for="search" class="sr-only">Search by Test Package Name</label>
       <div class="flex-child grow">
-        <input [(ngModel)]="searchTerm" class="flex-child search form-control" id="search" type="text" placeholder="Search by Test Package Name"
-               autocomplete="off" (ngModelChange)="onSearchChange()">
+        <input [(ngModel)]="searchTerm"
+               class="flex-child search form-control"
+               id="search"
+               type="text"
+               placeholder="Search by Test Package Name"
+               autocomplete="off"
+               (ngModelChange)="onSearchChange()">
       </div>
       <div class="flex-child"><button class="flex-child btn view-loaded-test-packages" (click)="statusClick()">View Loaded Test Packages</button></div>
       <div class="flex-child"><button class="btn btn-primary upload-test-package" (click)="uploadClick()">Upload New Test Package</button></div>
@@ -27,11 +32,31 @@
           {{ status.uploadedAt | date: 'short' }}
         </ng-template>
       </p-column>
-      <p-column field="tdsStatus" header="TDS"></p-column>
-      <p-column field="artStatus" header="ART"></p-column>
-      <p-column field="tisStatus" header="TIS"></p-column>
-      <p-column field="thssStatus" header="THSS"></p-column>
-      <p-column header="Delete"></p-column>
+      <p-column field="tdsStatus" header="TDS">
+        <ng-template let-status="rowData" pTemplate="body">
+          <i [class]="getStatusIconCss(status.tdsStatus)" title="This test package has been successfully loaded into TDS"></i>
+        </ng-template>
+      </p-column>
+      <p-column field="artStatus" header="ART">
+        <ng-template let-status="rowData" pTemplate="body">
+          <i [class]="getStatusIconCss(status.artStatus)" title="This test package has been successfully loaded into ART"></i>
+        </ng-template>
+      </p-column>
+      <p-column field="tisStatus" header="TIS">
+        <ng-template let-status="rowData" pTemplate="body">
+          <i [class]="getStatusIconCss(status.tisStatus)" title="This test package has been successfully loaded into TIS"></i>
+        </ng-template>
+      </p-column>
+      <p-column field="thssStatus" header="THSS">
+        <ng-template let-status="rowData" pTemplate="body">
+          <i [class]="getStatusIconCss(status.thssStatus)" title="This test package has been successfully loaded into THSS"></i>
+        </ng-template>
+      </p-column>
+      <p-column header="Delete">
+        <ng-template let-status="rowData" pTemplate="body">
+          <button type="button" (click)="deleteTestPackage(status.name)" class="fa fa-trash-o"></button>
+        </ng-template>
+      </p-column>
     </p-dataTable>
   </div>
 </div>

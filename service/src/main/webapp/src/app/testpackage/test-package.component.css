@@ -1,0 +1,15 @@
+.load-status-icon {
+  text-align: center;
+}
+
+.load-success {
+  color: #090;
+}
+
+.load-failure {
+  color: #900;
+}
+
+.load-not-applicable {
+  color: #999;
+}

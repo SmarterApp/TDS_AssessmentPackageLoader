@@ -6,7 +6,7 @@ import { StepStatus } from "../jobs/model/test-package-job.model";
 
 @Component({
   templateUrl: './test-package-status.component.html',
-  styleUrls: ['./test-package-status.component.css']
+  styleUrls: ['./test-package-status.component.css', '../../test-package.component.css']
 })
 export class TestPackageStatusComponent implements OnInit {
   private _testPackageStatuses: TestPackageStatusRow[] = [];
@@ -39,5 +39,15 @@ export class TestPackageStatusComponent implements OnInit {
    */
   getStatusIconCss(status: StepStatus): string {
     return TestPackageStatusRow.getStatusIconClass(status);
+  }
+
+  /**
+   * Delete a test package from all the systems it has been loaded into
+   *
+   * @param {string} name The name of the test package to delete
+   */
+  deleteTestPackage(name: string) {
+    // TODO: implement
+    console.log("you're about to delete %s.  You sure about that?", name);
   }
 }
