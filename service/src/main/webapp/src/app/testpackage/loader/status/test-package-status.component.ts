@@ -5,8 +5,9 @@ import { StepStatus } from "../jobs/model/test-package-job.model";
 import { TargetSystem } from "./model/target-system.enum";
 import { ConfirmationService } from "primeng/primeng";
 
-
-
+/**
+ * Controller for interacting with test package status data.
+ */
 @Component({
   templateUrl: './test-package-status.component.html',
   styleUrls: ['./test-package-status.component.css', '../../test-package.component.css']
@@ -81,17 +82,21 @@ export class TestPackageStatusComponent implements OnInit {
    * @param {string} name The name of the test package to delete
    */
   deleteTestPackage(name: string) {
-    // TODO: implement
     const message = `Are you sure you want to delete the '${ name }' test package?`;
-    console.log("you're about to delete %s.  You sure about that?", name);
+    if (window.confirm(message)) {
+      // TODO: implement call to delete test package
+      console.log("You must really wanna delete %s", name);
+    }
 
-    this.confirmationService.confirm({
-      message: message,
-      header: "Delete Test Package Confirmation",
-      accept: () => {
-        // TODO:  implement call to delete test package
-        console.log("You must really wanna delete %s", name);
-      }
-    });
+    // TODO:  determine why confirm dialog isn't modal...
+    // console.log("you're about to delete %s.  You sure about that?", name);
+    //
+    // this.confirmationService.confirm({
+    //   message: message,
+    //   header: "Delete Test Package Confirmation",
+    //   accept: () => {
+    //     console.log("You must really wanna delete %s", name);
+    //   }
+    // });
   }
 }
