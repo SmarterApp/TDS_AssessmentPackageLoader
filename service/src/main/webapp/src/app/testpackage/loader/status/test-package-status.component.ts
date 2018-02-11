@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TestPackageStatusService } from "./service/test-package-status.service";
 import { TestPackageStatusRow } from "./model/test-package-status-row";
 import { StepStatus } from "../jobs/model/test-package-job.model";
+import { TargetSystem } from "./model/target-system.enum";
 
 
 @Component({
@@ -39,6 +40,30 @@ export class TestPackageStatusComponent implements OnInit {
    */
   getStatusIconCss(status: StepStatus): string {
     return TestPackageStatusRow.getStatusIconClass(status);
+  }
+
+  /**
+   * Build a tooltip description message for the {TargetSystem}'s {StepStatus}
+   *
+   * @param {StepStatus} status The target system's {StepStatus}
+   * @param {TargetSystem} system The {TargetSystem}
+   * @return {string} A message describing what the status icon means
+   */
+  getStatusDescription(status: StepStatus, system: TargetSystem): string {
+    let statusMessage = `The test package was not loaded into ${ system }`;
+
+    switch (status) {
+      case StepStatus.Success:
+        statusMessage = `The test package was loaded into ${ system } successfully`;
+        break;
+      case StepStatus.Fail:
+        statusMessage = `The test package could not be loaded into ${ system }`;
+        break;
+      default:
+        break;
+    }
+
+    return statusMessage;
   }
 
   /**

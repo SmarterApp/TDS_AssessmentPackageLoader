@@ -34,22 +34,22 @@
       </p-column>
       <p-column field="tdsStatus" header="TDS">
         <ng-template let-status="rowData" pTemplate="body">
-          <i [class]="getStatusIconCss(status.tdsStatus)" title="This test package has been successfully loaded into TDS"></i>
+          <i [class]="getStatusIconCss(status.tdsStatus)" [title]="getStatusDescription(status.tdsStatus, 'TDS')"></i>
         </ng-template>
       </p-column>
       <p-column field="artStatus" header="ART">
         <ng-template let-status="rowData" pTemplate="body">
-          <i [class]="getStatusIconCss(status.artStatus)" title="This test package has been successfully loaded into ART"></i>
+          <i [class]="getStatusIconCss(status.artStatus)" [title]="getStatusDescription(status.artStatus, 'ART')"></i>
         </ng-template>
       </p-column>
       <p-column field="tisStatus" header="TIS">
         <ng-template let-status="rowData" pTemplate="body">
-          <i [class]="getStatusIconCss(status.tisStatus)" title="This test package has been successfully loaded into TIS"></i>
+          <i [class]="getStatusIconCss(status.tisStatus)" [title]="getStatusDescription(status.tisStatus, 'TIS')"></i>
         </ng-template>
       </p-column>
       <p-column field="thssStatus" header="THSS">
         <ng-template let-status="rowData" pTemplate="body">
-          <i [class]="getStatusIconCss(status.thssStatus)" title="This test package has been successfully loaded into THSS"></i>
+          <i [class]="getStatusIconCss(status.thssStatus)" [title]="getStatusDescription(status.thssStatus, 'THSS')"></i>
         </ng-template>
       </p-column>
       <p-column header="Delete">
