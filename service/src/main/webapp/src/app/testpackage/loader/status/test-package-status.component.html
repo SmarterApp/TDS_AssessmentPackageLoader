@@ -32,29 +32,44 @@
           {{ status.uploadedAt | date: 'short' }}
         </ng-template>
       </p-column>
-      <p-column field="tdsStatus" header="TDS">
+      <p-column field="tdsStatus">
+        <ng-template pTemplate="header"><div class="text-align-center">TDS</div></ng-template>
         <ng-template let-status="rowData" pTemplate="body">
-          <i [class]="getStatusIconCss(status.tdsStatus)" [title]="getStatusDescription(status.tdsStatus, 'TDS')"></i>
+          <div class="text-align-center">
+            <i [class]="getStatusIconCss(status.tdsStatus)" [title]="getStatusDescription(status.tdsStatus, 'TDS')"></i>
+          </div>
         </ng-template>
       </p-column>
-      <p-column field="artStatus" header="ART">
+      <p-column field="artStatus">
+        <ng-template pTemplate="header"><div class="text-align-center">ART</div></ng-template>
         <ng-template let-status="rowData" pTemplate="body">
-          <i [class]="getStatusIconCss(status.artStatus)" [title]="getStatusDescription(status.artStatus, 'ART')"></i>
+          <div class="text-align-center">
+            <i [class]="getStatusIconCss(status.artStatus)" [title]="getStatusDescription(status.artStatus, 'ART')"></i>
+          </div>
         </ng-template>
       </p-column>
-      <p-column field="tisStatus" header="TIS">
+      <p-column field="tisStatus">
+        <ng-template pTemplate="header"><div class="text-align-center">TIS</div></ng-template>
         <ng-template let-status="rowData" pTemplate="body">
-          <i [class]="getStatusIconCss(status.tisStatus)" [title]="getStatusDescription(status.tisStatus, 'TIS')"></i>
+          <div class="text-align-center">
+            <i [class]="getStatusIconCss(status.tisStatus)" [title]="getStatusDescription(status.tisStatus, 'TIS')"></i>
+          </div>
         </ng-template>
       </p-column>
-      <p-column field="thssStatus" header="THSS">
+      <p-column field="thssStatus">
+        <ng-template pTemplate="header"><div class="text-align-center">THSS</div></ng-template>
         <ng-template let-status="rowData" pTemplate="body">
-          <i [class]="getStatusIconCss(status.thssStatus)" [title]="getStatusDescription(status.thssStatus, 'THSS')"></i>
+          <div class="text-align-center">
+            <i [class]="getStatusIconCss(status.thssStatus)" [title]="getStatusDescription(status.thssStatus, 'THSS')"></i>
+          </div>
         </ng-template>
       </p-column>
       <p-column header="Delete">
+        <ng-template pTemplate="header"><div class="text-align-center">Delete</div></ng-template>
         <ng-template let-status="rowData" pTemplate="body">
-          <button type="button" (click)="deleteTestPackage(status.name)" class="fa fa-trash-o"></button>
+          <div class="text-align-center">
+            <button type="button" (click)="deleteTestPackage(status.name)" class="fa fa-trash-o"></button>
+          </div>
         </ng-template>
       </p-column>
     </p-dataTable>

@@ -13,3 +13,8 @@
 .load-not-applicable {
   color: #999;
 }
+
+.text-align-center {
+  text-align: center;
+  width: 100%;
+}
