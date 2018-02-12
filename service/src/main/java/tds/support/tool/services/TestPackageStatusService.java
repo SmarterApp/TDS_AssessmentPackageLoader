@@ -3,10 +3,7 @@ package tds.support.tool.services;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
-
 import tds.support.job.Job;
-import tds.support.job.TestPackageLoadJob;
 import tds.support.job.TestPackageStatus;
 
 /**
@@ -23,12 +20,10 @@ public interface TestPackageStatusService {
     TestPackageStatus save(final Job job);
 
     /**
-     * Fetch all {@link tds.support.job.TestPackageStatus}es
+     * Fetch a page of {@link tds.support.job.TestPackageStatus}es
      *
-     * @return A collection of all the {@link tds.support.job.TestPackageStatus} records
+     * @return A {@link org.springframework.data.domain.Page} of {@link tds.support.job.TestPackageStatus} records
      */
-    List<TestPackageStatus> getAll();
-
     Page<TestPackageStatus> getAll(final Pageable pageable);
 
     /**

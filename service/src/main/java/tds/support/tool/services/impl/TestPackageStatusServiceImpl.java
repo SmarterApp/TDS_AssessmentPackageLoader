@@ -49,11 +49,6 @@ public class TestPackageStatusServiceImpl implements TestPackageStatusService {
     }
 
     @Override
-    public List<TestPackageStatus> getAll() {
-        return testPackageStatusRepository.findAll();
-    }
-
-    @Override
     public Page<TestPackageStatus> getAll(final Pageable pageable) {
         return testPackageStatusRepository.findAll(pageable);
     }

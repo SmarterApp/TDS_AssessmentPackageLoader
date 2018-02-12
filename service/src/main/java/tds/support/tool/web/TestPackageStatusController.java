@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 import tds.support.job.TestPackageStatus;
 import tds.support.tool.services.TestPackageStatusService;
 
@@ -29,13 +27,7 @@ public class TestPackageStatusController {
      * @return A collection of all {@link tds.support.job.TestPackageStatus}es
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<TestPackageStatus>> getAll() {
-        return ResponseEntity.ok(testPackageStatusService.getAll());
-    }
-
-    @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Page<TestPackageStatus>> getAllByPage(final Pageable pageable) {
-        final Page<TestPackageStatus> data = testPackageStatusService.getAll(pageable);
-        return ResponseEntity.ok(data);
+        return ResponseEntity.ok(testPackageStatusService.getAll(pageable));
     }
- }
+}

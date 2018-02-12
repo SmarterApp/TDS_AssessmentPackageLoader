@@ -6,9 +6,13 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import tds.support.job.Status;
@@ -91,11 +95,13 @@ public class TestPackageStatusServiceImplTest {
                 LocalDateTime.now(),
                 targetSystemStatuses));
 
-        when(mockTestPackageStatusRepository.findAll()).thenReturn(testPackageStatuses);
+        final PageRequest pageRequest = new PageRequest(0, 2);
+        final Page<TestPackageStatus> testPackageStatusPage = new PageImpl<>(Collections.emptyList(), pageRequest, 10);
+        when(mockTestPackageStatusRepository.findAll(pageRequest)).thenReturn(testPackageStatusPage);
 
-        List<TestPackageStatus> result = testPackageStatusService.getAll();
+        Page<TestPackageStatus> result = testPackageStatusService.getAll(pageRequest);
 
-        verify(mockTestPackageStatusRepository).findAll();
-        assertThat(result).hasSize(2);
+        verify(mockTestPackageStatusRepository).findAll(pageRequest);
+        assertThat(result.getContent()).hasSize(0);
     }
 }
