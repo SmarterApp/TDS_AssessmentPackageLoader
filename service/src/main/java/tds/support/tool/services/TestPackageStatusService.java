@@ -22,9 +22,22 @@ public interface TestPackageStatusService {
     /**
      * Fetch a page of {@link tds.support.job.TestPackageStatus}es
      *
+     * @param pageable The {@link org.springframework.data.domain.Pageable} containing the paging information for this
+     *                 request
      * @return A {@link org.springframework.data.domain.Page} of {@link tds.support.job.TestPackageStatus} records
      */
     Page<TestPackageStatus> getAll(final Pageable pageable);
+
+    /**
+     * Find all {@link tds.support.job.TestPackageStatus}es that match the provided test package name
+     *
+     * @param testPackageNameFragment The part of the test package name to search by
+     * @param pageable The {@link org.springframework.data.domain.Pageable} containing the paging information for this
+     *                 request
+     * @return A {@link org.springframework.data.domain.Page} of {@link tds.support.job.TestPackageStatus}es that have a
+     * name like the provided test package name fragment.
+     */
+    Page<TestPackageStatus> searchByName(final String testPackageNameFragment, final Pageable pageable);
 
     /**
      * Delete a {@link tds.support.job.TestPackageStatus} record for a {@link tds.testpackage.model.TestPackage} that is
