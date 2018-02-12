@@ -2,6 +2,8 @@ package tds.support.tool.services.impl;
 
 import com.google.common.collect.ImmutableSet;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -49,6 +51,11 @@ public class TestPackageStatusServiceImpl implements TestPackageStatusService {
     @Override
     public List<TestPackageStatus> getAll() {
         return testPackageStatusRepository.findAll();
+    }
+
+    @Override
+    public Page<TestPackageStatus> getAll(final Pageable pageable) {
+        return testPackageStatusRepository.findAll(pageable);
     }
 
     @Override

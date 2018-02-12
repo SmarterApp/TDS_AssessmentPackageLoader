@@ -17,14 +17,13 @@
   </div>
 
   <div class="test-package-jobs-list-container">
-    <p-dataTable [value]="testPackageStatuses"
+    <p-dataTable [value]="testPackageStatusPage.content"
                  emptyMessage="No Test Packages have been loaded."
                  dataKey="name"
                  sortField="uploadedAt"
                  [sortOrder]="-1"
                  selectionMode="single"
                  tableStyleClass="table table-striped table-hover overflow"
-                 [paginator]="true"
                  [rows]="10">
       <p-column field="name" header="Test Package Name" [sortable]="true"></p-column>
       <p-column field="uploadedAt" header="Last Uploaded At" [sortable]="true">
@@ -73,6 +72,10 @@
         </ng-template>
       </p-column>
     </p-dataTable>
+    <p-paginator [rows]="testPackageStatusPage.size"
+                 [totalRecords]="testPackageStatusPage.totalElements"
+                 (onPageChange)="getNextPage($event)">
+    </p-paginator>
   </div>
 </div>
 

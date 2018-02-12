@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { ConfirmationService, ConfirmDialogModule, DataTableModule } from "primeng/primeng";
+import { ConfirmationService, ConfirmDialogModule, DataTableModule, PaginatorModule } from "primeng/primeng";
 import { BrowserModule } from "@angular/platform-browser";
 import { FormsModule } from "@angular/forms";
 import { TestPackageStatusService } from "./service/test-package-status.service";
@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
     BrowserAnimationsModule,
     DataTableModule,
     ConfirmDialogModule,
+    PaginatorModule,
     FormsModule
   ],
   providers: [

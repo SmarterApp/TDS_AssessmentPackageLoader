@@ -4,6 +4,9 @@ import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/mergeMap';
 import { TestPackageStatusRowMapper } from "./test-package-status-mapper";
 import { TestPackageStatusRow } from "../model/test-package-status-row";
+import { HttpParams } from "@angular/common/http";
+import { PageRequest } from "../../../../shared/data/page-request";
+import { PageResponse } from "../../../../shared/data/page-response";
 
 
 /**
@@ -16,16 +19,24 @@ export class TestPackageStatusService {
   }
 
   /**
-   * Retrieve all the {TestPackageStatus} records from the server.
+   * Retrieve a page of {TestPackageStatus} records from the server.
    *
-   * @return {TestPackageStatusRow[]} a collection of {TestPackageStatusRow}s representing the state of each test
-   * package managed by the support tool.
+   * @return {Page<TestPackageStatusRow>} that includes a collection of {TestPackageStatusRow}s representing the state
+   * of each test package managed by the support tool.  Additionally, paging information is returned to allow users to
+   * navigate between pages of records.
    */
-  getAll(): Observable<TestPackageStatusRow[]> {
-    return this.dataService.get('/load/status', {observe: 'response'})
+  getAll(page: PageRequest): Observable<PageResponse<TestPackageStatusRow>> {
+    const params = new HttpParams()
+      .append('page', (page.page || 0).toLocaleString())
+      .append('size', (page.size || 10).toLocaleString())
+      .append('sort', (page.sort + "," + page.sortDir || 'uploadedAt,DESC'));
+
+    return this.dataService.get('/load/status/test', {observe: 'response', params: params })
       .map(response => {
-        const statuses = response.body;
-        return statuses.map(statusJson => TestPackageStatusRowMapper.map(statusJson))
+        let pageData = response.body;
+        pageData.content = pageData.content.map(statusJson => TestPackageStatusRowMapper.map(statusJson));
+
+        return pageData;
       });
   }
 }

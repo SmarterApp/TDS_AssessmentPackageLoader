@@ -43,7 +43,8 @@ import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
     ExceptionAdvice.class,
     JacksonObjectMapperConfiguration.class,
     SecurityConfiguration.class,
-    RestTemplateConfiguration.class
+    RestTemplateConfiguration.class,
+    MvcConfig.class
 })
 public class SupportToolServiceConfiguration {
     @Bean

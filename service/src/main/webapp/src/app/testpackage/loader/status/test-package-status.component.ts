@@ -4,6 +4,8 @@ import { TestPackageStatusRow } from "./model/test-package-status-row";
 import { StepStatus } from "../jobs/model/test-package-job.model";
 import { TargetSystem } from "./model/target-system.enum";
 import { ConfirmationService } from "primeng/primeng";
+import { SortDirection } from "../../../shared/data/sort-direction.enum";
+import { PageResponse } from "../../../shared/data/page-response";
 
 /**
  * Controller for interacting with test package status data.
@@ -13,7 +15,18 @@ import { ConfirmationService } from "primeng/primeng";
   styleUrls: ['./test-package-status.component.css', '../../test-package.component.css']
 })
 export class TestPackageStatusComponent implements OnInit {
-  private _testPackageStatuses: TestPackageStatusRow[] = [];
+  // Initialize the model to some value
+  private _testPackageStatusPage: PageResponse<TestPackageStatusRow> = {
+    content: [],
+    numberOfElements: 0,
+    first: false,
+    last: false,
+    totalPages: 0,
+    totalElements: 0,
+    size: 0,
+    number: 0,
+    sort: []
+  };
 
   constructor(private testPackageStatusService: TestPackageStatusService,
               private confirmationService: ConfirmationService) {
@@ -23,17 +36,45 @@ export class TestPackageStatusComponent implements OnInit {
    * @return {TestPackageStatusRow[]} A collection of {TestPackageStatusRow}s that represent the state of each test
    * package managed by the Support Tool.
    */
-  get testPackageStatuses(): TestPackageStatusRow[] {
-    return this._testPackageStatuses;
+  get testPackageStatusPage(): PageResponse<TestPackageStatusRow> {
+    return this._testPackageStatusPage;
   }
 
-  set testPackageStatuses(value: TestPackageStatusRow[]) {
-    this._testPackageStatuses = value;
+  set testPackageStatusPage(value: PageResponse<TestPackageStatusRow>) {
+    this._testPackageStatusPage = value;
   }
 
+  /**
+   * Get the first page of {TestPackageStatusRow}s for display, sorted by "Last Uploaded At" in Descending order.
+   */
   ngOnInit() {
-    this.testPackageStatusService.getAll()
-      .subscribe(response => this.testPackageStatuses = response);
+    const firstPage = {
+      page: 0,
+      size: 2,
+      sort: 'uploadedAt',
+      sortDir: SortDirection.Descending
+    };
+
+    this.testPackageStatusService.getAll(firstPage)
+      .toPromise()
+      .then(response => this.testPackageStatusPage = response);
+  }
+
+  /**
+   * Get the next page of records.
+   *
+   * @param event The event fired by the {Paginator#onPageChange} method
+   */
+  getNextPage(event) {
+    const nextPage = {
+      page: event.page,
+      size: event.rows,
+      sort: 'uploadedAt',
+      sortDir: SortDirection.Descending
+    };
+
+    this.testPackageStatusService.getAll(nextPage)
+      .subscribe(response => this.testPackageStatusPage = response);
   }
 
   /**

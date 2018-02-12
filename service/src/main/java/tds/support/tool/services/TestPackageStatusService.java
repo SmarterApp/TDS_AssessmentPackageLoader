@@ -1,5 +1,8 @@
 package tds.support.tool.services;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 import tds.support.job.Job;
@@ -25,6 +28,8 @@ public interface TestPackageStatusService {
      * @return A collection of all the {@link tds.support.job.TestPackageStatus} records
      */
     List<TestPackageStatus> getAll();
+
+    Page<TestPackageStatus> getAll(final Pageable pageable);
 
     /**
      * Delete a {@link tds.support.job.TestPackageStatus} record for a {@link tds.testpackage.model.TestPackage} that is
