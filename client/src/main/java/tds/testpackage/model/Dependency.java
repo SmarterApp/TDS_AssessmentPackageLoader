@@ -1,6 +1,7 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -28,7 +29,9 @@ import static tds.testpackage.model.XmlUtil.*;
 public abstract class Dependency {
     public abstract String getIfToolType();
     public abstract String getIfToolCode();
+    @JsonProperty
     protected abstract Optional<String> getEnabled();
+    @JsonProperty
     protected abstract Optional<String> getDefault();
 
     public boolean enabled() {

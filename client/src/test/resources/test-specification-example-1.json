@@ -832,10 +832,6 @@
                   "value": "true"
                 },
                 {
-                  "name": "isstrictmax",
-                  "value": "true"
-                },
-                {
                   "name": "bpweight",
                   "value": "1"
                 },
@@ -985,11 +981,11 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
-                  "value": "1"
+                  "value": "0"
                 }
               ]
             },
@@ -1030,11 +1026,11 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
-                  "value": "1"
+                  "value": "0"
                 }
               ]
             },
@@ -1060,7 +1056,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1075,11 +1071,11 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
-                  "value": "1"
+                  "value": "0"
                 }
               ]
             },
@@ -1090,11 +1086,11 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
-                  "value": "1"
+                  "value": "0"
                 }
               ]
             },
@@ -1105,7 +1101,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1120,7 +1116,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1135,7 +1131,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1150,7 +1146,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1165,7 +1161,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1180,7 +1176,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1195,7 +1191,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1210,11 +1206,11 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
-                  "value": "1"
+                  "value": "0"
                 }
               ]
             },
@@ -1225,7 +1221,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1240,7 +1236,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1255,7 +1251,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1270,11 +1266,11 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
-                  "value": "1"
+                  "value": "0"
                 }
               ]
             },
@@ -1285,7 +1281,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1300,7 +1296,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1315,11 +1311,11 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
-                  "value": "1"
+                  "value": "0"
                 }
               ]
             },
@@ -1330,11 +1326,11 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
-                  "value": "1"
+                  "value": "0"
                 }
               ]
             },
@@ -1345,7 +1341,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1360,7 +1356,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1375,7 +1371,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1390,7 +1386,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1405,7 +1401,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1420,7 +1416,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1435,7 +1431,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1450,11 +1446,11 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
-                  "value": "1"
+                  "value": "0"
                 }
               ]
             },
@@ -1465,7 +1461,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1480,7 +1476,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1495,11 +1491,11 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
-                  "value": "1"
+                  "value": "0"
                 }
               ]
             },
@@ -1510,7 +1506,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1525,7 +1521,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1540,11 +1536,11 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
-                  "value": "1"
+                  "value": "0"
                 }
               ]
             },
@@ -1555,7 +1551,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1570,7 +1566,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1585,7 +1581,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1600,7 +1596,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1615,7 +1611,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1630,7 +1626,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1645,7 +1641,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1660,7 +1656,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1675,11 +1671,11 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
-                  "value": "1"
+                  "value": "0"
                 }
               ]
             },
@@ -1690,7 +1686,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1705,7 +1701,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1720,11 +1716,11 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
-                  "value": "1"
+                  "value": "0"
                 }
               ]
             },
@@ -1735,7 +1731,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1750,7 +1746,7 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
@@ -1765,11 +1761,27 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
                   "value": "1"
+                },
+                {
+                  "name": "startinfo",
+                  "value": "0"
+                },
+                {
+                  "name": "precisiontarget",
+                  "value": "1"
+                },
+                {
+                  "name": "precisiontargetmetweight",
+                  "value": "0"
+                },
+                {
+                  "name": "precisiontargetnotmetweight",
+                  "value": "0"
                 }
               ]
             },
@@ -1780,11 +1792,27 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
                   "value": "1"
+                },
+                {
+                  "name": "startinfo",
+                  "value": "0"
+                },
+                {
+                  "name": "precisiontarget",
+                  "value": "1"
+                },
+                {
+                  "name": "precisiontargetmetweight",
+                  "value": "0"
+                },
+                {
+                  "name": "precisiontargetnotmetweight",
+                  "value": "0"
                 }
               ]
             },
@@ -1795,18 +1823,34 @@
               "itemSelection": [
                 {
                   "name": "isstrictmax",
-                  "value": "true"
+                  "value": "false"
                 },
                 {
                   "name": "bpweight",
                   "value": "1"
+                },
+                {
+                  "name": "startinfo",
+                  "value": "0"
+                },
+                {
+                  "name": "precisiontarget",
+                  "value": "1"
+                },
+                {
+                  "name": "precisiontargetmetweight",
+                  "value": "0"
+                },
+                {
+                  "name": "precisiontargetnotmetweight",
+                  "value": "0"
                 }
               ]
             }
           ],
           "pool": [
             {
-              "id": "I-187-1899",
+              "id": "1899",
               "items": [
                 {
                   "id": "1899",
@@ -1845,12 +1889,13 @@
                         "value": 0.0
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-1915",
+              "id": "1915",
               "items": [
                 {
                   "id": "1915",
@@ -1886,12 +1931,13 @@
                         "value": 0.0
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-1916",
+              "id": "1916",
               "items": [
                 {
                   "id": "1916",
@@ -1930,12 +1976,13 @@
                         "value": 0.0
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-1926",
+              "id": "1926",
               "items": [
                 {
                   "id": "1926",
@@ -1977,12 +2024,13 @@
                         "value": 0.0
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-1927",
+              "id": "1927",
               "items": [
                 {
                   "id": "1927",
@@ -1997,7 +2045,7 @@
                       "idRef": "SBAC-IRP-CAT-MATH-11"
                     },
                     {
-                      "idRef": "G11Math_Claim1_MC/MS"
+                      "idRef": "G11Math_Claim2/4"
                     },
                     {
                       "idRef": "G11Math_DOK2"
@@ -2028,12 +2076,13 @@
                         "value": 1.0E-15
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-1929",
+              "id": "1929",
               "items": [
                 {
                   "id": "1929",
@@ -2072,12 +2121,13 @@
                         "value": 0.0
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-1930",
+              "id": "1930",
               "items": [
                 {
                   "id": "1930",
@@ -2116,12 +2166,13 @@
                         "value": 0.0
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-1936",
+              "id": "1936",
               "items": [
                 {
                   "id": "1936",
@@ -2157,12 +2208,13 @@
                         "value": 0.0
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-1948",
+              "id": "1948",
               "items": [
                 {
                   "id": "1948",
@@ -2201,12 +2253,13 @@
                         "value": 1.0E-15
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-1956",
+              "id": "1956",
               "items": [
                 {
                   "id": "1956",
@@ -2219,6 +2272,9 @@
                   "blueprintReferences": [
                     {
                       "idRef": "SBAC-IRP-CAT-MATH-11"
+                    },
+                    {
+                      "idRef": "G11Math_Claim1_MC/MS"
                     },
                     {
                       "idRef": "1|N-Q|C|m|N-Q.1"
@@ -2242,12 +2298,13 @@
                         "value": 0.0
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-1969",
+              "id": "1969",
               "items": [
                 {
                   "id": "1969",
@@ -2286,12 +2343,13 @@
                         "value": 0.0
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-1997",
+              "id": "1997",
               "items": [
                 {
                   "id": "1997",
@@ -2306,7 +2364,7 @@
                       "idRef": "SBAC-IRP-CAT-MATH-11"
                     },
                     {
-                      "idRef": "G11Math_Claim1_MC/MS"
+                      "idRef": "G11Math_Claim2/4"
                     },
                     {
                       "idRef": "G11Math_DOK2"
@@ -2333,12 +2391,13 @@
                         "value": 0.0
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-1998",
+              "id": "1998",
               "items": [
                 {
                   "id": "1998",
@@ -2374,12 +2433,13 @@
                         "value": 0.0
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-1999",
+              "id": "1999",
               "items": [
                 {
                   "id": "1999",
@@ -2418,12 +2478,13 @@
                         "value": 0.0
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-2005",
+              "id": "2005",
               "items": [
                 {
                   "id": "2005",
@@ -2459,12 +2520,13 @@
                         "value": 0.0
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-2006",
+              "id": "2006",
               "items": [
                 {
                   "id": "2006",
@@ -2479,7 +2541,7 @@
                       "idRef": "SBAC-IRP-CAT-MATH-11"
                     },
                     {
-                      "idRef": "G11Math_DOK2"
+                      "idRef": "G11Math_Claim2/4"
                     },
                     {
                       "idRef": "4"
@@ -2503,12 +2565,13 @@
                         "value": 0.0
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-2029",
+              "id": "2029",
               "items": [
                 {
                   "id": "2029",
@@ -2547,12 +2610,13 @@
                         "value": 0.0
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             },
             {
-              "id": "I-187-2032",
+              "id": "2032",
               "items": [
                 {
                   "id": "2032",
@@ -2567,7 +2631,7 @@
                       "idRef": "SBAC-IRP-CAT-MATH-11"
                     },
                     {
-                      "idRef": "G11Math_Claim1_MC/MS"
+                      "idRef": "G11Math_Claim2/4"
                     },
                     {
                       "idRef": "G11Math_DOK2"
@@ -2594,7 +2658,8 @@
                         "value": 0.0
                       }
                     ]
-                  }
+                  },
+                  "position": 1
                 }
               ]
             }
@@ -2661,6 +2726,23 @@
           "algorithmType": "fixedform",
           "algorithmImplementation": "FAIRWAY ROUNDROBIN",
           "position": 1,
+          "segmentBlueprint": [
+            {
+              "idRef": "SBAC-IRP-Perf-MATH-11",
+              "minExamItems": 7,
+              "maxExamItems": 7,
+              "itemSelection": [
+                {
+                  "name": "slope",
+                  "value": "79.3"
+                },
+                {
+                  "name": "intercept",
+                  "value": "2514.9"
+                }
+              ]
+            }
+          ],
           "segmentForms": [
             {
               "id": "IRP::MathG11::Perf::SP15",
@@ -2672,7 +2754,7 @@
               ],
               "itemGroups": [
                 {
-                  "id": "I-187-3688",
+                  "id": "3688",
                   "stimulus": {
                     "id": "3688"
                   },
@@ -2711,7 +2793,8 @@
                             "value": 0.0
                           }
                         ]
-                      }
+                      },
+                      "position": 1
                     },
                     {
                       "id": "1432",
@@ -2747,7 +2830,8 @@
                             "value": 0.76237
                           }
                         ]
-                      }
+                      },
+                      "position": 2
                     }
                   ]
                 }
