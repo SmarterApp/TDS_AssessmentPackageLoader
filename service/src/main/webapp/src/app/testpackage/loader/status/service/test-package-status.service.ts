@@ -31,7 +31,7 @@ export class TestPackageStatusService {
       .append('size', (page.size || 10).toLocaleString())
       .append('sort', (page.sort + "," + page.sortDir || 'uploadedAt,DESC'));
 
-    return this.dataService.get('/load/status/test', {observe: 'response', params: params })
+    return this.dataService.get('/load/status', { observe: 'response', params: params })
       .map(response => {
         let pageData = response.body;
         pageData.content = pageData.content.map(statusJson => TestPackageStatusRowMapper.map(statusJson));
