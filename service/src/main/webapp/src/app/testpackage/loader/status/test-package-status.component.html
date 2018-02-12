@@ -25,8 +25,8 @@
                  selectionMode="single"
                  tableStyleClass="table table-striped table-hover overflow"
                  [rows]="10">
-      <p-column field="name" header="Test Package Name" [sortable]="true"></p-column>
-      <p-column field="uploadedAt" header="Last Uploaded At" [sortable]="true">
+      <p-column field="name" header="Test Package Name" sortable="custom" (sortFunction)="setSortPreference($event)"></p-column>
+      <p-column field="uploadedAt" header="Last Uploaded At" sortable="custom" (sortFunction)="setSortPreference($event)">
         <ng-template let-status="rowData" pTemplate="body">
           {{ status.uploadedAt | date: 'short' }}
         </ng-template>

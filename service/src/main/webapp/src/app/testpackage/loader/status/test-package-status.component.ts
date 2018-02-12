@@ -3,7 +3,6 @@ import { TestPackageStatusService } from "./service/test-package-status.service"
 import { TestPackageStatusRow } from "./model/test-package-status-row";
 import { StepStatus } from "../jobs/model/test-package-job.model";
 import { TargetSystem } from "./model/target-system.enum";
-import { ConfirmationService } from "primeng/primeng";
 import { SortDirection } from "../../../shared/data/sort-direction.enum";
 import { PageResponse } from "../../../shared/data/page-response";
 
@@ -26,6 +25,11 @@ export class TestPackageStatusComponent implements OnInit {
     size: 0,
     number: 0,
     sort: []
+  };
+
+  private sortPreference = {
+    sort: "uploadedAt",
+    sortDir: SortDirection.Descending
   };
 
   constructor(private testPackageStatusService: TestPackageStatusService) {
@@ -67,12 +71,29 @@ export class TestPackageStatusComponent implements OnInit {
     const nextPage = {
       page: event.page,
       size: event.rows,
-      sort: 'uploadedAt',
-      sortDir: SortDirection.Descending
+      sort: this.sortPreference.sort,
+      sortDir: this.sortPreference.sortDir
     };
 
     this.testPackageStatusService.getAll(nextPage)
       .subscribe(response => this.testPackageStatusPage = response);
+  }
+
+  /**
+   * Set the sorting preference and update the page.
+   */
+  setSortPreference(event) {
+    this.sortPreference = {
+      sort: event.field,
+      sortDir: event.order == 1 ? SortDirection.Ascending : SortDirection.Descending
+    };
+
+    this.getNextPage({
+      page: this.testPackageStatusPage.number,
+      rows: this.testPackageStatusPage.size,
+      sort: this.sortPreference.sort,
+      sortDir: this.sortPreference.sortDir
+    });
   }
 
   /**
