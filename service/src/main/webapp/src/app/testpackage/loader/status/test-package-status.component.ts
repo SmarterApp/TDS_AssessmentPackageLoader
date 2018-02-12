@@ -28,8 +28,7 @@ export class TestPackageStatusComponent implements OnInit {
     sort: []
   };
 
-  constructor(private testPackageStatusService: TestPackageStatusService,
-              private confirmationService: ConfirmationService) {
+  constructor(private testPackageStatusService: TestPackageStatusService) {
   }
 
   /**
@@ -48,16 +47,15 @@ export class TestPackageStatusComponent implements OnInit {
    * Get the first page of {TestPackageStatusRow}s for display, sorted by "Last Uploaded At" in Descending order.
    */
   ngOnInit() {
-    const firstPage = {
+    // Create an event to fetch the first page of records.
+    const initPaginatorEvent = {
       page: 0,
-      size: 2,
-      sort: 'uploadedAt',
-      sortDir: SortDirection.Descending
+      rows: 2,
+      first: 0,
+      pageCount: 0
     };
 
-    this.testPackageStatusService.getAll(firstPage)
-      .toPromise()
-      .then(response => this.testPackageStatusPage = response);
+    this.getNextPage(initPaginatorEvent);
   }
 
   /**
@@ -128,16 +126,5 @@ export class TestPackageStatusComponent implements OnInit {
       // TODO: implement call to delete test package
       console.log("You must really wanna delete %s", name);
     }
-
-    // TODO:  determine why confirm dialog isn't modal...
-    // console.log("you're about to delete %s.  You sure about that?", name);
-    //
-    // this.confirmationService.confirm({
-    //   message: message,
-    //   header: "Delete Test Package Confirmation",
-    //   accept: () => {
-    //     console.log("You must really wanna delete %s", name);
-    //   }
-    // });
   }
 }

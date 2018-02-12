@@ -72,12 +72,11 @@
         </ng-template>
       </p-column>
     </p-dataTable>
-    <p-paginator [rows]="testPackageStatusPage.size"
-                 [totalRecords]="testPackageStatusPage.totalElements"
-                 (onPageChange)="getNextPage($event)">
-    </p-paginator>
+    <div class="text-align-center">
+      <p-paginator [rows]="testPackageStatusPage.size"
+                   [totalRecords]="testPackageStatusPage.totalElements"
+                   (onPageChange)="getNextPage($event)">
+      </p-paginator>
+    </div>
   </div>
 </div>
-
-<!-- confirmation dialog -->
-<p-confirmDialog [closeOnEscape]="true"></p-confirmDialog>
