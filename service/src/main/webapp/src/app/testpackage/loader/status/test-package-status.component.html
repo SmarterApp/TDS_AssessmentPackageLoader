@@ -1,11 +1,12 @@
 <div>
-  <div class="form-group">
-    <div class="flex-children gray-lightest pt-sm pr-sm pb-sm pl-sm test-package-jobs-search-form-container">
+  <div class="form-group row">
+    <div class="flex-children gray-lightest pt-sm pr-sm pb-sm pl-sm test-package-jobs-search-form-container" style="flex-wrap: nowrap;">
       <label for="search" class="sr-only">Search by Test Package Name</label>
-      <div class="flex-child grow">
+      <div class="flex-child">
         <div class="flex-child input-group">
           <input #searchTextBox
                  class="flex-child form-control"
+                 style="height: 40.44px"
                  id="search"
                  type="text"
                  placeholder="Search by Test Package Name"
@@ -33,11 +34,11 @@
                  emptyMessage="No Test Packages have been loaded."
                  dataKey="name"
                  sortField="uploadedAt"
-                 sortOrder="-1"
+                 [sortOrder]="-1"
                  (onSort)="setSortPreference($event)"
                  selectionMode="single"
                  tableStyleClass="table table-striped table-hover overflow"
-                 rows="10">
+                 [rows]="10">
       <p-column field="name" header="Test Package Name" [sortable]="true"></p-column>
       <p-column field="uploadedAt" header="Last Uploaded At" [sortable]="true">
         <ng-template let-status="rowData" pTemplate="body">
