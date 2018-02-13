@@ -56,6 +56,7 @@ public class TestPackageStatusServiceImplTest {
             targetSystemStatuses);
 
         final ArgumentCaptor<TestPackageStatus> testPackageStatusArgumentCaptor = ArgumentCaptor.forClass(TestPackageStatus.class);
+
         when(mockTestPackageStatusRepository.save(testPackageStatusArgumentCaptor.capture()))
             .thenReturn(expectedTestPackageStatus);
 
@@ -72,6 +73,7 @@ public class TestPackageStatusServiceImplTest {
     @Test
     public void shouldDeleteATestPackageStatusRecord() {
         final String testPackageStatusName = "delete-me";
+
         doNothing().when(mockTestPackageStatusRepository).delete(testPackageStatusName);
 
         testPackageStatusService.delete(testPackageStatusName);
@@ -80,28 +82,71 @@ public class TestPackageStatusServiceImplTest {
     }
 
     @Test
-    public void shouldFindAllTestPackageStatusRecords() {
+    public void shouldFindAllTestPackageStatusRecordsWithPagination() {
         final List<TestPackageTargetSystemStatus> targetSystemStatuses = Arrays.asList(
             new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
             new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS),
             new TestPackageTargetSystemStatus(TargetSystem.TIS, Status.SUCCESS),
             new TestPackageTargetSystemStatus(TargetSystem.THSS, Status.SUCCESS));
 
-        List<TestPackageStatus> testPackageStatuses = Arrays.asList(
-            new TestPackageStatus("first-test-package-status",
+        final List<TestPackageStatus> testPackageStatuses = Arrays.asList(
+            new TestPackageStatus("first-test-package-filename",
                 LocalDateTime.now(),
                 targetSystemStatuses),
-            new TestPackageStatus("second-test-package-status",
+            new TestPackageStatus("second-test-package-filename",
                 LocalDateTime.now(),
                 targetSystemStatuses));
 
         final PageRequest pageRequest = new PageRequest(0, 2);
-        final Page<TestPackageStatus> testPackageStatusPage = new PageImpl<>(Collections.emptyList(), pageRequest, 10);
+        final Page<TestPackageStatus> testPackageStatusPage =
+            new PageImpl<>(testPackageStatuses, pageRequest, 10);
+
+        when(mockTestPackageStatusRepository.findAll(pageRequest)).thenReturn(testPackageStatusPage);
+
+        final Page<TestPackageStatus> result = testPackageStatusService.getAll(pageRequest);
+
+        verify(mockTestPackageStatusRepository).findAll(pageRequest);
+        assertThat(result.getContent()).hasSize(2);
+        assertThat(result.getNumber()).isEqualTo(0);
+        assertThat(result.getSize()).isEqualTo(2);
+        assertThat(result.getNumberOfElements()).isEqualTo(2);
+    }
+
+    @Test
+    public void shouldReturnAPageWithNoContentWhenThereAreNoTestPackageStatusRecords() {
+        final PageRequest pageRequest = new PageRequest(0, 2);
+        final Page<TestPackageStatus> testPackageStatusPage = new PageImpl<>(Collections.emptyList(),
+            pageRequest,
+            10);
         when(mockTestPackageStatusRepository.findAll(pageRequest)).thenReturn(testPackageStatusPage);
 
         Page<TestPackageStatus> result = testPackageStatusService.getAll(pageRequest);
 
         verify(mockTestPackageStatusRepository).findAll(pageRequest);
         assertThat(result.getContent()).hasSize(0);
+    }
+
+    @Test
+    public void shouldSearchForTestPackageStatusRecordsByName() {
+        final String testPackageName = "test-package-filename";
+        final List<TestPackageTargetSystemStatus> targetSystemStatuses = Arrays.asList(
+            new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
+            new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS),
+            new TestPackageTargetSystemStatus(TargetSystem.TIS, Status.SUCCESS),
+            new TestPackageTargetSystemStatus(TargetSystem.THSS, Status.SUCCESS));
+        final TestPackageStatus expectedTestPackageStatus = new TestPackageStatus(testPackageName,
+            LocalDateTime.now(),
+            targetSystemStatuses);
+
+        final PageRequest pageRequest = new PageRequest(0, 2);
+        final Page<TestPackageStatus> testPackageStatusPage =
+            new PageImpl<>(Collections.singletonList(expectedTestPackageStatus), pageRequest, 10);
+        when(mockTestPackageStatusRepository.findAllByNameContainingIgnoreCase(testPackageName, pageRequest))
+            .thenReturn(testPackageStatusPage);
+
+        final Page<TestPackageStatus> result = testPackageStatusService.searchByName(testPackageName, pageRequest);
+
+        verify(mockTestPackageStatusRepository).findAllByNameContainingIgnoreCase(testPackageName, pageRequest);
+        assertThat(result.getContent()).hasSize(1);
     }
 }

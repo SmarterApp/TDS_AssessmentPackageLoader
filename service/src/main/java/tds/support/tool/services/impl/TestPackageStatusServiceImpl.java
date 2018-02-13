@@ -54,6 +54,11 @@ public class TestPackageStatusServiceImpl implements TestPackageStatusService {
     }
 
     @Override
+    public Page<TestPackageStatus> searchByName(final String testPackageNameFragment, final Pageable pageable) {
+        return testPackageStatusRepository.findAllByNameContainingIgnoreCase(testPackageNameFragment, pageable);
+    }
+
+    @Override
     public void delete(final String testPackageName) {
         testPackageStatusRepository.delete(testPackageName);
     }
