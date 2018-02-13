@@ -30,7 +30,7 @@ public class TestPackageStatusRepositoryIntegrationTest {
     private TestPackageStatusRepository testPackageStatusRepository;
 
     @Test
-    @Ignore("This integration test is intended for generating seed data to conduct end-to-end testing for the UI")
+    //@Ignore("This integration test is intended for generating seed data to conduct end-to-end testing for the UI")
     public void generateTestPackageStatusSeedData() {
         final List<TestPackageStatus> testPackageStatuses = Arrays.asList(
             new TestPackageStatus("01 test package; TDS Only",
@@ -60,5 +60,7 @@ public class TestPackageStatusRepositoryIntegrationTest {
                     new TestPackageTargetSystemStatus(TargetSystem.TIS, Status.FAIL),
                     new TestPackageTargetSystemStatus(TargetSystem.THSS, Status.FAIL)
                 )));
+
+        testPackageStatusRepository.save(testPackageStatuses);
     }
 }

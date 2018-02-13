@@ -5,6 +5,10 @@ import { StepStatus } from "../jobs/model/test-package-job.model";
 import { TargetSystem } from "./model/target-system.enum";
 import { SortDirection } from "../../../shared/data/sort-direction.enum";
 import { PageResponse } from "../../../shared/data/page-response";
+import 'rxjs/add/operator/debounceTime';
+import "rxjs/add/operator/distinctUntilChanged";
+import { FormControl } from "@angular/forms";
+import { PageRequest } from "../../../shared/data/page-request";
 
 /**
  * Controller for interacting with test package status data.
@@ -32,6 +36,8 @@ export class TestPackageStatusComponent implements OnInit {
     sortDir: SortDirection.Descending
   };
 
+  private searchTermText = '';
+
   constructor(private testPackageStatusService: TestPackageStatusService) {
   }
 
@@ -54,18 +60,18 @@ export class TestPackageStatusComponent implements OnInit {
     // Create an event to fetch the first page of records.
     const initPaginatorEvent = {
       page: 0,
-      rows: 2,
-      first: 0,
-      pageCount: 0
+      size: 2,
+      sort: this.sortPreference.sort,
+      sortDir: this.sortPreference.sortDir
     };
 
-    this.getNextPage(initPaginatorEvent);
+    this.getData(this.searchTermText, initPaginatorEvent);
   }
 
   /**
    * Get the next page of records.
    *
-   * @param event The event fired by the {Paginator#onPageChange} method
+   * @param {event} event The event fired by the {Paginator#onPageChange} method
    */
   getNextPage(event) {
     const nextPage = {
@@ -75,12 +81,13 @@ export class TestPackageStatusComponent implements OnInit {
       sortDir: this.sortPreference.sortDir
     };
 
-    this.testPackageStatusService.getAll(nextPage)
-      .subscribe(response => this.testPackageStatusPage = response);
+    this.getData(this.searchTermText, nextPage);
   }
 
   /**
    * Set the sorting preference and update the page.
+   *
+   * @param {event} event The sorting event from the {Paginator}'s sort method
    */
   setSortPreference(event) {
     this.sortPreference = {
@@ -88,12 +95,40 @@ export class TestPackageStatusComponent implements OnInit {
       sortDir: event.order == 1 ? SortDirection.Ascending : SortDirection.Descending
     };
 
-    this.getNextPage({
-      page: this.testPackageStatusPage.number,
-      rows: this.testPackageStatusPage.size,
+    const pageRequest = {
+      page: 0,
+      size: this.testPackageStatusPage.size,
       sort: this.sortPreference.sort,
       sortDir: this.sortPreference.sortDir
-    });
+    };
+
+    this.getData(this.searchTermText, pageRequest);
+  }
+
+  search(term: string) {
+    const pageRequest = {
+      page: this.testPackageStatusPage.number,
+      size: this.testPackageStatusPage.size,
+      sort: this.sortPreference.sort,
+      sortDir: this.sortPreference.sortDir
+    };
+
+    this.getData(term, pageRequest);
+  }
+  /**
+   * Fetch a page of {TestPackageStatusRow}s from the server based on the paging, sorting and search criteria.
+   *
+   * @param {string} searchTerm The part of the test name being
+   * @param {PageRequest} page information for the request
+   */
+  private getData(searchTerm:  string, page: PageRequest) {
+    if (searchTerm !== '') {
+      this.testPackageStatusService.searchByName(searchTerm, page)
+        .subscribe(response => this.testPackageStatusPage = response);
+    } else {
+      this.testPackageStatusService.getAll(page)
+        .subscribe(response => this.testPackageStatusPage = response);
+    }
   }
 
   /**

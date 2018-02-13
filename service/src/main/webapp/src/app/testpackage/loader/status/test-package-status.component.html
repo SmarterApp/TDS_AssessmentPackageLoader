@@ -3,16 +3,28 @@
     <div class="flex-children gray-lightest pt-sm pr-sm pb-sm pl-sm test-package-jobs-search-form-container">
       <label for="search" class="sr-only">Search by Test Package Name</label>
       <div class="flex-child grow">
-        <input [(ngModel)]="searchTerm"
-               class="flex-child search form-control"
-               id="search"
-               type="text"
-               placeholder="Search by Test Package Name"
-               autocomplete="off"
-               (ngModelChange)="onSearchChange()">
+        <div class="flex-child input-group">
+          <input #searchTextBox
+                 class="flex-child form-control"
+                 id="search"
+                 type="text"
+                 placeholder="Search by Test Package Name"
+                 autocomplete="off"
+                 [(ngModel)]="searchTermText">
+          <span class="input-group-btn">
+            <button class="flex-child btn btn-primary" id="foo" (click)="search(searchTextBox.value)">
+              <i class="fa fa-search"></i>
+            </button>
+          </span>
+        </div>
       </div>
-      <div class="flex-child"><button class="flex-child btn view-loaded-test-packages" (click)="statusClick()">View Loaded Test Packages</button></div>
-      <div class="flex-child"><button class="btn btn-primary upload-test-package" (click)="uploadClick()">Upload New Test Package</button></div>
+      <div class="flex-child">
+        <button class="flex-child btn view-loaded-test-packages" (click)="statusClick()">View Loaded Test Packages
+        </button>
+      </div>
+      <div class="flex-child">
+        <button class="btn btn-primary upload-test-package" (click)="uploadClick()">Upload New Test Package</button>
+      </div>
     </div>
   </div>
 
@@ -21,18 +33,21 @@
                  emptyMessage="No Test Packages have been loaded."
                  dataKey="name"
                  sortField="uploadedAt"
-                 [sortOrder]="-1"
+                 sortOrder="-1"
+                 (onSort)="setSortPreference($event)"
                  selectionMode="single"
                  tableStyleClass="table table-striped table-hover overflow"
-                 [rows]="10">
-      <p-column field="name" header="Test Package Name" sortable="custom" (sortFunction)="setSortPreference($event)"></p-column>
-      <p-column field="uploadedAt" header="Last Uploaded At" sortable="custom" (sortFunction)="setSortPreference($event)">
+                 rows="10">
+      <p-column field="name" header="Test Package Name" [sortable]="true"></p-column>
+      <p-column field="uploadedAt" header="Last Uploaded At" [sortable]="true">
         <ng-template let-status="rowData" pTemplate="body">
           {{ status.uploadedAt | date: 'short' }}
         </ng-template>
       </p-column>
       <p-column field="tdsStatus">
-        <ng-template pTemplate="header"><div class="text-align-center">TDS</div></ng-template>
+        <ng-template pTemplate="header">
+          <div class="text-align-center">TDS</div>
+        </ng-template>
         <ng-template pTemplate="body" let-status="rowData">
           <div class="text-align-center">
             <i [class]="getStatusIconCss(status.tdsStatus)" [title]="getStatusDescription(status.tdsStatus, 'TDS')"></i>
@@ -40,7 +55,9 @@
         </ng-template>
       </p-column>
       <p-column field="artStatus">
-        <ng-template pTemplate="header"><div class="text-align-center">ART</div></ng-template>
+        <ng-template pTemplate="header">
+          <div class="text-align-center">ART</div>
+        </ng-template>
         <ng-template pTemplate="body" let-status="rowData">
           <div class="text-align-center">
             <i [class]="getStatusIconCss(status.artStatus)" [title]="getStatusDescription(status.artStatus, 'ART')"></i>
@@ -48,7 +65,9 @@
         </ng-template>
       </p-column>
       <p-column field="tisStatus">
-        <ng-template pTemplate="header"><div class="text-align-center">TIS</div></ng-template>
+        <ng-template pTemplate="header">
+          <div class="text-align-center">TIS</div>
+        </ng-template>
         <ng-template pTemplate="body" let-status="rowData">
           <div class="text-align-center">
             <i [class]="getStatusIconCss(status.tisStatus)" [title]="getStatusDescription(status.tisStatus, 'TIS')"></i>
@@ -56,15 +75,20 @@
         </ng-template>
       </p-column>
       <p-column field="thssStatus">
-        <ng-template pTemplate="header"><div class="text-align-center">THSS</div></ng-template>
+        <ng-template pTemplate="header">
+          <div class="text-align-center">THSS</div>
+        </ng-template>
         <ng-template pTemplate="body" let-status="rowData">
           <div class="text-align-center">
-            <i [class]="getStatusIconCss(status.thssStatus)" [title]="getStatusDescription(status.thssStatus, 'THSS')"></i>
+            <i [class]="getStatusIconCss(status.thssStatus)"
+               [title]="getStatusDescription(status.thssStatus, 'THSS')"></i>
           </div>
         </ng-template>
       </p-column>
       <p-column header="Delete">
-        <ng-template pTemplate="header"><div class="text-align-center">Delete</div></ng-template>
+        <ng-template pTemplate="header">
+          <div class="text-align-center">Delete</div>
+        </ng-template>
         <ng-template pTemplate="body" let-status="rowData">
           <div class="text-align-center">
             <button type="button" (click)="deleteTestPackage(status.name)" class="fa fa-trash-o"></button>
