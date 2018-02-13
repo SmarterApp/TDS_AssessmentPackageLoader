@@ -7,8 +7,8 @@ import { SortDirection } from "../../../shared/data/sort-direction.enum";
 import { PageResponse } from "../../../shared/data/page-response";
 import 'rxjs/add/operator/debounceTime';
 import "rxjs/add/operator/distinctUntilChanged";
-import { FormControl } from "@angular/forms";
 import { PageRequest } from "../../../shared/data/page-request";
+import { Router } from "@angular/router";
 
 /**
  * Controller for interacting with test package status data.
@@ -18,7 +18,7 @@ import { PageRequest } from "../../../shared/data/page-request";
   styleUrls: ['./test-package-status.component.css', '../../test-package.component.css']
 })
 export class TestPackageStatusComponent implements OnInit {
-  // Initialize the model to some value
+  // Initialize the models to a default value
   private _testPackageStatusPage: PageResponse<TestPackageStatusRow> = {
     content: [],
     numberOfElements: 0,
@@ -38,7 +38,8 @@ export class TestPackageStatusComponent implements OnInit {
 
   private searchTermText = '';
 
-  constructor(private testPackageStatusService: TestPackageStatusService) {
+  constructor(private testPackageStatusService: TestPackageStatusService,
+              private router: Router) {
   }
 
   /**
@@ -105,6 +106,11 @@ export class TestPackageStatusComponent implements OnInit {
     this.getData(this.searchTermText, pageRequest);
   }
 
+  /**
+   * Search for {TestPackageStatus}es by name.
+   *
+   * @param {string} term Part of the name of the {TestPackageStatus}es to search for.
+   */
   search(term: string) {
     const pageRequest = {
       page: this.testPackageStatusPage.number,
@@ -115,13 +121,14 @@ export class TestPackageStatusComponent implements OnInit {
 
     this.getData(term, pageRequest);
   }
+
   /**
    * Fetch a page of {TestPackageStatusRow}s from the server based on the paging, sorting and search criteria.
    *
    * @param {string} searchTerm The part of the test name being
    * @param {PageRequest} page information for the request
    */
-  private getData(searchTerm:  string, page: PageRequest) {
+  private getData(searchTerm: string, page: PageRequest) {
     if (searchTerm !== '') {
       this.testPackageStatusService.searchByName(searchTerm, page)
         .subscribe(response => this.testPackageStatusPage = response);
@@ -179,8 +186,8 @@ export class TestPackageStatusComponent implements OnInit {
   deleteTestPackage(name: string) {
     const message = `Are you sure you want to delete the '${ name }' test package?`;
     if (window.confirm(message)) {
-      // TODO: implement call to delete test package
       console.log("You must really wanna delete %s", name);
+      this.router.navigateByUrl('/loader/delete?')
     }
   }
 }
