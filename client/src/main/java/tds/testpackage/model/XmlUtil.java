@@ -26,4 +26,8 @@ public class XmlUtil {
         }
         return defaultValue;
     }
+
+    public static boolean parseBoolean(final Optional<String> maybeValue) {
+        return parseBoolean(maybeValue, false);
+    }
 }
