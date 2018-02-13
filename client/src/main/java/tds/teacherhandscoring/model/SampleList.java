@@ -14,7 +14,7 @@ public abstract class SampleList {
     public abstract List<Sample> getSamples();
 
     public static Builder builder() {
-        return new Builder();
+        return new AutoValue_SampleList.Builder();
     }
 
 

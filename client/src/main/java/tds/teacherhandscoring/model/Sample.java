@@ -13,7 +13,7 @@ public abstract class Sample {
     public abstract byte getScorepoint();
 
     public static Builder builder() {
-        return new Builder();
+        return new AutoValue_Sample.Builder();
     }
 
 
@@ -30,9 +30,5 @@ public abstract class Sample {
         public abstract Builder setScorepoint(byte newScorepoint);
 
         public abstract Sample build();
-    }
-
-    public static Builder builder() {
-        return new Builder();
     }
 }
