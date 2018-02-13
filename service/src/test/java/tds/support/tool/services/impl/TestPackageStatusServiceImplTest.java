@@ -141,10 +141,12 @@ public class TestPackageStatusServiceImplTest {
         final PageRequest pageRequest = new PageRequest(0, 2);
         final Page<TestPackageStatus> testPackageStatusPage =
             new PageImpl<>(Collections.singletonList(expectedTestPackageStatus), pageRequest, 10);
+
         when(mockTestPackageStatusRepository.findAllByNameContainingIgnoreCase(testPackageName, pageRequest))
             .thenReturn(testPackageStatusPage);
 
         final Page<TestPackageStatus> result = testPackageStatusService.searchByName(testPackageName, pageRequest);
+
 
         verify(mockTestPackageStatusRepository).findAllByNameContainingIgnoreCase(testPackageName, pageRequest);
         assertThat(result.getContent()).hasSize(1);

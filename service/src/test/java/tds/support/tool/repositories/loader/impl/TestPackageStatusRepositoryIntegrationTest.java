@@ -5,6 +5,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.LocalDateTime;
@@ -18,6 +20,8 @@ import tds.support.job.TargetSystem;
 import tds.support.job.TestPackageStatus;
 import tds.support.job.TestPackageTargetSystemStatus;
 import tds.support.tool.repositories.loader.TestPackageStatusRepository;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -56,7 +60,5 @@ public class TestPackageStatusRepositoryIntegrationTest {
                     new TestPackageTargetSystemStatus(TargetSystem.TIS, Status.FAIL),
                     new TestPackageTargetSystemStatus(TargetSystem.THSS, Status.FAIL)
                 )));
-
-        testPackageStatusRepository.save(testPackageStatuses);
     }
 }
