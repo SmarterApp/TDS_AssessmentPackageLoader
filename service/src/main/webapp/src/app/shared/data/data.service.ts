@@ -3,6 +3,8 @@ import {Observable} from "rxjs/Observable";
 import {Injectable} from "@angular/core";
 import "rxjs/add/operator/map";
 import { HttpParams, HttpClient } from '@angular/common/http';
+import { RequestOptionsArgs } from "@angular/http";
+import { RequestOptions } from "http";
 
 @Injectable()
 export class DataService {
@@ -15,9 +17,8 @@ export class DataService {
       .get(`/api${url}`, options);
   }
 
-  // delete(url, options?: RequestOptionsArgs): Observable<any> {
-  //   return this.http
-  //     .delete(`/api${url}`, options)
-  //     .map(response => response.json());
-  // }
+  delete(url, options?: any): Observable<any> {
+    return this.http
+      .delete(`/api${url}`, options);
+  }
 }

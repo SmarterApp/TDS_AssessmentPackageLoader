@@ -7,6 +7,8 @@ import { TestPackageStatusRow } from "../model/test-package-status-row";
 import { HttpParams } from "@angular/common/http";
 import { PageRequest } from "../../../../shared/data/page-request";
 import { PageResponse } from "../../../../shared/data/page-response";
+import { RequestMethod, RequestOptions } from "@angular/http";
+import { catchError } from "rxjs/operators";
 
 
 /**
@@ -65,5 +67,14 @@ export class TestPackageStatusService {
 
         return pageData;
       });
+  }
+
+  /**
+   * Delete a {TestPackage} from the downstream systems.
+   *
+   * @param {string} testPackageName The name of the {TestPackage} to delete
+   */
+  deleteTestPackage(testPackageName: string): void {
+    this.dataService.delete('/load/' + testPackageName).subscribe();
   }
 }

@@ -186,8 +186,14 @@ export class TestPackageStatusComponent implements OnInit {
   deleteTestPackage(name: string) {
     const message = `Are you sure you want to delete the '${ name }' test package?`;
     if (window.confirm(message)) {
-      console.log("You must really wanna delete %s", name);
-      this.router.navigateByUrl('/loader/delete?')
+      this.testPackageStatusService.deleteTestPackage(name);
+
+      this.getData(this.searchTermText, {
+        page: 0,
+        size: this.testPackageStatusPage.size,
+        sort: this.sortPreference.sort,
+        sortDir: this.sortPreference.sortDir
+      });
     }
   }
 }
