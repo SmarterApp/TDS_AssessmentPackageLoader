@@ -14,7 +14,7 @@
                  autocomplete="off"
                  [(ngModel)]="searchTermText">
           <span class="input-group-btn">
-            <button class="flex-child btn btn-primary" id="foo" (click)="search(searchTextBox.value)">
+            <button class="flex-child btn btn-primary" id="searchButton" (click)="search(searchTextBox.value)">
               <i class="fa fa-search"></i>
             </button>
           </span>
@@ -22,7 +22,7 @@
       </div>
 
       <div class="flex-child">
-        <button class="btn btn-primary upload-test-package" (click)="uploadClick()">Upload New Test Package</button>
+        <button class="btn btn-default upload-test-package" (click)="uploadClick()">Upload New Test Package</button>
       </div>
     </div>
   </div>
