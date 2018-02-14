@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { TestPackageStatusService } from "./service/test-package-status.service";
 import { TestPackageStatusRow } from "./model/test-package-status-row";
 import { StepStatus } from "../jobs/model/test-package-job.model";
@@ -8,7 +8,7 @@ import { PageResponse } from "../../../shared/data/page-response";
 import 'rxjs/add/operator/debounceTime';
 import "rxjs/add/operator/distinctUntilChanged";
 import { PageRequest } from "../../../shared/data/page-request";
-import { Router } from "@angular/router";
+import { TimerObservable } from "rxjs/observable/TimerObservable";
 
 /**
  * Controller for interacting with test package status data.
@@ -17,7 +17,7 @@ import { Router } from "@angular/router";
   templateUrl: './test-package-status.component.html',
   styleUrls: ['./test-package-status.component.css', '../../test-package.component.css']
 })
-export class TestPackageStatusComponent implements OnInit {
+export class TestPackageStatusComponent implements OnInit, OnDestroy {
   // Initialize the models to a default value
   private _testPackageStatusPage: PageResponse<TestPackageStatusRow> = {
     content: [],
@@ -38,8 +38,10 @@ export class TestPackageStatusComponent implements OnInit {
 
   private searchTermText = '';
 
-  constructor(private testPackageStatusService: TestPackageStatusService,
-              private router: Router) {
+  private isAlive: boolean = false; // used to unsubscribe from the TimerObservable when OnDestroy is called.
+
+  constructor(private testPackageStatusService: TestPackageStatusService) {
+    this.isAlive = true;
   }
 
   /**
@@ -67,6 +69,24 @@ export class TestPackageStatusComponent implements OnInit {
     };
 
     this.getData(this.searchTermText, initPaginatorEvent);
+
+    TimerObservable.create(5000, 5000)
+      .takeWhile(() => this.isAlive)
+      .subscribe(() => {
+        this.getData(this.searchTermText, {
+          page: this.testPackageStatusPage.number,
+          size: this.testPackageStatusPage.size,
+          sort: this.sortPreference.sort,
+          sortDir: this.sortPreference.sortDir
+        });
+      });
+  }
+
+  /**
+   * Unsubscribe from the timer when this component is destroyed.
+   */
+  ngOnDestroy() {
+    this.isAlive = false;
   }
 
   /**
