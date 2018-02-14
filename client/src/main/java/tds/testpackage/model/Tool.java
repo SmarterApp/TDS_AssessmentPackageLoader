@@ -247,6 +247,8 @@ public abstract class Tool {
     public abstract Optional<String> getSelectable();
     public abstract Optional<String> getVisible();
     public abstract Optional<String> getStudentControl();
+    public abstract Optional<String> getAllowMultipleOptions();
+
 
     public abstract Optional<Integer> getSortOrder();
     public abstract Optional<String> getDisableOnGuest();
@@ -261,10 +263,6 @@ public abstract class Tool {
     @JsonIgnore
     @Nullable
     protected abstract Optional<Boolean> getFunctional();
-
-    @JsonIgnore
-    @Nullable
-    protected abstract Optional<Boolean> getAllowMultipleOptions();
 
 
     protected Optional<Tool> getDefaultTool() {
@@ -309,6 +307,10 @@ public abstract class Tool {
 
     public boolean disableOnGuest() {
         return parseBoolean(getDisableOnGuest(), getDefaultTool().flatMap(Tool::getDisableOnGuest), false);
+    }
+
+    public boolean allowMultipleOptions() {
+        return parseBoolean(getAllowMultipleOptions(), getDefaultTool().flatMap(Tool::getAllowMultipleOptions), false);
     }
 
     @JsonProperty()
@@ -373,10 +375,10 @@ public abstract class Tool {
             return setSortOrder(Optional.of(newSortOrder));
         }
 
-        protected abstract Builder setAllowMultipleOptions(Optional<Boolean> newAllowMultipleOptions);
+        protected abstract Builder setAllowMultipleOptions(Optional<String> newAllowMultipleOptions);
 
         public Builder setAllowMultipleOptions(boolean newAllowMultipleOptions) {
-            return setAllowMultipleOptions(Optional.of(newAllowMultipleOptions));
+            return setAllowMultipleOptions(Optional.of(String.valueOf(newAllowMultipleOptions)));
         }
         
         protected abstract Builder setDependsOnToolType(Optional<String> newDependsOnToolType);
