@@ -26,6 +26,7 @@ public abstract class Option {
     public boolean defaultValue() {
         return parseBoolean(getDefault(), false);
     }
+    public abstract Optional<String> getLabel();
 
     /**
      * (OPTIONAL) A list of one or more dependencies indicating whether an
@@ -62,6 +63,8 @@ public abstract class Option {
 
         @JacksonXmlProperty(localName = "Dependencies")
         public abstract Builder setDependencies(List<Dependency> newDependencies);
+
+        public abstract Builder setLabel(Optional<String> newLabel);
 
         public abstract Option build();
     }

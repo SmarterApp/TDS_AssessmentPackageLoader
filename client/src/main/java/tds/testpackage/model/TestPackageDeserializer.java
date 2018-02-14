@@ -96,6 +96,11 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
             item.setTestPackage(testPackage);
             item.setSegmentForm(segmentForm);
             item.setItemGroup(itemGroup);
+            item.getTeacherHandScoring().ifPresent(
+                teacherHandScoring -> {
+                    teacherHandScoring.setItem(item);
+                    teacherHandScoring.setTestPackage(testPackage);
+                });
         });
         itemGroup.getStimulus().ifPresent(
             stimulus -> stimulus.setTestPackage(testPackage));

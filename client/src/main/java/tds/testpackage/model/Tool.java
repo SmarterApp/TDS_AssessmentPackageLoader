@@ -28,12 +28,17 @@ import static tds.testpackage.model.XmlUtil.parseBoolean;
 @JsonDeserialize(builder = AutoValue_Tool.Builder.class)
 public abstract class Tool {
     public abstract String getName();
-    public abstract String getStudentPackageFieldName();
+    public abstract Optional<String> getStudentPackageFieldName();
     public abstract Optional<String> getAllowChange();
     public abstract Optional<String> getRequired();
     public abstract Optional<Integer> getSortOrder();
     public abstract Optional<String> getDisableOnGuest();
     public abstract List<Option> getOptions();
+    protected abstract Optional<String> getAllowMultiple();
+
+    public boolean allowMultiple() {
+        return parseBoolean(getAllowMultiple(), false);
+    }
 
     public boolean required() {
         return parseBoolean(getRequired(), false);
@@ -56,7 +61,11 @@ public abstract class Tool {
     public abstract static class Builder {
         public abstract Builder setName(String newName);
 
-        public abstract Builder setStudentPackageFieldName(String newStudentPackageFieldName);
+        public abstract Builder setStudentPackageFieldName(Optional<String> newStudentPackageFieldName);
+
+        public Builder setStudentPackageFieldName(String newStudentPackageFieldName) {
+            return setStudentPackageFieldName(Optional.ofNullable(newStudentPackageFieldName));
+        }
 
         protected abstract Builder setAllowChange(Optional<String> newAllowChange);
 
@@ -80,6 +89,12 @@ public abstract class Tool {
 
         public Builder setSortOrder(int newSortOrder) {
             return setSortOrder(Optional.of(newSortOrder));
+        }
+
+        protected abstract Builder setAllowMultiple(Optional<String> newAllowMultiple);
+
+        public Builder setAllowMultiple(boolean newAllowMultiple) {
+            return setAllowMultiple(Optional.of(String.valueOf(newAllowMultiple)));
         }
 
         @JacksonXmlProperty(localName = "Options")

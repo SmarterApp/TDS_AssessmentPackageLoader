@@ -3,8 +3,6 @@
            xmlns:xhtml="http://www.w3.org/1999/xhtml"
     xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified"
     vc:minVersion="1.1">
-    <!-- Import xHTML -->
-    <xs:import namespace="http://www.w3.org/1999/xhtml" schemaLocation="http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd"/>
 
     <xs:element name="TestPackage">
         <xs:annotation>
@@ -690,109 +688,4 @@ Performance levels are part of scoring and reporting.</xs:documentation>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    <!--
-    <xs:complexType name="rubriclistType">
-        <xs:annotation>
-            <xs:documentation xml:lang="en-US">
-                Define the rubriclist type. Rubrics associated with the item.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <!-<xs:element name="rubric" type="rubricType" maxOccurs="unbounded"/>-
-            <!-<xs:element name="samplelist" type="samplelistType" maxOccurs="unbounded"/>-
-            <xs:any minOccurs="0"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="tutorialrubriclistType">
-        <xs:annotation>
-            <xs:documentation xml:lang="en-US">
-                Define the tutorialrubriclist type. Rubrics associated with a tutorial item.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="rubric" type="rubricType" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="samplelist" type="samplelistType" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-    </xs:complexType>
-    <xs:complexType name="rubricType">
-        <xs:annotation>
-            <xs:documentation xml:lang="en-US">Define the rubric type. The scoring rubric.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="name" type="stringType"/>
-            <xs:element name="val" type="w3xHtmlType"/>
-        </xs:sequence>
-        <xs:attribute name="scorepoint" type="xs:string" use="required"/>
-        <xs:attribute name="index" type="positiveIntType"/>
-    </xs:complexType>
-    <xs:complexType name="samplelistType">
-        <xs:annotation>
-            <xs:documentation xml:lang="en-US">
-                Define the samplelist type. Example responses that deserve certain item point values.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="sample" type="sampleType" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-        <xs:attribute name="minval" type="positiveIntType" use="required"/>
-        <xs:attribute name="maxval" type="positiveIntType" use="required"/>
-        <xs:attribute name="index" type="positiveIntType"/>
-    </xs:complexType>
-    <xs:complexType name="sampleType">
-        <xs:annotation>
-            <xs:documentation xml:lang="en-US">Define the sample type.</xs:documentation>
-        </xs:annotation>
-        <xs:sequence>
-            <xs:element name="name" type="stringType"/>
-            <xs:element name="annotation" type="stringType"/>
-            <xs:element name="samplecontent" type="w3xHtmlType"/>
-        </xs:sequence>
-        <xs:attributeGroup ref="sampleAttr"/>
-    </xs:complexType>
-    <xs:simpleType name="positiveIntType">
-        <xs:annotation>
-            <xs:documentation xml:lang="en-US">Define a positive integer type: 32 bit [1:2^31-1].</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:int">
-            <xs:minInclusive value="1"/>
-        </xs:restriction>
-    </xs:simpleType>
-    <xs:attributeGroup name="sampleAttr">
-        <xs:annotation>
-            <xs:documentation xml:lang="en-US">Attributes for the sample element.</xs:documentation>
-        </xs:annotation>
-        <xs:attribute name="purpose" use="required">
-            <xs:simpleType>
-                <xs:restriction base="xs:token">
-                    <xs:enumeration value="Exemplar"/>
-                    <xs:enumeration value="OtherExemplar"/>
-                </xs:restriction>
-            </xs:simpleType>
-        </xs:attribute>
-        <xs:attribute name="scorepoint" type="xs:string" use="required"/>
-    </xs:attributeGroup>
-    <xs:simpleType name="stringType">
-        <xs:annotation>
-            <xs:documentation xml:lang="en-US">
-                Define a generic simple string type (contains no markup).
-            </xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string"/>
-    </xs:simpleType>
-    <xs:complexType name="w3xHtmlType">
-        <xs:annotation>
-            <xs:documentation xml:lang="en-US">
-                Define the xhtml type to allow any xHTML elements to be used.
-                Strict xhtml validation.
-            </xs:documentation>
-        </xs:annotation>
-        <xs:complexContent>
-            <xs:extension base="xhtml:Block">
-                <xs:attributeGroup ref="xhtml:attrs"/>
-                <xs:attribute name="onload" type="xhtml:Script"/>
-                <xs:attribute name="onunload" type="xhtml:Script"/>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
-    -->
 </xs:schema>

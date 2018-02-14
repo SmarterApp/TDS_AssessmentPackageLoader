@@ -1,0 +1,59 @@
+[
+  {
+    "conditions": [
+      {
+        "code": "B",
+        "description": "Blank"
+      },
+      {
+        "code": "I",
+        "description": "Insufficient"
+      },
+      {
+        "code": "L",
+        "description": "Non-Scorable Language"
+      }
+    ],
+    "description": "CONVENTIONS",
+    "maxPoints": "2",
+    "minPoints": "0"
+  },
+  {
+    "conditions": [
+      {
+        "code": "B",
+        "description": "Blank"
+      },
+      {
+        "code": "I",
+        "description": "Insufficient"
+      },
+      {
+        "code": "L",
+        "description": "Non-Scorable Language"
+      }
+    ],
+    "description": "ELABORATION",
+    "maxPoints": "3",
+    "minPoints": "0"
+  },
+  {
+    "conditions": [
+      {
+        "code": "B",
+        "description": "Blank"
+      },
+      {
+        "code": "I",
+        "description": "Insufficient"
+      },
+      {
+        "code": "L",
+        "description": "Non-Scorable Language"
+      }
+    ],
+    "description": "ORGANIZATION",
+    "maxPoints": "3",
+    "minPoints": "0"
+  }
+]

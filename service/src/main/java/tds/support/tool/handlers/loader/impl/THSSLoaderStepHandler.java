@@ -23,6 +23,7 @@ public class THSSLoaderStepHandler implements TestPackageHandler {
     @Override
     public void handle(final Job job, final Step step) {
         try {
+
             //TODO: Call the THSS Load API and update the step with results
             step.setStatus(Status.SUCCESS);
         } catch (Exception e) {
