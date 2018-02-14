@@ -1,11 +1,15 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -29,453 +33,287 @@ import static tds.testpackage.model.XmlUtil.parseBoolean;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Tool.Builder.class)
 public abstract class Tool {
-    Map<String, Tool> TOOL_DEFAULTS_MAP = new ImmutableMap.Builder<String, Tool>()
+    final static Map<String, Tool> TOOL_DEFAULTS_MAP = new ImmutableMap.Builder<String, Tool>()
             .put("American Sign Language",
-                    Tool.builder()
-                            .setName("American Sign Language")
+                    Tool.builder().setName("American Sign Language")
                             .setStudentPackageFieldName("TDS_Acc-ASL")
-                            .setAllowChange(true)
-                            .setRequired(false)
-//                            .setSelectable(true)
-//                            .setVisible(true)
-//                            .setStudentControl(false)
-//                            .setDependsOnToolType("Language")  -- THIS WILL BE NULL if the tool type is not present in this map
-//                            .setFunctional(true) -- THIS WILL BE TRUE if the tool type is not present in this map
                             .build())
-//            .put("Audio Playback Controls",
-//                    new TestToolDefaults.Builder("Audio Playback Controls")
-//                            .withArtFieldName("TDSAcc-AudioPlaybackControls")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(false)
-//                            .withVisible(false)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .build())
-//            .put("Braille Transcript",
-//                    new TestToolDefaults.Builder("Braille Transcript")
-//                            .withArtFieldName("TDSAcc-BrailleTranscript")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(false)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .build())
-//            .put("Braille Type",
-//                    new TestToolDefaults.Builder("Braille Type")
-//                            .withArtFieldName("TDSAcc-BrailleType")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("Calculator",
-//                    new TestToolDefaults.Builder("Calculator")
-//                            .withArtFieldName("TDSAcc-Calculator")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("Closed Captioning",
-//                    new TestToolDefaults.Builder("Closed Captioning")
-//                            .withArtFieldName("TDSACC-NFCLOSEDCAP")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("Color Choices",
-//                    new TestToolDefaults.Builder("Color Choices")
-//                            .withArtFieldName("TDSAcc-ColorChoices")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("Dictionary",
-//                    new TestToolDefaults.Builder("Dictionary")
-//                            .withArtFieldName("TDSAcc-Dictionary")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("Emboss",
-//                    new TestToolDefaults.Builder("Emboss")
-//                            .withArtFieldName("TDSAcc-Emboss")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Braille Type")
-//                            .build())
-//            .put("Emboss Request Type",
-//                    new TestToolDefaults.Builder("Emboss Request Type")
-//                            .withArtFieldName("TDSAcc-EmbossRequestType")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Braille Type")
-//                            .build())
-//            .put("Expandable Passages",
-//                    new TestToolDefaults.Builder("Expandable Passages")
-//                            .withArtFieldName("TDSAcc-ExpandablePassages")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("Font Type",
-//                    new TestToolDefaults.Builder("Font Type")
-//                            .withArtFieldName("TDSAcc-FontType")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(false)
-//                            .withVisible(false)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .build())
-//            .put("Global Notes",
-//                    new TestToolDefaults.Builder("Global Notes")
-//                            .withArtFieldName("TDSAcc-GlobalNotes")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .build())
-//            .put("Hardware Checks",
-//                    new TestToolDefaults.Builder("Hardware Checks")
-//                            .withArtFieldName("TDSAcc-HWCheck")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(false)
-//                            .withVisible(false)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .build())
-//            .put("Highlight",
-//                    new TestToolDefaults.Builder("Highlight")
-//                            .withArtFieldName("TDSAcc-Highlight")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .build())
-//            .put("Item Font Size",
-//                    new TestToolDefaults.Builder("Item Font Size")
-//                            .withArtFieldName("TDSAcc-ItemFontSize")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(false)
-//                            .withVisible(false)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .build())
-//            .put("Item Tools Menu",
-//                    new TestToolDefaults.Builder("Item Tools Menu")
-//                            .withArtFieldName("TDSAcc-ITM")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(false)
-//                            .withVisible(false)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .build())
-//            .put("Language",
-//                    new TestToolDefaults.Builder("Language")
-//                            .withArtFieldName("TDSAcc-Language")
-//                            .withAllowChange(false)
-//                            .withRequired(true)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .build())
-//            .put("Mark for Review",
-//                    new TestToolDefaults.Builder("Mark for Review")
-//                            .withArtFieldName("TDSAcc-MarkForReview")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("Masking",
-//                    new TestToolDefaults.Builder("Masking")
-//                            .withArtFieldName("TDSAcc-Masking")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("Mute System Volume",
-//                    new TestToolDefaults.Builder("Mute System Volume")
-//                            .withArtFieldName("TDSAcc-Mute")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(false)
-//                            .withVisible(false)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("Non-Embedded Accommodations",
-//                    new TestToolDefaults.Builder("Non-Embedded Accommodations")
-//                            .withArtFieldName("TDSAcc-NonEmbedAcc")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(false)
-//                            .withAllowMultipleOptions(true)
-//                            .build())
-//            .put("Non-Embedded Designated Supports",
-//                    new TestToolDefaults.Builder("Non-Embedded Designated Supports")
-//                            .withArtFieldName("TDSAcc-DesigSup")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(false)
-//                            .withAllowMultipleOptions(true)
-//                            .build())
-//            .put("Passage Font Size",
-//                    new TestToolDefaults.Builder("Passage Font Size")
-//                            .withArtFieldName("TDSAcc-FontSize")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(false)
-//                            .withVisible(false)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .build())
-//            .put("Print on Request",
-//                    new TestToolDefaults.Builder("Print on Request")
-//                            .withArtFieldName("TDSAcc-PrintOnRequest")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("Print Size",
-//                    new TestToolDefaults.Builder("Print Size")
-//                            .withArtFieldName("TDSAcc-PrintSize")
-//                            .withAllowChange(true)
-//                            .withRequired(true)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .build())
-//            .put("Review Screen Layout",
-//                    new TestToolDefaults.Builder("Review Screen Layout")
-//                            .withArtFieldName("TDSAcc-RvScrn")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(false)
-//                            .withVisible(false)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .build())
-//            .put("Streamlined Mode",
-//                    new TestToolDefaults.Builder("Streamlined Mode")
-//                            .withArtFieldName("TDSAcc-EAM")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("Strikethrough",
-//                    new TestToolDefaults.Builder("Strikethrough")
-//                            .withArtFieldName("TDSAcc-Strikethrough")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("Student Comments",
-//                    new TestToolDefaults.Builder("Student Comments")
-//                            .withArtFieldName("TDSAcc-StudentComments")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .build())
-//            .put("System Volume Control",
-//                    new TestToolDefaults.Builder("System Volume Control")
-//                            .withArtFieldName("TDSAcc-SVC")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(false)
-//                            .withVisible(false)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .build())
-//            .put("Test Progress Indicator",
-//                    new TestToolDefaults.Builder("Test Progress Indicator")
-//                            .withArtFieldName("TDSAcc-TPI")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(false)
-//                            .withVisible(false)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .build())
-//            .put("Test Shell",
-//                    new TestToolDefaults.Builder("Test Shell")
-//                            .withArtFieldName("TDSAcc-TestShell")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(false)
-//                            .withVisible(false)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .build())
-//            .put("Thesaurus",
-//                    new TestToolDefaults.Builder("Thesaurus")
-//                            .withArtFieldName("TDSAcc-Thesaurus")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("TTS",
-//                    new TestToolDefaults.Builder("TTS")
-//                            .withArtFieldName("TDSAcc-TTS")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("TTS Audio Adjustments",
-//                    new TestToolDefaults.Builder("TTS Audio Adjustments")
-//                            .withArtFieldName("TDSAcc-TTSAdjust")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(false)
-//                            .withVisible(false)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("TTS Pausing",
-//                    new TestToolDefaults.Builder("TTS Pausing")
-//                            .withArtFieldName("TDSAcc-TTSPausing")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(false)
-//                            .withVisible(false)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("TTX Business Rules",
-//                    new TestToolDefaults.Builder("TTX Business Rules")
-//                            .withArtFieldName("TDSAcc-TTXBusinessRules")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(false)
-//                            .withVisible(false)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("Tutorial",
-//                    new TestToolDefaults.Builder("Tutorial")
-//                            .withArtFieldName("TDSAcc-Tutorial")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(false)
-//                            .withVisible(false)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
-//            .put("Word List",
-//                    new TestToolDefaults.Builder("Word List")
-//                            .withArtFieldName("TDSAcc-WordList")
-//                            .withAllowChange(true)
-//                            .withRequired(false)
-//                            .withSelectable(true)
-//                            .withVisible(true)
-//                            .withStudentControl(false)
-//                            .withFunctional(true)
-//                            .withDependsOnToolType("Language")
-//                            .build())
+            .put("Audio Playback Controls",
+                    Tool.builder().setName("Audio Playback Controls")
+                            .setStudentPackageFieldName("TDSAcc-AudioPlaybackControls")
+                            .setVisible(false)
+                            .build())
+            .put("Braille Transcript",
+                    Tool.builder().setName("Braille Transcript")
+                            .setStudentPackageFieldName("TDSAcc-BrailleTranscript")
+                            .setVisible(false)
+                            .build())
+            .put("Braille Type",
+                    Tool.builder().setName("Braille Type")
+                            .setStudentPackageFieldName("TDSAcc-BrailleType")
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("Calculator",
+                    Tool.builder().setName("Calculator")
+                            .setStudentPackageFieldName("TDSAcc-Calculator")
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("Closed Captioning",
+                    Tool.builder().setName("Closed Captioning")
+                            .setStudentPackageFieldName("TDSACC-NFCLOSEDCAP")
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("Color Choices",
+                    Tool.builder().setName("Color Choices")
+                            .setStudentPackageFieldName("TDSAcc-ColorChoices")
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("Dictionary",
+                    Tool.builder().setName("Dictionary")
+                            .setStudentPackageFieldName("TDSAcc-Dictionary")
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("Emboss",
+                    Tool.builder().setName("Emboss")
+                            .setStudentPackageFieldName("TDSAcc-Emboss")
+                            .setDependsOnToolType("Braille Type")
+                            .build())
+            .put("Emboss Request Type",
+                    Tool.builder().setName("Emboss Request Type")
+                            .setStudentPackageFieldName("TDSAcc-EmbossRequestType")
+                            .setDependsOnToolType("Braille Type")
+                            .build())
+            .put("Expandable Passages",
+                    Tool.builder().setName("Expandable Passages")
+                            .setStudentPackageFieldName("TDSAcc-ExpandablePassages")
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("Font Type",
+                    Tool.builder().setName("Font Type")
+                            .setStudentPackageFieldName("TDSAcc-FontType")
+                            .setVisible(false)
+                            .build())
+            .put("Global Notes",
+                    Tool.builder().setName("Global Notes")
+                            .setStudentPackageFieldName("TDSAcc-GlobalNotes")
+                            .build())
+            .put("Hardware Checks",
+                    Tool.builder().setName("Hardware Checks")
+                            .setStudentPackageFieldName("TDSAcc-HWCheck")
+                            .setVisible(false)
+                            .build())
+            .put("Highlight",
+                    Tool.builder().setName("Highlight")
+                            .setStudentPackageFieldName("TDSAcc-Highlight")
+                            .build())
+            .put("Item Font Size",
+                    Tool.builder().setName("Item Font Size")
+                            .setStudentPackageFieldName("TDSAcc-ItemFontSize")
+                            .setVisible(false)
+                            .build())
+            .put("Item Tools Menu",
+                    Tool.builder().setName("Item Tools Menu")
+                            .setStudentPackageFieldName("TDSAcc-ITM")
+                            .setVisible(false)
+                            .build())
+            .put("Language",
+                    Tool.builder().setName("Language")
+                            .setStudentPackageFieldName("TDSAcc-Language")
+                            .setAllowChange(false)
+                            .setRequired(true)
+                            .build())
+            .put("Mark for Review",
+                    Tool.builder().setName("Mark for Review")
+                            .setStudentPackageFieldName("TDSAcc-MarkForReview")
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("Masking",
+                    Tool.builder().setName("Masking")
+                            .setStudentPackageFieldName("TDSAcc-Masking")
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("Mute System Volume",
+                    Tool.builder().setName("Mute System Volume")
+                            .setStudentPackageFieldName("TDSAcc-Mute")
+                            .setVisible(false)
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("Non-Embedded Accommodations",
+                    Tool.builder().setName("Non-Embedded Accommodations")
+                            .setStudentPackageFieldName("TDSAcc-NonEmbedAcc")
+                            .setFunctional(false)
+                            .setAllowMultipleOptions(true)
+                            .build())
+            .put("Non-Embedded Designated Supports",
+                    Tool.builder().setName("Non-Embedded Designated Supports")
+                            .setStudentPackageFieldName("TDSAcc-DesigSup")
+                            .setFunctional(false)
+                            .setAllowMultipleOptions(true)
+                            .build())
+            .put("Passage Font Size",
+                    Tool.builder().setName("Passage Font Size")
+                            .setStudentPackageFieldName("TDSAcc-FontSize")
+                            .setVisible(false)
+                            .build())
+            .put("Print on Request",
+                    Tool.builder().setName("Print on Request")
+                            .setStudentPackageFieldName("TDSAcc-PrintOnRequest")
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("Print Size",
+                    Tool.builder().setName("Print Size")
+                            .setStudentPackageFieldName("TDSAcc-PrintSize")
+                            .setRequired(true)
+                            .build())
+            .put("Review Screen Layout",
+                    Tool.builder().setName("Review Screen Layout")
+                            .setStudentPackageFieldName("TDSAcc-RvScrn")
+                            .setVisible(false)
+                            .build())
+            .put("Streamlined Mode",
+                    Tool.builder().setName("Streamlined Mode")
+                            .setStudentPackageFieldName("TDSAcc-EAM")
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("Strikethrough",
+                    Tool.builder().setName("Strikethrough")
+                            .setStudentPackageFieldName("TDSAcc-Strikethrough")
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("Student Comments",
+                    Tool.builder().setName("Student Comments")
+                            .setStudentPackageFieldName("TDSAcc-StudentComments")
+                            .build())
+            .put("System Volume Control",
+                    Tool.builder().setName("System Volume Control")
+                            .setStudentPackageFieldName("TDSAcc-SVC")
+                            .setVisible(false)
+                            .build())
+            .put("Test Progress Indicator",
+                    Tool.builder().setName("Test Progress Indicator")
+                            .setStudentPackageFieldName("TDSAcc-TPI")
+                            .setVisible(false)
+                            .build())
+            .put("Test Shell",
+                    Tool.builder().setName("Test Shell")
+                            .setStudentPackageFieldName("TDSAcc-TestShell")
+                            .setVisible(false)
+                            .build())
+            .put("Thesaurus",
+                    Tool.builder().setName("Thesaurus")
+                            .setStudentPackageFieldName("TDSAcc-Thesaurus")
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("TTS",
+                    Tool.builder().setName("TTS")
+                            .setStudentPackageFieldName("TDSAcc-TTS")
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("TTS Audio Adjustments",
+                    Tool.builder().setName("TTS Audio Adjustments")
+                            .setStudentPackageFieldName("TDSAcc-TTSAdjust")
+                            .setVisible(false)
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("TTS Pausing",
+                    Tool.builder().setName("TTS Pausing")
+                            .setStudentPackageFieldName("TDSAcc-TTSPausing")
+                            .setVisible(false)
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("TTX Business Rules",
+                    Tool.builder().setName("TTX Business Rules")
+                            .setStudentPackageFieldName("TDSAcc-TTXBusinessRules")
+                            .setVisible(false)
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("Tutorial",
+                    Tool.builder().setName("Tutorial")
+                            .setStudentPackageFieldName("TDSAcc-Tutorial")
+                            .setVisible(false)
+                            .setDependsOnToolType("Language")
+                            .build())
+            .put("Word List",
+                    Tool.builder().setName("Word List")
+                            .setStudentPackageFieldName("TDSAcc-WordList")
+                            .setDependsOnToolType("Language")
+                            .build())
             .build();
 
     public abstract String getName();
-    public abstract String getStudentPackageFieldName();
+    public abstract Optional<String> getStudentPackageFieldName();
     public abstract Optional<String> getAllowChange();
     public abstract Optional<String> getRequired();
+    public abstract Optional<String> getSelectable();
+    public abstract Optional<String> getVisible();
+    public abstract Optional<String> getStudentControl();
+
     public abstract Optional<Integer> getSortOrder();
     public abstract Optional<String> getDisableOnGuest();
-    public abstract List<Option> getOptions();
 
-    public boolean required() {
-        return parseBoolean(getRequired(), false);
+    @Nullable
+    protected abstract List<Option> getOptions();
+
+    @JsonIgnore
+    @Nullable
+    protected abstract Optional<String> getDependsOnToolType();
+
+    @JsonIgnore
+    @Nullable
+    protected abstract Optional<Boolean> getFunctional();
+
+    @JsonIgnore
+    @Nullable
+    protected abstract Optional<Boolean> getAllowMultipleOptions();
+
+
+    protected Optional<Tool> getDefaultTool() {
+        return Optional.ofNullable(TOOL_DEFAULTS_MAP.get(getName()));
+    }
+
+    public String studentPackageFieldName() {
+        return getStudentPackageFieldName().
+            orElse(getDefaultTool().flatMap(Tool::getStudentPackageFieldName).
+                orElseThrow(() -> new IllegalStateException()));
     }
 
     public boolean allowChange() {
-        final Optional<Tool> tool = Optional.ofNullable(TOOL_DEFAULTS_MAP.get(getName()));
-        return parseBoolean(getAllowChange(), !tool.isPresent() || parseBoolean(tool.get().getAllowChange()));
+        return parseBoolean(getAllowChange(), getDefaultTool().flatMap(Tool::getAllowChange), true);
+    }
+
+    public boolean required() {
+        return parseBoolean(getRequired(), getDefaultTool().flatMap(Tool::getRequired), false);
+    }
+
+    public boolean selectable() {
+        return parseBoolean(getSelectable(), getDefaultTool().flatMap(Tool::getSelectable), true);
+    }
+
+    public boolean visible() {
+        return parseBoolean(getVisible(), getDefaultTool().flatMap(Tool::getVisible), true);
+    }
+
+
+    public boolean studentControl() {
+        return parseBoolean(getStudentControl(), getDefaultTool().flatMap(Tool::getStudentControl), false);
+    }
+
+    public Optional<String> dependsOnToolType() {
+        return getDefaultTool().flatMap(Tool::getDependsOnToolType);
+    }
+
+
+    public boolean functional() {
+        return getDefaultTool().flatMap(Tool::getFunctional).orElse(true);
     }
 
     public boolean disableOnGuest() {
-        return parseBoolean(getDisableOnGuest(), false);
+        return parseBoolean(getDisableOnGuest(), getDefaultTool().flatMap(Tool::getDisableOnGuest), false);
+    }
+
+    @JsonProperty()
+    public List<Option> options() {
+        return Optional.ofNullable(getOptions()).orElse(new ArrayList<>());
     }
 
     public static Builder builder() {
@@ -487,7 +325,29 @@ public abstract class Tool {
     public abstract static class Builder {
         public abstract Builder setName(String newName);
 
-        public abstract Builder setStudentPackageFieldName(String newStudentPackageFieldName);
+        protected abstract Builder setStudentPackageFieldName(Optional<String> newStudentPackageFieldName);
+
+        public Builder setStudentPackageFieldName(String newStudentPackageFieldName) {
+            return setStudentPackageFieldName(Optional.of(newStudentPackageFieldName));
+        }
+
+        protected abstract Builder setSelectable(Optional<String> newSelectable);
+
+        public Builder setSelectable(boolean newSelectable) {
+            return setSelectable(Optional.of(String.valueOf(newSelectable)));
+        }
+
+        protected abstract Builder setVisible(Optional<String> newVisible);
+
+        public Builder setVisible(boolean newVisible) {
+            return setVisible(Optional.of(String.valueOf(newVisible)));
+        }
+
+        protected abstract Builder setStudentControl(Optional<String> newStudentControl);
+
+        public Builder setStudentControl(boolean newStudentControl) {
+            return setStudentControl(Optional.of(String.valueOf(newStudentControl)));
+        }
 
         protected abstract Builder setAllowChange(Optional<String> newAllowChange);
 
@@ -511,6 +371,24 @@ public abstract class Tool {
 
         public Builder setSortOrder(int newSortOrder) {
             return setSortOrder(Optional.of(newSortOrder));
+        }
+
+        protected abstract Builder setAllowMultipleOptions(Optional<Boolean> newAllowMultipleOptions);
+
+        public Builder setAllowMultipleOptions(boolean newAllowMultipleOptions) {
+            return setAllowMultipleOptions(Optional.of(newAllowMultipleOptions));
+        }
+        
+        protected abstract Builder setDependsOnToolType(Optional<String> newDependsOnToolType);
+
+        public Builder setDependsOnToolType(String newDependsOnToolType) {
+            return setDependsOnToolType(Optional.ofNullable(newDependsOnToolType));
+        }
+
+        protected abstract Builder setFunctional(Optional<Boolean> newFunctional);
+
+        public Builder setFunctional(boolean newFunctional) {
+            return setFunctional(Optional.of(newFunctional));
         }
 
         @JacksonXmlProperty(localName = "Options")
