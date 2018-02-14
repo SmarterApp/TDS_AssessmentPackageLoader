@@ -43,6 +43,8 @@ public class TestPackageStatusServiceImpl implements TestPackageStatusService {
 
         final TestPackageStatus testPackageStatus = new TestPackageStatus(job.getName(),
             LocalDateTime.now(),
+            job.getId(),
+            job.getType(),
             targetSystems);
 
         return testPackageStatusRepository.save(testPackageStatus);

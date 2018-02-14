@@ -23,9 +23,11 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
+import tds.support.job.JobType;
 import tds.support.job.Status;
 import tds.support.job.TargetSystem;
 import tds.support.job.TestPackageStatus;
@@ -61,14 +63,26 @@ public class TestPackageStatusControllerIntegrationTest {
     @Test
     public void shouldAcceptAPageableParameterAndReturn200() throws Exception {
         final List<TestPackageStatus> testPackageStatuses = Arrays.asList(
-            new TestPackageStatus("first test package", LocalDateTime.now(), Collections.singletonList(
+            new TestPackageStatus("first test package",
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                JobType.LOADER,
+                Collections.singletonList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS)
             )),
-            new TestPackageStatus("second test package", LocalDateTime.now(), Arrays.asList(
+            new TestPackageStatus("second test package",
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                JobType.LOADER,
+                Arrays.asList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                 new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)
             )),
-            new TestPackageStatus("third test package", LocalDateTime.now(), Arrays.asList(
+            new TestPackageStatus("third test package",
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                JobType.LOADER,
+                Arrays.asList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                 new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)
             )));
@@ -86,14 +100,26 @@ public class TestPackageStatusControllerIntegrationTest {
     @Test
     public void shouldReturnPageInformationInRespoonse() throws Exception {
         final List<TestPackageStatus> testPackageStatuses = Arrays.asList(
-            new TestPackageStatus("first test package", LocalDateTime.now(), Collections.singletonList(
+            new TestPackageStatus("first test package",
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                JobType.LOADER,
+                Collections.singletonList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS)
             )),
-            new TestPackageStatus("second test package", LocalDateTime.now(), Arrays.asList(
+            new TestPackageStatus("second test package",
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                JobType.LOADER,
+                Arrays.asList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                 new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)
             )),
-            new TestPackageStatus("third test package", LocalDateTime.now(), Arrays.asList(
+            new TestPackageStatus("third test package",
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                JobType.LOADER,
+                Arrays.asList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                 new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)
             )));
@@ -122,14 +148,26 @@ public class TestPackageStatusControllerIntegrationTest {
     @Test
     public void shouldReturnSortInformationInResponse() throws Exception {
         final List<TestPackageStatus> testPackageStatuses = Arrays.asList(
-            new TestPackageStatus("first test package", LocalDateTime.now(), Collections.singletonList(
+            new TestPackageStatus("first test package",
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                JobType.LOADER,
+                Collections.singletonList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS)
             )),
-            new TestPackageStatus("second test package", LocalDateTime.now(), Arrays.asList(
+            new TestPackageStatus("second test package",
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                JobType.LOADER,
+                Arrays.asList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                 new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)
             )),
-            new TestPackageStatus("third test package", LocalDateTime.now(), Arrays.asList(
+            new TestPackageStatus("third test package",
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                JobType.LOADER,
+                Arrays.asList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                 new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)
             )));

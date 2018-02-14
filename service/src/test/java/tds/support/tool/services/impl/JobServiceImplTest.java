@@ -158,6 +158,8 @@ public class JobServiceImplTest {
 
         final TestPackageStatus mockLoaderJobStatus = new TestPackageStatus(loaderJob.getName(),
             LocalDateTime.now(),
+            loaderJob.getId(),
+            loaderJob.getType(),
             mockTargetSystemStatusList);
 
         ArgumentCaptor<Job> jobArgumentCaptor = ArgumentCaptor.forClass(Job.class);
@@ -190,6 +192,8 @@ public class JobServiceImplTest {
 
         final TestPackageStatus mockFailedJobStatus = new TestPackageStatus(loaderJob.getName(),
             LocalDateTime.now(),
+            loaderJob.getId(),
+            loaderJob.getType(),
             mockFailedSystemStatusList);
 
         final Job rollbackJob = new TestPackageRollbackJob(loaderJob.getId(), "TestPackageName", false, false);
@@ -276,6 +280,7 @@ public class JobServiceImplTest {
 
         verify(mockJobRepository).findOneByNameAndTypeOrderByCreatedAtDesc(testPackageName, JobType.LOADER);
         verify(mockJobRepository).save(testPackageDeleteJobArgumentCaptor.capture());
+        verify(mockTestPackageStatusService).save(testPackageDeleteJobArgumentCaptor.capture());
 
         final TestPackageDeleteJob createdTestPackageDeleteJob = testPackageDeleteJobArgumentCaptor.getValue();
         assertThat(createdTestPackageDeleteJob.getId()).isNotEqualTo(previouslyLoadedJob.getId());

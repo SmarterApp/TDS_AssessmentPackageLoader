@@ -16,7 +16,9 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
+import tds.support.job.JobType;
 import tds.support.job.Status;
 import tds.support.job.TargetSystem;
 import tds.support.job.TestPackageStatus;
@@ -45,10 +47,18 @@ public class TestPackageStatusControllerTest {
     @Test
     public void shouldGetAllTestPackageStatuses() {
         final List<TestPackageStatus> testPackageStatuses = Arrays.asList(
-            new TestPackageStatus("test package; TDS Only", LocalDateTime.now(), Collections.singletonList(
+            new TestPackageStatus("test package; TDS Only",
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                JobType.LOADER,
+                Collections.singletonList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS)
             )),
-            new TestPackageStatus("test package: TDS and ART", LocalDateTime.now(), Arrays.asList(
+            new TestPackageStatus("test package: TDS and ART",
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                JobType.LOADER,
+                Arrays.asList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                 new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)
             )));
@@ -83,10 +93,18 @@ public class TestPackageStatusControllerTest {
     @Test
     public void shouldSearchForTestPackageStatusRecordsByName() {
         final List<TestPackageStatus> testPackageStatuses = Arrays.asList(
-            new TestPackageStatus("test package; TDS Only", LocalDateTime.now(), Collections.singletonList(
+            new TestPackageStatus("test package; TDS Only",
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                JobType.LOADER,
+                Collections.singletonList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS)
             )),
-            new TestPackageStatus("test package: TDS and ART", LocalDateTime.now(), Arrays.asList(
+            new TestPackageStatus("test package: TDS and ART",
+                LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                JobType.LOADER,
+                Arrays.asList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                 new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)
             )));

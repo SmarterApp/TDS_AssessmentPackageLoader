@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { TestPackageStatusService } from "./service/test-package-status.service";
 import { TestPackageStatusRow } from "./model/test-package-status-row";
 import { StepStatus } from "../jobs/model/test-package-job.model";
@@ -12,10 +12,15 @@ import { TimerObservable } from "rxjs/observable/TimerObservable";
 
 /**
  * Controller for interacting with test package status data.
+ *
+ * NOTE:  Added encapsulation to @Component definition to get styling the row of the PrimeNG DataTable to work for
+ * test packages that have been deleted.  Found this from "darklinki"'s answer on this thread:
+ * https://github.com/angular/angular/issues/7845
  */
 @Component({
   templateUrl: './test-package-status.component.html',
-  styleUrls: ['./test-package-status.component.css', '../../test-package.component.css']
+  styleUrls: ['./test-package-status.component.css', '../../test-package.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TestPackageStatusComponent implements OnInit, OnDestroy {
   // Initialize the models to a default value
@@ -41,7 +46,7 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
   private isAlive: boolean = false; // used to unsubscribe from the TimerObservable when OnDestroy is called.
 
   constructor(private testPackageStatusService: TestPackageStatusService) {
-    this.isAlive = true;
+    this.isAlive = false;
   }
 
   /**
@@ -198,6 +203,12 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
     return statusMessage;
   }
 
+  getRowCss(rowData: TestPackageStatusRow) {
+    return rowData.jobType == 'DELETE'
+    ? 'status-is-deleted'
+      : ''
+  }
+
   /**
    * Delete a test package from all the systems it has been loaded into.
    *
@@ -207,6 +218,8 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
     const message = `Are you sure you want to delete the '${ name }' test package?`;
     if (window.confirm(message)) {
       this.testPackageStatusService.deleteTestPackage(name);
+
+      alert("Test Package '" + name + "' is in the process of being deleted.  Once the test package has been deleted from all systems, the test packag willl no longer appear in this list.");
 
       this.getData(this.searchTermText, {
         page: 0,

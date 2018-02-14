@@ -6,7 +6,6 @@ import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Represents the state of a Test Package that is managed by the Support Tool.
@@ -18,6 +17,8 @@ public class TestPackageStatus {
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime uploadedAt = LocalDateTime.now();
     private List<TestPackageTargetSystemStatus> targets;
+    private String jobId;
+    private JobType jobType;
 
     /**
      * Private constructor for frameworks
@@ -28,9 +29,13 @@ public class TestPackageStatus {
 
     public TestPackageStatus(final String name,
                              final LocalDateTime uploadedAt,
+                             final String joId,
+                             final JobType jobType,
                              final List<TestPackageTargetSystemStatus> targets) {
         this.name = name;
         this.uploadedAt = uploadedAt;
+        this.jobId = joId;
+        this.jobType = jobType;
         this.targets = targets;
     }
 
@@ -57,6 +62,29 @@ public class TestPackageStatus {
 
     public void setUploadedAt(final LocalDateTime uploadedAt) {
         this.uploadedAt = uploadedAt;
+    }
+
+    /**
+     * @return The identifier of the {@link tds.support.job.Job} that most recently affected this status record.
+     */
+    public String getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(final String jobId) {
+        this.jobId = jobId;
+    }
+
+    /**
+     * @return The {@link tds.support.job.JobType} of the {@link tds.support.job.Job} that most recently affected this
+     * status record.
+     */
+    public JobType getJobType() {
+        return jobType;
+    }
+
+    public void setJobType(final JobType jobType) {
+        this.jobType = jobType;
     }
 
     /**

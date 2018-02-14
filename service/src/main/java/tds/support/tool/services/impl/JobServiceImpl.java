@@ -136,6 +136,9 @@ public class JobServiceImpl implements JobService {
             loadJobForPackageToDelete.isSkipArt(),
             loadJobForPackageToDelete.isSkipScoring()));
 
+        // Update the test package status to indicate it is now being handled  by a DELETE job.
+        testPackageStatusService.save(persistedDeleteJob);
+
         messagingService.sendJobStepExecute(persistedDeleteJob.getId());
     }
 

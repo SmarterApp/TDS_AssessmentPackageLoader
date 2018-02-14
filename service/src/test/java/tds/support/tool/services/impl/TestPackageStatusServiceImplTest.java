@@ -14,7 +14,9 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
+import tds.support.job.JobType;
 import tds.support.job.Status;
 import tds.support.job.TargetSystem;
 import tds.support.job.TestPackageLoadJob;
@@ -53,6 +55,8 @@ public class TestPackageStatusServiceImplTest {
 
         final TestPackageStatus expectedTestPackageStatus = new TestPackageStatus("test-package-filename",
             LocalDateTime.now(),
+            UUID.randomUUID().toString(),
+            JobType.LOADER,
             targetSystemStatuses);
 
         final ArgumentCaptor<TestPackageStatus> testPackageStatusArgumentCaptor = ArgumentCaptor.forClass(TestPackageStatus.class);
@@ -92,9 +96,13 @@ public class TestPackageStatusServiceImplTest {
         final List<TestPackageStatus> testPackageStatuses = Arrays.asList(
             new TestPackageStatus("first-test-package-filename",
                 LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                JobType.LOADER,
                 targetSystemStatuses),
             new TestPackageStatus("second-test-package-filename",
                 LocalDateTime.now(),
+                UUID.randomUUID().toString(),
+                JobType.LOADER,
                 targetSystemStatuses));
 
         final PageRequest pageRequest = new PageRequest(0, 2);
@@ -136,6 +144,8 @@ public class TestPackageStatusServiceImplTest {
             new TestPackageTargetSystemStatus(TargetSystem.THSS, Status.SUCCESS));
         final TestPackageStatus expectedTestPackageStatus = new TestPackageStatus(testPackageName,
             LocalDateTime.now(),
+            UUID.randomUUID().toString(),
+            JobType.LOADER,
             targetSystemStatuses);
 
         final PageRequest pageRequest = new PageRequest(0, 2);

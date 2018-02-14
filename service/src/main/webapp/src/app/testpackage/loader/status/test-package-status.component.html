@@ -20,10 +20,7 @@
           </span>
         </div>
       </div>
-      <div class="flex-child">
-        <button class="flex-child btn btn-default view-loaded-test-packages" (click)="statusClick()">View Loaded Test Packages
-        </button>
-      </div>
+
       <div class="flex-child">
         <button class="btn btn-primary upload-test-package" (click)="uploadClick()">Upload New Test Package</button>
       </div>
@@ -32,6 +29,7 @@
 
   <div class="test-package-jobs-list-container">
     <p-dataTable [value]="testPackageStatusPage.content"
+                 [globalFilter]=""
                  emptyMessage="No Test Packages have been loaded."
                  dataKey="name"
                  sortField="uploadedAt"
@@ -39,6 +37,7 @@
                  (onSort)="setSortPreference($event)"
                  selectionMode="single"
                  tableStyleClass="table table-striped table-hover overflow"
+                 [rowStyleClass]="getRowCss"
                  [rows]="10">
       <p-column field="name" header="Test Package Name" [sortable]="true"></p-column>
       <p-column field="uploadedAt" header="Last Uploaded At" [sortable]="true">
@@ -93,10 +92,15 @@
         </ng-template>
         <ng-template pTemplate="body" let-status="rowData">
           <div class="text-align-center">
-            <button type="button" (click)="deleteTestPackage(status.name)" class="fa fa-trash-o"></button>
+            <button type="button" (click)="deleteTestPackage(status.name)"
+                    [ngClass]="{'fa fa-trash-o' : true, 'disabled-button' : status.jobType == 'DELETE' }"
+                    [disabled]="status.jobType == 'DELETE'"
+                    [title]="status.jobType == 'DELETE' ? 'This package is being deleted.' : 'delete this package'">
+            </button>
           </div>
         </ng-template>
       </p-column>
+      <p-column field="jobType" header="foo"></p-column>
     </p-dataTable>
     <div class="text-align-center">
       <p-paginator [rows]="testPackageStatusPage.size"

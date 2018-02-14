@@ -22,6 +22,8 @@ export class TestPackageStatusRowMapper {
 
     return new TestPackageStatusRowBuilder(status.name)
       .withUploadedAt(status.uploadedAt)
+      .withJobId(status.jobId)
+      .withJobType(status.jobType)
       .withTdsStatus(systemStatusMap.get(TargetSystem.TDS) || StepStatus.NotApplicable)
       .withArtStatus(systemStatusMap.get(TargetSystem.ART) || StepStatus.NotApplicable)
       .withTisStatus(systemStatusMap.get(TargetSystem.TIS) || StepStatus.NotApplicable)

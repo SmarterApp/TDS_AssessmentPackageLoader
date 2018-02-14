@@ -1,1 +1,11 @@
 
+.status-is-deleted {
+  color: #900;
+  background-color: #fee !important;
+}
+
+.disabled-button {
+  color: #999;
+  background-color: #eee;
+  border-radius: 4px;
+}

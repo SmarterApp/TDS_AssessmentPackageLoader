@@ -8,6 +8,8 @@ export class TestPackageStatusRow {
 
   private _name: string;
   private _uploadedAt: Date;
+  private _jobId: string;
+  private _jobType: string;
   private _tdsStatus: StepStatus;
   private _artStatus: StepStatus;
   private _tisStatus: StepStatus;
@@ -15,6 +17,8 @@ export class TestPackageStatusRow {
 
   constructor(builder: TestPackageStatusRowBuilder) {
     this._name = builder.name;
+    this._jobId = builder.jobId;
+    this._jobType = builder.jobType;
     this._uploadedAt = builder.uploadedAt;
     this._tdsStatus = builder.tdsStatus;
     this._artStatus = builder.artStatus;
@@ -35,6 +39,21 @@ export class TestPackageStatusRow {
    */
   get uploadedAt(): Date {
     return this._uploadedAt;
+  }
+
+  /**
+   * @return {string} The unique identifier of the job that most recently operated on the {TestPackage} this status
+   * record represents.
+   */
+  get jobId(): string {
+    return this._jobId;
+  }
+
+  /**
+   * @return {string} The type of job that most recently operated on the {TestPackage} this status record represents.
+   */
+  get jobType(): string {
+    return this._jobType;
   }
 
   /**
@@ -96,6 +115,8 @@ export class TestPackageStatusRow {
 export class TestPackageStatusRowBuilder {
   private _name: string;
   private _uploadedAt: Date;
+  private _jobId: string;
+  private _jobType: string;
   private _tdsStatus: StepStatus;
   private _artStatus: StepStatus;
   private _tisStatus: StepStatus;
@@ -115,6 +136,24 @@ export class TestPackageStatusRowBuilder {
 
   withUploadedAt(uploadedAt: Date) {
     this._uploadedAt = uploadedAt;
+    return this;
+  }
+
+  get jobId(): string {
+    return this._jobId;
+  }
+
+  withJobId(jobId: string) {
+    this._jobId = jobId;
+    return this;
+  }
+
+  get jobType(): string {
+    return this._jobType;
+  }
+
+  withJobType(jobType: string) {
+    this._jobType = jobType;
     return this;
   }
 
