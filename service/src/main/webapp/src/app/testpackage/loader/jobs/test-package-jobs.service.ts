@@ -99,7 +99,7 @@ export class TestPackageJobService {
 
     // Flatten all errors from each step into one array
     job.errors = [].concat.apply([], apiModel.steps.map(
-      step => step.errors.map(
+      step => (step.errors || []).map(
         error => {
           let jobError = new JobError();
 

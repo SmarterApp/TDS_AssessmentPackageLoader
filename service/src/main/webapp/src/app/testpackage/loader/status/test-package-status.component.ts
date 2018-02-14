@@ -46,7 +46,7 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
   private isAlive: boolean = false; // used to unsubscribe from the TimerObservable when OnDestroy is called.
 
   constructor(private testPackageStatusService: TestPackageStatusService) {
-    this.isAlive = false;
+    this.isAlive = true;
   }
 
   /**
@@ -68,7 +68,7 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
     // Create an event to fetch the first page of records.
     const initPaginatorEvent = {
       page: 0,
-      size: 2,
+      size: 10,
       sort: this.sortPreference.sort,
       sortDir: this.sortPreference.sortDir
     };
