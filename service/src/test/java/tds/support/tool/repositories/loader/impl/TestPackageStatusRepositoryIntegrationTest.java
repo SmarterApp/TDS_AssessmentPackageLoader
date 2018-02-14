@@ -1,5 +1,6 @@
 package tds.support.tool.repositories.loader.impl;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class TestPackageStatusRepositoryIntegrationTest {
     private JobRepository jobRepository;
 
     @Test
-    //@Ignore("This integration test is intended for generating seed data to conduct end-to-end testing for the UI")
+    @Ignore("This integration test is intended for generating seed data to conduct end-to-end testing for the UI")
     public void generateTestPackageStatusSeedData() {
         // Had to create and save each job individually.  If all the jobs were handed off to jobRepository#save as a
         // list (e.g. via Arrays#asList, like how the status records are created below), the types were preserved.  In

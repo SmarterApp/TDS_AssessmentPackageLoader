@@ -203,6 +203,12 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
     return statusMessage;
   }
 
+  /**
+   * Apply a CSS class to indicate a row represents a {TestPackage} that is in the process of being deleted
+   *
+   * @param {TestPackageStatusRow} rowData The row to evaluate
+   * @return {string | string} The name of the CSS class, or an empty string if no CSS needs to be added
+   */
   getRowCss(rowData: TestPackageStatusRow) {
     return rowData.jobType == 'DELETE'
     ? 'status-is-deleted'
