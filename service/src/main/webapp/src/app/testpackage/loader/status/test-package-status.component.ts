@@ -9,6 +9,7 @@ import 'rxjs/add/operator/debounceTime';
 import "rxjs/add/operator/distinctUntilChanged";
 import { PageRequest } from "../../../shared/data/page-request";
 import { TimerObservable } from "rxjs/observable/TimerObservable";
+import { Router } from "@angular/router";
 
 /**
  * Controller for interacting with test package status data.
@@ -45,7 +46,8 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
 
   private isAlive: boolean = false; // used to unsubscribe from the TimerObservable when OnDestroy is called.
 
-  constructor(private testPackageStatusService: TestPackageStatusService) {
+  constructor(private testPackageStatusService: TestPackageStatusService,
+              private router: Router) {
     this.isAlive = true;
   }
 
@@ -172,6 +174,13 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
       this.testPackageStatusService.getAll(page)
         .subscribe(response => this.testPackageStatusPage = response);
     }
+  }
+
+  /**
+   * Navigate to the upload screen to upload a test package file
+   */
+  uploadClick() {
+    this.router.navigateByUrl('/loader/upload');
   }
 
   /**
