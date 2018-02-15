@@ -1,9 +1,9 @@
 package tds.support.job;
 
 /**
- * An enumeration of all possible system targets for job steps
+ * An enumeration of all possible system targets
  */
-public enum JobStepTarget {
+public enum TargetSystem {
     /**
      * Test Delivery System
      */

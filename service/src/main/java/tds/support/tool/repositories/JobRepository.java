@@ -18,4 +18,14 @@ public interface JobRepository extends MongoRepository<Job, String> {
      * @return a collection of jobs corresponding to the specified job type
      */
     List<Job> findByTypeIn(JobType... type);
+
+    /**
+     * Find the most recent {@link tds.support.job.Job} for the specified name and {@link tds.support.job.JobType}.
+     *
+     * @param name The name of the {@link tds.support.job.Job} to find.  For {@link tds.support.job.JobType#LOADER},
+     *             this will be the name of the {@link tds.testpackage.model.TestPackage} file.
+     * @param jobType The {@link tds.support.job.JobType} describing the type of {@link tds.support.job.Job} to find
+     * @return
+     */
+    Job findOneByNameAndTypeOrderByCreatedAtDesc(final String name, final JobType jobType);
 }

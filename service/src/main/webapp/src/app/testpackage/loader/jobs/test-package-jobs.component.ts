@@ -74,4 +74,8 @@ export class TestPackageJobsComponent implements OnInit, OnDestroy {
   uploadClick() {
     this.router.navigateByUrl('/loader/upload');
   }
+
+  statusClick() {
+    this.router.navigateByUrl('/loader/status');
+  }
 }

@@ -1,12 +1,16 @@
 package tds.support.tool.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,5 +56,17 @@ public class TestPackageController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Job>> getJobs(@RequestParam(value = "jobType", required = false) JobType... jobTypes) throws IOException {
         return ResponseEntity.ok(jobService.findJobs(jobTypes));
+    }
+
+    /**
+     * Start a {@link tds.support.job.TestPackageDeleteJob} to delete a previously
+     * loaded {@link tds.testpackage.model.TestPackage}
+     *
+     * @param name The name of the {@link tds.testpackage.model.TestPackage} to delete
+     */
+    @DeleteMapping("/{name}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteTestPackage(@PathVariable final String name) {
+        jobService.startPackageDelete(name);
     }
 }

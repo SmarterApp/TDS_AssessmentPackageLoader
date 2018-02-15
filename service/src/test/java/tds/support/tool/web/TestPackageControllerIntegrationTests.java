@@ -12,19 +12,19 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 
 import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
-import tds.support.job.Job;
 import tds.support.job.JobType;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.tool.services.JobService;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.randomListOf;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -64,5 +64,18 @@ public class TestPackageControllerIntegrationTests {
             .andExpect(status().isOk());
 
         verify(mockJobService).findJobs(null);
+    }
+
+    @Test
+    public void shouldStartADeletePackageJob() throws Exception {
+        final String testPackageName = "delete-me";
+
+        doNothing().when(mockJobService).startPackageDelete(testPackageName);
+
+        http.perform(delete(String.format("/api/load/%s", testPackageName))
+            .contentType(MediaType.APPLICATION_JSON_VALUE))
+            .andExpect(status().isNoContent());
+
+        verify(mockJobService).startPackageDelete(testPackageName);
     }
 }

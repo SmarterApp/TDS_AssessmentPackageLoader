@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestPackageDeleteJob extends Job {
-    private final String testPackageFileName;
     private static final String TEST_PACKAGE_PREFIX = "test-package";
     public static final String ART_DELETE = TEST_PACKAGE_PREFIX + "-art-delete";
     public static final String TDS_DELETE = TEST_PACKAGE_PREFIX + "-tds-delete";
@@ -15,23 +14,23 @@ public class TestPackageDeleteJob extends Job {
     private final boolean skipArt;
     private final boolean skipScoring;
 
-    public TestPackageDeleteJob(final String testPackageFileName, boolean skipArt, boolean skipScoring) {
+    public TestPackageDeleteJob(final String name, boolean skipArt, boolean skipScoring) {
         // Spring Data requires us to persist these variables
-        this.testPackageFileName = testPackageFileName;
+        this.setName(name);
         this.skipArt = skipArt;
         this.skipScoring = skipScoring;
 
         //Create steps
         List<Step> steps = new ArrayList<>();
-        steps.add(new Step(TDS_DELETE, JobStepTarget.TDS, "Deleting the test package from TDS (Student and Proctor)"));
+        steps.add(new Step(TDS_DELETE, TargetSystem.TDS, "Deleting the test package from TDS (Student and Proctor)"));
 
         if (!skipArt) {
-            steps.add(new Step(ART_DELETE, JobStepTarget.ART,"Deleting the test package from ART"));
+            steps.add(new Step(ART_DELETE, TargetSystem.ART,"Deleting the test package from ART"));
         }
 
         if (!skipScoring) {
-            steps.add(new Step(TIS_DELETE, JobStepTarget.TIS, "Deleting the test package from TIS"));
-            steps.add(new Step(THSS_DELETE, JobStepTarget.THSS,"Deleting the test package from THSS"));
+            steps.add(new Step(TIS_DELETE, TargetSystem.TIS, "Deleting the test package from TIS"));
+            steps.add(new Step(THSS_DELETE, TargetSystem.THSS,"Deleting the test package from THSS"));
         }
 
         this.setSteps(steps);
@@ -39,9 +38,6 @@ public class TestPackageDeleteJob extends Job {
         this.setType(JobType.DELETE);
     }
 
-    public String getTestPackageFileName() {
-        return this.testPackageFileName;
-    }
 
     public boolean isSkipArt() {
         return skipArt;

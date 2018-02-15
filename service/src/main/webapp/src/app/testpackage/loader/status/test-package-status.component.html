@@ -1,0 +1,112 @@
+<div>
+<div class="well">
+  <div class="form-group row">
+    <div class="flex-children pt-sm pr-sm pb-sm pl-sm test-package-jobs-search-form-container" style="flex-wrap: nowrap;">
+      <label for="search" class="sr-only">Search by Test Package Name</label>
+      <div class="flex-child">
+        <div class="flex-child input-group">
+          <input #searchTextBox
+                 class="flex-child form-control"
+                 style="height: 40.44px"
+                 id="search"
+                 type="text"
+                 placeholder="Search by Test Package Name"
+                 autocomplete="off"
+                 [(ngModel)]="searchTermText">
+          <span class="input-group-btn">
+            <button class="flex-child btn btn-primary" id="searchButton" (click)="search(searchTextBox.value)">
+              <i class="fa fa-search"></i>
+            </button>
+          </span>
+        </div>
+      </div>
+
+      <div class="flex-child">
+        <button class="btn btn-default upload-test-package" (click)="uploadClick()">Upload New Test Package</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="test-package-jobs-list-container">
+    <p-dataTable [value]="testPackageStatusPage.content"
+                 [globalFilter]=""
+                 emptyMessage="No Test Packages have been loaded."
+                 dataKey="name"
+                 sortField="uploadedAt"
+                 [sortOrder]="-1"
+                 (onSort)="setSortPreference($event)"
+                 selectionMode="single"
+                 tableStyleClass="table table-striped table-hover overflow"
+                 [rowStyleClass]="getRowCss"
+                 [rows]="10">
+      <p-column field="name" header="Test Package Name" [sortable]="true"></p-column>
+      <p-column field="uploadedAt" header="Last Uploaded At" [sortable]="true">
+        <ng-template let-status="rowData" pTemplate="body">
+          {{ status.uploadedAt | date: 'short' }}
+        </ng-template>
+      </p-column>
+      <p-column field="tdsStatus">
+        <ng-template pTemplate="header">
+          <div class="text-align-center">TDS</div>
+        </ng-template>
+        <ng-template pTemplate="body" let-status="rowData">
+          <div class="text-align-center">
+            <i [class]="getStatusIconCss(status.tdsStatus)" [title]="getStatusDescription(status.tdsStatus, 'TDS')"></i>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-column field="artStatus">
+        <ng-template pTemplate="header">
+          <div class="text-align-center">ART</div>
+        </ng-template>
+        <ng-template pTemplate="body" let-status="rowData">
+          <div class="text-align-center">
+            <i [class]="getStatusIconCss(status.artStatus)" [title]="getStatusDescription(status.artStatus, 'ART')"></i>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-column field="tisStatus">
+        <ng-template pTemplate="header">
+          <div class="text-align-center">TIS</div>
+        </ng-template>
+        <ng-template pTemplate="body" let-status="rowData">
+          <div class="text-align-center">
+            <i [class]="getStatusIconCss(status.tisStatus)" [title]="getStatusDescription(status.tisStatus, 'TIS')"></i>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-column field="thssStatus">
+        <ng-template pTemplate="header">
+          <div class="text-align-center">THSS</div>
+        </ng-template>
+        <ng-template pTemplate="body" let-status="rowData">
+          <div class="text-align-center">
+            <i [class]="getStatusIconCss(status.thssStatus)"
+               [title]="getStatusDescription(status.thssStatus, 'THSS')"></i>
+          </div>
+        </ng-template>
+      </p-column>
+      <p-column header="Delete">
+        <ng-template pTemplate="header">
+          <div class="text-align-center">Delete</div>
+        </ng-template>
+        <ng-template pTemplate="body" let-status="rowData">
+          <div class="text-align-center">
+            <button type="button" (click)="deleteTestPackage(status.name)"
+                    [ngClass]="{'fa fa-trash-o' : true, 'disabled-button' : status.jobType == 'DELETE' }"
+                    [disabled]="status.jobType == 'DELETE'"
+                    [title]="status.jobType == 'DELETE' ? 'This package is being deleted.' : 'delete this package'">
+            </button>
+          </div>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+    <div class="text-align-center">
+      <p-paginator [rows]="testPackageStatusPage.size"
+                   [totalRecords]="testPackageStatusPage.totalElements"
+                   (onPageChange)="getNextPage($event)">
+      </p-paginator>
+    </div>
+  </div>
+</div>
+</div>
