@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-public class ItemPositionTests {
+public class ItemPositionTest {
     ItemScoreDimension itemScoreDimension = ItemScoreDimension.builder()
         .setScorePoints(1)
         .setMeasurementModel("IRT3PLn")

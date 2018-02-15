@@ -22,7 +22,7 @@ import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
-public class TestPackageSerializationIntegrationTests {
+public class TestPackageSerializationTest {
     private ObjectMapper objectMapper;
     private XmlMapper xmlMapper;
 
@@ -241,7 +241,7 @@ public class TestPackageSerializationIntegrationTests {
 
     @Test
     public void shouldDeserializeFromXml() throws IOException {
-        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
+        InputStream inputStream = TestPackageSerializationTest.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
         assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
         assertThat(testPackage.getSubject()).isEqualTo("MATH");
@@ -254,7 +254,7 @@ public class TestPackageSerializationIntegrationTests {
         module.addDeserializer(TestPackage.class, new TestPackageDeserializer());
         xmlMapper.registerModule(module);
 
-        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
+        InputStream inputStream = TestPackageSerializationTest.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
         assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
         assertThat(testPackage.getSubject()).isEqualTo("MATH");
@@ -270,7 +270,7 @@ public class TestPackageSerializationIntegrationTests {
      */
     @Test
     public void shouldDeserializeWithoutNulls() throws IOException {
-        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("scoring-rules.xml");
+        InputStream inputStream = TestPackageSerializationTest.class.getClassLoader().getResourceAsStream("scoring-rules.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
         String json = objectMapper.writeValueAsString(testPackage);
         assertThat(json.indexOf("null")).isEqualTo(-1);
@@ -278,7 +278,7 @@ public class TestPackageSerializationIntegrationTests {
 
     @Test
     public void shouldHaveItemsScoreParameterWithDimension() throws IOException {
-        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("scoring-rules.xml");
+        InputStream inputStream = TestPackageSerializationTest.class.getClassLoader().getResourceAsStream("scoring-rules.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
         String dimension = testPackage.getAssessments().get(0).getSegments().get(0).
             getSegmentForms().get(0).getItemGroups().get(0).getItems().get(0).
@@ -288,7 +288,7 @@ public class TestPackageSerializationIntegrationTests {
 
     @Test
     public void shouldDeserializePresentationsWithoutTrailingWhitespace() throws IOException {
-        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
+        InputStream inputStream = TestPackageSerializationTest.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
         Presentation presentation = testPackage.getAssessments().get(0).getSegments().get(0).getPool().get(0).getItems().get(0).getPresentations().get(0);
         assertThat(presentation.getCode()).isEqualTo(presentation.getCode().trim());
@@ -296,7 +296,7 @@ public class TestPackageSerializationIntegrationTests {
 
     @Test
     public void presentationsShouldHaveDefaultLabels() throws IOException {
-        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
+        InputStream inputStream = TestPackageSerializationTest.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
         Presentation presentation = testPackage.getAssessments().get(0).getSegments().get(0).getPool().get(0).getItems().get(0).getPresentations().get(0);
         assertThat(presentation.label()).isEqualTo("English");
@@ -304,7 +304,7 @@ public class TestPackageSerializationIntegrationTests {
 
     @Test
     public void shouldDeserializeFromXmlWithBooleanDefaults() throws IOException {
-        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("dependencies-boolean-defaults.xml");
+        InputStream inputStream = TestPackageSerializationTest.class.getClassLoader().getResourceAsStream("dependencies-boolean-defaults.xml");
         List<Dependency> dependencies = xmlMapper.readValue(inputStream, new TypeReference<List<Dependency>>() {
         });
 
@@ -322,7 +322,7 @@ public class TestPackageSerializationIntegrationTests {
 
     @Test
     public void shouldDeserializePresentationsFromXml() throws IOException {
-        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("presentations.xml");
+        InputStream inputStream = TestPackageSerializationTest.class.getClassLoader().getResourceAsStream("presentations.xml");
         List<Presentation> presentations = xmlMapper.readValue(inputStream, new TypeReference<List<Presentation>>() {
         });
 
@@ -331,7 +331,7 @@ public class TestPackageSerializationIntegrationTests {
 
     @Test
     public void shouldDeserializeSegmentBlueprintElementFromXmlWithEmptyListDefaults() throws IOException {
-        InputStream inputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("segment-blueprint-element.xml");
+        InputStream inputStream = TestPackageSerializationTest.class.getClassLoader().getResourceAsStream("segment-blueprint-element.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
 
         List<SegmentBlueprintElement> segmentBlueprint = testPackage.getAssessments().get(0).getSegments().get(0).getSegmentBlueprint();
@@ -378,8 +378,8 @@ public class TestPackageSerializationIntegrationTests {
      */
     @Test
     public void shouldDeserializeFromJsonAndXmlAsSameObject() throws IOException {
-        InputStream xmlInputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
-        InputStream jsonInputStream = TestPackageSerializationIntegrationTests.class.getClassLoader().getResourceAsStream("test-specification-example-1.json");
+        InputStream xmlInputStream = TestPackageSerializationTest.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
+        InputStream jsonInputStream = TestPackageSerializationTest.class.getClassLoader().getResourceAsStream("test-specification-example-1.json");
 
         TestPackage testPackageXml = xmlMapper.readValue(xmlInputStream, TestPackage.class);
         String json = objectMapper.writeValueAsString(testPackageXml);
