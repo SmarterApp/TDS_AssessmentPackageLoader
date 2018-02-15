@@ -5,14 +5,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 import tds.testpackage.model.Item;
-import tds.testpackage.model.Stimulus;
 import tds.testpackage.model.TestPackage;
 
-public class TeacherHandScoringIntegration {
+/**
+ * Teacher hand scoring configuration data to be serialized as JSON and
+ * sent to the THSS .NET server application endpoint.
+ * The JSON file is POSTed to the endpoint as a file attachment.
+ * http://host:28039/api/item/submit
+ */
+public class TeacherHandScoringConfiguration {
     @JsonUnwrapped
     final TeacherHandScoring teacherHandScoring;
 
-    public TeacherHandScoringIntegration(final TeacherHandScoring teacherHandScoring) {
+    public TeacherHandScoringConfiguration(final TeacherHandScoring teacherHandScoring) {
         this.teacherHandScoring = teacherHandScoring;
     }
 
@@ -54,10 +59,5 @@ public class TeacherHandScoringIntegration {
     @JsonProperty("grade")
     public String grade() {
         return getItem().getItemGroup().getSegment().getAssessment().getGrades().get(0).getValue();
-    }
-
-    @JsonProperty("Passage")
-    public String passage() {
-        return getItem().getItemGroup().getStimulus().map(Stimulus::getId).orElse(null);
     }
 }

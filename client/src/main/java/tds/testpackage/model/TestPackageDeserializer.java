@@ -90,6 +90,10 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
         return testPackage;
     }
 
+    /**
+     *
+     *
+     */
     private static void setItemGroup(final ItemGroup itemGroup, final TestPackage testPackage, final Segment segment, final SegmentForm segmentForm) {
         itemGroup.setSegment(segment);
         itemGroup.getItems().forEach(item -> {

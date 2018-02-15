@@ -5,17 +5,10 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.context.annotation.Primary;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +19,7 @@ import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
 import tds.support.job.TestPackageDeleteJob;
 import tds.support.job.TestPackageLoadJob;
+import tds.support.tool.TestPackageObjectMapperConfiguration;
 import tds.support.tool.handlers.loader.TestPackageHandler;
 import tds.support.tool.handlers.loader.impl.ARTDeleteStepHandler;
 import tds.support.tool.handlers.loader.impl.ARTLoaderStepHandler;
@@ -43,7 +37,8 @@ import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
     ExceptionAdvice.class,
     JacksonObjectMapperConfiguration.class,
     SecurityConfiguration.class,
-    RestTemplateConfiguration.class
+    RestTemplateConfiguration.class,
+    TestPackageObjectMapperConfiguration.class
 })
 public class SupportToolServiceConfiguration {
     @Bean
@@ -82,23 +77,5 @@ public class SupportToolServiceConfiguration {
         handlerMap.put(TestPackageDeleteJob.THSS_DELETE, thssDeleteStepHandler);
 
         return handlerMap;
-    }
-
-    @Bean(name = "xmlMapper")
-    public XmlMapper getXmlMapper() {
-        final XmlMapper xmlMapper = new XmlMapper();
-        xmlMapper.registerModule(new Jdk8Module());
-        return xmlMapper;
-    }
-
-    @Primary
-    @Bean
-    public ObjectMapper getObjectMapper() {
-         final ObjectMapper mapper = new ObjectMapper()
-            .registerModule(new Jdk8Module())
-            .registerModule(new JavaTimeModule());
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-        return mapper;
     }
 }

@@ -2,6 +2,7 @@ package tds.teacherhandscoring.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 
@@ -12,8 +13,14 @@ import java.util.Optional;
 public abstract class Sample {
     public abstract String getName();
     public abstract Optional<String> getAnnotation();
+    @JacksonXmlCData
+    @JacksonXmlProperty(localName = "samplecontent")
     public abstract String getSampleContent();
+
+    @JacksonXmlProperty(isAttribute = true)
     public abstract String getPurpose();
+
+    @JacksonXmlProperty(localName = "scorepoint", isAttribute = true)
     public abstract byte getScorePoint();
 
     public static Builder builder() {

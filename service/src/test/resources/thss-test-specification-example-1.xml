@@ -32,13 +32,13 @@
                                     <ItemScoreParameter measurementParameter="b0" value="1.451730000000000e+000" />
                                     <ItemScoreParameter measurementParameter="b1" value="9.537300000000000e-001" />
                                 </ItemScoreDimension>
-                                <!--<ItemScoreDimension measurementModel="IRTGPC" dimension="D" scorePoints="4" weight="1.000000000000000e+000">-->
-                                    <!--<ItemScoreParameter measurementParameter="a" value="5.329000000000000e-001" />-->
-                                    <!--<ItemScoreParameter measurementParameter="b0" value="-4.511900000000000e-001" />-->
-                                    <!--<ItemScoreParameter measurementParameter="b1" value="9.468600000000000e-001" />-->
-                                    <!--<ItemScoreParameter measurementParameter="b2" value="2.731340000000000e+000" />-->
-                                    <!--<ItemScoreParameter measurementParameter="b3" value="4.805220000000000e+000" />-->
-                                <!--</ItemScoreDimension>-->
+                                <ItemScoreDimension measurementModel="IRTGPC" dimension="D" scorePoints="4" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="5.329000000000000e-001" />
+                                    <ItemScoreParameter measurementParameter="b0" value="-4.511900000000000e-001" />
+                                    <ItemScoreParameter measurementParameter="b1" value="9.468600000000000e-001" />
+                                    <ItemScoreParameter measurementParameter="b2" value="2.731340000000000e+000" />
+                                    <ItemScoreParameter measurementParameter="b3" value="4.805220000000000e+000" />
+                                </ItemScoreDimension>
                                 <TeacherHandScoring baseUrl="C:\src\tss\Item-Manager\OH_ Items" exemplar="G3_2703_TM.pdf" trainingGuide="G3_2703_SG.pdf" layout="WAI" description="Mandatory Financial Literacy Classes - SBAC_Field">
                                     <rubriclist>
                                         <rubric scorepoint="4">

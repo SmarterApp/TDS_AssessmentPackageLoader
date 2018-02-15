@@ -13,9 +13,17 @@ import java.util.Optional;
 @JsonDeserialize(builder = AutoValue_SampleList.Builder.class)
 @JacksonXmlRootElement(localName = "samplelist")
 public abstract class SampleList {
+    @JacksonXmlProperty(localName = "maxval", isAttribute = true)
     public abstract String getMaxVal();
+
+    @JacksonXmlProperty(localName = "minval",isAttribute = true)
     public abstract String getMinVal();
+
+    @JacksonXmlProperty(localName = "scorepoint",isAttribute = true)
     public abstract Optional<String> getScorePoint();
+
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @JacksonXmlProperty(localName = "sample",isAttribute = true)
     public abstract List<Sample> getSamples();
 
     public static Builder builder() {

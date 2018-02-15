@@ -1,7 +1,6 @@
 package tds.teacherhandscoring.model;
 
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,19 +9,21 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+/**
+ * Rubric list element contains children that can either be Rubric or SampleList.
+ * Adding Rubrics and SampleLists into their own, separate lists in the Rubric.
+ */
 public class RubricListDeserializer extends StdDeserializer<RubricList> {
     public RubricListDeserializer() {
         super(RubricList.class);
     }
 
     @Override
-    public RubricList deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public RubricList deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
         final ObjectMapper xmlMapper = (ObjectMapper) jp.getCodec();
-        List<Rubric> rubrics = new ArrayList<>();
-        List<SampleList> sampleList = new ArrayList<>();
+        final List<Rubric> rubrics = new ArrayList<>();
+        final List<SampleList> sampleLists = new ArrayList<>();
 
         for (; jp.getCurrentToken() != JsonToken.END_OBJECT; jp.nextToken()) {
             final JsonToken token = jp.getCurrentToken();
@@ -32,19 +33,14 @@ public class RubricListDeserializer extends StdDeserializer<RubricList> {
                     rubrics.add(xmlMapper.readValue(jp, Rubric.class));
                 } else if ("samplelist".equals(jp.getCurrentName())) {
                     jp.nextToken();
-                    sampleList.add(xmlMapper.readValue(jp, SampleList.class));
+                    sampleLists.add(xmlMapper.readValue(jp, SampleList.class));
                 }
             }
         }
 
-
-        final List<Object> rubricOrSampleList = Stream.concat(rubrics.stream(), sampleList.stream()).
-            collect(Collectors.toList());
-
-        RubricList rubricList = RubricList.builder().
-            rubricOrSamplelist(rubricOrSampleList).
+        return RubricList.builder().
+            setRubrics(rubrics).
+            setSampleLists(sampleLists).
             build();
-
-        return rubricList;
     }
 }

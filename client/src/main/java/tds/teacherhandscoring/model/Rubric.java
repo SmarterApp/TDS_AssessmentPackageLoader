@@ -2,7 +2,7 @@ package tds.teacherhandscoring.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.google.auto.value.AutoValue;
@@ -12,7 +12,10 @@ import com.google.auto.value.AutoValue;
 @JacksonXmlRootElement(localName = "rubric")
 public abstract class Rubric {
     public abstract String getName();
+    @JacksonXmlCData
     public abstract String getVal();
+
+    @JacksonXmlProperty(localName="scorepoint", isAttribute = true)
     public abstract String getScorePoint();
 
     public static Builder builder() {
