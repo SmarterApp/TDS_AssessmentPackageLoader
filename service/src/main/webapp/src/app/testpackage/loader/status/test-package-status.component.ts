@@ -41,7 +41,7 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
     sortDir: SortDirection.Descending
   };
 
-  private searchTermText = '';
+  private _searchTermText = '';
 
   private isAlive: boolean = false; // used to unsubscribe from the TimerObservable when OnDestroy is called.
 
@@ -62,6 +62,17 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * @return {string} The search term entered into the search input box
+   */
+  get searchTermText(): string {
+    return this._searchTermText;
+  }
+
+  set searchTermText(value: string) {
+    this._searchTermText = value;
+  }
+
+  /**
    * Get the first page of {TestPackageStatusRow}s for display, sorted by "Last Uploaded At" in Descending order.
    */
   ngOnInit() {
@@ -73,12 +84,12 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
       sortDir: this.sortPreference.sortDir
     };
 
-    this.getData(this.searchTermText, initPaginatorEvent);
+    this.getData(this._searchTermText, initPaginatorEvent);
 
     TimerObservable.create(5000, 5000)
       .takeWhile(() => this.isAlive)
       .subscribe(() => {
-        this.getData(this.searchTermText, {
+        this.getData(this._searchTermText, {
           page: this.testPackageStatusPage.number,
           size: this.testPackageStatusPage.size,
           sort: this.sortPreference.sort,
@@ -107,7 +118,7 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
       sortDir: this.sortPreference.sortDir
     };
 
-    this.getData(this.searchTermText, nextPage);
+    this.getData(this._searchTermText, nextPage);
   }
 
   /**
@@ -128,7 +139,7 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
       sortDir: this.sortPreference.sortDir
     };
 
-    this.getData(this.searchTermText, pageRequest);
+    this.getData(this._searchTermText, pageRequest);
   }
 
   /**
@@ -227,7 +238,7 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
 
       alert("Test Package '" + name + "' is in the process of being deleted.  Once the test package has been deleted from all systems, the test packag willl no longer appear in this list.");
 
-      this.getData(this.searchTermText, {
+      this.getData(this._searchTermText, {
         page: 0,
         size: this.testPackageStatusPage.size,
         sort: this.sortPreference.sort,
