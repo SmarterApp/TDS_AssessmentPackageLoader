@@ -3,10 +3,10 @@ package tds.support.job;
 public class TestPackageRollbackJob extends TestPackageDeleteJob {
     private final String parentJobId;
 
-    public TestPackageRollbackJob(final String parentJobId, final String testPackageFileName, final boolean skipArt, final boolean skipScoring) {
-        super(testPackageFileName, skipArt, skipScoring);
+    public TestPackageRollbackJob(final TestPackageLoadJob parentJob) {
+        super(parentJob.getName(), parentJob.isSkipArt(), parentJob.isSkipScoring());
         this.setType(JobType.ROLLBACK);
-        this.parentJobId = parentJobId;
+        this.parentJobId = parentJob.getId();
     }
 
     /**

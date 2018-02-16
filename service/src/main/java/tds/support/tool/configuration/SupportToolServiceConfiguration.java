@@ -24,6 +24,7 @@ import tds.common.configuration.JacksonObjectMapperConfiguration;
 import tds.common.configuration.RestTemplateConfiguration;
 import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
+import tds.shared.spring.configuration.WebConfiguration;
 import tds.support.job.TestPackageDeleteJob;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.tool.handlers.loader.TestPackageHandler;
@@ -44,6 +45,7 @@ import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
     JacksonObjectMapperConfiguration.class,
     SecurityConfiguration.class,
     RestTemplateConfiguration.class,
+    WebConfiguration.class,
     MvcConfig.class
 })
 public class SupportToolServiceConfiguration {

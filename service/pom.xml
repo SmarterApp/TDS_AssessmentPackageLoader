@@ -29,8 +29,16 @@
         </dependency>
         <dependency>
             <groupId>org.opentestsystem.delivery</groupId>
+            <artifactId>tds-common-legacy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.opentestsystem.delivery</groupId>
             <artifactId>tds-support-tool-client</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.opentestsystem.shared</groupId>
+            <artifactId>shared-spring</artifactId>
         </dependency>
 
         <!-- Spring -->
