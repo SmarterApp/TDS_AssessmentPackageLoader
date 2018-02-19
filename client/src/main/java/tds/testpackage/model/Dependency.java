@@ -1,7 +1,6 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -9,7 +8,7 @@ import com.google.auto.value.AutoValue;
 
 import java.util.Optional;
 
-import static tds.testpackage.model.XmlUtil.*;
+import static tds.testpackage.model.XmlUtil.parseBoolean;
 
 /**
  * A Dependency defines a rule for when a specific Tool Option should be enabled or available to an examinee.

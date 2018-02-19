@@ -327,10 +327,10 @@ public abstract class Tool {
     public abstract static class Builder {
         public abstract Builder setName(String newName);
 
-        protected abstract Builder setStudentPackageFieldName(Optional<String> newStudentPackageFieldName);
+        public abstract Builder setStudentPackageFieldName(Optional<String> newStudentPackageFieldName);
 
         public Builder setStudentPackageFieldName(String newStudentPackageFieldName) {
-            return setStudentPackageFieldName(Optional.of(newStudentPackageFieldName));
+            return setStudentPackageFieldName(Optional.ofNullable(newStudentPackageFieldName));
         }
 
         protected abstract Builder setSelectable(Optional<String> newSelectable);
@@ -380,7 +380,7 @@ public abstract class Tool {
         public Builder setAllowMultipleOptions(boolean newAllowMultipleOptions) {
             return setAllowMultipleOptions(Optional.of(String.valueOf(newAllowMultipleOptions)));
         }
-        
+
         protected abstract Builder setDependsOnToolType(Optional<String> newDependsOnToolType);
 
         public Builder setDependsOnToolType(String newDependsOnToolType) {

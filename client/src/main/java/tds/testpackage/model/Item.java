@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import tds.teacherhandscoring.model.TeacherHandScoring;
+
 import static tds.testpackage.model.XmlUtil.parseBoolean;
 
 @AutoValue
@@ -52,6 +54,8 @@ public abstract class Item {
     public boolean doNotScore() {
         return parseBoolean(getDoNotScore(), false);
     }
+
+    public abstract Optional<TeacherHandScoring> getTeacherHandScoring();
 
     private SegmentForm segmentForm;
     public void setSegmentForm(SegmentForm segmentForm) {
@@ -161,6 +165,9 @@ public abstract class Item {
 
         @JacksonXmlProperty(localName = "doNotScore")
         public abstract Builder setDoNotScore(Optional<String> newDoNotScore);
+
+        @JacksonXmlProperty(localName = "TeacherHandScoring")
+        public abstract Builder setTeacherHandScoring(Optional<TeacherHandScoring> newTeacherHandScoring);
 
         @JsonProperty(value = "position")
         /**

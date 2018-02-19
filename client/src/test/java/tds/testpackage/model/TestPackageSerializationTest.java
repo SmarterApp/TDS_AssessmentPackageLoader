@@ -382,9 +382,6 @@ public class TestPackageSerializationTest {
         InputStream jsonInputStream = TestPackageSerializationTest.class.getClassLoader().getResourceAsStream("test-specification-example-1.json");
 
         TestPackage testPackageXml = xmlMapper.readValue(xmlInputStream, TestPackage.class);
-        String json = objectMapper.writeValueAsString(testPackageXml);
-        System.out.println(json);
-
         TestPackage testPackageJson = objectMapper.readValue(jsonInputStream, TestPackage.class);
 
         assertThat(testPackageXml).isEqualTo(testPackageJson);
