@@ -123,8 +123,7 @@ abstract public class TeacherHandScoring {
      */
     @JsonRawValue
     public String dimensions() {
-//        return getDimensions().orElse(DEFAULT_DIMENSIONS);
-        return getDimensions().orElseThrow(() -> new RuntimeException(""));
+        return getDimensions().orElse(DEFAULT_DIMENSIONS);
     }
 
     /**
