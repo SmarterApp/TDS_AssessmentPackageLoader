@@ -482,9 +482,17 @@ ATTRIBUTES:
                                 <xs:complexType>
                                     <xs:sequence>
                                         <xs:element name="rubriclist" maxOccurs="unbounded" minOccurs="0">
+                                            <xs:annotation>
+                                                <xs:documentation xml:lang="en-US">
+                                                    Define the rubriclist type. Rubrics associated with the item.
+                                                </xs:documentation>
+                                            </xs:annotation>
                                             <xs:complexType>
                                                 <xs:choice maxOccurs="unbounded" minOccurs="0">
                                                     <xs:element name="rubric">
+                                                        <xs:annotation>
+                                                            <xs:documentation xml:lang="en-US">Define the rubric type. The scoring rubric.</xs:documentation>
+                                                        </xs:annotation>
                                                         <xs:complexType>
                                                             <xs:sequence>
                                                                 <xs:element type="xs:string" name="name"/>
@@ -494,9 +502,17 @@ ATTRIBUTES:
                                                         </xs:complexType>
                                                     </xs:element>
                                                     <xs:element name="samplelist">
+                                                        <xs:annotation>
+                                                            <xs:documentation xml:lang="en-US">
+                                                                Define the samplelist type. Example responses that deserve certain item point values.
+                                                            </xs:documentation>
+                                                        </xs:annotation>
                                                         <xs:complexType>
                                                             <xs:sequence>
                                                                 <xs:element name="sample" maxOccurs="unbounded" minOccurs="0">
+                                                                    <xs:annotation>
+                                                                        <xs:documentation xml:lang="en-US">Define the sample type.</xs:documentation>
+                                                                    </xs:annotation>
                                                                     <xs:complexType>
                                                                         <xs:sequence>
                                                                             <xs:element type="xs:string" name="name"/>

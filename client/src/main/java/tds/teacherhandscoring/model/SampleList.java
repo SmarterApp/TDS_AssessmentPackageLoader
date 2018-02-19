@@ -9,6 +9,9 @@ import com.google.auto.value.AutoValue;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Example responses that deserve certain item point values.
+ */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_SampleList.Builder.class)
 @JacksonXmlRootElement(localName = "samplelist")

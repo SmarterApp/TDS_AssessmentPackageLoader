@@ -38,7 +38,7 @@ import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
     JacksonObjectMapperConfiguration.class,
     SecurityConfiguration.class,
     RestTemplateConfiguration.class,
-    TestPackageObjectMapperConfiguration.class
+    TestPackageObjectMapperConfiguration.class,
     RestTemplateConfiguration.class,
     MvcConfig.class
 })

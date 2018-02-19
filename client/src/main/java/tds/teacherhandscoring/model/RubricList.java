@@ -6,6 +6,9 @@ import com.google.auto.value.AutoValue;
 
 import java.util.List;
 
+/**
+ * Rubrics associated with the item.
+ */
 @AutoValue
 @JsonDeserialize(using = RubricListDeserializer.class, builder = AutoValue_RubricList.Builder.class)
 public abstract class RubricList {

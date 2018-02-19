@@ -51,7 +51,7 @@ public class THSSServiceIntegrationTest {
      * Integration test with THSS server
      * @throws Exception
      */
-//    @Ignore
+    @Ignore
     @Test
     public void shouldLoadItemsIntoTHSS() throws Exception {
         InputStream inputStream = THSSServiceIntegrationTest.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");

@@ -7,6 +7,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import com.google.auto.value.AutoValue;
 
+/**
+ * Scoring rubric
+ */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Rubric.Builder.class)
 @JacksonXmlRootElement(localName = "rubric")
