@@ -76,7 +76,7 @@ export class TestPackageJobService {
     let job = new TestPackageJob();
     job.id = apiModel.id;
 
-    job.testPackageName = apiModel.testPackageFileName;
+    job.testPackageName = apiModel.name;
     job.createdAt = new Date(apiModel.createdAt);
     job.type = apiModel.type;
 
@@ -99,7 +99,7 @@ export class TestPackageJobService {
 
     // Flatten all errors from each step into one array
     job.errors = [].concat.apply([], apiModel.steps.map(
-      step => step.errors.map(
+      step => (step.errors || []).map(
         error => {
           let jobError = new JobError();
 

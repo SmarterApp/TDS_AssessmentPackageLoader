@@ -39,6 +39,8 @@ import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
     SecurityConfiguration.class,
     RestTemplateConfiguration.class,
     TestPackageObjectMapperConfiguration.class
+    RestTemplateConfiguration.class,
+    MvcConfig.class
 })
 public class SupportToolServiceConfiguration {
     @Bean

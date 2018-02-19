@@ -7,6 +7,7 @@ import {routes} from "./app.routes";
 import {TestPackageModule} from "./testpackage/loader/test-package.module";
 import {BreadcrumbsComponent} from "./breadcrumbs/breadcrumbs.component";
 import {CommonModule} from "./shared/common.module";
+import { TestPackageStatusModule } from "./testpackage/loader/status/test-package-status.module";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {CommonModule} from "./shared/common.module";
     BrowserModule,
     CommonModule,
     TestPackageModule,
+    TestPackageStatusModule,
     RouterModule.forRoot(routes)
   ],
   providers: [],

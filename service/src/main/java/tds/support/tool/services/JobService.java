@@ -32,4 +32,12 @@ public interface JobService {
     List<Job> findJobs(final JobType... jobTypes);
 
     void executeJobSteps(String jobId);
+
+    /**
+     * Create a {@link tds.support.job.TestPackageDeleteJob} that will remove the
+     * {@link tds.testpackage.model.TestPackage} from all the systems it's loaded into.
+     *
+     * @param testPackageName The name of the {@link tds.testpackage.model.TestPackage}.
+     */
+    void startPackageDelete(final String testPackageName);
 }

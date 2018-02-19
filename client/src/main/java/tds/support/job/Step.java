@@ -12,7 +12,7 @@ public class Step {
     private List<Error> errors = new ArrayList<>();
     private Status status;
     private String name;
-    private JobStepTarget target;
+    private TargetSystem target;
     private boolean complete;
 
     /**
@@ -22,11 +22,11 @@ public class Step {
 
     }
 
-    public Step(final String name, final JobStepTarget target, final String description) {
+    public Step(final String name, final TargetSystem target, final String description) {
         this(name, target, description, Status.NOT_STARTED);
     }
 
-    public Step(final String name, final JobStepTarget target, final String description, final Status status) {
+    public Step(final String name, final TargetSystem target, final String description, final Status status) {
         this.name = name;
         this.description = description;
         this.status = status;
@@ -92,7 +92,7 @@ public class Step {
     /**
      * @return The system being targeted by the job step
      */
-    public JobStepTarget getJobStepTarget() {
+    public TargetSystem getJobStepTarget() {
         return this.target;
     }
 

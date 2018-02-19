@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 import tds.support.job.Error;
 import tds.support.job.ErrorSeverity;
 import tds.support.job.Job;
-import tds.support.job.JobStepTarget;
-import tds.support.job.JobType;
 import tds.support.job.Status;
 import tds.support.job.Step;
 import tds.support.tool.handlers.loader.TestPackageHandler;

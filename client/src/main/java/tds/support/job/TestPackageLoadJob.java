@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TestPackageLoadJob extends Job {
-    private final String testPackageFileName;
     private static final String TEST_PACKAGE_PREFIX = "test-package";
     public static final String FILE_UPLOAD = TEST_PACKAGE_PREFIX + "-file-upload";
     public static final String VALIDATE = TEST_PACKAGE_PREFIX + "-validate";
@@ -17,33 +16,29 @@ public class TestPackageLoadJob extends Job {
     private final boolean skipArt;
     private final boolean skipScoring;
 
-    public TestPackageLoadJob(final String testPackageFileName, boolean skipArt, boolean skipScoring) {
+    public TestPackageLoadJob(final String name, boolean skipArt, boolean skipScoring) {
         // Spring Data requires us to persist these variables
-        this.testPackageFileName = testPackageFileName;
+        this.setName(name);
         this.skipArt = skipArt;
         this.skipScoring = skipScoring;
 
         //Create steps
         List<Step> steps = new ArrayList<>();
-        steps.add(new Step(FILE_UPLOAD, JobStepTarget.Internal,"Uploading test package"));
-        steps.add(new Step(VALIDATE, JobStepTarget.Internal, "Parsing and validating test package"));
-        steps.add(new Step(TDS_UPLOAD, JobStepTarget.TDS, "Uploading test package to Student and Proctor"));
+        steps.add(new Step(FILE_UPLOAD, TargetSystem.Internal,"Uploading test package"));
+        steps.add(new Step(VALIDATE, TargetSystem.Internal, "Parsing and validating test package"));
+        steps.add(new Step(TDS_UPLOAD, TargetSystem.TDS, "Uploading test package to Student and Proctor"));
 
         if (!skipArt) {
-            steps.add(new Step(ART_UPLOAD, JobStepTarget.ART,"Uploading test package to ART"));
+            steps.add(new Step(ART_UPLOAD, TargetSystem.ART,"Uploading test package to ART"));
         }
 
         if (!skipScoring) {
-            steps.add(new Step(TIS_UPLOAD, JobStepTarget.TIS, "Uploading test package to TIS"));
-            steps.add(new Step(THSS_UPLOAD, JobStepTarget.THSS,"Uploading test package to THSS"));
+            steps.add(new Step(TIS_UPLOAD, TargetSystem.TIS, "Uploading test package to TIS"));
+            steps.add(new Step(THSS_UPLOAD, TargetSystem.THSS,"Uploading test package to THSS"));
         }
 
         this.setSteps(steps);
         this.setType(JobType.LOADER);
-    }
-
-    public String getTestPackageFileName() {
-        return this.testPackageFileName;
     }
 
     public boolean isSkipArt() {

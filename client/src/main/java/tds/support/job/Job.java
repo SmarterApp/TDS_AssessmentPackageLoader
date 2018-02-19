@@ -12,6 +12,7 @@ import java.util.Optional;
 public abstract class Job {
     @Id
     private String id;
+    private String name;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime createdAt = LocalDateTime.now();
     private JobType type;
@@ -26,6 +27,17 @@ public abstract class Job {
 
     public void setId(final String id) {
         this.id = id;
+    }
+
+    /**
+     * @return The name of the {@link tds.support.job.Job}
+     */
+    public String getName() {
+        return name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
     }
 
     /**
