@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
+import org.springframework.data.annotation.Transient;
+
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Stimulus.Builder.class)
 public abstract class Stimulus {
     public abstract String getId();
 
+    @Transient
     private TestPackage testPackage;
 
     public void setTestPackage(TestPackage testPackage) {

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.data.annotation.Transient;
 
 import java.util.Optional;
 
@@ -153,6 +154,7 @@ abstract public class TeacherHandScoring {
         return getLayout().orElse("WAI");
     }
 
+    @Transient
     private TestPackage testPackage;
 
     public void setTestPackage(TestPackage testPackage) {
@@ -164,6 +166,7 @@ abstract public class TeacherHandScoring {
         return this.testPackage;
     }
 
+    @Transient
     private Item item;
 
     public void setItem(Item item) {
