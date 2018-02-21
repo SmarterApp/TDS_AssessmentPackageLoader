@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
+import org.springframework.data.annotation.Transient;
 
 import java.util.List;
 import java.util.Optional;
@@ -57,6 +58,7 @@ public abstract class Item {
 
     public abstract Optional<TeacherHandScoring> getTeacherHandScoring();
 
+    @Transient
     private SegmentForm segmentForm;
     public void setSegmentForm(SegmentForm segmentForm) {
         this.segmentForm = segmentForm;
@@ -72,6 +74,7 @@ public abstract class Item {
         return Optional.ofNullable(this.segmentForm);
     }
 
+    @Transient
     private ItemGroup itemGroup;
 
     public void setItemGroup(ItemGroup itemGroup) {
@@ -83,6 +86,7 @@ public abstract class Item {
         return this.itemGroup;
     }
 
+    @Transient
     private TestPackage testPackage;
 
     public void setTestPackage(TestPackage testPackage) {

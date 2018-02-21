@@ -8,6 +8,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.data.annotation.Transient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,7 @@ public abstract class ItemGroup {
         return Optional.ofNullable(getItems()).orElse(new ArrayList<>());
     }
 
+    @Transient
     private Segment segment;
     public void setSegment(Segment segment) {
         this.segment = segment;
