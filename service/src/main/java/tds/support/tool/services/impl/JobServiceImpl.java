@@ -154,7 +154,7 @@ public class JobServiceImpl implements JobService {
         }
 
         // Create a "delete" rollback job based on the failed loader job's options
-        Job rollbackJob = new TestPackageRollbackJob(job);
+        Job rollbackJob = new TestPackageRollbackJob(job.getId(), job.getName(), job.isSkipArt(), job.isSkipScoring());
         rollbackJob = jobRepository.save(rollbackJob);
         messagingService.sendJobStepExecute(rollbackJob.getId());
     }

@@ -14,17 +14,24 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.client.BufferingClientHttpRequestFactory;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.ResourceHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.context.annotation.Primary;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
+import org.springframework.web.client.RestTemplate;
 import tds.common.configuration.JacksonObjectMapperConfiguration;
 import tds.common.configuration.RestTemplateConfiguration;
 import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
 import tds.shared.spring.configuration.WebConfiguration;
+import tds.shared.spring.interceptors.RestTemplateLoggingInterceptor;
 import tds.support.job.TestPackageDeleteJob;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.tool.handlers.loader.TestPackageHandler;
@@ -45,7 +52,7 @@ import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
     JacksonObjectMapperConfiguration.class,
     SecurityConfiguration.class,
     RestTemplateConfiguration.class,
-    WebConfiguration.class,
+//    WebConfiguration.class,
     MvcConfig.class
 })
 public class SupportToolServiceConfiguration {
@@ -95,7 +102,7 @@ public class SupportToolServiceConfiguration {
     }
 
     @Primary
-    @Bean
+    @Bean(name = "testPackageMapper")
     public ObjectMapper getObjectMapper() {
          final ObjectMapper mapper = new ObjectMapper()
             .registerModule(new Jdk8Module())
@@ -103,5 +110,20 @@ public class SupportToolServiceConfiguration {
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         return mapper;
+    }
+
+    @Bean(name = "integrationRestTemplate")
+    @Primary
+    public RestTemplate restTemplate() {
+        // Jackson Converters
+        final MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.setObjectMapper(getObjectMapper());
+        final RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
+        final List<HttpMessageConverter<?>> converters = new ArrayList<>();
+        converters.add(converter);
+        converters.add(new ResourceHttpMessageConverter());
+        restTemplate.setMessageConverters(converters);
+
+        return restTemplate;
     }
 }

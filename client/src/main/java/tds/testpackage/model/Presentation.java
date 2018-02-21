@@ -6,6 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
+import org.springframework.data.annotation.Transient;
 
 import java.util.Map;
 import java.util.Optional;
@@ -17,6 +18,7 @@ import java.util.Optional;
  * For fixed form item selection, an item MUST contain the language of the form it belongs to in order to be compatible.
  */
 public abstract class Presentation {
+    @Transient
     protected static Map<String, String> DEFAULT_LABELS = ImmutableMap.of(
         "ENU", "English",
         "ESN", "Spanish",

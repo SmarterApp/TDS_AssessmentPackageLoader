@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -31,15 +30,19 @@ public class TDSTestPackageServiceImpl implements TDSTestPackageService {
     }
 
     @Override
-    public Optional<ValidationError> loadTestPackage(String name, TestPackage testPackage) {
+    public Optional<ValidationError> loadTestPackage(final String name, final TestPackage testPackage) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<TestPackage> entity = new HttpEntity<>(testPackage, headers);
+
         final UriComponentsBuilder builder =
                 UriComponentsBuilder
                         .fromHttpUrl(String.format("%s/assessments/%s",
                                 properties.getAssessmentUrl(),
-                                name));
+                                name.replace(".xml", "")));
 
         final ResponseEntity<NoContentResponseResource> responseEntity =
-                restTemplate.postForEntity(builder.build().toUri(), testPackage, NoContentResponseResource.class);
+                restTemplate.postForEntity(builder.build().toUri(), entity, NoContentResponseResource.class);
 
         if (responseEntity.getBody().getErrors().length > 0) {
             return Optional.of(responseEntity.getBody().getErrors()[0]);
@@ -49,7 +52,7 @@ public class TDSTestPackageServiceImpl implements TDSTestPackageService {
     }
 
     @Override
-    public Optional<ValidationError> deleteTestPackage(TestPackage testPackage) {
+    public Optional<ValidationError> deleteTestPackage(final TestPackage testPackage) {
         final UriComponentsBuilder builder =
                 UriComponentsBuilder
                         .fromHttpUrl(String.format("%s/%s/assessments",

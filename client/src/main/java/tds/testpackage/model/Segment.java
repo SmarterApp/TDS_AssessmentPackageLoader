@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.data.annotation.Transient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,7 +119,7 @@ public abstract class Segment {
         return Optional.ofNullable(getTools()).orElse(new ArrayList<>());
     }
 
-
+    @Transient
     private Assessment assessment;
 
     /**

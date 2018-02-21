@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
+import org.springframework.data.annotation.Transient;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +54,7 @@ public abstract class Item {
         return parseBoolean(getDoNotScore(), false);
     }
 
+    @Transient
     private SegmentForm segmentForm;
     public void setSegmentForm(SegmentForm segmentForm) {
         this.segmentForm = segmentForm;
@@ -68,6 +70,7 @@ public abstract class Item {
         return Optional.ofNullable(this.segmentForm);
     }
 
+    @Transient
     private ItemGroup itemGroup;
 
     public void setItemGroup(ItemGroup itemGroup) {
@@ -79,6 +82,7 @@ public abstract class Item {
         return this.itemGroup;
     }
 
+    @Transient
     private TestPackage testPackage;
 
     public void setTestPackage(TestPackage testPackage) {
@@ -86,11 +90,13 @@ public abstract class Item {
     }
 
     @JsonIgnore
+    @Transient
     public TestPackage getTestPackage() {
         return this.testPackage;
     }
 
     @JsonIgnore
+    @Transient
     public String getKey() {
         return String.format("%s-%s", getTestPackage().getBankKey(), getId());
     }
@@ -101,7 +107,8 @@ public abstract class Item {
      *
      * @return item's position
      */
-    @JsonProperty
+    @JsonIgnore
+    @Transient
     public int position() {
         if (getSegmentForm().isPresent()) {
             // jdk9 provides a take until method that would simplify this logic

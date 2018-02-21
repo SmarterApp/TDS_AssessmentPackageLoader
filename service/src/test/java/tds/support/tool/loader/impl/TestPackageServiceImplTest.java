@@ -57,6 +57,7 @@ public class TestPackageServiceImplTest {
     public void shouldSaveTestPackage() throws IOException {
         final String jobId = "MyJobId";
         final String packageName = "MyPackageName";
+        final String testPackageId = "TestPackageId";
         final InputStream inputStream = new ByteArrayInputStream("test".getBytes(StandardCharsets.UTF_8.name()));
         final long testPackageSize = 1337;
         final String location = "/path/to/testpackage";
@@ -71,7 +72,7 @@ public class TestPackageServiceImplTest {
             .setType("type")
             .setVersion("version")
             .build();
-        final TestPackageMetadata testPackageMetadata = new TestPackageMetadata();
+        final TestPackageMetadata testPackageMetadata = new TestPackageMetadata(location, jobId, testPackageId);
         testPackageMetadata.setFileLocation(location);
         testPackageMetadata.setJobId(jobId);
 

@@ -8,7 +8,9 @@ import tds.common.ValidationError;
 import tds.support.job.Error;
 import tds.support.job.*;
 import tds.support.tool.handlers.loader.TestPackageHandler;
+import tds.support.tool.model.TestPackageMetadata;
 import tds.support.tool.repositories.MongoTestPackageRepository;
+import tds.support.tool.repositories.loader.TestPackageMetadataRepository;
 import tds.support.tool.services.TDSTestPackageService;
 import tds.testpackage.model.TestPackage;
 
@@ -21,18 +23,22 @@ public class TDSLoaderStepHandler implements TestPackageHandler {
 
     private final TDSTestPackageService tdsTestPackageService;
     private final MongoTestPackageRepository mongoTestPackageRepository;
+    private final TestPackageMetadataRepository testPackageMetadataRepository;
 
     @Autowired
     public TDSLoaderStepHandler(final TDSTestPackageService tdsTestPackageService,
+                                final TestPackageMetadataRepository testPackageMetadataRepository,
                                 final MongoTestPackageRepository mongoTestPackageRepository) {
         this.tdsTestPackageService = tdsTestPackageService;
         this.mongoTestPackageRepository = mongoTestPackageRepository;
+        this.testPackageMetadataRepository = testPackageMetadataRepository;
     }
 
     @Override
     public void handle(final Job job, final Step step) {
         try {
-            TestPackage testPackage = mongoTestPackageRepository.findOne(job.getName());
+            TestPackageMetadata metadata = testPackageMetadataRepository.findByJobId(job.getId());
+            TestPackage testPackage = mongoTestPackageRepository.findOne(metadata.getTestPackageId());
             Optional<ValidationError> maybeError = tdsTestPackageService.loadTestPackage(job.getName(), testPackage);
 
             if (maybeError.isPresent()) {
@@ -43,8 +49,7 @@ public class TDSLoaderStepHandler implements TestPackageHandler {
             }
         } catch (Exception e) {
             log.error("An error occurred while attempting to process the job step {} for job with ID {}",
-                step.getName(), job.getId());
-
+                step.getName(), job.getId(), e);
             step.setStatus(Status.FAIL);
             step.addError(new Error("Error occurred while communicating with TDS", ErrorSeverity.CRITICAL));
         }

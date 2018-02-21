@@ -196,8 +196,7 @@ public class JobServiceImplTest {
             loaderJob.getType(),
             mockFailedSystemStatusList);
 
-        final TestPackageLoadJob loadJob = new TestPackageLoadJob("TestPackageName", false, false);
-        final Job rollbackJob = new TestPackageRollbackJob(loadJob);
+        final Job rollbackJob = new TestPackageRollbackJob("parentJobId","TestPackageName", false, false);
         rollbackJob.setId("rollbackId");
         ArgumentCaptor<Job> jobArgumentCaptor = ArgumentCaptor.forClass(Job.class);
         when(mockJobRepository.findOne(loaderJob.getId())).thenReturn(loaderJob);
@@ -234,7 +233,7 @@ public class JobServiceImplTest {
     @Test
     public void shouldDeleteTestPackageStatusRecordWhenJobIsARollbackJob() {
         final TestPackageLoadJob loadJob = new TestPackageLoadJob("parentJobId", false, false);
-        final Job rollbackJob = new TestPackageRollbackJob(loadJob);
+        final Job rollbackJob = new TestPackageRollbackJob("parentJobId", "TestPackageLoad",  false, false);
         rollbackJob.setId("rollbackId");
 
         when(mockJobRepository.findOne(rollbackJob.getId())).thenReturn(rollbackJob);

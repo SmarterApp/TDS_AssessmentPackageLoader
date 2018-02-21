@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
+import org.springframework.data.annotation.Transient;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public abstract class Assessment {
         return getSegments().size() > 1;
     }
 
+    @Transient
     private TestPackage testPackage;
 
     public void setTestPackage(TestPackage testPackage) {
