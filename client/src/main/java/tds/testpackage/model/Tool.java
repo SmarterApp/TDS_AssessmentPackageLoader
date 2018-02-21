@@ -253,15 +253,12 @@ public abstract class Tool {
     public abstract Optional<Integer> getSortOrder();
     public abstract Optional<String> getDisableOnGuest();
 
-    @Nullable
     protected abstract List<Option> getOptions();
 
     @JsonIgnore
-    @Nullable
     protected abstract Optional<String> getDependsOnToolType();
 
     @JsonIgnore
-    @Nullable
     protected abstract Optional<Boolean> getFunctional();
 
 
@@ -319,7 +316,7 @@ public abstract class Tool {
     }
 
     public static Builder builder() {
-        return new AutoValue_Tool.Builder();
+        return new AutoValue_Tool.Builder().setOptions(new ArrayList<>());
     }
 
     @AutoValue.Builder
