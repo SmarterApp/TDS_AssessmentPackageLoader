@@ -7,12 +7,10 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.springframework.data.annotation.Transient;
+import tds.teacherhandscoring.model.TeacherHandScoring;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import tds.teacherhandscoring.model.TeacherHandScoring;
 
 import static tds.testpackage.model.XmlUtil.parseBoolean;
 
@@ -100,7 +98,6 @@ public abstract class Item {
     }
 
     @JsonIgnore
-    @Transient
     public String getKey() {
         return String.format("%s-%s", getTestPackage().getBankKey(), getId());
     }

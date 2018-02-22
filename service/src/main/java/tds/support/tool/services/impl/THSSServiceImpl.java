@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import tds.support.tool.configuration.SupportToolProperties;
 import tds.support.tool.services.THSSService;
@@ -35,17 +34,17 @@ import java.util.stream.Stream;
 
 /**
  * Sends the Teacher Hand Scoring Configuration to THSS
- *
+ * <p>
  * Given a Test Specification Package,
  * this service sends the Teacher Hand Scoring Configuration portion of the
  * Test Specification Packages (configuration for individual items) to the
  * THSS .NET application.
- *
+ * <p>
  * THSS provides an endpoint to add items to it for configuration
  * prior to allow a teacher to hand score scoring.
- *
+ * <p>
  * A JSON file is POSTed to the endpoint as a file attachment:  http://host:28039/api/item/submit
- *
+ * <p>
  * This service performs the HTTP POST of the json data and returns the response.
  */
 @Service
@@ -102,7 +101,7 @@ public class THSSServiceImpl implements THSSService {
                 final HttpStatus httpStatus = HttpStatus.valueOf(response.getStatusLine().getStatusCode());
                 if (!httpStatus.is2xxSuccessful()) {
                     throw new HttpClientErrorException(httpStatus, response.getStatusLine().getReasonPhrase(),
-                        ByteStreams.toByteArray(response.getEntity().getContent()), StandardCharsets.UTF_8);
+                            ByteStreams.toByteArray(response.getEntity().getContent()), StandardCharsets.UTF_8);
                 }
                 return objectMapper.readValue(response.getEntity().getContent(), TeacherHandScoringApiResult.class);
             }

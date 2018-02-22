@@ -4,13 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import tds.common.ValidationError;
 import tds.support.job.Error;
-import tds.support.job.ErrorSeverity;
-import tds.support.job.Job;
-import tds.support.job.Status;
-import tds.support.job.Step;
+import tds.support.job.*;
 import tds.support.tool.handlers.loader.TestPackageHandler;
 import tds.support.tool.model.TestPackageMetadata;
 import tds.support.tool.repositories.MongoTestPackageRepository;
@@ -53,7 +49,7 @@ public class ARTLoaderStepHandler implements TestPackageHandler {
             }
         } catch (Exception e) {
             log.error("An error occurred while attempting to process the job step {} for job with ID {}",
-                step.getName(), job.getId(), e);
+                    step.getName(), job.getId(), e);
 
             // TODO: If errors were returned from the request, set those errors in the step here
             step.setStatus(Status.FAIL);

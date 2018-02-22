@@ -1,10 +1,10 @@
 package tds.support.tool.services;
 
-import java.io.InputStream;
-import java.util.List;
-
 import tds.support.job.Job;
 import tds.support.job.JobType;
+
+import java.io.InputStream;
+import java.util.List;
 
 /**
  * Service handling the {@link tds.support.job.Job}
