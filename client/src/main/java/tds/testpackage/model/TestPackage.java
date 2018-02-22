@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
+import org.springframework.data.annotation.Id;
 
 import java.util.List;
 
@@ -15,6 +16,17 @@ import java.util.List;
 @AutoValue
 @JsonDeserialize(using = TestPackageDeserializer.class,  builder = AutoValue_TestPackage.Builder.class)
 public abstract class TestPackage {
+    @Id
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(final String id) {
+        this.id = id;
+    }
+
     public abstract String getPublisher();
     public abstract String getPublishDate();
     public abstract String getSubject();

@@ -94,11 +94,13 @@ public abstract class Item {
     }
 
     @JsonIgnore
+    @Transient
     public TestPackage getTestPackage() {
         return this.testPackage;
     }
 
     @JsonIgnore
+    @Transient
     public String getKey() {
         return String.format("%s-%s", getTestPackage().getBankKey(), getId());
     }
@@ -109,7 +111,8 @@ public abstract class Item {
      *
      * @return item's position
      */
-    @JsonProperty
+    @JsonIgnore
+    @Transient
     public int position() {
         if (getSegmentForm().isPresent()) {
             // jdk9 provides a take until method that would simplify this logic

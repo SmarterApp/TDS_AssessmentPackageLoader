@@ -49,10 +49,8 @@ public class TestPackageServiceImpl implements TestPackageService {
             bais.reset();
 
             final TestPackage testPackage = xmlMapper.readValue(bais, TestPackage.class);
-            mongoTestPackageRepository.save(testPackage);
-            TestPackageMetadata metadata = new TestPackageMetadata();
-            metadata.setFileLocation(location);
-            metadata.setJobId(jobId);
+            TestPackage savedTestPackage = mongoTestPackageRepository.save(testPackage);
+            TestPackageMetadata metadata = new TestPackageMetadata(location, jobId, savedTestPackage.getId());
             return testPackageMetadataRepository.save(metadata);
         } catch (IOException e) {
             throw new RuntimeException(
