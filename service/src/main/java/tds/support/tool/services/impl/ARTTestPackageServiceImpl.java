@@ -1,8 +1,6 @@
 package tds.support.tool.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -14,6 +12,7 @@ import tds.common.ValidationError;
 import tds.common.web.resources.NoContentResponseResource;
 import tds.support.tool.configuration.SupportToolProperties;
 import tds.support.tool.services.ARTTestPackageService;
+import tds.support.tool.utils.TestPackageUtils;
 import tds.testpackage.model.TestPackage;
 
 import java.util.Optional;
@@ -61,7 +60,8 @@ public class ARTTestPackageServiceImpl implements ARTTestPackageService {
                         .fromHttpUrl(String.format("%s/tsbassessment",
                                 properties.getArtRestUrl().get()));
 
-        testPackage.getAssessments().forEach(assessment -> builder.queryParam("assessmentKey", assessment.getKey()));
+        testPackage.getAssessments().forEach(assessment ->
+                builder.queryParam("assessmentKey", TestPackageUtils.getAssessmentKey(testPackage, assessment.getId())));
 
         restTemplate.delete(builder.build().toUri());
     }

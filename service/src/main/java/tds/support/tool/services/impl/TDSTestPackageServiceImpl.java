@@ -1,10 +1,10 @@
 package tds.support.tool.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -15,7 +15,6 @@ import tds.support.tool.services.TDSTestPackageService;
 import tds.support.tool.utils.TestPackageUtils;
 import tds.testpackage.model.TestPackage;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service

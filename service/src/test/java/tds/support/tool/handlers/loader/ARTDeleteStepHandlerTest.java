@@ -1,6 +1,5 @@
 package tds.support.tool.handlers.loader;
 
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,12 +7,12 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tds.common.web.exceptions.NotFoundException;
 import tds.support.job.*;
-import tds.support.tool.handlers.loader.impl.TDSDeleteStepHandler;
+import tds.support.tool.handlers.loader.impl.ARTDeleteStepHandler;
 import tds.support.tool.model.TestPackageMetadata;
 import tds.support.tool.repositories.JobRepository;
 import tds.support.tool.repositories.MongoTestPackageRepository;
 import tds.support.tool.repositories.loader.TestPackageMetadataRepository;
-import tds.support.tool.services.TDSTestPackageService;
+import tds.support.tool.services.ARTTestPackageService;
 import tds.testpackage.model.TestPackage;
 
 import java.util.ArrayList;
@@ -23,12 +22,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TDSDeleteStepHandlerTest {
+public class ARTDeleteStepHandlerTest {
     private TestPackageHandler handler;
     private TestPackage mockTestPackage;
 
     @Mock
-    private TDSTestPackageService mockService;
+    private ARTTestPackageService mockService;
 
     @Mock
     private MongoTestPackageRepository mockTestPackageRepository;
@@ -41,7 +40,7 @@ public class TDSDeleteStepHandlerTest {
 
     @Before
     public void setup() {
-        handler = new TDSDeleteStepHandler(mockService, mockTestPackageRepository, mockTestPackageMetadataRepository, mockJobRepository);
+        handler = new ARTDeleteStepHandler(mockService, mockTestPackageRepository, mockTestPackageMetadataRepository, mockJobRepository);
         mockTestPackage = TestPackage.builder()
                 .setAcademicYear("1234")
                 .setBankKey(123)

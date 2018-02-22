@@ -18,3 +18,7 @@
   text-align: center;
   width: 100%;
 }
+
+.ui-paginator-bottom {
+  text-align: center;
+}

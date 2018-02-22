@@ -18,7 +18,7 @@ public class TestPackageLoadJob extends Job {
 
     public TestPackageLoadJob(final String name, boolean skipArt, boolean skipScoring) {
         // Spring Data requires us to persist these variables
-        this.setName(name);
+        this.setName(name.replace(".xml", ""));
         this.skipArt = skipArt;
         this.skipScoring = skipScoring;
 
