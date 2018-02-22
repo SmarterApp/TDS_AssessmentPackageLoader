@@ -35,7 +35,6 @@ public abstract class SegmentForm {
     }
 
     @JsonIgnore
-    @Transient
     public Segment getSegment() {
         return this.segment;
     }
