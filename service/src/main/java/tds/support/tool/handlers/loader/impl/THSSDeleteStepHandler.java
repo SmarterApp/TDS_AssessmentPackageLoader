@@ -22,11 +22,12 @@ public class THSSDeleteStepHandler implements TestPackageHandler {
             step.setStatus(Status.SUCCESS);
         } catch (Exception e) {
             log.error("An error occurred while attempting to process the job step {} for job with ID {}",
-                step.getName(), job.getId());
+                step.getName(), job.getId(), e);
 
             // TODO: If errors were returned from the request, set those errors in the step here
             step.setStatus(Status.FAIL);
-            step.addError(new Error("Error occurred while communicating with THSS", ErrorSeverity.CRITICAL));
+            step.addError(new Error(String.format("Error occurred while communicating with THSS: %s", e.getMessage()),
+                    ErrorSeverity.CRITICAL));
         }
 
         step.setComplete(true);

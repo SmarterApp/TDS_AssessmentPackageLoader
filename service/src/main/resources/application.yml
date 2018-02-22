@@ -18,7 +18,7 @@ security:
     password: password
 
 server:
-  port: 8080
+  port: 8081
   context-path: /supporttool
   undertow:
     buffer-size: 16384
@@ -37,11 +37,15 @@ spring:
       enabled: false
   data:
     mongodb:
-      uri: ${sbac.support.mongo.connection.uri}/support-tool
+      uri: mongodb://localhost:27017/support-tool
 
 #Port defined in TDS_Build:docker-compose.yml
   rabbitmq:
     port: 32846
+#    port: 5672
+#    username: art_user
+#    password: password123
+
 
 data:
   s3:

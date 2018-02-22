@@ -45,9 +45,10 @@ public class TestPackageFileHandler {
             step.setStatus(Status.SUCCESS);
         } catch (Exception e) {
             log.error("Unexpected Error uploading the test package file " + testPackage, e);
-            step.addError(new Error("Failed to upload file", ErrorSeverity.CRITICAL));
+            step.addError(new Error(e.getMessage(), ErrorSeverity.CRITICAL));
             step.setStatus(Status.FAIL);
         }
+        step.setComplete(true);
 
         return step;
     }

@@ -8,5 +8,5 @@ import java.util.Optional;
 public interface TDSTestPackageService {
     Optional<ValidationError> loadTestPackage(final String name, final TestPackage testPackage);
 
-    Optional<ValidationError> deleteTestPackage(final TestPackage testPackage);
+    void deleteTestPackage(final TestPackage testPackage);
 }

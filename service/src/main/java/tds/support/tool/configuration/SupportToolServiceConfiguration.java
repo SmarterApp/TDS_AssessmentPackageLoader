@@ -5,12 +5,6 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -21,7 +15,6 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.context.annotation.Primary;
 
 import java.util.*;
 
@@ -34,6 +27,7 @@ import tds.shared.spring.configuration.WebConfiguration;
 import tds.shared.spring.interceptors.RestTemplateLoggingInterceptor;
 import tds.support.job.TestPackageDeleteJob;
 import tds.support.job.TestPackageLoadJob;
+import tds.support.tool.TestPackageObjectMapperConfiguration;
 import tds.support.tool.handlers.loader.TestPackageHandler;
 import tds.support.tool.handlers.loader.impl.ARTDeleteStepHandler;
 import tds.support.tool.handlers.loader.impl.ARTLoaderStepHandler;
@@ -53,6 +47,7 @@ import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
     SecurityConfiguration.class,
     RestTemplateConfiguration.class,
 //    WebConfiguration.class,
+    TestPackageObjectMapperConfiguration.class,
     MvcConfig.class
 })
 public class SupportToolServiceConfiguration {
@@ -92,38 +87,5 @@ public class SupportToolServiceConfiguration {
         handlerMap.put(TestPackageDeleteJob.THSS_DELETE, thssDeleteStepHandler);
 
         return handlerMap;
-    }
-
-    @Bean(name = "xmlMapper")
-    public XmlMapper getXmlMapper() {
-        final XmlMapper xmlMapper = new XmlMapper();
-        xmlMapper.registerModule(new Jdk8Module());
-        return xmlMapper;
-    }
-
-    @Primary
-    @Bean(name = "testPackageMapper")
-    public ObjectMapper getObjectMapper() {
-         final ObjectMapper mapper = new ObjectMapper()
-            .registerModule(new Jdk8Module())
-            .registerModule(new JavaTimeModule());
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-        return mapper;
-    }
-
-    @Bean(name = "integrationRestTemplate")
-    @Primary
-    public RestTemplate restTemplate() {
-        // Jackson Converters
-        final MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(getObjectMapper());
-        final RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
-        final List<HttpMessageConverter<?>> converters = new ArrayList<>();
-        converters.add(converter);
-        converters.add(new ResourceHttpMessageConverter());
-        restTemplate.setMessageConverters(converters);
-
-        return restTemplate;
     }
 }

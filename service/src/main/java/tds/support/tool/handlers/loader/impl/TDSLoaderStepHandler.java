@@ -51,7 +51,8 @@ public class TDSLoaderStepHandler implements TestPackageHandler {
             log.error("An error occurred while attempting to process the job step {} for job with ID {}",
                 step.getName(), job.getId(), e);
             step.setStatus(Status.FAIL);
-            step.addError(new Error("Error occurred while communicating with TDS", ErrorSeverity.CRITICAL));
+            step.addError(new Error(String.format("Error occurred while communicating with TDS: %s", e.getMessage()),
+                    ErrorSeverity.CRITICAL));
         }
 
         step.setComplete(true);

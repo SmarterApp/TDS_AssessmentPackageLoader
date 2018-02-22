@@ -54,7 +54,7 @@ public class TestPackageServiceImpl implements TestPackageService {
             return testPackageMetadataRepository.save(metadata);
         } catch (IOException e) {
             throw new RuntimeException(
-                String.format("Exception occurred while deserializing test package. JobID: %s Package Name: %s", jobId, packageName), e);
+                String.format("Exception occurred while deserializing test package. JobID: %s, Package Name: %s", jobId, packageName), e);
         }
     }
 }

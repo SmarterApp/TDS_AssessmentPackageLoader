@@ -90,12 +90,21 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
         return testPackage;
     }
 
+    /**
+     *
+     *
+     */
     private static void setItemGroup(final ItemGroup itemGroup, final TestPackage testPackage, final Segment segment, final SegmentForm segmentForm) {
         itemGroup.setSegment(segment);
         itemGroup.getItems().forEach(item -> {
             item.setTestPackage(testPackage);
             item.setSegmentForm(segmentForm);
             item.setItemGroup(itemGroup);
+            item.getTeacherHandScoring().ifPresent(
+                teacherHandScoring -> {
+                    teacherHandScoring.setItem(item);
+                    teacherHandScoring.setTestPackage(testPackage);
+                });
         });
         itemGroup.getStimulus().ifPresent(
             stimulus -> stimulus.setTestPackage(testPackage));
