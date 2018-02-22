@@ -12,7 +12,9 @@ import tds.support.job.Job;
 import tds.support.job.Status;
 import tds.support.job.Step;
 import tds.support.tool.handlers.loader.TestPackageHandler;
+import tds.support.tool.model.TestPackageMetadata;
 import tds.support.tool.repositories.MongoTestPackageRepository;
+import tds.support.tool.repositories.loader.TestPackageMetadataRepository;
 import tds.support.tool.services.ARTTestPackageService;
 import tds.testpackage.model.TestPackage;
 
@@ -24,20 +26,24 @@ public class ARTLoaderStepHandler implements TestPackageHandler {
 
     private final ARTTestPackageService artTestPackageService;
     private final MongoTestPackageRepository mongoTestPackageRepository;
+    private final TestPackageMetadataRepository testPackageMetadataRepository;
 
     @Autowired
     public ARTLoaderStepHandler(final ARTTestPackageService artTestPackageService,
-                                final MongoTestPackageRepository mongoTestPackageRepository) {
+                                final MongoTestPackageRepository mongoTestPackageRepository,
+                                final TestPackageMetadataRepository testPackageMetadataRepository) {
         this.artTestPackageService = artTestPackageService;
         this.mongoTestPackageRepository = mongoTestPackageRepository;
+        this.testPackageMetadataRepository = testPackageMetadataRepository;
     }
 
     @Override
     public void handle(final Job job, final Step step) {
         try {
-            TestPackage testPackage = mongoTestPackageRepository.findOne(job.getName());
-            // TODO: Get tenantId
-            Optional<ValidationError> maybeError = artTestPackageService.loadTestPackage("Test Package Name", testPackage);
+            TestPackageMetadata metadata = testPackageMetadataRepository.findByJobId(job.getId());
+            TestPackage testPackage = mongoTestPackageRepository.findOne(metadata.getTestPackageId());
+            // TODO: Get tenantId from progman
+            Optional<ValidationError> maybeError = artTestPackageService.loadTestPackage("58703df1e4b0f3fb93dba0f3", testPackage);
 
             if (maybeError.isPresent()) {
                 step.setStatus(Status.FAIL);
@@ -47,11 +53,12 @@ public class ARTLoaderStepHandler implements TestPackageHandler {
             }
         } catch (Exception e) {
             log.error("An error occurred while attempting to process the job step {} for job with ID {}",
-                step.getName(), job.getId());
+                step.getName(), job.getId(), e);
 
             // TODO: If errors were returned from the request, set those errors in the step here
             step.setStatus(Status.FAIL);
-            step.addError(new Error("Error occurred while communicating with ART", ErrorSeverity.CRITICAL));
+            step.addError(new Error(String.format("Error occurred while communicating with ART: %s", e.getMessage()),
+                    ErrorSeverity.CRITICAL));
         }
 
         step.setComplete(true);

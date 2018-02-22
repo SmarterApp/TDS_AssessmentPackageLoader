@@ -3,6 +3,9 @@ package tds.support.tool.services.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -17,11 +20,12 @@ import java.util.Optional;
 
 @Service
 public class ARTTestPackageServiceImpl implements ARTTestPackageService {
+    //TODO: This RestTemplate will need to be changed to an OAuth2RestTemplate once security is in place
     private final RestTemplate restTemplate;
     private final SupportToolProperties properties;
 
     @Autowired
-    public ARTTestPackageServiceImpl(@Qualifier("integrationRestTemplate") final RestTemplate restTemplate,
+    public ARTTestPackageServiceImpl(final RestTemplate restTemplate,
                                      final SupportToolProperties properties) {
         this.restTemplate = restTemplate;
         this.properties = properties;
@@ -29,16 +33,21 @@ public class ARTTestPackageServiceImpl implements ARTTestPackageService {
 
     @Override
     public Optional<ValidationError> loadTestPackage(final String tenantId, final TestPackage testPackage) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<TestPackage> entity = new HttpEntity<>(testPackage, headers);
         final UriComponentsBuilder builder =
                 UriComponentsBuilder
                         .fromHttpUrl(String.format("%s/tsbassessment/tenant/%s",
-                                properties.getAssessmentUrl(),
+                                properties.getArtRestUrl().get(),
                                 tenantId));
 
         final ResponseEntity<NoContentResponseResource> responseEntity =
-                restTemplate.postForEntity(builder.build().toUri(), testPackage, NoContentResponseResource.class);
+                restTemplate.postForEntity(builder.build().toUri(), entity, NoContentResponseResource.class);
 
-        if (responseEntity.getBody().getErrors().length > 0) {
+        if (responseEntity.getBody() != null
+                && responseEntity.getBody().getErrors() != null
+                && responseEntity.getBody().getErrors().length > 0) {
             return Optional.of(responseEntity.getBody().getErrors()[0]);
         }
 
@@ -46,16 +55,14 @@ public class ARTTestPackageServiceImpl implements ARTTestPackageService {
     }
 
     @Override
-    public Optional<ValidationError> deleteTestPackage(final TestPackage testPackage) {
+    public void deleteTestPackage(final TestPackage testPackage) {
         final UriComponentsBuilder builder =
                 UriComponentsBuilder
                         .fromHttpUrl(String.format("%s/tsbassessment",
-                                properties.getArtRestUrl()));
+                                properties.getArtRestUrl().get()));
 
         testPackage.getAssessments().forEach(assessment -> builder.queryParam("assessmentKey", assessment.getKey()));
 
         restTemplate.delete(builder.build().toUri());
-
-        return Optional.empty();
     }
 }

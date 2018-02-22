@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import tds.support.tool.TestPackageObjectMapperConfiguration;
-import tds.support.tool.services.THSSService;
 import tds.teacherhandscoring.model.TeacherHandScoringConfiguration;
 import tds.testpackage.model.TestPackage;
 
@@ -18,26 +17,26 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes={TestPackageObjectMapperConfiguration.class})
-public class THSSServiceTest {
+public class THSSServiceImplTest {
     @Autowired
     XmlMapper xmlMapper;
 
     @Test
     public void shouldConvertTestPackageToThssConfig() throws Exception {
-        InputStream inputStream = THSSServiceIntegrationTest.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
+        InputStream inputStream = THSSServiceImplIntegrationTest.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
 
-        List<TeacherHandScoringConfiguration> thssConfiguration = THSSService.getThssConfiguration(testPackage);
+        List<TeacherHandScoringConfiguration> thssConfiguration = THSSServiceImpl.getThssConfiguration(testPackage);
 
         assertThat(thssConfiguration.size()).isEqualTo(1);
     }
 
     @Test
     public void shouldConvertTestPackageToThssConfigAndHaveCorrectFields() throws Exception {
-        InputStream inputStream = THSSServiceIntegrationTest.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
+        InputStream inputStream = THSSServiceImplIntegrationTest.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
 
-        TeacherHandScoringConfiguration thssConfiguration = THSSService.getThssConfiguration(testPackage).get(0);
+        TeacherHandScoringConfiguration thssConfiguration = THSSServiceImpl.getThssConfiguration(testPackage).get(0);
 
         assertThat(thssConfiguration.itemId()).isEqualTo("2703");
         assertThat(thssConfiguration.bankKey()).isEqualTo("187");

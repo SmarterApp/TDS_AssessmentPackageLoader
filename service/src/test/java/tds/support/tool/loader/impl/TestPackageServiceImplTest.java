@@ -25,6 +25,7 @@ import tds.testpackage.model.TestPackage;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -78,6 +79,21 @@ public class TestPackageServiceImplTest {
 
         when(mockTestPackageRepository.savePackage(eq(jobId), eq(packageName), isA(ByteArrayInputStream.class),
             eq(testPackageSize))).thenReturn(location);
+
+        TestPackage mockTestPackage = TestPackage.builder()
+                .setAcademicYear("1234")
+                .setBankKey(123)
+                .setPublishDate("date")
+                .setSubject("ELA")
+                .setType("summative")
+                .setVersion("1")
+                .setPublisher("SBAC")
+                .setBlueprint(new ArrayList<>())
+                .setAssessments(new ArrayList<>())
+                .build();
+        mockTestPackage.setId(testPackageId);
+
+        when(mockMongoTestPackageRepository.save(isA(TestPackage.class))).thenReturn(mockTestPackage);
         when(mockXmlObjectMapper.readValue(isA(ByteArrayInputStream.class), eq(TestPackage.class))).thenReturn(testPackage);
         when(mockTestPackageMetadataRepository.save(isA(TestPackageMetadata.class))).thenReturn(testPackageMetadata);
 

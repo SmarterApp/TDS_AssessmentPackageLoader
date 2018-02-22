@@ -63,7 +63,10 @@ public class JobServiceImpl implements JobService {
 
         testPackageFileHandler.handleTestPackage(step, persistedJob.getId(), packageName, testPackage, testPackageSize);
 
-        messagingService.sendJobStepExecute(job.getId());
+        // If we have errors from deserializing  or saving the XML, no need to trigger step execution
+        if (step.getErrors().isEmpty()) {
+            messagingService.sendJobStepExecute(job.getId());
+        }
 
         testPackageStatusService.save(persistedJob);
 

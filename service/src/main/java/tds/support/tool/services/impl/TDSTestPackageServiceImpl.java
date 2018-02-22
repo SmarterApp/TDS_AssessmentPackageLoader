@@ -12,6 +12,7 @@ import tds.common.ValidationError;
 import tds.common.web.resources.NoContentResponseResource;
 import tds.support.tool.configuration.SupportToolProperties;
 import tds.support.tool.services.TDSTestPackageService;
+import tds.support.tool.utils.TestPackageUtils;
 import tds.testpackage.model.TestPackage;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class TDSTestPackageServiceImpl implements TDSTestPackageService {
     private final SupportToolProperties properties;
 
     @Autowired
-    public TDSTestPackageServiceImpl(@Qualifier("integrationRestTemplate") final RestTemplate restTemplate,
+    public TDSTestPackageServiceImpl(final RestTemplate restTemplate,
                                      final SupportToolProperties properties) {
         this.restTemplate = restTemplate;
         this.properties = properties;
@@ -44,7 +45,9 @@ public class TDSTestPackageServiceImpl implements TDSTestPackageService {
         final ResponseEntity<NoContentResponseResource> responseEntity =
                 restTemplate.postForEntity(builder.build().toUri(), entity, NoContentResponseResource.class);
 
-        if (responseEntity.getBody().getErrors().length > 0) {
+        if (responseEntity.getBody() != null
+                && responseEntity.getBody().getErrors() != null
+                && responseEntity.getBody().getErrors().length > 0) {
             return Optional.of(responseEntity.getBody().getErrors()[0]);
         }
 
@@ -52,17 +55,16 @@ public class TDSTestPackageServiceImpl implements TDSTestPackageService {
     }
 
     @Override
-    public Optional<ValidationError> deleteTestPackage(final TestPackage testPackage) {
+    public void deleteTestPackage(final TestPackage testPackage) {
         final UriComponentsBuilder builder =
                 UriComponentsBuilder
                         .fromHttpUrl(String.format("%s/%s/assessments",
                                 properties.getAssessmentUrl(),
                                 testPackage.getPublisher()));
 
-        testPackage.getAssessments().forEach(assessment -> builder.queryParam("assessmentKey", assessment.getKey()));
+        testPackage.getAssessments().forEach(assessment ->
+                builder.queryParam("assessmentKey", TestPackageUtils.getAssessmentKey(testPackage, assessment.getId())));
 
         restTemplate.delete(builder.build().toUri());
-
-        return Optional.empty();
     }
 }

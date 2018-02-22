@@ -5,6 +5,9 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -88,12 +91,14 @@ public class SupportToolServiceConfiguration {
         return handlerMap;
     }
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     @Bean(name = "integrationRestTemplate")
-    @Primary
     public RestTemplate restTemplate() {
         // Jackson Converters
         final MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(getObjectMapper());
+        converter.setObjectMapper(objectMapper);
         final RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
         final List<HttpMessageConverter<?>> converters = new ArrayList<>();
         converters.add(converter);
