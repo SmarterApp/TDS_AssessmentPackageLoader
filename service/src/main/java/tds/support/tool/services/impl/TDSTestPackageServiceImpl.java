@@ -1,5 +1,6 @@
 package tds.support.tool.services.impl;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -39,7 +40,7 @@ public class TDSTestPackageServiceImpl implements TDSTestPackageService {
                 UriComponentsBuilder
                         .fromHttpUrl(String.format("%s/assessments/%s",
                                 properties.getAssessmentUrl(),
-                                name.replace(".xml", "")));
+                                FilenameUtils.removeExtension(name)));
 
         final ResponseEntity<NoContentResponseResource> responseEntity =
                 restTemplate.postForEntity(builder.build().toUri(), entity, NoContentResponseResource.class);

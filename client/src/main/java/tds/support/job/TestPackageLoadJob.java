@@ -1,5 +1,7 @@
 package tds.support.job;
 
+import org.apache.commons.io.FilenameUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +18,9 @@ public class TestPackageLoadJob extends Job {
     private final boolean skipArt;
     private final boolean skipScoring;
 
-    public TestPackageLoadJob(final String name, boolean skipArt, boolean skipScoring) {
+    public TestPackageLoadJob(final String name, final boolean skipArt, final boolean skipScoring) {
         // Spring Data requires us to persist these variables
-        this.setName(name.replace(".xml", ""));
+        this.setName(FilenameUtils.removeExtension(name));
         this.skipArt = skipArt;
         this.skipScoring = skipScoring;
 
