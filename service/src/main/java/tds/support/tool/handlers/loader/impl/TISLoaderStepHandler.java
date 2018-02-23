@@ -17,13 +17,7 @@ public class TISLoaderStepHandler implements TestPackageHandler {
             //TODO: Call the TIS Load API and update the step with results
             step.setStatus(Status.SUCCESS);
         } catch (Exception e) {
-            log.error("An error occurred while attempting to process the job step {} for job with ID {}",
-                    step.getName(), job.getId(), e);
-
-            // TODO: If errors were returned from the request, set those errors in the step here
-            step.setStatus(Status.FAIL);
-            step.addError(new Error(String.format("Error occurred while communicating with TIS: %s", e.getMessage()),
-                    ErrorSeverity.CRITICAL));
+            Step.handleException(job, step, e);
         }
 
         step.setComplete(true);
