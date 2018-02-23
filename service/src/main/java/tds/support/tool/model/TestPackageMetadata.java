@@ -10,6 +10,17 @@ public class TestPackageMetadata {
     private String id;
     private String fileLocation;
     private String jobId;
+    private String testPackageId;
+
+    private TestPackageMetadata() {
+
+    }
+
+    public TestPackageMetadata(final String fileLocation, final String jobId, final String testPackageId) {
+        this.fileLocation = fileLocation;
+        this.jobId = jobId;
+        this.testPackageId = testPackageId;
+    }
 
     /**
      * @return the job id
@@ -51,5 +62,13 @@ public class TestPackageMetadata {
      */
     public void setFileLocation(final String fileLocation) {
         this.fileLocation = fileLocation;
+    }
+
+    public String getTestPackageId() {
+        return testPackageId;
+    }
+
+    public void setTestPackageId(final String testPackageId) {
+        this.testPackageId = testPackageId;
     }
 }

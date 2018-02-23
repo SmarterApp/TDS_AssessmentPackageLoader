@@ -3,7 +3,6 @@ package tds.testpackage.model;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlText;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
 

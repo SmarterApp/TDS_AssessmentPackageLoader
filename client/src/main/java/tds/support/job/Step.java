@@ -1,5 +1,8 @@
 package tds.support.job;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,6 +11,7 @@ import java.util.List;
  * Represents a step in a {@link tds.support.job.Job}
  */
 public class Step {
+    private static final Logger log = LoggerFactory.getLogger(Step.class);
     private String description;
     private List<Error> errors = new ArrayList<>();
     private Status status;
@@ -102,5 +106,13 @@ public class Step {
 
     public boolean isComplete() {
         return complete;
+    }
+
+    public static void handleException(final Job job, final Step step, final Exception e) {
+        log.error("An error occurred for step {} with job ID {}", step.getName(), job.getId(), e);
+
+        step.setStatus(Status.FAIL);
+        step.addError(new Error(String.format("Error occurred while communicating with %s: %s", step.target, e.getMessage()),
+                ErrorSeverity.CRITICAL));
     }
 }

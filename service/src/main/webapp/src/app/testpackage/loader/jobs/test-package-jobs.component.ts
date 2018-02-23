@@ -7,7 +7,8 @@ import 'rxjs/add/operator/takeWhile';
 
 @Component({
   selector: 'test-package-jobs',
-  templateUrl: './test-package-jobs.component.html'
+  templateUrl: './test-package-jobs.component.html',
+  styleUrls: ['../../test-package.component.css']
 })
 export class TestPackageJobsComponent implements OnInit, OnDestroy {
   // query: LoaderJobsQuery;

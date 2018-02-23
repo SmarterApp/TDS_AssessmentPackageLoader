@@ -6,6 +6,9 @@ spring:
   cloud:
     bus:
       enabled: false
+  data:
+    mongodb:
+      uri: ${sbac.support.mongo.connection.uri}/support-tool
 
 #Port defined in TDS_Build:docker-compose.yml
   rabbitmq:

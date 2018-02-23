@@ -9,10 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.scheduling.annotation.EnableAsync;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import tds.common.configuration.JacksonObjectMapperConfiguration;
 import tds.common.configuration.RestTemplateConfiguration;
 import tds.common.configuration.SecurityConfiguration;
@@ -21,15 +17,10 @@ import tds.support.job.TestPackageDeleteJob;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.tool.TestPackageObjectMapperConfiguration;
 import tds.support.tool.handlers.loader.TestPackageHandler;
-import tds.support.tool.handlers.loader.impl.ARTDeleteStepHandler;
-import tds.support.tool.handlers.loader.impl.ARTLoaderStepHandler;
-import tds.support.tool.handlers.loader.impl.ParseAndValidateHandler;
-import tds.support.tool.handlers.loader.impl.TDSDeleteStepHandler;
-import tds.support.tool.handlers.loader.impl.TDSLoaderStepHandler;
-import tds.support.tool.handlers.loader.impl.THSSDeleteStepHandler;
-import tds.support.tool.handlers.loader.impl.THSSLoaderStepHandler;
-import tds.support.tool.handlers.loader.impl.TISDeleteStepHandler;
-import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
+import tds.support.tool.handlers.loader.impl.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @EnableAsync
 @Configuration
@@ -39,7 +30,6 @@ import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
     SecurityConfiguration.class,
     RestTemplateConfiguration.class,
     TestPackageObjectMapperConfiguration.class,
-    RestTemplateConfiguration.class,
     MvcConfig.class
 })
 public class SupportToolServiceConfiguration {

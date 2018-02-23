@@ -49,7 +49,7 @@ public class TestPackageFileHandlerTest {
     public void shouldReturnErrorsInStepDuringException() {
         Step stepToUpdate = new Step("update step", TargetSystem.Internal, "Update step description");
         when(mockTestPackageService.saveTestPackage("jobId", "packageName", mockTestPackageStream, 100L))
-            .thenThrow(new RuntimeException("Fail"));
+            .thenThrow(new RuntimeException("Failed to upload file"));
 
         Step step = fileHandler.handleTestPackage(stepToUpdate,"jobId", "packageName", mockTestPackageStream, 100L);
 

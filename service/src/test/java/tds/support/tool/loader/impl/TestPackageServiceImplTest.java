@@ -25,6 +25,7 @@ import tds.testpackage.model.TestPackage;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -57,6 +58,7 @@ public class TestPackageServiceImplTest {
     public void shouldSaveTestPackage() throws IOException {
         final String jobId = "MyJobId";
         final String packageName = "MyPackageName";
+        final String testPackageId = "TestPackageId";
         final InputStream inputStream = new ByteArrayInputStream("test".getBytes(StandardCharsets.UTF_8.name()));
         final long testPackageSize = 1337;
         final String location = "/path/to/testpackage";
@@ -71,12 +73,27 @@ public class TestPackageServiceImplTest {
             .setType("type")
             .setVersion("version")
             .build();
-        final TestPackageMetadata testPackageMetadata = new TestPackageMetadata();
+        final TestPackageMetadata testPackageMetadata = new TestPackageMetadata(location, jobId, testPackageId);
         testPackageMetadata.setFileLocation(location);
         testPackageMetadata.setJobId(jobId);
 
         when(mockTestPackageRepository.savePackage(eq(jobId), eq(packageName), isA(ByteArrayInputStream.class),
             eq(testPackageSize))).thenReturn(location);
+
+        TestPackage mockTestPackage = TestPackage.builder()
+                .setAcademicYear("1234")
+                .setBankKey(123)
+                .setPublishDate("date")
+                .setSubject("ELA")
+                .setType("summative")
+                .setVersion("1")
+                .setPublisher("SBAC")
+                .setBlueprint(new ArrayList<>())
+                .setAssessments(new ArrayList<>())
+                .build();
+        mockTestPackage.setId(testPackageId);
+
+        when(mockMongoTestPackageRepository.save(isA(TestPackage.class))).thenReturn(mockTestPackage);
         when(mockXmlObjectMapper.readValue(isA(ByteArrayInputStream.class), eq(TestPackage.class))).thenReturn(testPackage);
         when(mockTestPackageMetadataRepository.save(isA(TestPackageMetadata.class))).thenReturn(testPackageMetadata);
 

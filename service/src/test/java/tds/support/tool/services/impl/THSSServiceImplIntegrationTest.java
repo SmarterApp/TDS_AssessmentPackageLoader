@@ -22,7 +22,7 @@ import tds.testpackage.model.TestPackage;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes={TestPackageObjectMapperConfiguration.class, SupportToolProperties.class})
-public class THSSServiceIntegrationTest {
+public class THSSServiceImplIntegrationTest {
     THSSService thssService;
 
     @Autowired
@@ -38,13 +38,12 @@ public class THSSServiceIntegrationTest {
 
     @Before
     public void setUp() {
-        restTemplate = new RestTemplate();
         supportToolProperties = new SupportToolProperties();
         supportToolProperties.setThssApiUrl("http://localhost:28039/api");
         // can also use mock bin to record http request.
         // ie: https://requestloggerbin.herokuapp.com/bin/72b396ea-f403-41f3-b42a-2447c6e84416/api
 
-        thssService = new THSSService(supportToolProperties, restTemplate, objectMapper);
+        thssService = new THSSServiceImpl(supportToolProperties, objectMapper);
     }
 
     /**
@@ -54,7 +53,7 @@ public class THSSServiceIntegrationTest {
     @Ignore
     @Test
     public void shouldLoadItemsIntoTHSS() throws Exception {
-        InputStream inputStream = THSSServiceIntegrationTest.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
+        InputStream inputStream = THSSServiceImplIntegrationTest.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
 
         TeacherHandScoringApiResult teacherHandScoringApiResult = thssService.loadTestPackage(testPackage);
