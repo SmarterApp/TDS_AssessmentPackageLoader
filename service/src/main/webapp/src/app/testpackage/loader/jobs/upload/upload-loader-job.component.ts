@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
   templateUrl: './upload-loader-job.component.html'
 })
 export class UploadLoaderJobComponent implements OnInit  {
-  serviceUrl = '/api/load';
+  serviceUrl = 'api/load';
   uploader: FileUploader;
   hasDropZoneOver = false;
   skipArt: boolean = false;
