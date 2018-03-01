@@ -12,11 +12,11 @@ export class DataService {
 
   get(url, options?: any): Observable<any> {
     return this.http
-      .get(`/api${url}`, options);
+      .get(`api${url}`, options);
   }
 
   delete(url, options?: any): Observable<any> {
     return this.http
-      .delete(`/api${url}`, options);
+      .delete(`api${url}`, options);
   }
 }
