@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
     public TestPackageDeserializer() {
@@ -74,7 +73,19 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
             setAssessments(assessments).
             build();
 
-        assessments.forEach(assessment -> {
+        setTestPackageParent(testPackage);
+
+        return testPackage;
+    }
+
+    /**
+     * Utility method to assign the parent object reference to child objects.
+     * This allows for nested children objects to access values stored in the parent.
+     * 
+     * @param testPackage
+     */
+    public static void setTestPackageParent(final TestPackage testPackage) {
+        testPackage.getAssessments().forEach(assessment -> {
             assessment.setTestPackage(testPackage);
             assessment.getSegments().forEach(segment -> {
                 segment.setAssessment(assessment);
@@ -86,14 +97,8 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
                 segment.pool().forEach(itemGroup -> setItemGroup(itemGroup, testPackage, segment, null));
             });
         });
-
-        return testPackage;
     }
 
-    /**
-     *
-     *
-     */
     private static void setItemGroup(final ItemGroup itemGroup, final TestPackage testPackage, final Segment segment, final SegmentForm segmentForm) {
         itemGroup.setSegment(segment);
         itemGroup.getItems().forEach(item -> {

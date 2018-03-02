@@ -6,8 +6,9 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -19,20 +20,28 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+
 import tds.common.configuration.JacksonObjectMapperConfiguration;
-import tds.common.configuration.RestTemplateConfiguration;
 import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
 import tds.support.job.TestPackageDeleteJob;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.tool.TestPackageObjectMapperConfiguration;
 import tds.support.tool.handlers.loader.TestPackageHandler;
-import tds.support.tool.handlers.loader.impl.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import tds.support.tool.handlers.loader.impl.ARTDeleteStepHandler;
+import tds.support.tool.handlers.loader.impl.ARTLoaderStepHandler;
+import tds.support.tool.handlers.loader.impl.ParseAndValidateHandler;
+import tds.support.tool.handlers.loader.impl.TDSDeleteStepHandler;
+import tds.support.tool.handlers.loader.impl.TDSLoaderStepHandler;
+import tds.support.tool.handlers.loader.impl.THSSDeleteStepHandler;
+import tds.support.tool.handlers.loader.impl.THSSLoaderStepHandler;
+import tds.support.tool.handlers.loader.impl.TISDeleteStepHandler;
+import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
 
 @EnableAsync
 @Configuration
@@ -40,7 +49,6 @@ import java.util.Map;
     ExceptionAdvice.class,
     JacksonObjectMapperConfiguration.class,
     SecurityConfiguration.class,
-    RestTemplateConfiguration.class,
     TestPackageObjectMapperConfiguration.class,
     MvcConfig.class
 })
@@ -98,5 +106,10 @@ public class SupportToolServiceConfiguration {
         restTemplate.setMessageConverters(converters);
 
         return restTemplate;
+    }
+
+    @Bean
+    public Supplier<CloseableHttpClient> httpClientSupplier() {
+        return () -> HttpClients.createDefault();
     }
 }

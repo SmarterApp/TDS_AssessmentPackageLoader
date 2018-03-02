@@ -104,6 +104,12 @@
             <artifactId>de.flapdoodle.embed.mongo</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.paweladamski</groupId>
+            <artifactId>HttpClientMock</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

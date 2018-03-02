@@ -39,7 +39,12 @@ public class THSSLoaderStepHandler implements TestPackageHandler {
             TestPackageMetadata metadata = testPackageMetadataRepository.findByJobId(job.getId());
             TestPackage testPackage = mongoTestPackageRepository.findOne(metadata.getTestPackageId());
             Optional<ValidationError> maybeError = thssService.loadTestPackage(job.getName(), testPackage);
-            step.setStatus(Status.SUCCESS);
+            if (maybeError.isPresent()) {
+                step.setStatus(Status.FAIL);
+                step.addError(new Error(maybeError.get().getMessage(), ErrorSeverity.CRITICAL));
+            } else {
+                step.setStatus(Status.SUCCESS);
+            }
         } catch (Exception e) {
             Step.handleException(job, step, e);
         }
