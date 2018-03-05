@@ -1,9 +1,10 @@
 package tds.support.tool.services;
 
-import tds.teacherhandscoring.model.TeacherHandScoringApiResult;
+import tds.common.ValidationError;
 import tds.testpackage.model.TestPackage;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * An interface for a service responsible for loading and deleting test packages from THSS
@@ -16,5 +17,7 @@ public interface THSSService {
      * @return Response (success/failure and error message) from THSS
      * @throws IOException
      */
-    TeacherHandScoringApiResult loadTestPackage(final TestPackage testPackage) throws IOException;
+    Optional<ValidationError> loadTestPackage(final String name, final TestPackage testPackage) throws IOException;
+
+    Optional<ValidationError> deleteTestPackage(final TestPackage testPackage);
 }

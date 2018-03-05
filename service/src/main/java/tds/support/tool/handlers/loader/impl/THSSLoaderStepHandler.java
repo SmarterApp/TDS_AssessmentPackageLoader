@@ -4,6 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
+
+import tds.common.ValidationError;
 import tds.support.job.Error;
 import tds.support.job.*;
 import tds.support.tool.handlers.loader.TestPackageHandler;
@@ -34,8 +38,13 @@ public class THSSLoaderStepHandler implements TestPackageHandler {
         try {
             TestPackageMetadata metadata = testPackageMetadataRepository.findByJobId(job.getId());
             TestPackage testPackage = mongoTestPackageRepository.findOne(metadata.getTestPackageId());
-            thssService.loadTestPackage(testPackage);
-            step.setStatus(Status.SUCCESS);
+            Optional<ValidationError> maybeError = thssService.loadTestPackage(job.getName(), testPackage);
+            if (maybeError.isPresent()) {
+                step.setStatus(Status.FAIL);
+                step.addError(new Error(maybeError.get().getMessage(), ErrorSeverity.CRITICAL));
+            } else {
+                step.setStatus(Status.SUCCESS);
+            }
         } catch (Exception e) {
             Step.handleException(job, step, e);
         }

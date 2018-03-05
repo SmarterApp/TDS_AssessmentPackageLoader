@@ -7,30 +7,37 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import tds.support.tool.configuration.SupportToolProperties;
-import tds.support.tool.services.THSSService;
-import tds.teacherhandscoring.model.TeacherHandScoring;
-import tds.teacherhandscoring.model.TeacherHandScoringApiResult;
-import tds.teacherhandscoring.model.TeacherHandScoringConfiguration;
-import tds.testpackage.model.Item;
-import tds.testpackage.model.ItemGroup;
-import tds.testpackage.model.Segment;
-import tds.testpackage.model.TestPackage;
 
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import tds.common.ValidationError;
+import tds.support.tool.configuration.SupportToolProperties;
+import tds.support.tool.services.THSSService;
+import tds.teacherhandscoring.model.TeacherHandScoring;
+import tds.teacherhandscoring.model.TeacherHandScoringApiResult;
+import tds.teacherhandscoring.model.TeacherHandScoringApiResultFile;
+import tds.teacherhandscoring.model.TeacherHandScoringConfiguration;
+import tds.testpackage.model.Item;
+import tds.testpackage.model.ItemGroup;
+import tds.testpackage.model.Segment;
+import tds.testpackage.model.TestPackage;
+import tds.testpackage.model.TestPackageDeserializer;
 
 /**
  * Sends the Teacher Hand Scoring Configuration to THSS
@@ -49,25 +56,61 @@ import java.util.stream.Stream;
  */
 @Service
 public class THSSServiceImpl implements THSSService {
-    final private SupportToolProperties supportToolProperties;
+    final private Supplier<CloseableHttpClient> httpClientSupplier;
+    final private String thssUrl;
     final private ObjectMapper objectMapper;
+    final private RestTemplate restTemplate;
+
 
     @Autowired
-    public THSSServiceImpl(final SupportToolProperties supportToolProperties, @Qualifier("thssObjectMapper") final ObjectMapper objectMapper) {
-        this.supportToolProperties = supportToolProperties;
+    public THSSServiceImpl(final Supplier<CloseableHttpClient> httpClientSupplier, SupportToolProperties supportToolProperties, @Qualifier("thssObjectMapper") final ObjectMapper objectMapper, final RestTemplate restTemplate) {
+        this.thssUrl = supportToolProperties.getThssApiUrl().orElseThrow(() -> new RuntimeException("THSS api url property is not configured"));
         this.objectMapper = objectMapper;
+        this.restTemplate = restTemplate;
+        this.httpClientSupplier = httpClientSupplier;
     }
 
     @Override
-    public TeacherHandScoringApiResult loadTestPackage(final TestPackage testPackage) throws IOException {
-        final String thssUrl = supportToolProperties.getThssApiUrl().orElseThrow(() -> new IOException("THSS api url property is not configured"));
+    public Optional<ValidationError> loadTestPackage(final String name, final TestPackage testPackage) throws IOException {
+        TestPackageDeserializer.setTestPackageParent(testPackage);
+
         final UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(String.format("%s/item/submit", thssUrl));
 
         final List<TeacherHandScoringConfiguration> teacherHandScoringConfigurationList = getThssConfiguration(testPackage);
         final String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(teacherHandScoringConfigurationList);
 
-        return postTeacherHandScoringConfiguration(builder.build().toUri(), json);
+        final TeacherHandScoringApiResult teacherHandScoringApiResult = postTeacherHandScoringConfiguration(builder.build().toUri(), name, json);
+
+        final List<TeacherHandScoringApiResultFile> errors = teacherHandScoringApiResult.getFiles().stream().filter(TeacherHandScoringApiResultFile::hasError).collect(Collectors.toList());
+
+        if (errors.stream().findAny().isPresent()) {
+            final String errorMessage = errors.stream().map(TeacherHandScoringApiResultFile::getErrorMessage).collect(Collectors.joining(", "));
+            return Optional.of(new ValidationError("Error", errorMessage));
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<ValidationError> deleteTestPackage(final TestPackage testPackage) {
+        TestPackageDeserializer.setTestPackageParent(testPackage);
+
+        final UriComponentsBuilder builder =
+            UriComponentsBuilder.fromHttpUrl(String.format("%s/item/delete", thssUrl));
+
+        final List<TeacherHandScoringConfiguration> teacherHandScoringConfigurationList = getThssConfiguration(testPackage);
+        final String items = teacherHandScoringConfigurationList.stream().map(TeacherHandScoringConfiguration::itemId).collect(Collectors.joining(","));
+        builder.queryParam("bankKey", testPackage.getBankKey());
+        builder.queryParam("items", items);
+
+        final ResponseEntity<TeacherHandScoringApiResultFile> responseEntity = restTemplate.exchange(builder.build().toUri(), HttpMethod.DELETE, null, TeacherHandScoringApiResultFile.class);
+
+        if (responseEntity.getBody() != null
+            && !responseEntity.getBody().getSuccess()){
+            return Optional.of(new ValidationError("Error", responseEntity.getBody().getErrorMessage()));
+        }
+        return Optional.empty();
     }
 
     /**
@@ -89,12 +132,12 @@ public class THSSServiceImpl implements THSSService {
      * Sends the THSS JSON configuration data to THSS
      * Given the THSS endpoint and JSON data
      */
-    private TeacherHandScoringApiResult postTeacherHandScoringConfiguration(final URI uri, final String json) throws IOException {
-        try (CloseableHttpClient httpclient = HttpClients.createDefault()) {
+    private TeacherHandScoringApiResult postTeacherHandScoringConfiguration(final URI uri, final String name, final String json) throws IOException {
+        try (CloseableHttpClient httpclient = httpClientSupplier.get()) {
             final HttpPost httppost = new HttpPost(uri);
             final MultipartEntityBuilder builder = MultipartEntityBuilder.create();
             builder.addBinaryBody("file", json.getBytes("UTF-8"),
-                    ContentType.APPLICATION_JSON, "thss-data.json");
+                    ContentType.APPLICATION_JSON, String.format("%s.json", name));
             httppost.setEntity(builder.build());
 
             try (CloseableHttpResponse response = httpclient.execute(httppost)) {

@@ -13,6 +13,10 @@ public abstract class TeacherHandScoringApiResultFile {
     @Nullable
     public abstract String getErrorMessage();
 
+    public boolean hasError() {
+        return !getSuccess();
+    }
+
     public static Builder builder() {
         return new AutoValue_TeacherHandScoringApiResultFile.Builder();
     }
