@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import tds.common.configuration.JacksonObjectMapperConfiguration;
 import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
 import tds.support.job.TestPackageDeleteJob;
@@ -50,6 +51,7 @@ import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
 @Import({
     ExceptionAdvice.class,
     SecurityConfiguration.class,
+    JacksonObjectMapperConfiguration.class,
     MvcConfig.class
 })
 public class SupportToolServiceConfiguration {
