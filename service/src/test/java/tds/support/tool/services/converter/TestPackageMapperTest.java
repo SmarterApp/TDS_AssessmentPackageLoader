@@ -1,8 +1,7 @@
-package tds.support.tool.services.converter.impl;
+package tds.support.tool.services.converter;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationConfig;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
@@ -14,22 +13,17 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import tds.support.tool.services.converter.TestPackageConverterService;
+import tds.support.tool.services.converter.TestPackageMapper;
 import tds.testpackage.legacy.model.Testspecification;
 import tds.testpackage.model.TestPackage;
 
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TestPackageConverterServiceImplTest {
-    private TestPackageConverterService service;
-
+public class TestPackageMapperTest {
     private Testspecification mockPerfAdminLegacyTestPackage;
 
     private Testspecification mockCATAdminLegacyTestPackage;
@@ -52,14 +46,12 @@ public class TestPackageConverterServiceImplTest {
 
         mockCATAdminLegacyTestPackage = xmlMapper.readValue(this.getClass().getResourceAsStream("/(SBAC_PT)SBAC-IRP-CAT-MATH-11-Summer-2015-2016.xml"),
                 Testspecification.class);
-
-        service = new TestPackageConverterServiceImpl();
     }
 
     @Test
     public void shouldConvertFixedFormTestPackage() throws JsonProcessingException {
         assertThat(mockPerfAdminLegacyTestPackage).isNotNull();
-        TestPackage testPackage = service.convertToNew("(SBAC_PT)SBAC-IRP-Perf-MATH-11-Summer-2015-2016",
+        TestPackage testPackage = TestPackageMapper.toNew("(SBAC_PT)SBAC-IRP-Perf-MATH-11-Summer-2015-2016",
                 Collections.singletonList(mockPerfAdminLegacyTestPackage));
         assertThat(testPackage).isNotNull();
 
@@ -72,7 +64,7 @@ public class TestPackageConverterServiceImplTest {
     @Test
     public void shouldConvertCATTestPackage() throws JsonProcessingException {
         assertThat(mockPerfAdminLegacyTestPackage).isNotNull();
-        TestPackage testPackage = service.convertToNew("(SBAC_PT)SBAC-IRP-Perf-MATH-11-Summer-2015-2016",
+        TestPackage testPackage = TestPackageMapper.toNew("(SBAC_PT)SBAC-IRP-Perf-MATH-11-Summer-2015-2016",
                 Collections.singletonList(mockPerfAdminLegacyTestPackage));
         assertThat(testPackage).isNotNull();
 
@@ -85,7 +77,7 @@ public class TestPackageConverterServiceImplTest {
     @Test
     public void shouldConvertCombinedTestPackage() throws JsonProcessingException {
         assertThat(mockPerfAdminLegacyTestPackage).isNotNull();
-        TestPackage testPackage = service.convertToNew("(SBAC_PT)SBAC-IRP-COMBINED-MATH-11-Summer-2015-2016",
+        TestPackage testPackage = TestPackageMapper.toNew("(SBAC_PT)SBAC-IRP-COMBINED-MATH-11-Summer-2015-2016",
                 List.of(mockPerfAdminLegacyTestPackage, mockCATAdminLegacyTestPackage));
         assertThat(testPackage).isNotNull();
 
