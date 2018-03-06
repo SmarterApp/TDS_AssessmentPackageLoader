@@ -2,6 +2,7 @@ package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -44,6 +45,7 @@ public abstract class ItemGroup {
     }
 
     @XmlElement(name = "Stimulus")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public abstract Optional<Stimulus> getStimulus();
 
     @JsonIgnore
