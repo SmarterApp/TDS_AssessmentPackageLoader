@@ -7,10 +7,7 @@ import net.javacrumbs.jsonunit.JsonAssert;
 import org.hamcrest.MatcherAssert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xmlunit.builder.Input;
 
 import java.io.InputStream;
@@ -19,7 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
-import tds.support.tool.TestPackageObjectMapperConfiguration;
+import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 import tds.teacherhandscoring.model.RubricList;
 import tds.teacherhandscoring.model.TeacherHandScoring;
 import tds.teacherhandscoring.model.TeacherHandScoringConfiguration;
@@ -29,17 +26,16 @@ import static net.javacrumbs.jsonunit.JsonAssert.assertJsonEquals;
 import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.xmlunit.matchers.CompareMatcher.isSimilarTo;
 
-//import static org.assertj.core.api.Java6Assertions.assertThat;
-
-@RunWith(SpringRunner.class)
-@SpringBootTest(classes={TestPackageObjectMapperConfiguration.class})
+@RunWith(SpringJUnit4ClassRunner.class)
 public class TeacherHandScoringTests {
-    @Autowired
-    @Qualifier("thssObjectMapper")
-    private ObjectMapper objectMapper;
+    private final XmlMapper xmlMapper;
+    private final ObjectMapper objectMapper;
 
-    @Autowired
-    private XmlMapper xmlMapper;
+    public TeacherHandScoringTests() {
+        TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration = new TestPackageObjectMapperConfiguration();
+        xmlMapper = testPackageObjectMapperConfiguration.getXmlMapper();
+        objectMapper = testPackageObjectMapperConfiguration.getThssObjectMapper();
+    }
 
     @Test
     public void TeacherHandScoringShouldDeserialize() throws Exception {

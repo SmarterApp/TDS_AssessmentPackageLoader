@@ -8,7 +8,6 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +28,7 @@ import java.util.stream.Stream;
 import tds.common.ValidationError;
 import tds.support.tool.configuration.SupportToolProperties;
 import tds.support.tool.services.THSSService;
+import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 import tds.teacherhandscoring.model.TeacherHandScoring;
 import tds.teacherhandscoring.model.TeacherHandScoringApiResult;
 import tds.teacherhandscoring.model.TeacherHandScoringApiResultFile;
@@ -63,11 +63,11 @@ public class THSSServiceImpl implements THSSService {
 
 
     @Autowired
-    public THSSServiceImpl(final Supplier<CloseableHttpClient> httpClientSupplier, SupportToolProperties supportToolProperties, @Qualifier("thssObjectMapper") final ObjectMapper objectMapper, final RestTemplate restTemplate) {
+    public THSSServiceImpl(final Supplier<CloseableHttpClient> httpClientSupplier, SupportToolProperties supportToolProperties, final RestTemplate restTemplate, final TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration) {
         this.thssUrl = supportToolProperties.getThssApiUrl().orElseThrow(() -> new RuntimeException("THSS api url property is not configured"));
-        this.objectMapper = objectMapper;
         this.restTemplate = restTemplate;
         this.httpClientSupplier = httpClientSupplier;
+        this.objectMapper = testPackageObjectMapperConfiguration.getThssObjectMapper();
     }
 
     @Override

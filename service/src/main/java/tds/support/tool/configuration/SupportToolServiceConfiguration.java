@@ -5,10 +5,12 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.guava.GuavaModule;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -26,12 +28,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import tds.common.configuration.JacksonObjectMapperConfiguration;
 import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
 import tds.support.job.TestPackageDeleteJob;
 import tds.support.job.TestPackageLoadJob;
-import tds.support.tool.TestPackageObjectMapperConfiguration;
 import tds.support.tool.handlers.loader.TestPackageHandler;
 import tds.support.tool.handlers.loader.impl.ARTDeleteStepHandler;
 import tds.support.tool.handlers.loader.impl.ARTLoaderStepHandler;
@@ -47,9 +47,7 @@ import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
 @Configuration
 @Import({
     ExceptionAdvice.class,
-    JacksonObjectMapperConfiguration.class,
     SecurityConfiguration.class,
-    TestPackageObjectMapperConfiguration.class,
     MvcConfig.class
 })
 public class SupportToolServiceConfiguration {
@@ -91,14 +89,18 @@ public class SupportToolServiceConfiguration {
         return handlerMap;
     }
 
-    @Autowired
-    ObjectMapper objectMapper;
+    private ObjectMapper getIntegrationObjectMapper() {
+        return new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .registerModule(new GuavaModule())
+            .registerModule(new JodaModule());
+    }
 
     @Bean(name = "integrationRestTemplate")
     public RestTemplate restTemplate() {
         // Jackson Converters
         final MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(objectMapper);
+        converter.setObjectMapper(getIntegrationObjectMapper());
         final RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
         final List<HttpMessageConverter<?>> converters = new ArrayList<>();
         converters.add(converter);
