@@ -15,6 +15,7 @@ import tds.support.tool.repositories.MongoTestPackageRepository;
 import tds.support.tool.repositories.loader.TestPackageMetadataRepository;
 import tds.support.tool.repositories.loader.TestPackageRepository;
 import tds.support.tool.services.loader.TestPackageService;
+import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 import tds.testpackage.model.TestPackage;
 
 @Service
@@ -28,11 +29,12 @@ public class TestPackageServiceImpl implements TestPackageService {
     public TestPackageServiceImpl(final TestPackageRepository testPackageRepository,
                                   final TestPackageMetadataRepository testPackageMetadataRepository,
                                   final MongoTestPackageRepository mongoTestPackageRepository,
-                                  final XmlMapper xmlMapper) {
+                                  final TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration) {
+
         this.testPackageRepository = testPackageRepository;
         this.testPackageMetadataRepository = testPackageMetadataRepository;
         this.mongoTestPackageRepository = mongoTestPackageRepository;
-        this.xmlMapper = xmlMapper;
+        this.xmlMapper = testPackageObjectMapperConfiguration.getXmlMapper();
     }
 
     @Override

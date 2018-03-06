@@ -20,12 +20,12 @@ import tds.support.tool.repositories.loader.TestPackageMetadataRepository;
 import tds.support.tool.repositories.loader.TestPackageRepository;
 import tds.support.tool.services.loader.TestPackageService;
 import tds.support.tool.services.loader.impl.TestPackageServiceImpl;
+import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 import tds.testpackage.model.TestPackage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -45,12 +45,16 @@ public class TestPackageServiceImplTest {
     @Mock
     private XmlMapper mockXmlObjectMapper;
 
+    @Mock
+    TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration;
+
     private ArgumentCaptor<TestPackageMetadata> metadataArgumentCaptor;
 
     @Before
     public void setUp() {
+        when(testPackageObjectMapperConfiguration.getXmlMapper()).thenReturn(mockXmlObjectMapper);
         service = new TestPackageServiceImpl(mockTestPackageRepository, mockTestPackageMetadataRepository,
-            mockMongoTestPackageRepository, mockXmlObjectMapper);
+            mockMongoTestPackageRepository, testPackageObjectMapperConfiguration);
         metadataArgumentCaptor = ArgumentCaptor.forClass(TestPackageMetadata.class);
     }
 
