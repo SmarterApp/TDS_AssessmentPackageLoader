@@ -8,6 +8,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,13 +18,20 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_ItemScoreDimension.Builder.class)
 public abstract class ItemScoreDimension {
+    @XmlAttribute
     public abstract String getMeasurementModel();
+    @XmlAttribute
     public abstract int getScorePoints();
+    @XmlAttribute
     public abstract double getWeight();
+    @XmlAttribute
     public abstract Optional<String> getDimension();
+
     @Nullable
     protected abstract List<ItemScoreParameter> getItemScoreParameters();
+
     @JsonProperty(value="itemScoreParameters")
+    @XmlElement(name="ItemScoreParameter", type=ItemScoreParameter.class)
     public List<ItemScoreParameter> itemScoreParameters() {
         return Optional.ofNullable(getItemScoreParameters()).orElse(new ArrayList<>());
     }

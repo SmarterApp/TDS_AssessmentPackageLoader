@@ -2,11 +2,16 @@ package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.springframework.data.annotation.Transient;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.List;
 
 
@@ -26,10 +31,22 @@ import java.util.List;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Assessment.Builder.class)
 public abstract class Assessment {
+    @XmlAttribute
     public abstract String getId();
+    @XmlAttribute
     public abstract String getLabel();
+
+    @XmlElementWrapper(name="Grades")
+    @XmlElement(name="Grade", type=Grade.class)
     public abstract List<Grade> getGrades();
+
+    @XmlElementWrapper(name="Segments")
+    @XmlElement(name="Segment", type=Segment.class)
     public abstract List<Segment> getSegments();
+
+    @XmlElementWrapper(name="Tools")
+    @XmlElement(name="Tool", type=Tool.class)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public abstract List<Tool> getTools();
 
     @JsonIgnore
@@ -38,6 +55,7 @@ public abstract class Assessment {
     }
 
     @Transient
+    @XmlTransient
     private TestPackage testPackage;
 
     public void setTestPackage(TestPackage testPackage) {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import java.util.Optional;
 
 /**
@@ -14,7 +15,10 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Grade.Builder.class)
 public abstract class Grade {
+    @XmlAttribute
     public abstract String getValue();
+
+    @XmlAttribute
     public abstract Optional<String> getLabel();
 
     public static Builder builder() {

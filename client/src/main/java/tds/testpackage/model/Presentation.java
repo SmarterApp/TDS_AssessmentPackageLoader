@@ -6,6 +6,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import java.util.Map;
 import java.util.Optional;
 
@@ -28,10 +29,12 @@ public abstract class Presentation {
      * or label provided from list of known language codes,
      * or the language code if label could not be found.
      */
+    @XmlAttribute
     public String label() {
         return getLabel().orElse(DEFAULT_LABELS.getOrDefault(getCode(), getCode()));
     }
 
+    @XmlAttribute
     public abstract String getCode();
 
     public static Builder builder() {

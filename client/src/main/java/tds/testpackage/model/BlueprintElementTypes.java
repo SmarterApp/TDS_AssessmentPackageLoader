@@ -29,7 +29,7 @@ public interface BlueprintElementTypes {
     String AFFINITY_GROUP = "affinitygroup";
     String SEGMENT = "segment";
     String TEST = "test";
-    String COMBINED = "combined";
+    String PACKAGE = "package";
 
     Set<String> CLAIM_AND_TARGET_TYPES = ImmutableSet.of(STRAND, CONTENT_LEVEL, TARGET, CLAIM);
     Set<String> CLAIM_TYPES = ImmutableSet.of(STRAND, CLAIM);

@@ -2,6 +2,7 @@ package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -9,6 +10,10 @@ import com.google.auto.value.AutoValue;
 import org.springframework.data.annotation.Transient;
 import tds.teacherhandscoring.model.TeacherHandScoring;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,46 +22,64 @@ import static tds.testpackage.model.XmlUtil.parseBoolean;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Item.Builder.class)
 public abstract class Item {
+    @XmlAttribute
     public abstract String getId();
+    @XmlAttribute
     public abstract String getType();
 
+    @XmlElementWrapper(name="Presentations")
+    @XmlElement(name="Presentation", type=Presentation.class)
     public abstract List<Presentation> getPresentations();
+
+    @XmlElementWrapper(name="BlueprintReferences")
+    @XmlElement(name="BlueprintReference", type=BlueprintReference.class)
     public abstract List<BlueprintReference> getBlueprintReferences();
+
+    @XmlElement(name="ItemScoreDimension", type=ItemScoreDimension.class)
     public abstract ItemScoreDimension getItemScoreDimension();
 
     protected abstract Optional<String> getFieldTest();
+    @XmlAttribute
     public boolean fieldTest() {
         return parseBoolean(getFieldTest(), false);
     }
 
     protected abstract Optional<String> getAdministrationRequired();
+    @XmlAttribute
     public boolean administrationRequired() {
         return parseBoolean(getAdministrationRequired(), true);
     }
 
     protected abstract Optional<String> getActive();
+    @XmlAttribute
     public boolean active() {
         return parseBoolean(getActive(), true);
     }
 
     protected abstract Optional<String> getResponseRequired();
+    @XmlAttribute
     public boolean responseRequired() {
         return parseBoolean(getResponseRequired(), true);
     }
 
     protected abstract Optional<String> getHandScored();
+    @XmlAttribute
     public boolean handScored() {
         return parseBoolean(getHandScored(), false);
     }
 
     protected abstract Optional<String> getDoNotScore();
+    @XmlAttribute
     public boolean doNotScore() {
         return parseBoolean(getDoNotScore(), false);
     }
 
+    @XmlElement(name = "TeacherHandScoring")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public abstract Optional<TeacherHandScoring> getTeacherHandScoring();
 
     @Transient
+    @XmlTransient
     private SegmentForm segmentForm;
     public void setSegmentForm(SegmentForm segmentForm) {
         this.segmentForm = segmentForm;
@@ -73,6 +96,7 @@ public abstract class Item {
     }
 
     @Transient
+    @XmlTransient
     private ItemGroup itemGroup;
 
     public void setItemGroup(ItemGroup itemGroup) {
@@ -85,6 +109,7 @@ public abstract class Item {
     }
 
     @Transient
+    @XmlTransient
     private TestPackage testPackage;
 
     public void setTestPackage(TestPackage testPackage) {
@@ -93,11 +118,13 @@ public abstract class Item {
 
     @JsonIgnore
     @Transient
+    @XmlTransient
     public TestPackage getTestPackage() {
         return this.testPackage;
     }
 
     @JsonIgnore
+    @XmlTransient
     public String getKey() {
         return String.format("%s-%s", getTestPackage().getBankKey(), getId());
     }
@@ -110,6 +137,7 @@ public abstract class Item {
      */
     @JsonIgnore
     @Transient
+    @XmlTransient
     public int position() {
         if (getSegmentForm().isPresent()) {
             // jdk9 provides a take until method that would simplify this logic

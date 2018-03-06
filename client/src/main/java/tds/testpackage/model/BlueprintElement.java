@@ -1,6 +1,7 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -8,6 +9,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -40,12 +43,30 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_BlueprintElement.Builder.class)
 public abstract class BlueprintElement {
+    @XmlAttribute
     public abstract String getId();
+    @XmlAttribute
     public abstract String getType();
+
+    @XmlAttribute
+    public abstract Optional<String> getLevel();
+
+    @XmlAttribute
+    public abstract Optional<String> getLabel();
+
+    @XmlAttribute
+    public abstract Optional<String> getDescription();
+
+
+    @XmlElement(name = "Scoring")
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public abstract Optional<Scoring> getScoring();
+
     @Nullable
     protected abstract List<BlueprintElement> getBlueprintElements();
+
     @JsonProperty(value = "blueprintElements")
+    @XmlElement(name = "BlueprintElement")
     public List<BlueprintElement> blueprintElements() {
         return Optional.ofNullable(getBlueprintElements()).orElse(new ArrayList<>());
     }
@@ -61,6 +82,12 @@ public abstract class BlueprintElement {
         public abstract Builder setId(String newId);
 
         public abstract Builder setType(String newType);
+
+        public abstract Builder setLabel(Optional<String> newLabel);
+
+        public abstract Builder setLevel(Optional<String> newLevel);
+
+        public abstract Builder setDescription(Optional<String> newDescription);
 
         @JacksonXmlProperty(localName = "Scoring")
         public abstract Builder setScoring(Optional<Scoring> newScoring);

@@ -10,6 +10,10 @@ import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.annotation.Transient;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,26 +21,33 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_ItemGroup.Builder.class)
 public abstract class ItemGroup {
+    @XmlAttribute
     public abstract String getId();
 
     protected abstract Optional<Integer> getPosition();
 
+    @XmlTransient
     public int position() {
         return getPosition().orElse(1);
     }
 
     protected abstract Optional<String> getMaxItems();
+    @XmlAttribute
     public String maxItems() {
         return getMaxItems().orElse("ALL");
     }
 
     protected abstract Optional<String> getMaxResponses();
+    @XmlAttribute
     public String maxResponses() {
         return getMaxResponses().orElse("ALL");
     }
+
+    @XmlElement(name = "Stimulus")
     public abstract Optional<Stimulus> getStimulus();
 
     @JsonIgnore
+    @XmlTransient
     public String getKey() {
         /*
             I-<bankkey>-<groupid> OR
@@ -67,11 +78,13 @@ public abstract class ItemGroup {
     @Nullable
     protected abstract List<Item> getItems();
     @JsonProperty(value = "items")
+    @XmlElement(name="Item", type=Item.class)
     public List<Item> items() {
         return Optional.ofNullable(getItems()).orElse(new ArrayList<>());
     }
 
     @Transient
+    @XmlTransient
     private Segment segment;
     public void setSegment(Segment segment) {
         this.segment = segment;

@@ -7,6 +7,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +17,10 @@ import java.util.Optional;
 @JsonDeserialize(builder = AutoValue_Scoring.Builder.class)
 public abstract class Scoring {
     @Nullable
+    @XmlElementWrapper(name="PerformanceLevels")
+    @XmlElement(name="PerformanceLevel", type=PerformanceLevel.class)
     protected abstract List<PerformanceLevel> getPerformanceLevels();
+
     @JsonProperty("performanceLevels")
     public List<PerformanceLevel> performanceLevels() {
         return Optional.ofNullable(getPerformanceLevels()).orElse(new ArrayList<>());
@@ -26,6 +31,8 @@ public abstract class Scoring {
      * - rules for computation
      * - score cut points for determining performance levels
      */
+    @XmlElementWrapper(name="Rules")
+    @XmlElement(name="Rule", type=Rule.class)
     public abstract List<Rule> getRules();
 
     public static Builder builder() {
