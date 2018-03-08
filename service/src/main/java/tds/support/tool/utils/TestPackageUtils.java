@@ -19,7 +19,9 @@ public class TestPackageUtils {
 
     public static String parseItemGroupId(final String groupKey) {
         final String[] groupKeyStrSplit = groupKey.split("-");
-        return groupKeyStrSplit[groupKeyStrSplit.length - 2];
+        return groupKey.startsWith("I")
+                ? groupKeyStrSplit[groupKeyStrSplit.length - 1]
+                : groupKeyStrSplit[groupKeyStrSplit.length - 2];
     }
 
     public static boolean isAdministrationPackage(final Testspecification testSpecification) {

@@ -5,7 +5,14 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,6 +100,19 @@ public class SupportToolServiceConfiguration {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Bean(name = "testSpecificationObjectMapper")
+    public XmlMapper xmlMapper() {
+        JacksonXmlModule xmlModule = new JacksonXmlModule();
+        xmlModule.setDefaultUseWrapper(false);
+        XmlMapper xmlMapper = new XmlMapper(xmlModule);
+        xmlMapper.registerModule(new Jdk8Module());
+        xmlMapper.registerModule(new JaxbAnnotationModule());
+        xmlMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
+        xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        xmlMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        return xmlMapper;
+    }
 
     @Bean(name = "integrationRestTemplate")
     public RestTemplate restTemplate() {

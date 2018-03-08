@@ -1,18 +1,50 @@
 package tds.support.tool.services.converter;
 
 import tds.support.tool.utils.TestPackageUtils;
-import tds.testpackage.legacy.model.Bpelement;
-import tds.testpackage.legacy.model.Testspecification;
-import tds.testpackage.model.BlueprintElement;
-import tds.testpackage.model.BlueprintElementTypes;
+import tds.testpackage.legacy.model.*;
+import tds.testpackage.model.*;
+import tds.testpackage.model.Property;
+import tds.testpackage.model.Scoring;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TestPackageBlueprintMapper {
-    public static List<BlueprintElement> mapBlueprint(final String testPackageName, final List<Testspecification> testSpecifications) {
+    public static List<BlueprintElement> mapBlueprint(final String testPackageName,
+                                                      final List<Testspecification> testSpecifications) {
+        // Get a mapping of all blueprint element "unique ids" to "names".
+        // In the legacy test specifications, the "uniqueid" was typically the publisher concatenated with the name.
+        // For assessment/segment blueprint elements, the id was the "<assessment/segment> key" and the name
+        // was the "<assessment/segment> id"
+        Map<String, String> blueprintIdsToNames = testSpecifications.stream()
+                .flatMap(testSpecification -> TestPackageUtils.isAdministrationPackage(testSpecification)
+                        ? testSpecification.getAdministration().getTestblueprint().getBpelement().stream()
+                        : testSpecification.getScoring().getTestblueprint().getBpelement().stream())
+                .map(Bpelement::getIdentifier)
+                .collect(Collectors.toMap(Identifier::getUniqueid, Identifier::getName, (a1, a2) -> a1));
+
+        Map<String, Scoring> scoringMap = new HashMap<>();
+        List<Testspecification> adminTestPackages = testSpecifications.stream()
+                .filter(TestPackageUtils::isAdministrationPackage)
+                .collect(Collectors.toList());
+        Optional<Testspecification> maybeScoringPackage = testSpecifications.stream()
+                .filter(TestPackageUtils::isScoringPackage)
+                .findFirst();
+
+        // We will default the packageId to the test package name, and overwrite for combined test packages
+        String packageId = testPackageName;
+        if (maybeScoringPackage.isPresent()) {
+            mapScoring(scoringMap, maybeScoringPackage.get(), blueprintIdsToNames);
+            // If this is a "package" of multiple administration test packages in one (such as with ICAs)
+            if (adminTestPackages.size() > 1) {
+                // In the legacy test package spec, the combined package id is only found in the scoring package
+                packageId = maybeScoringPackage.get().getScoring().getTestblueprint().getBpelement().stream()
+                        .filter(bpEl -> bpEl.getElementtype().equalsIgnoreCase(BlueprintElementTypes.TEST))
+                        .map(bpEl -> bpEl.getIdentifier().getName())
+                        .findFirst().get();
+            }
+        }
+
         /* Three cases to consider here:
 
             1. "test" and "segment" blueprint elements - these are structural and must be grouped under the single "package" blueprint element
@@ -23,13 +55,75 @@ public class TestPackageBlueprintMapper {
             3. The miscellaneous bp element types - these include "affinity groups" and "sock" blueprint element types currently
 
          */
-        List<BlueprintElement> blueprintElements = new ArrayList<>(mapTestAndSegmentBlueprintElements(testPackageName, testSpecifications));
-        blueprintElements.addAll(mapMiscellaneousBlueprintElements(testSpecifications));
-        blueprintElements.addAll(mapClaimsAndTargetBlueprintElements(testSpecifications));
-        return blueprintElements;
+        LinkedHashSet<BlueprintElement> blueprintElements = new LinkedHashSet<>(mapTestAndSegmentBlueprintElements(adminTestPackages,
+                scoringMap, packageId));
+        blueprintElements.addAll(mapMiscellaneousBlueprintElements(adminTestPackages, scoringMap));
+        blueprintElements.addAll(mapClaimsAndTargetBlueprintElements(adminTestPackages, scoringMap));
+        return new ArrayList<>(blueprintElements);
     }
 
-    private static List<BlueprintElement> mapTestAndSegmentBlueprintElements(final String testPackageName, final List<Testspecification> testSpecifications) {
+    private static void mapScoring(final Map<String, Scoring> scoringMap, final Testspecification scoringPackage,
+                                   final Map<String, String> blueprintIdsToNames) {
+        // Blueprint id -> performance levels
+        // If this is a combined TestPackage, we will use the "package" blueprint elementId, which is the same as the provided testPackageName
+        Map<String, List<Performancelevel>> performanceLevelsMap = scoringPackage.getScoring().getPerformancelevels().getPerformancelevel().stream()
+                .collect(Collectors.groupingBy(pl -> blueprintIdsToNames.get(pl.getBpelementid())));
+        // Blueprint id -> scoring rules
+        Map<String, List<Computationrule>> computationRuleMap = scoringPackage.getScoring().getScoringrules().getComputationrule().stream()
+                .collect(Collectors.groupingBy(cr -> blueprintIdsToNames.containsKey(cr.getBpelementid())
+                        ? blueprintIdsToNames.get(cr.getBpelementid())
+                        : cr.getBpelementid()));
+
+        computationRuleMap.forEach((key, value) -> {
+            Scoring scoring = Scoring.builder()
+                    .setPerformanceLevels(
+                            performanceLevelsMap.containsKey(key) ? performanceLevelsMap.get(key).stream()
+                                    .map(pl -> PerformanceLevel.builder()
+                                            .setPLevel(pl.getPlevel().intValue())
+                                            .setScaledHi(pl.getScaledhi())
+                                            .setScaledLo(pl.getScaledlo())
+                                            .build())
+                                    .collect(Collectors.toList()) : null
+                    )
+                    .setRules(value.stream()
+                            .map(cr -> Rule.builder()
+                                    .setComputationOrder(cr.getComputationorder().intValue())
+                                    .setName(cr.getIdentifier().getName())
+                                    .setParameters(cr.getComputationruleparameter().stream()
+                                            .map(param -> Parameter.builder()
+                                                    .setId(param.getIdentifier().getUniqueid())
+                                                    .setName(param.getIdentifier().getName())
+                                                    .setType(param.getParametertype())
+                                                    .setPosition(param.getPosition().intValue())
+                                                    .setValues(param.getComputationruleparametervalue().stream()
+                                                            .map(val -> Value.builder()
+                                                                    .setValue(val.getValue())
+                                                                    .setIndex(Optional.ofNullable(val.getIndex()))
+                                                                    .build())
+                                                            .collect(Collectors.toList())
+                                                    )
+                                                    .setProperties(param.getProperty().stream()
+                                                            .map(property -> Property.builder()
+                                                                    .setName(property.getName())
+                                                                    .setValue(property.getValue())
+                                                                    .build())
+                                                            .collect(Collectors.toList())
+                                                    )
+                                                    .build())
+                                            .collect(Collectors.toList())
+                                    )
+                                    .build())
+                            .collect(Collectors.toList())
+                    )
+                    .build();
+
+            scoringMap.put(key, scoring);
+        });
+    }
+
+    private static List<BlueprintElement> mapTestAndSegmentBlueprintElements(final List<Testspecification> testSpecifications,
+                                                                             final Map<String, Scoring> scoringMap,
+                                                                             final String packageId) {
         List<BlueprintElement> blueprintElements = new ArrayList<>();
         //  If the number of administration packages > 1, this is a combined test package and needs a root level "package" bpEl
         boolean isCombinedTestPackage = testSpecifications.stream()
@@ -40,13 +134,14 @@ public class TestPackageBlueprintMapper {
             List<BlueprintElement> combinedAssessmentBlueprintElements = new ArrayList<>();
             testSpecifications.stream()
                     .filter(testSpecification -> testSpecification.getAdministration() != null)
-                    .forEach(assessment -> combinedAssessmentBlueprintElements.add(mapAssessmentBlueprintElements(assessment)));
+                    .forEach(assessment -> combinedAssessmentBlueprintElements.add(mapAssessmentBlueprintElements(assessment, scoringMap)));
 
             // Add the root-level "package" blueprint element
             blueprintElements.add(BlueprintElement.builder()
-                    .setId(testPackageName)
+                    .setId(packageId)
                     .setType(BlueprintElementTypes.PACKAGE)
                     .setBlueprintElements(combinedAssessmentBlueprintElements)
+                    .setScoring(Optional.ofNullable(scoringMap.get(packageId)))
                     .build());
 
         } else { // Single assessment
@@ -54,13 +149,14 @@ public class TestPackageBlueprintMapper {
                     .filter(TestPackageUtils::isAdministrationPackage)
                     .findFirst().get();
 
-            blueprintElements.add(mapAssessmentBlueprintElements(assessment));
+            blueprintElements.add(mapAssessmentBlueprintElements(assessment, scoringMap));
         }
 
         return blueprintElements;
     }
 
-    private static BlueprintElement mapAssessmentBlueprintElements(final Testspecification assessment) {
+    private static BlueprintElement mapAssessmentBlueprintElements(final Testspecification assessment,
+                                                                   final Map<String, Scoring> scoringMap) {
         boolean isSegmented = assessment.getAdministration().getAdminsegment().size() > 1;
 
         if (isSegmented) {
@@ -69,6 +165,7 @@ public class TestPackageBlueprintMapper {
                     .map(bpEl -> BlueprintElement.builder()
                             .setId(bpEl.getIdentifier().getName())
                             .setType(bpEl.getElementtype())
+                            .setScoring(Optional.ofNullable(scoringMap.get(bpEl.getIdentifier().getName())))
                             .build())
                     .collect(Collectors.toList());
 
@@ -76,17 +173,20 @@ public class TestPackageBlueprintMapper {
                     .setType(BlueprintElementTypes.TEST)
                     .setId(assessment.getIdentifier().getName())
                     .setBlueprintElements(segmentBpElements)
+                    .setScoring(Optional.ofNullable(scoringMap.get(assessment.getIdentifier().getName())))
                     .build();
         } else { // single-segmented assessment - no "segment"  bp element required
             return BlueprintElement.builder()
                     .setType(BlueprintElementTypes.TEST)
                     .setId(assessment.getIdentifier().getName())
+                    .setScoring(Optional.ofNullable(scoringMap.get(assessment.getIdentifier().getName())))
                     .build();
         }
     }
 
     // Map Affinity Groups, SOCK, and other miscellaneous blueprint elements
-    private static List<BlueprintElement> mapMiscellaneousBlueprintElements(final List<Testspecification> testSpecifications) {
+    private static List<BlueprintElement> mapMiscellaneousBlueprintElements(final List<Testspecification> testSpecifications,
+                                                                            final Map<String, Scoring> scoringMap) {
         return testSpecifications.stream()
                 .flatMap(testSpecification -> {
                     if (testSpecification.getAdministration() != null) {
@@ -97,6 +197,7 @@ public class TestPackageBlueprintMapper {
                                 .map(bpEl -> BlueprintElement.builder()
                                         .setId(bpEl.getIdentifier().getName())
                                         .setType(bpEl.getElementtype())
+                                        .setScoring(Optional.ofNullable(scoringMap.get(bpEl.getIdentifier().getName())))
                                         .build());
                     } else {
                         return testSpecification.getScoring().getTestblueprint().getBpelement()
@@ -106,13 +207,15 @@ public class TestPackageBlueprintMapper {
                                 .map(bpEl -> BlueprintElement.builder()
                                         .setId(bpEl.getIdentifier().getName())
                                         .setType(bpEl.getElementtype())
+                                        .setScoring(Optional.ofNullable(scoringMap.get(bpEl.getIdentifier().getName())))
                                         .build());
                     }
                 })
                 .collect(Collectors.toList());
     }
 
-    private static List<BlueprintElement> mapClaimsAndTargetBlueprintElements(final List<Testspecification> testSpecifications) {
+    private static List<BlueprintElement> mapClaimsAndTargetBlueprintElements(final List<Testspecification> testSpecifications,
+                                                                              final Map<String, Scoring> scoringMap) {
         // Nest and map Claims/Targets (strands/content levels in legacy)
         Map<String, List<Bpelement>> parentIdToBpElement = testSpecifications.stream()
                 .flatMap(testSpecification -> {
@@ -129,7 +232,7 @@ public class TestPackageBlueprintMapper {
                 .collect(Collectors.groupingBy(bpEl -> TestPackageUtils.parseIdFromKey(bpEl.getParentid())));
 
         // Map all claims - these are our root level elements
-        List<BlueprintElement> claimBlueprintElements = testSpecifications.stream()
+        LinkedHashSet<BlueprintElement> claimBlueprintElements = testSpecifications.stream()
                 .flatMap(testSpecification -> {
                     if (TestPackageUtils.isAdministrationPackage(testSpecification)) {
                         return testSpecification.getAdministration().getTestblueprint().getBpelement()
@@ -139,6 +242,7 @@ public class TestPackageBlueprintMapper {
                                         .setId(bpEl.getIdentifier().getName())
                                         .setType(BlueprintElementTypes.CLAIM)
                                         .setBlueprintElements(new ArrayList<>())
+                                        .setScoring(Optional.ofNullable(scoringMap.get(bpEl.getIdentifier().getName())))
                                         .build()
                                 );
                     } else {
@@ -148,18 +252,22 @@ public class TestPackageBlueprintMapper {
                                 .map(bpEl -> BlueprintElement.builder()
                                         .setId(bpEl.getIdentifier().getName())
                                         .setType(BlueprintElementTypes.CLAIM)
+                                        .setScoring(Optional.ofNullable(scoringMap.get(bpEl.getIdentifier().getName())))
                                         .setBlueprintElements(new ArrayList<>())
                                         .build()
                                 );
                     }
                 })
-                .collect(Collectors.toList());
+                .collect(Collectors.toCollection(LinkedHashSet::new));
 
-        claimBlueprintElements.forEach(blueprintElement -> mapBlueprintElement(blueprintElement, parentIdToBpElement));
-        return claimBlueprintElements;
+        claimBlueprintElements.forEach(blueprintElement -> mapBlueprintElement(blueprintElement, parentIdToBpElement, scoringMap));
+
+        return new ArrayList<>(claimBlueprintElements);
     }
 
-    private static void mapBlueprintElement(BlueprintElement currentEl, Map<String, List<Bpelement>> parentMap) {
+    // Recursively map all blueprint elements breadth-first
+    private static void mapBlueprintElement(final BlueprintElement currentEl, final Map<String, List<Bpelement>> parentMap,
+                                            final Map<String, Scoring> scoringMap) {
         if (parentMap.containsKey(currentEl.getId())) {
             List<BlueprintElement> blueprintElements = currentEl.blueprintElements();
             List<Bpelement> bpEl = parentMap.get(currentEl.getId());
@@ -169,9 +277,10 @@ public class TestPackageBlueprintMapper {
                         .setId(childEl.getIdentifier().getName())
                         .setType(BlueprintElementTypes.TARGET)
                         .setBlueprintElements(new ArrayList<>())
+                        .setScoring(Optional.ofNullable(scoringMap.get(childEl.getIdentifier().getUniqueid())))
                         .build();
                 blueprintElements.add(currBpEl);
-                mapBlueprintElement(currBpEl, parentMap);
+                mapBlueprintElement(currBpEl, parentMap, scoringMap);
             });
         }
     }

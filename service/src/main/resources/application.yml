@@ -37,7 +37,7 @@ spring:
       enabled: false
   data:
     mongodb:
-      uri: ${sbac.support.mongo.connection.uri}/support-tool
+      uri: mongodb://localhost:27017/support-tool
 
 #Port defined in TDS_Build:docker-compose.yml
   rabbitmq:

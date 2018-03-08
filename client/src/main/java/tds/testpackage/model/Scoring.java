@@ -17,11 +17,11 @@ import java.util.Optional;
 @JsonDeserialize(builder = AutoValue_Scoring.Builder.class)
 public abstract class Scoring {
     @Nullable
-    @XmlElementWrapper(name="PerformanceLevels")
-    @XmlElement(name="PerformanceLevel", type=PerformanceLevel.class)
     protected abstract List<PerformanceLevel> getPerformanceLevels();
 
     @JsonProperty("performanceLevels")
+    @XmlElementWrapper(name="PerformanceLevels")
+    @XmlElement(name="PerformanceLevel", type=PerformanceLevel.class)
     public List<PerformanceLevel> performanceLevels() {
         return Optional.ofNullable(getPerformanceLevels()).orElse(new ArrayList<>());
     }

@@ -34,6 +34,7 @@ public class TestPackageMapper {
         // bank key and publisher information
         Testspecification testSpecification = adminTestPackages.get(0);
         return TestPackage.builder()
+                /* Attributes */
                 .setVersion(String.valueOf(testSpecification.getVersion()))
                 .setPublisher(testSpecification.getPublisher())
                 .setPublishDate(testSpecification.getPublishdate())
@@ -43,6 +44,7 @@ public class TestPackageMapper {
                 .setSubject(findSingleProperty(testSpecification.getProperty(), "subject"))
                 .setType(findSingleProperty(testSpecification.getProperty(), "type"))
                 .setBankKey(findBankKey(testSpecification.getAdministration()))
+                /* Child Elements */
                 .setAssessments(mapAssessments(adminTestPackages))
                 .setBlueprint(TestPackageBlueprintMapper.mapBlueprint(testPackageName, testSpecifications))
                 .build();
@@ -53,8 +55,10 @@ public class TestPackageMapper {
 
         for (Testspecification testSpecification : adminTestPackages) {
             assessments.add(Assessment.builder()
+                    /* Attributes */
                     .setId(testSpecification.getIdentifier().getName())
                     .setLabel(testSpecification.getIdentifier().getLabel())
+                    /* Child Elements */
                     .setGrades(mapGrades(testSpecification.getProperty()))
                     .setSegments(mapSegments(testSpecification.getAdministration()))
                     .setTools(new ArrayList<>()) //TODO: Remove this - should be optional
@@ -68,7 +72,11 @@ public class TestPackageMapper {
         return administration.getAdminsegment().stream()
                 .map(adminSegment -> {
                     boolean isFixedForm = adminSegment.getItemselection().equalsIgnoreCase(Algorithm.FIXED_FORM.getType());
+                    Map<String, String> blueprintIdsToNames = administration.getTestblueprint().getBpelement().stream()
+                            .map(Bpelement::getIdentifier)
+                            .collect(Collectors.toMap(Identifier::getUniqueid, Identifier::getName, (a1, a2) -> a1));
                     return Segment.builder()
+                            /* Attributes */
                             // The legacy spec calls the segmentKey a "segment id". We need to fetch the actual segmentId from the blueprint
                             .setId(findSegmentIdFromBlueprint(adminSegment.getSegmentid(), administration.getTestblueprint().getBpelement()))
                             .setPosition(Integer.parseInt(adminSegment.getPosition()))
@@ -77,10 +85,11 @@ public class TestPackageMapper {
                                     ? "adaptive" : adminSegment.getItemselection())
                             .setAlgorithmImplementation(adminSegment.getItemselector().getIdentifier().getUniqueid())
                             .setLabel(Optional.of(adminSegment.getSegmentid()))
+                            /* Child Elements */
                             .setPool(isFixedForm ? null : mapItemGroups(adminSegment.getSegmentpool().getItemgroup(),
-                                    administration.getItempool()))
+                                    administration.getItempool(), blueprintIdsToNames))
                             .setSegmentForms(mapSegmentForms(adminSegment.getSegmentform(),
-                                    administration.getTestform(), administration.getItempool()))
+                                    administration.getTestform(), administration.getItempool(), blueprintIdsToNames))
                             .setSegmentBlueprint(mapSegmentBlueprint(adminSegment.getSegmentblueprint()))
                             .build();
                 })
@@ -104,7 +113,7 @@ public class TestPackageMapper {
     }
 
     private static List<SegmentForm> mapSegmentForms(final List<Segmentform> legacySegmentForms, final List<Testform> testForms,
-                                                     final Itempool itemPool) {
+                                                     final Itempool itemPool, final Map<String, String> bluePrintIdsToNames) {
         List<SegmentForm> segmentForms = new ArrayList<>();
 
         // Get the set of unique formKeys - usually in a similar format as item/stimuli keys (<bankKey>-<formId>)
@@ -129,13 +138,14 @@ public class TestPackageMapper {
                     .setCohort(TestPackageUtils.parseCohort(testForm.getIdentifier().getUniqueid()))
                     .setId(formPartition.getIdentifier().getName())
                     .setPresentations(mapPresentations(testForm.getPoolproperty()))
-                    .setItemGroups(mapItemGroups(formPartition.getItemgroup(), itemPool))
+                    .setItemGroups(mapItemGroups(formPartition.getItemgroup(), itemPool, bluePrintIdsToNames))
                     .build());
         }
         return segmentForms;
     }
 
-    private static List<ItemGroup> mapItemGroups(final List<Itemgroup> itemGroups, final Itempool itemPool) {
+    private static List<ItemGroup> mapItemGroups(final List<Itemgroup> itemGroups, final Itempool itemPool,
+                                                 final Map<String, String> bluePrintIdsToNames) {
         return itemGroups.stream()
                 .map(ig ->
                         ItemGroup.builder()
@@ -144,12 +154,13 @@ public class TestPackageMapper {
                                 .setMaxItems(Optional.of(ig.getMaxitems()))
                                 .setMaxResponses(Optional.of(ig.getMaxresponses()))
                                 .setStimulus(mapStimuli(ig.getPassageref()))
-                                .setItems(mapItems(ig.getGroupitem(), itemPool))
+                                .setItems(mapItems(ig.getGroupitem(), itemPool, bluePrintIdsToNames))
                                 .build())
                 .collect(Collectors.toList());
     }
 
-    private static List<Item> mapItems(final List<Groupitem> groupItems, final Itempool itemPool) {
+    private static List<Item> mapItems(final List<Groupitem> groupItems, final Itempool itemPool,
+                                       final Map<String, String> bluePrintIdsToNames) {
         Set<String> groupItemIds = groupItems.stream().map(Groupitem::getItemid).collect(Collectors.toSet());
         Map<String, Testitem> testItemMap = itemPool.getTestitem().stream()
                 .filter(testItem -> groupItemIds.contains(testItem.getIdentifier().getUniqueid()))
@@ -158,7 +169,7 @@ public class TestPackageMapper {
         return groupItems.stream()
                 .map(gi -> Item.builder()
                         // If the item key is "187-1234" the item ID is "1234"
-                        .setId(gi.getItemid())
+                        .setId(TestPackageUtils.parseIdFromKey(gi.getItemid()))
                         .setAdministrationRequired(Optional.ofNullable(gi.getAdminrequired()))
                         .setFieldTest(Optional.ofNullable(gi.getIsfieldtest()))
                         .setActive(Optional.ofNullable(gi.getIsactive()))
@@ -166,15 +177,16 @@ public class TestPackageMapper {
                         .setType(testItemMap.get(gi.getItemid()).getItemtype())
                         .setPresentations(mapPresentations(testItemMap.get(gi.getItemid()).getPoolproperty()))
                         .setItemScoreDimension(mapItemScoreDimensions(testItemMap.get(gi.getItemid()).getItemscoredimension().get(0)))
-                        .setBlueprintReferences(mapBlueprintReferences(testItemMap.get(gi.getItemid()).getBpref()))
+                        .setBlueprintReferences(mapBlueprintReferences(testItemMap.get(gi.getItemid()).getBpref(), bluePrintIdsToNames))
                         .build())
                 .collect(Collectors.toList());
     }
 
-    private static List<BlueprintReference> mapBlueprintReferences(final List<Bpref> bpref) {
+    private static List<BlueprintReference> mapBlueprintReferences(final List<Bpref> bpref,
+                                                                   final Map<String, String> bluePrintIdsToNames) {
         return bpref.stream()
                 .map(bpRef -> BlueprintReference.builder()
-                        .setIdRef(TestPackageUtils.parseIdFromKey(bpRef.getContent()))
+                        .setIdRef(bluePrintIdsToNames.get(bpRef.getContent()))
                         .build())
                 .collect(Collectors.toList());
     }
