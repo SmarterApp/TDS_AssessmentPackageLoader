@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import tds.support.job.Error;
 import tds.support.job.*;
 import tds.support.tool.handlers.loader.TestPackageHandler;
 import tds.support.tool.model.TestPackageMetadata;
@@ -36,7 +35,7 @@ public class TDSDeleteStepHandler implements TestPackageHandler {
     @Override
     public void handle(final Job job, final Step step) {
         try {
-            Job loaderJob = jobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(job.getName(), JobType.LOADER);
+            Job loaderJob = jobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(job.getName(), JobType.LOAD);
             TestPackageMetadata metadata = testPackageMetadataRepository.findByJobId(loaderJob.getId());
             TestPackage testPackage = mongoTestPackageRepository.findOne(metadata.getTestPackageId());
             tdsTestPackageService.deleteTestPackage(testPackage);

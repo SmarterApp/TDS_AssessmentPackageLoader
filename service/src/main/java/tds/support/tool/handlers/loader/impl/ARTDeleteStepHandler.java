@@ -3,7 +3,6 @@ package tds.support.tool.handlers.loader.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import tds.support.job.Error;
 import tds.support.job.*;
 import tds.support.tool.handlers.loader.TestPackageHandler;
 import tds.support.tool.model.TestPackageMetadata;
@@ -34,7 +33,7 @@ public class ARTDeleteStepHandler implements TestPackageHandler {
     @Override
     public void handle(final Job job, final Step step) {
         try {
-            Job loaderJob = jobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(job.getName(), JobType.LOADER);
+            Job loaderJob = jobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(job.getName(), JobType.LOAD);
             TestPackageMetadata metadata = testPackageMetadataRepository.findByJobId(loaderJob.getId());
             TestPackage testPackage = mongoTestPackageRepository.findOne(metadata.getTestPackageId());
             artTestPackageService.deleteTestPackage(testPackage);

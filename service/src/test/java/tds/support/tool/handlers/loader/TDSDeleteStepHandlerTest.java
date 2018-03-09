@@ -63,7 +63,7 @@ public class TDSDeleteStepHandlerTest {
         int errorsBefore = mockStep.getErrors().size();
         TestPackageMetadata mockMetadata = random(TestPackageMetadata.class);
 
-        when(mockJobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(mockJob.getName(), JobType.LOADER)).thenReturn(loaderJob);
+        when(mockJobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(mockJob.getName(), JobType.LOAD)).thenReturn(loaderJob);
         when(mockTestPackageMetadataRepository.findByJobId(loaderJob.getId())).thenReturn(mockMetadata);
         when(mockTestPackageRepository.findOne(mockMetadata.getTestPackageId())).thenReturn(mockTestPackage);
 
@@ -73,7 +73,7 @@ public class TDSDeleteStepHandlerTest {
         int errorsAfter = mockStep.getErrors().size();
         assertThat(errorsAfter).isEqualTo(errorsBefore);
 
-        verify(mockJobRepository).findOneByNameAndTypeOrderByCreatedAtDesc(mockJob.getName(), JobType.LOADER);
+        verify(mockJobRepository).findOneByNameAndTypeOrderByCreatedAtDesc(mockJob.getName(), JobType.LOAD);
         verify(mockTestPackageMetadataRepository).findByJobId(loaderJob.getId());
         verify(mockTestPackageRepository).findOne(mockMetadata.getTestPackageId());
         verify(mockService).deleteTestPackage(mockTestPackage);
@@ -87,7 +87,7 @@ public class TDSDeleteStepHandlerTest {
         int errorsBefore = mockStep.getErrors().size();
         TestPackageMetadata mockMetadata = random(TestPackageMetadata.class);
 
-        when(mockJobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(mockJob.getName(), JobType.LOADER)).thenReturn(loaderJob);
+        when(mockJobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(mockJob.getName(), JobType.LOAD)).thenReturn(loaderJob);
         when(mockTestPackageMetadataRepository.findByJobId(loaderJob.getId())).thenReturn(mockMetadata);
         when(mockTestPackageRepository.findOne(mockMetadata.getTestPackageId())).thenReturn(mockTestPackage);
 
@@ -97,7 +97,7 @@ public class TDSDeleteStepHandlerTest {
         int errorsAfter = mockStep.getErrors().size();
         assertThat(errorsAfter).isEqualTo(errorsBefore);
 
-        verify(mockJobRepository).findOneByNameAndTypeOrderByCreatedAtDesc(mockJob.getName(), JobType.LOADER);
+        verify(mockJobRepository).findOneByNameAndTypeOrderByCreatedAtDesc(mockJob.getName(), JobType.LOAD);
         verify(mockTestPackageMetadataRepository).findByJobId(loaderJob.getId());
         verify(mockTestPackageRepository).findOne(mockMetadata.getTestPackageId());
         verify(mockService).deleteTestPackage(mockTestPackage);
@@ -111,7 +111,7 @@ public class TDSDeleteStepHandlerTest {
         int errorsBefore = mockStep.getErrors().size();
         TestPackageMetadata mockMetadata = random(TestPackageMetadata.class);
 
-        when(mockJobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(mockJob.getName(), JobType.LOADER)).thenReturn(loaderJob);
+        when(mockJobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(mockJob.getName(), JobType.LOAD)).thenReturn(loaderJob);
         when(mockTestPackageMetadataRepository.findByJobId(loaderJob.getId())).thenReturn(mockMetadata);
         when(mockTestPackageRepository.findOne(mockMetadata.getTestPackageId())).thenReturn(mockTestPackage);
         doThrow(NotFoundException.class).when(mockService).deleteTestPackage(mockTestPackage);
@@ -122,7 +122,7 @@ public class TDSDeleteStepHandlerTest {
         int errorsAfter = mockStep.getErrors().size();
         assertThat(errorsAfter).isEqualTo(errorsBefore + 1);
 
-        verify(mockJobRepository).findOneByNameAndTypeOrderByCreatedAtDesc(mockJob.getName(), JobType.LOADER);
+        verify(mockJobRepository).findOneByNameAndTypeOrderByCreatedAtDesc(mockJob.getName(), JobType.LOAD);
         verify(mockTestPackageMetadataRepository).findByJobId(loaderJob.getId());
         verify(mockTestPackageRepository).findOne(mockMetadata.getTestPackageId());
         verify(mockService).deleteTestPackage(mockTestPackage);

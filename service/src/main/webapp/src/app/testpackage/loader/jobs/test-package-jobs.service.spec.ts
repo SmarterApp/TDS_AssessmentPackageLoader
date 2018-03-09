@@ -25,7 +25,7 @@ describe("Loader Jobs Service", () => {
 
     let actualParams = optionsSpy.params.updates[0];
     expect(actualParams["param"]).toEqual("jobType");
-    expect(actualParams["value"]).toEqual("LOADER");
+    expect(actualParams["value"]).toEqual("LOAD");
   });
 
   it('Should map loader job data for job with no errors', () => {
@@ -67,7 +67,7 @@ describe("Loader Jobs Service", () => {
         }
       ],
       testPackageFileName: "(SBAC_PT)IRP-Perf-ELA-7-Summer-2015-2016.xml",
-      type: "LOADER"
+      type: "LOAD"
     }];
 
     service.getTestPackageJobs().subscribe(actual => {
@@ -86,7 +86,7 @@ describe("Loader Jobs Service", () => {
 
     let actualParams = optionsSpy.params.updates[0];
     expect(actualParams["param"]).toEqual("jobType");
-    expect(actualParams["value"]).toEqual("LOADER");
+    expect(actualParams["value"]).toEqual("LOAD");
   });
 
   it('Should map loader job data for job with errors', () => {
@@ -142,7 +142,7 @@ describe("Loader Jobs Service", () => {
         }
       ],
       testPackageFileName: "(SBAC_PT)IRP-Perf-ELA-7-Summer-2015-2016.xml",
-      type: "LOADER"
+      type: "LOAD"
     }];
 
     service.getTestPackageJobs().subscribe(actual => {
@@ -163,7 +163,7 @@ describe("Loader Jobs Service", () => {
 
     let actualParams = optionsSpy.params.updates[0];
     expect(actualParams["param"]).toEqual("jobType");
-    expect(actualParams["value"]).toEqual("LOADER");
+    expect(actualParams["value"]).toEqual("LOAD");
   });
 
 });

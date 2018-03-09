@@ -1,0 +1,66 @@
+.load-status-icon {
+  text-align: center;
+}
+
+.load-success {
+  color: #090;
+}
+
+.load-failure {
+  color: #900;
+}
+
+.load-not-applicable {
+  color: #999;
+}
+
+.fa-refresh {
+  -webkit-animation: spin 4s infinite linear;
+}
+
+.text-align-center {
+  text-align: center;
+  width: 100%;
+}
+
+.ui-paginator-bottom {
+  text-align: center;
+}
+
+p-datatable {
+  font-family: "PT Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.test-package-jobs-list-container {
+  .ui-datatable-odd td,
+  .ui-datatable-even td{
+    cursor: pointer;
+  }
+
+  .ui-state-highlight {
+    background-color: #3696E6 !important;
+    color: #FFF;
+
+    .fa {
+      color: white;
+    }
+
+    .fa-refresh {
+      -webkit-animation: spin 4s infinite linear;
+    }
+  }
+}
+
+@-moz-keyframes spin {
+  from { -moz-transform: rotate(0deg); }
+  to { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+  from { -webkit-transform: rotate(0deg); }
+  to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+  from {transform:rotate(0deg);}
+  to {transform:rotate(360deg);}
+}
+

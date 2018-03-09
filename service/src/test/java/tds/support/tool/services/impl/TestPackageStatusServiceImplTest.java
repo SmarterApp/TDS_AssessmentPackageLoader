@@ -56,7 +56,7 @@ public class TestPackageStatusServiceImplTest {
         final TestPackageStatus expectedTestPackageStatus = new TestPackageStatus("test-package-filename",
             LocalDateTime.now(),
             UUID.randomUUID().toString(),
-            JobType.LOADER,
+            JobType.LOAD,
             targetSystemStatuses);
 
         final ArgumentCaptor<TestPackageStatus> testPackageStatusArgumentCaptor = ArgumentCaptor.forClass(TestPackageStatus.class);
@@ -97,12 +97,12 @@ public class TestPackageStatusServiceImplTest {
             new TestPackageStatus("first-test-package-filename",
                 LocalDateTime.now(),
                 UUID.randomUUID().toString(),
-                JobType.LOADER,
+                JobType.LOAD,
                 targetSystemStatuses),
             new TestPackageStatus("second-test-package-filename",
                 LocalDateTime.now(),
                 UUID.randomUUID().toString(),
-                JobType.LOADER,
+                JobType.LOAD,
                 targetSystemStatuses));
 
         final PageRequest pageRequest = new PageRequest(0, 2);
@@ -145,7 +145,7 @@ public class TestPackageStatusServiceImplTest {
         final TestPackageStatus expectedTestPackageStatus = new TestPackageStatus(testPackageName,
             LocalDateTime.now(),
             UUID.randomUUID().toString(),
-            JobType.LOADER,
+            JobType.LOAD,
             targetSystemStatuses);
 
         final PageRequest pageRequest = new PageRequest(0, 2);

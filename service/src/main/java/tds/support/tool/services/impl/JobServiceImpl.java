@@ -96,7 +96,7 @@ public class JobServiceImpl implements JobService {
 
                         // Update job after each step has been processed to set step status/errors
                         jobRepository.save(job);
-                        if (job.getType().equals(JobType.LOADER)) {
+                        if (job.getType().equals(JobType.LOAD)) {
                             testPackageStatusService.save(job);
                         }
                     } else {
@@ -104,9 +104,9 @@ public class JobServiceImpl implements JobService {
                     }
                 });
 
-        // Only rollback failed "LOADER" jobs.  When the ROLLBACK job for this failed LOADER job runs, the status record
+        // Only rollback failed "LOAD" jobs.  When the ROLLBACK job for this failed LOAD job runs, the status record
         // will be deleted.
-        if (job.getType() == JobType.LOADER && hasJobStepFailure(job)) {
+        if (job.getType() == JobType.LOAD && hasJobStepFailure(job)) {
             createRollbackJobFromFailedJob((TestPackageLoadJob) job);
         }
 
@@ -119,7 +119,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public void startPackageDelete(final String testPackageName) {
         final Job mostRecentLoaderJob = jobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(testPackageName,
-                JobType.LOADER);
+                JobType.LOAD);
 
         // If there's no previous loader job for the specified test package, exit (because there's nothing to do).
         if (mostRecentLoaderJob == null) {

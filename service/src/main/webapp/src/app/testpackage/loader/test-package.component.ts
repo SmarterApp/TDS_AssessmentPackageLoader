@@ -7,7 +7,7 @@ import {TestPackageJob} from "./jobs/model/test-package-job.model";
 @Component({
   selector: 'loader',
   templateUrl: './test-package.component.html',
-  styleUrls: ['../test-package.component.css']
+  styleUrls: ['../test-package.component.scss']
 })
 export class TestPackageComponent {
   selectedJob: TestPackageJob;

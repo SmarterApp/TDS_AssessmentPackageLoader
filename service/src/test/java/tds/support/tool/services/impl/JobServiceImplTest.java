@@ -83,7 +83,7 @@ public class JobServiceImplTest {
         final String packageName = "packageName";
         Job job = new TestPackageLoadJob(packageName, false, false);
         job.setId(UUID.randomUUID().toString());
-        job.setType(JobType.LOADER);
+        job.setType(JobType.LOAD);
 
         Step step = job.getSteps().stream()
             .filter(s -> TestPackageLoadJob.FILE_UPLOAD.equals(s.getName()))
@@ -102,7 +102,7 @@ public class JobServiceImplTest {
         Job jobBeforeUpload = jobArgumentCaptor.getAllValues().get(1);
         assertThat(jobBeforeUpload.getSteps()).hasSize(6);
         assertThat(jobBeforeUpload.getStatus()).isEqualTo(Status.IN_PROGRESS);
-        assertThat(jobBeforeUpload.getType()).isEqualTo(JobType.LOADER);
+        assertThat(jobBeforeUpload.getType()).isEqualTo(JobType.LOAD);
 
         Step fileUploadStep = jobBeforeUpload.getSteps().stream()
             .filter(s -> s.getName().equals(TestPackageLoadJob.FILE_UPLOAD))
@@ -126,7 +126,7 @@ public class JobServiceImplTest {
     @Test
     public void shouldFindAllJobsForNullJobType() {
         Job mockLoaderJob = new TestPackageLoadJob("FileName", false, false);
-        mockLoaderJob.setType(JobType.LOADER);
+        mockLoaderJob.setType(JobType.LOAD);
         Job mockScoringJob = new TestPackageDeleteJob("FileName", false, false);
         mockScoringJob.setType(JobType.SCORING);
 
@@ -140,11 +140,11 @@ public class JobServiceImplTest {
     @Test
     public void shouldFindAllLoaderJobs() {
         Job mockLoaderJob = new TestPackageLoadJob("FileName", false, false);
-        mockLoaderJob.setType(JobType.LOADER);
+        mockLoaderJob.setType(JobType.LOAD);
 
-        when(mockJobRepository.findByTypeIn(JobType.LOADER)).thenReturn(Collections.singletonList(mockLoaderJob));
+        when(mockJobRepository.findByTypeIn(JobType.LOAD)).thenReturn(Collections.singletonList(mockLoaderJob));
 
-        List<Job> retJobs = jobService.findJobs(JobType.LOADER);
+        List<Job> retJobs = jobService.findJobs(JobType.LOAD);
         assertThat(retJobs).hasSize(1);
     }
 
@@ -217,7 +217,7 @@ public class JobServiceImplTest {
         assertThat(savedJobs).hasSize(4);
 
         Job loaderJobPreStepHandlers = savedJobs.get(0);
-        assertThat(loaderJobPreStepHandlers.getType()).isEqualTo(JobType.LOADER);
+        assertThat(loaderJobPreStepHandlers.getType()).isEqualTo(JobType.LOAD);
         // Second save is our new "rollback" job
         Job savedRollbackJob = savedJobs.get(2);
         assertThat(savedRollbackJob.getType()).isEqualTo(JobType.ROLLBACK);
@@ -225,7 +225,7 @@ public class JobServiceImplTest {
         assertThat(savedRollbackJob.getId()).isNotEqualTo(loaderJobPreStepHandlers.getId());
         // Third save is our loader jobs "fail" status save
         Job savedFailedLoaderJob = savedJobs.get(3);
-        assertThat(savedFailedLoaderJob.getType()).isEqualTo(JobType.LOADER);
+        assertThat(savedFailedLoaderJob.getType()).isEqualTo(JobType.LOAD);
         assertThat(savedFailedLoaderJob.getStatus()).isEqualTo(Status.FAIL);
         assertThat(savedFailedLoaderJob.getId()).isEqualTo(loaderJobPreStepHandlers.getId());
     }
@@ -267,7 +267,7 @@ public class JobServiceImplTest {
             false);
         previouslyLoadedJob.setId("previously-loaded-job-id");
 
-        when(mockJobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(testPackageName, JobType.LOADER))
+        when(mockJobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(testPackageName, JobType.LOAD))
             .thenReturn(previouslyLoadedJob);
         doAnswer(new JobWithIdAnswer(UUID.randomUUID().toString()))
             .when(mockJobRepository).save(isA(TestPackageDeleteJob.class));
@@ -276,7 +276,7 @@ public class JobServiceImplTest {
 
         jobService.startPackageDelete(testPackageName);
 
-        verify(mockJobRepository).findOneByNameAndTypeOrderByCreatedAtDesc(testPackageName, JobType.LOADER);
+        verify(mockJobRepository).findOneByNameAndTypeOrderByCreatedAtDesc(testPackageName, JobType.LOAD);
         verify(mockJobRepository).save(testPackageDeleteJobArgumentCaptor.capture());
         verify(mockTestPackageStatusService).save(testPackageDeleteJobArgumentCaptor.capture());
 
@@ -291,12 +291,12 @@ public class JobServiceImplTest {
     public void shouldNotCreateTestPackageDeleteJobWhenThereIsNoPreviousLoaderJob() {
         final String testPackageName = "i-was-loaded";
 
-        when(mockJobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(testPackageName, JobType.LOADER))
+        when(mockJobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(testPackageName, JobType.LOAD))
             .thenReturn(null);
 
         jobService.startPackageDelete(testPackageName);
 
-        verify(mockJobRepository).findOneByNameAndTypeOrderByCreatedAtDesc(testPackageName, JobType.LOADER);
+        verify(mockJobRepository).findOneByNameAndTypeOrderByCreatedAtDesc(testPackageName, JobType.LOAD);
         verifyNoMoreInteractions(mockJobRepository);
         verifyZeroInteractions(mockMessagingService);
     }

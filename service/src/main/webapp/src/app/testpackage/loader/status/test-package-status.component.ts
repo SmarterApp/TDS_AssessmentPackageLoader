@@ -20,7 +20,7 @@ import { Router } from "@angular/router";
  */
 @Component({
   templateUrl: './test-package-status.component.html',
-  styleUrls: ['./test-package-status.component.css', '../../test-package.component.css'],
+  styleUrls: ['./test-package-status.component.css', '../../test-package.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class TestPackageStatusComponent implements OnInit, OnDestroy {

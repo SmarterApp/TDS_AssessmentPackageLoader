@@ -41,10 +41,10 @@ public class TestPackageStatusRepositoryIntegrationTest {
         // TestPackageDeleteJobs would end up in a testPackageDeleteJob collection and so on. Since the real application
         // will persist all Jobs to the job collection, the saves need to happen individually (which, coincidentally,
         // is how they'll happen in the real app's behavior anyway).
-        final Job firstJob = new TestPackageLoadJob("LOADER for 01 test package; TDS Only", true, true);
-        final Job secondJob = new TestPackageLoadJob("LOADER FOR 02 test package: TDS and ART", false, true);
-        final Job thirdJob = new TestPackageLoadJob("LOADER FOR 03 test package: all systems", false, false);
-        final Job fourthJob = new TestPackageLoadJob("LOADER FOR 04 test package: all systems, some errors", false, false);
+        final Job firstJob = new TestPackageLoadJob("LOAD for 01 test package; TDS Only", true, true);
+        final Job secondJob = new TestPackageLoadJob("LOAD FOR 02 test package: TDS and ART", false, true);
+        final Job thirdJob = new TestPackageLoadJob("LOAD FOR 03 test package: all systems", false, false);
+        final Job fourthJob = new TestPackageLoadJob("LOAD FOR 04 test package: all systems, some errors", false, false);
         final Job fifthJob = new TestPackageDeleteJob("DELETE for 05 delete me from all systems", false, false);
 
         final Job firstSavedJob = jobRepository.save(firstJob);
@@ -55,13 +55,13 @@ public class TestPackageStatusRepositoryIntegrationTest {
 
 
         final List<TestPackageStatus> testPackageStatuses = Arrays.asList(
-            new TestPackageStatus("LOADER for 01 test package; TDS Only",
+            new TestPackageStatus("LOAD for 01 test package; TDS Only",
                 LocalDateTime.now().minus(25, ChronoUnit.MINUTES),
                 firstSavedJob.getId(),
                 firstSavedJob.getType(),
                 Collections.singletonList(new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS)
                 )),
-            new TestPackageStatus("LOADER FOR 02 test package: TDS and ART",
+            new TestPackageStatus("LOAD FOR 02 test package: TDS and ART",
                 LocalDateTime.now().minus(20, ChronoUnit.MINUTES),
                 secondSavedJob.getId(),
                 secondSavedJob.getType(),
@@ -69,7 +69,7 @@ public class TestPackageStatusRepositoryIntegrationTest {
                     new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                     new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)
                 )),
-            new TestPackageStatus("LOADER FOR 03 test package: all systems",
+            new TestPackageStatus("LOAD FOR 03 test package: all systems",
                 LocalDateTime.now().minus(15, ChronoUnit.MINUTES),
                 thirdSavedJob.getId(),
                 thirdSavedJob.getType(),
@@ -79,7 +79,7 @@ public class TestPackageStatusRepositoryIntegrationTest {
                     new TestPackageTargetSystemStatus(TargetSystem.TIS, Status.SUCCESS),
                     new TestPackageTargetSystemStatus(TargetSystem.THSS, Status.SUCCESS)
                 )),
-            new TestPackageStatus("LOADER FOR 04 test package: all systems, some errors",
+            new TestPackageStatus("LOAD FOR 04 test package: all systems, some errors",
                 LocalDateTime.now().minus(10, ChronoUnit.MINUTES),
                 fourthSavedJob.getId(),
                 fourthSavedJob.getType(),

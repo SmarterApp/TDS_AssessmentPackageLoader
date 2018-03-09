@@ -13,7 +13,7 @@ export class TestPackageJobService {
 
   getTestPackageJobs(): Observable<TestPackageJob[]> {
     let params = new HttpParams()
-      .append('jobType', 'LOADER')
+      .append('jobType', 'LOAD')
       .append('jobType', 'DELETE')
       .append('jobType', 'ROLLBACK');
 

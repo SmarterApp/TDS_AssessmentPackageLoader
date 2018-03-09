@@ -66,14 +66,14 @@ public class TestPackageStatusControllerIntegrationTest {
             new TestPackageStatus("first test package",
                 LocalDateTime.now(),
                 UUID.randomUUID().toString(),
-                JobType.LOADER,
+                JobType.LOAD,
                 Collections.singletonList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS)
             )),
             new TestPackageStatus("second test package",
                 LocalDateTime.now(),
                 UUID.randomUUID().toString(),
-                JobType.LOADER,
+                JobType.LOAD,
                 Arrays.asList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                 new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)
@@ -81,7 +81,7 @@ public class TestPackageStatusControllerIntegrationTest {
             new TestPackageStatus("third test package",
                 LocalDateTime.now(),
                 UUID.randomUUID().toString(),
-                JobType.LOADER,
+                JobType.LOAD,
                 Arrays.asList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                 new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)
@@ -103,14 +103,14 @@ public class TestPackageStatusControllerIntegrationTest {
             new TestPackageStatus("first test package",
                 LocalDateTime.now(),
                 UUID.randomUUID().toString(),
-                JobType.LOADER,
+                JobType.LOAD,
                 Collections.singletonList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS)
             )),
             new TestPackageStatus("second test package",
                 LocalDateTime.now(),
                 UUID.randomUUID().toString(),
-                JobType.LOADER,
+                JobType.LOAD,
                 Arrays.asList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                 new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)
@@ -118,7 +118,7 @@ public class TestPackageStatusControllerIntegrationTest {
             new TestPackageStatus("third test package",
                 LocalDateTime.now(),
                 UUID.randomUUID().toString(),
-                JobType.LOADER,
+                JobType.LOAD,
                 Arrays.asList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                 new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)
@@ -151,14 +151,14 @@ public class TestPackageStatusControllerIntegrationTest {
             new TestPackageStatus("first test package",
                 LocalDateTime.now(),
                 UUID.randomUUID().toString(),
-                JobType.LOADER,
+                JobType.LOAD,
                 Collections.singletonList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS)
             )),
             new TestPackageStatus("second test package",
                 LocalDateTime.now(),
                 UUID.randomUUID().toString(),
-                JobType.LOADER,
+                JobType.LOAD,
                 Arrays.asList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                 new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)
@@ -166,7 +166,7 @@ public class TestPackageStatusControllerIntegrationTest {
             new TestPackageStatus("third test package",
                 LocalDateTime.now(),
                 UUID.randomUUID().toString(),
-                JobType.LOADER,
+                JobType.LOAD,
                 Arrays.asList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                 new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)

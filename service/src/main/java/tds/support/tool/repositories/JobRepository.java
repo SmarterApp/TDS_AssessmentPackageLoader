@@ -22,7 +22,7 @@ public interface JobRepository extends MongoRepository<Job, String> {
     /**
      * Find the most recent {@link tds.support.job.Job} for the specified name and {@link tds.support.job.JobType}.
      *
-     * @param name The name of the {@link tds.support.job.Job} to find.  For {@link tds.support.job.JobType#LOADER},
+     * @param name The name of the {@link tds.support.job.Job} to find.  For {@link tds.support.job.JobType#LOAD},
      *             this will be the name of the {@link tds.testpackage.model.TestPackage} file.
      * @param jobType The {@link tds.support.job.JobType} describing the type of {@link tds.support.job.Job} to find
      * @return

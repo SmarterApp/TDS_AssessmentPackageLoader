@@ -40,7 +40,7 @@ public class TestPackageLoadJob extends Job {
         }
 
         this.setSteps(steps);
-        this.setType(JobType.LOADER);
+        this.setType(JobType.LOAD);
     }
 
     public boolean isSkipArt() {

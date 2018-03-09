@@ -26,10 +26,8 @@ import tds.support.job.TestPackageTargetSystemStatus;
 import tds.support.tool.services.TestPackageStatusService;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Matchers.isA;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -50,14 +48,14 @@ public class TestPackageStatusControllerTest {
             new TestPackageStatus("test package; TDS Only",
                 LocalDateTime.now(),
                 UUID.randomUUID().toString(),
-                JobType.LOADER,
+                JobType.LOAD,
                 Collections.singletonList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS)
             )),
             new TestPackageStatus("test package: TDS and ART",
                 LocalDateTime.now(),
                 UUID.randomUUID().toString(),
-                JobType.LOADER,
+                JobType.LOAD,
                 Arrays.asList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                 new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)
@@ -96,14 +94,14 @@ public class TestPackageStatusControllerTest {
             new TestPackageStatus("test package; TDS Only",
                 LocalDateTime.now(),
                 UUID.randomUUID().toString(),
-                JobType.LOADER,
+                JobType.LOAD,
                 Collections.singletonList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS)
             )),
             new TestPackageStatus("test package: TDS and ART",
                 LocalDateTime.now(),
                 UUID.randomUUID().toString(),
-                JobType.LOADER,
+                JobType.LOAD,
                 Arrays.asList(
                 new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
                 new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS)

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from "@angular/core";
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TestPackageJobService} from "./test-package-jobs.service";
 import {TestPackageJob, StepStatus} from "./model/test-package-job.model";
@@ -8,7 +8,8 @@ import 'rxjs/add/operator/takeWhile';
 @Component({
   selector: 'test-package-jobs',
   templateUrl: './test-package-jobs.component.html',
-  styleUrls: ['../../test-package.component.css']
+  styleUrls: ['../../test-package.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class TestPackageJobsComponent implements OnInit, OnDestroy {
   // query: LoaderJobsQuery;

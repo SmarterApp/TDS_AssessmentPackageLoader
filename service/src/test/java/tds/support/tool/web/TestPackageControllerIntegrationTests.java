@@ -44,14 +44,14 @@ public class TestPackageControllerIntegrationTests {
     @Test
     public void testFindLoaderJobs() throws Exception {
         List mockJobs = randomListOf(3, TestPackageLoadJob.class);
-        when(mockJobService.findJobs(JobType.LOADER)).thenReturn(mockJobs);
+        when(mockJobService.findJobs(JobType.LOAD)).thenReturn(mockJobs);
 
         http.perform(get(new URI("/api/load"))
-            .param("jobType", "LOADER")
+            .param("jobType", "LOAD")
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk());
 
-        verify(mockJobService).findJobs(JobType.LOADER);
+        verify(mockJobService).findJobs(JobType.LOAD);
     }
 
     @Test

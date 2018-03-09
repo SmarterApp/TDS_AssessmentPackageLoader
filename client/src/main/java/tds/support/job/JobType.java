@@ -12,7 +12,7 @@ public enum JobType {
     /**
      * Loads a test package into the TDS system including supporting services
      */
-    LOADER,
+    LOAD,
 
     /**
      * Deletes a test package from the TDS system and supporting services
@@ -20,7 +20,7 @@ public enum JobType {
     DELETE,
 
     /**
-     * Functionally the same as a DELETE job, but is triggered implicitly by a failed LOADER job
+     * Functionally the same as a DELETE job, but is triggered implicitly by a failed LOAD job
      */
     ROLLBACK
 }
