@@ -5,17 +5,14 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -26,6 +23,13 @@ import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
+import tds.common.configuration.JacksonObjectMapperConfiguration;
+import tds.common.configuration.SecurityConfiguration;
+import tds.common.web.advice.ExceptionAdvice;
+import tds.support.job.TestPackageDeleteJob;
+import tds.support.job.TestPackageLoadJob;
+import tds.support.tool.handlers.loader.TestPackageHandler;
+import tds.support.tool.handlers.loader.impl.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,30 +37,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
-import tds.common.configuration.JacksonObjectMapperConfiguration;
-import tds.common.configuration.SecurityConfiguration;
-import tds.common.web.advice.ExceptionAdvice;
-import tds.support.job.TestPackageDeleteJob;
-import tds.support.job.TestPackageLoadJob;
-import tds.support.tool.TestPackageObjectMapperConfiguration;
-import tds.support.tool.handlers.loader.TestPackageHandler;
-import tds.support.tool.handlers.loader.impl.ARTDeleteStepHandler;
-import tds.support.tool.handlers.loader.impl.ARTLoaderStepHandler;
-import tds.support.tool.handlers.loader.impl.ParseAndValidateHandler;
-import tds.support.tool.handlers.loader.impl.TDSDeleteStepHandler;
-import tds.support.tool.handlers.loader.impl.TDSLoaderStepHandler;
-import tds.support.tool.handlers.loader.impl.THSSDeleteStepHandler;
-import tds.support.tool.handlers.loader.impl.THSSLoaderStepHandler;
-import tds.support.tool.handlers.loader.impl.TISDeleteStepHandler;
-import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
-
 @EnableAsync
 @Configuration
 @Import({
     ExceptionAdvice.class,
-    JacksonObjectMapperConfiguration.class,
     SecurityConfiguration.class,
-    TestPackageObjectMapperConfiguration.class,
+    JacksonObjectMapperConfiguration.class,
     MvcConfig.class
 })
 public class SupportToolServiceConfiguration {
@@ -98,27 +84,20 @@ public class SupportToolServiceConfiguration {
         return handlerMap;
     }
 
-    @Autowired
-    ObjectMapper objectMapper;
-
-    @Bean(name = "testSpecificationObjectMapper")
-    public XmlMapper xmlMapper() {
-        JacksonXmlModule xmlModule = new JacksonXmlModule();
-        xmlModule.setDefaultUseWrapper(false);
-        XmlMapper xmlMapper = new XmlMapper(xmlModule);
-        xmlMapper.registerModule(new Jdk8Module());
-        xmlMapper.registerModule(new JaxbAnnotationModule());
-        xmlMapper.enable(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY);
-        xmlMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        xmlMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        return xmlMapper;
+    private ObjectMapper getIntegrationObjectMapper() {
+        return new ObjectMapper()
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+            .registerModule(new GuavaModule())
+            .registerModule(new JodaModule())
+            .registerModule(new Jdk8Module())
+            .registerModule(new JavaTimeModule());
     }
 
     @Bean(name = "integrationRestTemplate")
     public RestTemplate restTemplate() {
         // Jackson Converters
         final MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(objectMapper);
+        converter.setObjectMapper(getIntegrationObjectMapper());
         final RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
         final List<HttpMessageConverter<?>> converters = new ArrayList<>();
         converters.add(converter);

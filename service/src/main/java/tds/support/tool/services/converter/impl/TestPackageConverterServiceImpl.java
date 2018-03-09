@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import tds.support.tool.services.converter.TestPackageConverterService;
 import tds.support.tool.services.converter.TestPackageMapper;
+import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 import tds.testpackage.legacy.model.Testspecification;
 import tds.testpackage.model.TestPackage;
 
@@ -25,8 +26,8 @@ public class TestPackageConverterServiceImpl implements TestPackageConverterServ
     private final XmlMapper xmlMapper;
 
     @Autowired
-    public TestPackageConverterServiceImpl(@Qualifier("testSpecificationObjectMapper") final XmlMapper xmlMapper) {
-        this.xmlMapper = xmlMapper;
+    public TestPackageConverterServiceImpl(final TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration) {
+        this.xmlMapper = testPackageObjectMapperConfiguration.getXmlMapper();
     }
 
     @Override

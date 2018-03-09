@@ -38,6 +38,7 @@ import tds.support.tool.repositories.loader.TestPackageRepository;
 import tds.support.tool.services.impl.JobServiceImpl;
 import tds.support.tool.services.impl.THSSServiceImpl;
 import tds.support.tool.services.loader.MessagingService;
+import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -49,6 +50,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 @RunWith(SpringRunner.class)
 @Configuration
 @ComponentScan(basePackages = {
+    "tds.support.tool.testpackage.configuration",
     "tds.support.tool.handlers.loader",
     "tds.support.tool.services.loader",
     "tds.support.tool.handlers.loader.impl",
@@ -70,8 +72,7 @@ public class JobServiceTest {
         @Autowired
         SupportToolProperties supportToolProperties;
         @Autowired
-        @Qualifier("thssObjectMapper")
-        ObjectMapper objectMapper;
+        TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration;
         @Autowired
         RestTemplate restTemplate;
 
@@ -112,7 +113,7 @@ public class JobServiceTest {
                 return httpClientMock;
             };
 
-            return new THSSServiceImpl(httpClientSupplier, supportToolProperties, objectMapper, restTemplate);
+            return new THSSServiceImpl(httpClientSupplier, supportToolProperties, restTemplate, testPackageObjectMapperConfiguration);
         }
     }
 
