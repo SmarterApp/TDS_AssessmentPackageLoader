@@ -9,6 +9,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
+import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 import tds.testpackage.legacy.model.Testspecification;
 
 import java.io.IOException;
@@ -20,7 +21,6 @@ public class TestPackageBaseTest {
 
     protected Testspecification mockCombinedScoringPackage;
 
-    @Autowired
     protected XmlMapper xmlMapper;
 
     @Before

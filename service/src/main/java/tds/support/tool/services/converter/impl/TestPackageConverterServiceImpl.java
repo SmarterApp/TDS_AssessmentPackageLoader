@@ -4,7 +4,6 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import tds.support.tool.services.converter.TestPackageConverterService;
 import tds.support.tool.services.converter.TestPackageMapper;
@@ -27,7 +26,7 @@ public class TestPackageConverterServiceImpl implements TestPackageConverterServ
 
     @Autowired
     public TestPackageConverterServiceImpl(final TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration) {
-        this.xmlMapper = testPackageObjectMapperConfiguration.getXmlMapper();
+        this.xmlMapper = testPackageObjectMapperConfiguration.getLegacyTestSpecXmlMapper();
     }
 
     @Override
@@ -36,9 +35,13 @@ public class TestPackageConverterServiceImpl implements TestPackageConverterServ
 
         List<Testspecification> specifications = zipFile.stream()
                 .filter(entry -> !entry.isDirectory() && entry.getName().endsWith(".xml")
-                    && !entry.getName().startsWith("__")) // Ignore __MACOSX folder if it exists
+                        && !entry.getName().startsWith("__")) // Ignore __MACOSX folder if it exists
                 .map(entry -> unzipAndRead(zipFile, entry))
                 .collect(Collectors.toList());
+
+        if (specifications.isEmpty()) {
+            throw new IOException("No testspecification XML files were located within the zip file");
+        }
 
         TestPackage testPackage = TestPackageMapper.toNew(testPackageName, specifications);
         return xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(testPackage);

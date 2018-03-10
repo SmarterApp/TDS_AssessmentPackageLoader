@@ -12,9 +12,21 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * A class responsible for mapping between legacy (AIR) and Fairway developed test packages
+ */
 public class TestPackageMapper {
     private static final Logger log = LoggerFactory.getLogger(TestPackageMapper.class);
 
+    /**
+     * Maps one or more legacy {@link Testspecification}s to a {@link TestPackage}. At minimum one administration legacy
+     * test packages are required for the conversion. If a scoring package is identified, scoring data will be added to the
+     * test blueprint
+     *
+     * @param testPackageName    The name that should be used for the created test package
+     * @param testSpecifications A collection of legacy {@link Testspecification}s
+     * @return The converted {@link TestPackage}
+     */
     public static TestPackage toNew(final String testPackageName, final List<Testspecification> testSpecifications) {
         List<Testspecification> adminTestPackages = testSpecifications.stream()
                 .filter(TestPackageUtils::isAdministrationPackage)
@@ -22,6 +34,10 @@ public class TestPackageMapper {
         List<Testspecification> scoringTestPackages = testSpecifications.stream()
                 .filter(TestPackageUtils::isScoringPackage)
                 .collect(Collectors.toList());
+
+        if (adminTestPackages.isEmpty()) {
+            throw new IllegalArgumentException("No administration test packages found. Aborting...");
+        }
 
         log.debug("Converting {} administration and {} scoring packages to a new TestPackage called {}",
                 adminTestPackages.size(), scoringTestPackages.size(), testPackageName);

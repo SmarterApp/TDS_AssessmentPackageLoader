@@ -9,7 +9,18 @@ import tds.testpackage.model.Scoring;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * A class responsible for mapping between legacy (AIR) and Fairway developed test package blueprint data
+ */
 public class TestPackageBlueprintMapper {
+    /**
+     * Maps  one or more legacy {@link Testspecification} test package blueprints to a single blueprint compatible
+     * with a {@link TestPackage}
+     *
+     * @param testPackageName    The name that should be used for the created test package
+     * @param testSpecifications A collection of legacy {@link Testspecification}s
+     * @return
+     */
     public static List<BlueprintElement> mapBlueprint(final String testPackageName,
                                                       final List<Testspecification> testSpecifications) {
         // Get a mapping of all blueprint element "unique ids" to "names".

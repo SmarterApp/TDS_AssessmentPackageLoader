@@ -17,6 +17,12 @@ import tds.teacherhandscoring.model.RubricListSerializer;
 @Component
 public class TestPackageObjectMapperConfiguration {
     public XmlMapper getXmlMapper() {
+        final XmlMapper xmlMapper = new XmlMapper();
+        xmlMapper.registerModule(new Jdk8Module());
+        return xmlMapper;
+    }
+
+    public XmlMapper getLegacyTestSpecXmlMapper() {
         final JacksonXmlModule xmlModule = new JacksonXmlModule();
         xmlModule.setDefaultUseWrapper(false);
         final XmlMapper xmlMapper = new XmlMapper(xmlModule);
