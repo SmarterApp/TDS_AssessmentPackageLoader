@@ -29,8 +29,8 @@ public class TestPackageConverterController {
     }
 
     @PostMapping(value = "/new", produces = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<String> convertToNew(@RequestParam("file") MultipartFile file,
-                                               @RequestParam String testPackageName) {
+    public ResponseEntity<String> convertToNew(@RequestParam("file") final MultipartFile file,
+                                               @RequestParam final String testPackageName) {
         String testPackageXml;
 
         try {
@@ -45,7 +45,7 @@ public class TestPackageConverterController {
         return ResponseEntity.ok(testPackageXml);
     }
 
-    private File convert(MultipartFile file) throws IOException {
+    private File convert(final MultipartFile file) throws IOException {
         File convFile = new File(file.getOriginalFilename());
         FileOutputStream fos = new FileOutputStream(convFile);
         fos.write(file.getBytes());
