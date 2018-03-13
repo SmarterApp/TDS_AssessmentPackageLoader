@@ -1,7 +1,5 @@
 package tds.support.tool.services.converter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.sun.tools.javac.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -10,6 +8,7 @@ import tds.support.tool.TestPackageBaseTest;
 import tds.testpackage.model.*;
 
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -159,7 +158,7 @@ public class TestPackageMapperTest extends TestPackageBaseTest {
     public void shouldConvertCombinedTestPackage() throws ParseException {
         assertThat(mockPerfAdminLegacyTestPackage).isNotNull();
         TestPackage testPackage = TestPackageMapper.toNew("(SBAC_PT)SBAC-IRP-COMBINED-MATH-11-Summer-2015-2016",
-                List.of(mockPerfAdminLegacyTestPackage, mockCATAdminLegacyTestPackage));
+                Arrays.asList(mockPerfAdminLegacyTestPackage, mockCATAdminLegacyTestPackage));
 
         assertThat(testPackage).isNotNull();
         assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
@@ -282,7 +281,7 @@ public class TestPackageMapperTest extends TestPackageBaseTest {
     public void shouldConvertCombinedTestPackageWithScoring() throws ParseException {
         assertThat(mockPerfAdminLegacyTestPackage).isNotNull();
         TestPackage testPackage = TestPackageMapper.toNew("(SBAC_PT)SBAC-IRP-MATH-11-COMBINED-Summer-2015-2016",
-                List.of(mockPerfAdminLegacyTestPackage, mockCATAdminLegacyTestPackage, mockCombinedScoringPackage));
+                Arrays.asList(mockPerfAdminLegacyTestPackage, mockCATAdminLegacyTestPackage, mockCombinedScoringPackage));
 
         assertThat(testPackage).isNotNull();
         assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
