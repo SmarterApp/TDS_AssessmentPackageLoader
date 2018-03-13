@@ -14,6 +14,7 @@ import tds.testpackage.model.TestPackage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -30,7 +31,7 @@ public class TestPackageConverterServiceImpl implements TestPackageConverterServ
     }
 
     @Override
-    public String extractAndConvertTestSpecifications(final String testPackageName, final File file) throws IOException {
+    public String extractAndConvertTestSpecifications(final String testPackageName, final File file) throws IOException, ParseException {
         ZipFile zipFile = new ZipFile(file);
 
         List<Testspecification> specifications = zipFile.stream()
