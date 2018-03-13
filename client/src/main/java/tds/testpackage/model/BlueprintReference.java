@@ -4,9 +4,12 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 
+import javax.xml.bind.annotation.XmlAttribute;
+
 @AutoValue
 @JsonDeserialize(builder = AutoValue_BlueprintReference.Builder.class)
 public abstract class BlueprintReference {
+    @XmlAttribute
     public abstract String getIdRef();
 
     public static Builder builder() {

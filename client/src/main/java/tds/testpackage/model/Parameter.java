@@ -8,6 +8,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,12 +20,20 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Parameter.Builder.class)
 public abstract class Parameter {
+    @XmlAttribute
     public abstract String getId();
+    @XmlAttribute
     public abstract String getName();
+    @XmlAttribute
     public abstract String getType();
+    @XmlAttribute
     public abstract int getPosition();
+
+    @XmlElement(name="Value", type=Value.class)
     public abstract List<Value> getValues();
+
     @Nullable
+    @XmlElement(name="Property", type=Property.class)
     protected abstract List<Property> getProperties();
     @JsonProperty(value = "properties")
     public List<Property> properties() {

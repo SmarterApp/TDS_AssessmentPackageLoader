@@ -23,28 +23,19 @@ import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
-
 import tds.common.configuration.JacksonObjectMapperConfiguration;
 import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
 import tds.support.job.TestPackageDeleteJob;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.tool.handlers.loader.TestPackageHandler;
-import tds.support.tool.handlers.loader.impl.ARTDeleteStepHandler;
-import tds.support.tool.handlers.loader.impl.ARTLoaderStepHandler;
-import tds.support.tool.handlers.loader.impl.ParseAndValidateHandler;
-import tds.support.tool.handlers.loader.impl.TDSDeleteStepHandler;
-import tds.support.tool.handlers.loader.impl.TDSLoaderStepHandler;
-import tds.support.tool.handlers.loader.impl.THSSDeleteStepHandler;
-import tds.support.tool.handlers.loader.impl.THSSLoaderStepHandler;
-import tds.support.tool.handlers.loader.impl.TISDeleteStepHandler;
-import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
+import tds.support.tool.handlers.loader.impl.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 @EnableAsync
 @Configuration

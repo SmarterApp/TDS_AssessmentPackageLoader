@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import java.util.Optional;
 
 import static tds.testpackage.model.XmlUtil.parseBoolean;
@@ -26,20 +27,26 @@ import static tds.testpackage.model.XmlUtil.parseBoolean;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Dependency.Builder.class)
 public abstract class Dependency {
+    @XmlAttribute
     public abstract String getIfToolType();
 
+    @XmlAttribute
     public abstract String getIfToolCode();
 
     @JsonProperty
+    @XmlAttribute
     protected abstract Optional<String> getEnabled();
 
     @JsonProperty
+    @XmlAttribute
     protected abstract Optional<String> getDefault();
 
+    @XmlAttribute
     public boolean enabled() {
         return parseBoolean(getEnabled(), true);
     }
 
+    @XmlAttribute
     public boolean defaultValue() {
         return parseBoolean(getDefault(), false);
     }

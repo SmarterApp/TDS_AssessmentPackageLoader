@@ -8,6 +8,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -21,10 +24,15 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Rule.Builder.class)
 public abstract class Rule {
+    @XmlAttribute
     public abstract String getName();
+    @XmlAttribute
     public abstract int getComputationOrder();
+
     @Nullable
     protected abstract List<Parameter> getParameters();
+
+    @XmlElement(name="Parameter", type=Parameter.class)
     @JsonProperty(value = "parameters")
     public List<Parameter> parameters() {
         return Optional.ofNullable(getParameters()).orElse(new ArrayList<>());

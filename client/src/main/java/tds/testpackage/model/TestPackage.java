@@ -7,6 +7,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.springframework.data.annotation.Id;
 
+import javax.xml.bind.annotation.*;
 import java.util.List;
 
 /**
@@ -15,8 +16,10 @@ import java.util.List;
  */
 @AutoValue
 @JsonDeserialize(using = TestPackageDeserializer.class,  builder = AutoValue_TestPackage.Builder.class)
+@XmlRootElement(name = "TestPackage")
 public abstract class TestPackage {
     @Id
+    @XmlTransient
     private String id;
 
     public String getId() {
@@ -27,14 +30,26 @@ public abstract class TestPackage {
         this.id = id;
     }
 
+    @XmlAttribute
     public abstract String getPublisher();
+    @XmlAttribute
     public abstract String getPublishDate();
+    @XmlAttribute
     public abstract String getSubject();
+    @XmlAttribute
     public abstract String getType();
+    @XmlAttribute
     public abstract String getVersion();
+    @XmlAttribute
     public abstract int getBankKey();
+    @XmlAttribute
     public abstract String getAcademicYear();
+
+    @XmlElementWrapper(name="Blueprint")
+    @XmlElement(name="BlueprintElement", type=BlueprintElement.class)
     public abstract List<BlueprintElement> getBlueprint();
+
+    @XmlElement(name="Test", type=Assessment.class)
     public abstract List<Assessment> getAssessments();
 
     public static Builder builder() {

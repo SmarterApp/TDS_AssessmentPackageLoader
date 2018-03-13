@@ -1,12 +1,16 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +30,7 @@ public abstract class SegmentBlueprintElement {
      *
      * @return
      */
+    @XmlAttribute
     public abstract String getIdRef();
 
     /**
@@ -33,6 +38,7 @@ public abstract class SegmentBlueprintElement {
      *
      * @return
      */
+    @XmlAttribute
     public abstract int getMinExamItems();
 
     /**
@@ -40,16 +46,19 @@ public abstract class SegmentBlueprintElement {
      *
      * @return
      */
+    @XmlAttribute
     public abstract int getMaxExamItems();
 
     protected abstract Optional<Integer> getMinFieldTestItems();
 
+    @XmlAttribute
     public int minFieldTestItems() {
         return getMinFieldTestItems().orElse(0);
     }
 
     protected abstract Optional<Integer> getMaxFieldTestItems();
 
+    @XmlAttribute
     public int maxFieldTestItems() {
         return getMaxFieldTestItems().orElse(0);
     }
@@ -58,6 +67,9 @@ public abstract class SegmentBlueprintElement {
     protected abstract List<Property> getItemSelection();
 
     @JsonProperty(value = "itemSelection")
+    @XmlElementWrapper(name="ItemSelection")
+    @XmlElement(name="Property", type=Property.class)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public List<Property> itemSelection() {
         return Optional.ofNullable(getItemSelection()).orElse(new ArrayList<>());
     }
@@ -76,17 +88,9 @@ public abstract class SegmentBlueprintElement {
 
         public abstract Builder setMaxExamItems(int newMaxExamItems);
 
-        protected abstract Builder setMinFieldTestItems(Optional<Integer> newMinFieldTestItems);
+        public abstract Builder setMinFieldTestItems(Optional<Integer> newMinFieldTestItems);
 
-        public Builder setMinFieldTestItems(int newMinFieldTestItems) {
-            return setMinFieldTestItems(newMinFieldTestItems);
-        }
-
-        protected abstract Builder setMaxFieldTestItems(Optional<Integer> newMaxFieldTestItems);
-
-        public Builder setMaxFieldTestItems(int newMaxFieldTestItems) {
-            return setMaxFieldTestItems(newMaxFieldTestItems);
-        }
+        public abstract Builder setMaxFieldTestItems(Optional<Integer> newMaxFieldTestItems);
 
         @JacksonXmlProperty(localName = "ItemSelection")
         protected abstract Builder setItemSelection(List<Property> newItemSelection);

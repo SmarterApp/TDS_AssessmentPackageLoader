@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 
+import javax.xml.bind.annotation.XmlAttribute;
+
 /**
  * Cutscore that determines a coarse-grained level of skill-attainment
  * Performance levels are part of scoring and reporting.
@@ -14,8 +16,11 @@ import com.google.auto.value.AutoValue;
 @JsonDeserialize(builder = AutoValue_PerformanceLevel.Builder.class)
 public abstract class PerformanceLevel {
     @JsonProperty("pLevel")
+    @XmlAttribute
     public abstract int getPLevel();
+    @XmlAttribute
     public abstract double getScaledLo();
+    @XmlAttribute
     public abstract double getScaledHi();
 
     public static Builder builder() {

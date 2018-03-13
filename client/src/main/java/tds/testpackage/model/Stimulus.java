@@ -6,12 +6,17 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.google.auto.value.AutoValue;
 import org.springframework.data.annotation.Transient;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlTransient;
+
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Stimulus.Builder.class)
 public abstract class Stimulus {
+    @XmlAttribute
     public abstract String getId();
 
     @Transient
+    @XmlTransient
     private TestPackage testPackage;
 
     public void setTestPackage(TestPackage testPackage) {
@@ -24,6 +29,7 @@ public abstract class Stimulus {
     }
 
     @JsonIgnore
+    @XmlTransient
     public String getKey() {
         return String.format("%s-%s", getTestPackage().getBankKey(), getId());
     }

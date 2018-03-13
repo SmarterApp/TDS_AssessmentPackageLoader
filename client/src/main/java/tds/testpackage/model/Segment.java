@@ -2,6 +2,7 @@ package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -9,6 +10,9 @@ import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.annotation.Transient;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +45,7 @@ import static tds.testpackage.model.XmlUtil.*;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Segment.Builder.class)
 public abstract class Segment {
+    @XmlAttribute
     public abstract String getId();
 
     @JsonProperty("position")
@@ -50,22 +55,28 @@ public abstract class Segment {
 
     protected abstract Optional<String> getExitApproval();
 
+    @XmlAttribute
     public boolean entryApproval() {
         return parseBoolean(getEntryApproval(), false);
     }
 
+    @XmlAttribute
     public boolean exitApproval() {
         return parseBoolean(getExitApproval(), false);
     }
 
+    @XmlAttribute
     public abstract Optional<String> getLabel();
 
+    @XmlAttribute
     public int position() {
         return getPosition().orElse(1);
     }
 
+    @XmlAttribute
     public abstract String getAlgorithmType();
 
+    @XmlAttribute
     public abstract String getAlgorithmImplementation();
 
     @Nullable
@@ -77,6 +88,8 @@ public abstract class Segment {
      * @return
      */
     @JsonProperty(value = "segmentBlueprint")
+    @XmlElementWrapper(name="SegmentBlueprint")
+    @XmlElement(name="SegmentBlueprintElement", type=SegmentBlueprintElement.class)
     public List<SegmentBlueprintElement> segmentBlueprint() {
         return Optional.ofNullable(getSegmentBlueprint()).orElse(new ArrayList<>());
     }
@@ -93,6 +106,9 @@ public abstract class Segment {
      * @return
      */
     @JsonProperty(value = "pool")
+    @XmlElementWrapper(name="Pool")
+    @XmlElement(name="ItemGroup", type=ItemGroup.class)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public List<ItemGroup> pool() {
         return Optional.ofNullable(getPool()).orElse(new ArrayList<>());
     }
@@ -107,6 +123,9 @@ public abstract class Segment {
      * @return
      */
     @JsonProperty(value = "segmentForms")
+    @XmlElementWrapper(name="SegmentForms")
+    @XmlElement(name="SegmentForm", type=SegmentForm.class)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public List<SegmentForm> segmentForms() {
         return Optional.ofNullable(getSegmentForms()).orElse(new ArrayList<>());
     }
@@ -115,6 +134,9 @@ public abstract class Segment {
     protected abstract List<Tool> getTools();
 
     @JsonProperty(value = "tools")
+    @XmlElementWrapper(name="Tools")
+    @XmlElement(name="Tool", type=Tool.class)
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public List<Tool> tools() {
         return Optional.ofNullable(getTools()).orElse(new ArrayList<>());
     }

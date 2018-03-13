@@ -10,6 +10,10 @@ import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.annotation.Transient;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlTransient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,17 +21,26 @@ import java.util.Optional;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_SegmentForm.Builder.class)
 public abstract class SegmentForm {
+    @XmlAttribute
     public abstract String getId();
+    @XmlAttribute
     public abstract String getCohort();
+
+    @XmlElementWrapper(name="Presentations")
+    @XmlElement(name="Presentation", type=Presentation.class)
     public abstract List<Presentation> getPresentations();
+
     @Nullable
     protected abstract List<ItemGroup> getItemGroups();
+
     @JsonProperty(value = "itemGroups")
+    @XmlElement(name="ItemGroup", type=ItemGroup.class)
     public List<ItemGroup> itemGroups() {
         return Optional.ofNullable(getItemGroups()).orElse(new ArrayList<>());
     }
 
     @Transient
+    @XmlTransient
     private Segment segment;
 
     public void setSegment(Segment segment) {
