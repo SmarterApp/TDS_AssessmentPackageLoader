@@ -9,6 +9,7 @@ import tds.common.Algorithm;
 import tds.support.tool.TestPackageBaseTest;
 import tds.testpackage.model.*;
 
+import java.text.ParseException;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,17 +17,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 @RunWith(MockitoJUnitRunner.class)
 public class TestPackageMapperTest extends TestPackageBaseTest {
     @Test
-    public void shouldConvertFixedFormTestPackage() {
+    public void shouldConvertFixedFormTestPackage() throws ParseException {
         assertThat(mockPerfAdminLegacyTestPackage).isNotNull();
         TestPackage testPackage = TestPackageMapper.toNew("(SBAC_PT)SBAC-IRP-Perf-MATH-11-Summer-2015-2016",
                 Collections.singletonList(mockPerfAdminLegacyTestPackage));
 
         assertThat(testPackage).isNotNull();
         assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
-        assertThat(testPackage.getPublishDate()).isNotNull();
+        assertThat(testPackage.getPublishDate()).isEqualTo("2015-08-19T22:44:00Z");
         assertThat(testPackage.getSubject()).isEqualTo("MATH");
         assertThat(testPackage.getType()).isEqualTo("summative");
-        assertThat(testPackage.getVersion()).isEqualTo("1.0");
+        assertThat(testPackage.getVersion()).isEqualTo("1");
         assertThat(testPackage.getBankKey()).isEqualTo(187);
         assertThat(testPackage.getAcademicYear()).isNotNull();
         // Assessments
@@ -89,17 +90,17 @@ public class TestPackageMapperTest extends TestPackageBaseTest {
     }
 
     @Test
-    public void shouldConvertCATTestPackage() {
+    public void shouldConvertCATTestPackage() throws ParseException {
         assertThat(mockPerfAdminLegacyTestPackage).isNotNull();
         TestPackage testPackage = TestPackageMapper.toNew("(SBAC_PT)SBAC-IRP-CAT-MATH-11-Summer-2015-2016",
                 Collections.singletonList(mockCATAdminLegacyTestPackage));
 
         assertThat(testPackage).isNotNull();
         assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
-        assertThat(testPackage.getPublishDate()).isNotNull();
+        assertThat(testPackage.getPublishDate()).isEqualTo("2015-08-19T22:44:00Z");
         assertThat(testPackage.getSubject()).isEqualTo("MATH");
         assertThat(testPackage.getType()).isEqualTo("summative");
-        assertThat(testPackage.getVersion()).isEqualTo("1.0");
+        assertThat(testPackage.getVersion()).isEqualTo("1");
         assertThat(testPackage.getBankKey()).isEqualTo(187);
         assertThat(testPackage.getAcademicYear()).isNotNull();
         // Assessments
@@ -155,7 +156,7 @@ public class TestPackageMapperTest extends TestPackageBaseTest {
     }
 
     @Test
-    public void shouldConvertCombinedTestPackage() throws JsonProcessingException {
+    public void shouldConvertCombinedTestPackage() throws ParseException {
         assertThat(mockPerfAdminLegacyTestPackage).isNotNull();
         TestPackage testPackage = TestPackageMapper.toNew("(SBAC_PT)SBAC-IRP-COMBINED-MATH-11-Summer-2015-2016",
                 List.of(mockPerfAdminLegacyTestPackage, mockCATAdminLegacyTestPackage));
@@ -165,7 +166,7 @@ public class TestPackageMapperTest extends TestPackageBaseTest {
         assertThat(testPackage.getPublishDate()).isNotNull();
         assertThat(testPackage.getSubject()).isEqualTo("MATH");
         assertThat(testPackage.getType()).isEqualTo("summative");
-        assertThat(testPackage.getVersion()).isEqualTo("1.0");
+        assertThat(testPackage.getVersion()).isEqualTo("1");
         assertThat(testPackage.getBankKey()).isEqualTo(187);
         assertThat(testPackage.getAcademicYear()).isNotNull();
 
@@ -278,7 +279,7 @@ public class TestPackageMapperTest extends TestPackageBaseTest {
     }
 
     @Test
-    public void shouldConvertCombinedTestPackageWithScoring() throws JsonProcessingException {
+    public void shouldConvertCombinedTestPackageWithScoring() throws ParseException {
         assertThat(mockPerfAdminLegacyTestPackage).isNotNull();
         TestPackage testPackage = TestPackageMapper.toNew("(SBAC_PT)SBAC-IRP-MATH-11-COMBINED-Summer-2015-2016",
                 List.of(mockPerfAdminLegacyTestPackage, mockCATAdminLegacyTestPackage, mockCombinedScoringPackage));
@@ -288,7 +289,7 @@ public class TestPackageMapperTest extends TestPackageBaseTest {
         assertThat(testPackage.getPublishDate()).isNotNull();
         assertThat(testPackage.getSubject()).isEqualTo("MATH");
         assertThat(testPackage.getType()).isEqualTo("summative");
-        assertThat(testPackage.getVersion()).isEqualTo("1.0");
+        assertThat(testPackage.getVersion()).isEqualTo("1");
         assertThat(testPackage.getBankKey()).isEqualTo(187);
         assertThat(testPackage.getAcademicYear()).isNotNull();
 

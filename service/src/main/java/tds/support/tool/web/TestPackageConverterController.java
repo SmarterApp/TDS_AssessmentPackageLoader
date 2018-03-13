@@ -16,6 +16,7 @@ import tds.support.tool.services.converter.TestPackageConverterService;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.ParseException;
 
 @RestController
 @RequestMapping("/api/convert")
@@ -38,6 +39,11 @@ public class TestPackageConverterController {
         } catch (IOException e) {
             final String error = String.format("An error occurred when attempting to unmarshall the test specifications " +
                     "included in the zip file for test package %s", testPackageName);
+            log.error(error, e);
+            return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
+        } catch (ParseException e) {
+            final String error = String.format("An error occurred when attempting to parse the publish date of the test package %s",
+                    testPackageName);
             log.error(error, e);
             return new ResponseEntity<>(error, HttpStatus.UNPROCESSABLE_ENTITY);
         }

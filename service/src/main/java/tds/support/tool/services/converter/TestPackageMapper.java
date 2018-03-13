@@ -8,6 +8,9 @@ import tds.testpackage.legacy.model.*;
 import tds.testpackage.legacy.model.Property;
 import tds.testpackage.model.*;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -27,7 +30,7 @@ public class TestPackageMapper {
      * @param testSpecifications A collection of legacy {@link Testspecification}s
      * @return The converted {@link TestPackage}
      */
-    public static TestPackage toNew(final String testPackageName, final List<Testspecification> testSpecifications) {
+    public static TestPackage toNew(final String testPackageName, final List<Testspecification> testSpecifications) throws ParseException {
         List<Testspecification> adminTestPackages = testSpecifications.stream()
                 .filter(TestPackageUtils::isAdministrationPackage)
                 .collect(Collectors.toList());
@@ -51,9 +54,9 @@ public class TestPackageMapper {
         Testspecification testSpecification = adminTestPackages.get(0);
         return TestPackage.builder()
                 /* Attributes */
-                .setVersion(String.valueOf(testSpecification.getVersion()))
+                .setVersion(TestPackageUtils.parseVersion(testSpecification.getVersion()))
                 .setPublisher(testSpecification.getPublisher())
-                .setPublishDate(testSpecification.getPublishdate())
+                .setPublishDate(TestPackageUtils.formatDate(testSpecification.getPublishdate()))
                 // This value is not found in the legacy spec, but is required in the new spec
                 // we will use the current year as a placeholder
                 .setAcademicYear(String.valueOf(Calendar.getInstance().get(Calendar.YEAR)))

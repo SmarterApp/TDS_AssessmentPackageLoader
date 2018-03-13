@@ -77,7 +77,7 @@ export class TestPackageJobService {
     job.id = apiModel.id;
 
     job.testPackageName = apiModel.name;
-    job.createdAt = new Date(apiModel.createdAt).toLocaleString();
+    job.createdAt = new Date(apiModel.createdAt);
     job.type = apiModel.type;
 
     if (job.type === 'ROLLBACK') {

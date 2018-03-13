@@ -26,7 +26,7 @@
       <p-column field="testPackageName" header="Test Package Name" [sortable]="true"></p-column>
       <p-column field="createdAt" header="Date Created" [sortable]="true">
         <ng-template let-job="rowData" pTemplate="body">
-          {{ job.createdAt | date: 'short' }}
+          {{ job.createdAt.toLocaleString()}}
         </ng-template>
       </p-column>
       <p-column field="type" header="Job Type" [sortable]="true"></p-column>

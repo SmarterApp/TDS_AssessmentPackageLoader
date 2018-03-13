@@ -3,6 +3,10 @@ package tds.support.tool.utils;
 import tds.testpackage.legacy.model.Testspecification;
 import tds.testpackage.model.TestPackage;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class TestPackageUtils {
     public static String getAssessmentKey(final TestPackage testPackage, final String assessmentId) {
         return String.format("(%s)%s-%s", testPackage.getPublisher(), assessmentId, testPackage.getAcademicYear());
@@ -32,5 +36,15 @@ public class TestPackageUtils {
     public static boolean isScoringPackage(final Testspecification testSpecification) {
         return testSpecification.getPurpose().equalsIgnoreCase("scoring") &&
                 testSpecification.getScoring() != null;
+    }
+
+    public static String parseVersion(final BigDecimal version) {
+        final String rawVersion = String.valueOf(version);
+        return rawVersion.substring(0, rawVersion.indexOf(".")); // ignore the decimal
+    }
+
+    public static String formatDate(final String publishDate) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("MMM dd yyyy hh:mma");
+        return formatter.parse(publishDate).toInstant().toString();
     }
 }
