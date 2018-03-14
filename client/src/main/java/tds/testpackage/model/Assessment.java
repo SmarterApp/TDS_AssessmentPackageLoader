@@ -8,15 +8,12 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.springframework.data.annotation.Transient;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.*;
 import java.util.List;
 
 
 /**
- * The Assessment node contains the following attributes:
+ * The Test/Assessment node contains the following attributes:
  *   key: The assessment key
  *   id: The assessment id
  *   publisher: The publisher of the test package, also referred to as the "client name"
@@ -30,6 +27,7 @@ import java.util.List;
  */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Assessment.Builder.class)
+@XmlType(name = "Test")
 public abstract class Assessment {
     @XmlAttribute
     public abstract String getId();

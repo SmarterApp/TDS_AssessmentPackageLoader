@@ -1,6 +1,7 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
@@ -77,7 +78,7 @@ public abstract class TestPackage {
         public abstract Builder setBlueprint(List<BlueprintElement> newBlueprint);
 
         @JacksonXmlElementWrapper(useWrapping = false)
-        @JacksonXmlProperty(localName = "Assessment")
+        @JacksonXmlProperty(localName = "Test")
         public abstract Builder setAssessments(List<Assessment> newAssessments);
 
         public abstract TestPackage build();

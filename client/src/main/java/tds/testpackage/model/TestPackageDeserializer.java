@@ -51,7 +51,7 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
                 } else if ("blueprint".equals(jp.getCurrentName().toLowerCase())) {
                     jp.nextToken();
                     blueprint = xmlMapper.readValue(jp, new TypeReference<List<BlueprintElement>>() {});
-                } else if ("Assessment".equals(jp.getCurrentName())) {
+                } else if ("Test".equals(jp.getCurrentName())) {
                     jp.nextToken();
                     assessments.add(xmlMapper.readValue(jp, Assessment.class));
                 } else if ("assessments".equals(jp.getCurrentName())) {

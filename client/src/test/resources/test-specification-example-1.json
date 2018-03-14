@@ -132,11 +132,11 @@
       "blueprintElements": [
         {
           "id": "SBAC-IRP-CAT-MATH-11",
-          "type": "assessment"
+          "type": "test"
         },
         {
           "id": "SBAC-IRP-Perf-MATH-11",
-          "type": "assessment"
+          "type": "test"
         }
       ]
     },

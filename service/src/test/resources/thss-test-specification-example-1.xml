@@ -2,7 +2,7 @@
 <TestPackage
         publisher="SBAC_PT" publishDate="2015-08-19T18:13:51.0" subject="ELA" type="summative" version="12516" bankKey="187" academicYear="2017-2018">
     <Blueprint>
-        <BlueprintElement id="SBAC-Perf-ELA-11" type="assessment"/>
+        <BlueprintElement id="SBAC-Perf-ELA-11" type="test"/>
         <BlueprintElement id="SBAC_PT-ELA-Undesignated" type="strand"/>
     </Blueprint>
     <Assessment id="SBAC-Perf-ELA-11" label="G11 ELA Performance Task">

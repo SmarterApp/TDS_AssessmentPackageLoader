@@ -18,7 +18,7 @@ public class TestPackageSchemaValidationTests {
     @Test
     public void testSpecificationExampleShouldValidate() throws Exception {
         InputStream inputXmlStream = TestPackageSchemaValidationTests.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
-        InputStream inputXsdStream = TestPackageSchemaValidationTests.class.getClassLoader().getResourceAsStream("xsd/v3-test-package.xsd");
+        InputStream inputXsdStream = TestPackageSchemaValidationTests.class.getClassLoader().getResourceAsStream("xsd/v4-test-package.xsd");
         Source xmlFile = new StreamSource(inputXmlStream);
         Source xsdFile = new StreamSource(inputXsdStream);
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
@@ -31,7 +31,7 @@ public class TestPackageSchemaValidationTests {
     @Test
     public void testSpecificationTHSSExampleShouldValidate() throws Exception {
         InputStream inputXmlStream = TestPackageSchemaValidationTests.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
-        InputStream inputXsdStream = TestPackageSchemaValidationTests.class.getClassLoader().getResourceAsStream("xsd/v3-test-package.xsd");
+        InputStream inputXsdStream = TestPackageSchemaValidationTests.class.getClassLoader().getResourceAsStream("xsd/v4-test-package.xsd");
         Source xmlFile = new StreamSource(inputXmlStream);
         Source xsdFile = new StreamSource(inputXsdStream);
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);

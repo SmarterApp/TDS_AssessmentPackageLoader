@@ -37,8 +37,8 @@
                     </Rule>
                 </Rules>
             </Scoring>
-            <BlueprintElement id="SBAC-IRP-CAT-MATH-11-EXAMPLE" type="assessment"/>
-            <BlueprintElement id="SBAC-IRP-Perf-MATH-11-EXAMPLE" type="assessment"/>
+            <BlueprintElement id="SBAC-IRP-CAT-MATH-11-EXAMPLE" type="test"/>
+            <BlueprintElement id="SBAC-IRP-Perf-MATH-11-EXAMPLE" type="test"/>
         </BlueprintElement>
         <BlueprintElement id="G11Math_Claim1_MC/MS" type="affinitygroup"/>
         <BlueprintElement id="G11Math_Claim2/4" type="affinitygroup"/>
@@ -197,7 +197,7 @@
             </BlueprintElement>
         </BlueprintElement>
     </Blueprint>
-    <Assessment id="SBAC-IRP-CAT-MATH-11-EXAMPLE" label="IRP CAT Grade 11 Math - EXAMPLE">
+    <Test id="SBAC-IRP-CAT-MATH-11-EXAMPLE" label="IRP CAT Grade 11 Math - EXAMPLE">
         <Grades>
             <Grade value="11"/>
         </Grades>
@@ -991,8 +991,8 @@
                 </Options>
             </Tool>
         </Tools>
-    </Assessment>
-    <Assessment id="SBAC-IRP-Perf-MATH-11-EXAMPLE" label="IRP Perf Grade 11 Math - EXAMPLE">
+    </Test>
+    <Test id="SBAC-IRP-Perf-MATH-11-EXAMPLE" label="IRP Perf Grade 11 Math - EXAMPLE">
         <Grades>
             <Grade value="11"/>
         </Grades>
@@ -1214,5 +1214,5 @@
                 </Options>
             </Tool>
         </Tools>
-    </Assessment>
+    </Test>
 </TestPackage>
