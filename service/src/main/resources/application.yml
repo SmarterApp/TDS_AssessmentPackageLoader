@@ -34,9 +34,6 @@ spring:
   cloud:
     bus:
       enabled: false
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/support-tool
 
 #Port defined in TDS_Build:docker-compose.yml
   rabbitmq:
