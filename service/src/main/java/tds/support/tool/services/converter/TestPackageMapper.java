@@ -109,14 +109,20 @@ public class TestPackageMapper {
                                     administration.getItempool(), blueprintIdsToNames))
                             .setSegmentForms(mapSegmentForms(adminSegment.getSegmentform(),
                                     administration.getTestform(), administration.getItempool(), blueprintIdsToNames))
-                            .setSegmentBlueprint(mapSegmentBlueprint(adminSegment.getSegmentblueprint()))
+                            .setSegmentBlueprint(mapSegmentBlueprint(adminSegment, administration.getTestblueprint().getBpelement()))
                             .build();
                 })
                 .collect(Collectors.toList());
     }
 
-    private static List<SegmentBlueprintElement> mapSegmentBlueprint(final Segmentblueprint segmentBlueprint) {
-        return segmentBlueprint.getSegmentbpelement().stream()
+    private static List<SegmentBlueprintElement> mapSegmentBlueprint(final Adminsegment adminsegment, List<Bpelement> bpElements) {
+
+        Map<String, Itemselectionparameter> bpIdsToItemSelection = adminsegment.getItemselector().getItemselectionparameter().stream()
+                .collect(Collectors.toMap(param -> param.getBpelementid().equals(adminsegment.getSegmentid())
+                        ? findSegmentIdFromBlueprint(adminsegment.getSegmentid(), bpElements)
+                        : TestPackageUtils.parseIdFromKey(param.getBpelementid()), Function.identity()));
+
+        List<SegmentBlueprintElement> segmentBlueprintElements = adminsegment.getSegmentblueprint().getSegmentbpelement().stream()
                 .map(legacySegmentBp -> SegmentBlueprintElement.builder()
                         // The part before the "-" is the publisher/clientname - lets strip that out.
                         .setIdRef(TestPackageUtils.parseIdFromKey(legacySegmentBp.getBpelementid()))
@@ -126,9 +132,36 @@ public class TestPackageMapper {
                                 ? Optional.of(legacySegmentBp.getMaxftitems().intValue()) : Optional.empty())
                         .setMinFieldTestItems(legacySegmentBp.getMinftitems() != null
                                 ? Optional.of(legacySegmentBp.getMinftitems().intValue()) : Optional.empty())
+                        .setItemSelection(!bpIdsToItemSelection.containsKey(TestPackageUtils.parseIdFromKey(legacySegmentBp.getBpelementid()))
+                                ? null : bpIdsToItemSelection.get(TestPackageUtils.parseIdFromKey(legacySegmentBp.getBpelementid())).getProperty().stream()
+                                .map(property -> tds.testpackage.model.Property.builder()
+                                        .setName(property.getName())
+                                        .setValue(property.getValue())
+                                        .build())
+                                .collect(Collectors.toList()))
                         .build()
                 )
                 .collect(Collectors.toList());
+
+        Bpelement segmentBpElement = bpElements.stream()
+                .filter(bpEl -> bpEl.getIdentifier().getUniqueid().equals(adminsegment.getSegmentid()))
+                .findFirst().get();
+
+        // Add the segment blueprint explicitly
+        segmentBlueprintElements.add(SegmentBlueprintElement.builder()
+                .setIdRef(segmentBpElement.getIdentifier().getName())
+                .setMinExamItems(segmentBpElement.getMinopitems().intValue())
+                .setMaxExamItems(segmentBpElement.getMaxopitems().intValue())
+                .setMinFieldTestItems(Optional.of(segmentBpElement.getMinftitems().intValue()))
+                .setMaxFieldTestItems(Optional.of(segmentBpElement.getMaxftitems().intValue()))
+                .setItemSelection(bpIdsToItemSelection.get(segmentBpElement.getIdentifier().getName()).getProperty().stream()
+                        .map(prop -> tds.testpackage.model.Property.builder()
+                                .setName(prop.getName())
+                                .setValue(prop.getValue())
+                                .build())
+                        .collect(Collectors.toList()))
+                .build());
+        return segmentBlueprintElements;
     }
 
     private static List<SegmentForm> mapSegmentForms(final List<Segmentform> legacySegmentForms, final List<Testform> testForms,

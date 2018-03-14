@@ -46,7 +46,7 @@ public class TestPackageMapperTest extends TestPackageBaseTest {
         assertThat(segment.exitApproval()).isFalse();
         assertThat(segment.getAlgorithmType()).isEqualTo(Algorithm.FIXED_FORM.getType());
         assertThat(segment.getAlgorithmImplementation()).isEqualTo("AIR FIXEDFORM1");
-        assertThat(segment.segmentBlueprint()).hasSize(11);
+        assertThat(segment.segmentBlueprint()).hasSize(12);
         assertThat(segment.pool()).isEmpty();
         // Forms
         assertThat(segment.segmentForms()).hasSize(1);
@@ -119,7 +119,7 @@ public class TestPackageMapperTest extends TestPackageBaseTest {
         assertThat(segment.exitApproval()).isFalse();
         assertThat(segment.getAlgorithmType()).isEqualTo("adaptive");
         assertThat(segment.getAlgorithmImplementation()).isEqualTo("AIR ADAPTIVE1");
-        assertThat(segment.segmentBlueprint()).hasSize(65);
+        assertThat(segment.segmentBlueprint()).hasSize(66);
         assertThat(segment.segmentForms()).isEmpty();
         assertThat(segment.pool()).hasSize(18);
         // Item groups
@@ -186,7 +186,7 @@ public class TestPackageMapperTest extends TestPackageBaseTest {
         assertThat(catSegment.exitApproval()).isFalse();
         assertThat(catSegment.getAlgorithmType()).isEqualTo(Algorithm.FIXED_FORM.getType());
         assertThat(catSegment.getAlgorithmImplementation()).isEqualTo("AIR FIXEDFORM1");
-        assertThat(catSegment.segmentBlueprint()).hasSize(11);
+        assertThat(catSegment.segmentBlueprint()).hasSize(12);
         assertThat(catSegment.pool()).isEmpty();
         // Forms
         assertThat(catSegment.segmentForms()).hasSize(1);
@@ -242,7 +242,7 @@ public class TestPackageMapperTest extends TestPackageBaseTest {
         assertThat(fixedFormSegment.exitApproval()).isFalse();
         assertThat(fixedFormSegment.getAlgorithmType()).isEqualTo("adaptive");
         assertThat(fixedFormSegment.getAlgorithmImplementation()).isEqualTo("AIR ADAPTIVE1");
-        assertThat(fixedFormSegment.segmentBlueprint()).hasSize(65);
+        assertThat(fixedFormSegment.segmentBlueprint()).hasSize(66);
         assertThat(fixedFormSegment.segmentForms()).isEmpty();
         assertThat(fixedFormSegment.pool()).hasSize(18);
         // Item groups
@@ -312,7 +312,7 @@ public class TestPackageMapperTest extends TestPackageBaseTest {
         assertThat(catSegment.exitApproval()).isFalse();
         assertThat(catSegment.getAlgorithmType()).isEqualTo(Algorithm.FIXED_FORM.getType());
         assertThat(catSegment.getAlgorithmImplementation()).isEqualTo("AIR FIXEDFORM1");
-        assertThat(catSegment.segmentBlueprint()).hasSize(11);
+        assertThat(catSegment.segmentBlueprint()).hasSize(12);
         assertThat(catSegment.pool()).isEmpty();
         // Forms
         assertThat(catSegment.segmentForms()).hasSize(1);
@@ -368,7 +368,7 @@ public class TestPackageMapperTest extends TestPackageBaseTest {
         assertThat(fixedFormSegment.exitApproval()).isFalse();
         assertThat(fixedFormSegment.getAlgorithmType()).isEqualTo("adaptive");
         assertThat(fixedFormSegment.getAlgorithmImplementation()).isEqualTo("AIR ADAPTIVE1");
-        assertThat(fixedFormSegment.segmentBlueprint()).hasSize(65);
+        assertThat(fixedFormSegment.segmentBlueprint()).hasSize(66);
         assertThat(fixedFormSegment.segmentForms()).isEmpty();
         assertThat(fixedFormSegment.pool()).hasSize(18);
         // Item groups

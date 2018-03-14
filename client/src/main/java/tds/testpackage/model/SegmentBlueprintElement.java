@@ -93,7 +93,7 @@ public abstract class SegmentBlueprintElement {
         public abstract Builder setMaxFieldTestItems(Optional<Integer> newMaxFieldTestItems);
 
         @JacksonXmlProperty(localName = "ItemSelection")
-        protected abstract Builder setItemSelection(List<Property> newItemSelection);
+        public abstract Builder setItemSelection(List<Property> newItemSelection);
 
         public abstract SegmentBlueprintElement build();
     }

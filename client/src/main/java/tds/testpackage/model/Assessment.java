@@ -3,13 +3,17 @@ package tds.testpackage.model;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.data.annotation.Transient;
 
 import javax.xml.bind.annotation.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 /**
@@ -42,10 +46,17 @@ public abstract class Assessment {
     @XmlElement(name="Segment", type=Segment.class)
     public abstract List<Segment> getSegments();
 
+    @Nullable
+    protected abstract List<Tool> getTools();
+
+    @JsonProperty(value = "tools")
     @XmlElementWrapper(name="Tools")
     @XmlElement(name="Tool", type=Tool.class)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    public abstract List<Tool> getTools();
+    public List<Tool> tools() {
+        return Optional.ofNullable(getTools()).orElse(new ArrayList<>());
+    }
+
 
     @JsonIgnore
     public boolean isSegmented() {
