@@ -30,6 +30,7 @@ public interface BlueprintElementTypes {
     String SEGMENT = "segment";
     String TEST = "test";
     String PACKAGE = "package";
+    String UNKNOWN = "unknown";
 
     Set<String> CLAIM_AND_TARGET_TYPES = ImmutableSet.of(STRAND, CONTENT_LEVEL, TARGET, CLAIM);
     Set<String> CLAIM_TYPES = ImmutableSet.of(STRAND, CLAIM);
