@@ -8,6 +8,7 @@ import tds.testpackage.model.Scoring;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * A class responsible for mapping between legacy (AIR) and Fairway developed test package blueprint data
@@ -68,7 +69,7 @@ public class TestPackageBlueprintMapper {
          */
         LinkedHashSet<BlueprintElement> blueprintElements = new LinkedHashSet<>(mapTestAndSegmentBlueprintElements(adminTestPackages,
                 scoringMap, packageId));
-        blueprintElements.addAll(mapMiscellaneousBlueprintElements(adminTestPackages, scoringMap));
+        blueprintElements.addAll(mapMiscellaneousBlueprintElements(testSpecifications, scoringMap));
         blueprintElements.addAll(mapClaimsAndTargetBlueprintElements(adminTestPackages, scoringMap));
         return new ArrayList<>(blueprintElements);
     }
@@ -211,7 +212,7 @@ public class TestPackageBlueprintMapper {
                                         .setScoring(Optional.ofNullable(scoringMap.get(bpEl.getIdentifier().getName())))
                                         .build());
                     } else {
-                        return testSpecification.getScoring().getTestblueprint().getBpelement()
+                        Stream<BlueprintElement> testBlueprints = testSpecification.getScoring().getTestblueprint().getBpelement()
                                 .stream()
                                 .filter(bpEl -> bpEl.getElementtype().equalsIgnoreCase(BlueprintElementTypes.AFFINITY_GROUP) ||
                                         bpEl.getElementtype().equalsIgnoreCase(BlueprintElementTypes.SOCK))
@@ -220,6 +221,15 @@ public class TestPackageBlueprintMapper {
                                         .setType(bpEl.getElementtype())
                                         .setScoring(Optional.ofNullable(scoringMap.get(bpEl.getIdentifier().getName())))
                                         .build());
+                        Stream<Computationrule> computationRules = testSpecification.getScoring().getScoringrules().
+                            getComputationrule().stream().filter(cr -> testSpecification.getScoring().getTestblueprint().getBpelement().stream().noneMatch(bpelement -> bpelement.getIdentifier().getUniqueid().equalsIgnoreCase(cr.getBpelementid())));
+                        Stream<BlueprintElement> computationRuleBlueprints = computationRules.map(cr -> BlueprintElement.builder()
+                            .setId(cr.getBpelementid())
+                            .setType(cr.getBpelementid().toLowerCase().contains(BlueprintElementTypes.SOCK) ? BlueprintElementTypes.SOCK : BlueprintElementTypes.UNKNOWN)
+                            .setScoring(Optional.ofNullable(scoringMap.get(cr.getBpelementid())))
+                            .build());
+                            return Stream.concat(testBlueprints,computationRuleBlueprints);
+
                     }
                 })
                 .collect(Collectors.toList());
