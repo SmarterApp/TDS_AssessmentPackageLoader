@@ -426,7 +426,7 @@ The Dependency can be read as:
                         </xs:documentation>
                     </xs:annotation>
                     <xs:complexType>
-                        <xs:sequence>
+                        <xs:all>
                             <xs:element ref="Presentations"/>
                             <xs:element name="BlueprintReferences">
                                 <xs:complexType>
@@ -544,7 +544,7 @@ The Dependency can be read as:
                                     <xs:attribute name="itemname" type="xs:token"/>
                                 </xs:complexType>
                             </xs:element>
-                        </xs:sequence>
+                        </xs:all>
                         <xs:attribute name="id" type="xs:token" use="required"/>
                         <xs:attribute name="type" type="xs:token" use="required"/>
                         <xs:attribute default="false" name="fieldTest" type="xs:boolean"/>

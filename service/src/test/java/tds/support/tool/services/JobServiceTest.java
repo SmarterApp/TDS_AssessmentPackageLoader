@@ -54,7 +54,8 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
     "tds.support.tool.handlers.loader",
     "tds.support.tool.services.loader",
     "tds.support.tool.handlers.loader.impl",
-    "tds.support.tool.services.impl"})
+    "tds.support.tool.services.impl",
+    "tds.support.tool.validation"})
 @Import({SupportToolServiceConfiguration.class, SupportToolProperties.class})
 @DataMongoTest
 /**

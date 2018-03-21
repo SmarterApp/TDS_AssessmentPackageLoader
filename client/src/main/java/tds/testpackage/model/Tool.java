@@ -34,7 +34,7 @@ import static tds.testpackage.model.XmlUtil.parseBoolean;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Tool.Builder.class)
 public abstract class Tool {
-    final static Map<String, Tool> TOOL_DEFAULTS_MAP = new ImmutableMap.Builder<String, Tool>()
+    public final static Map<String, Tool> TOOL_DEFAULTS_MAP = new ImmutableMap.Builder<String, Tool>()
             .put("American Sign Language",
                     Tool.builder().setName("American Sign Language")
                             .setStudentPackageFieldName("TDS_Acc-ASL")
