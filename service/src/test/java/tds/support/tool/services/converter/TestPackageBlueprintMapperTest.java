@@ -46,7 +46,7 @@ public class TestPackageBlueprintMapperTest extends TestPackageBaseTest {
     public void shouldMapTestBlueprintsForAdminTestPackagesAndScoringPackages() {
         List<BlueprintElement> blueprintElements = TestPackageBlueprintMapper.mapBlueprint("testPackageName",
                 Arrays.asList(mockPerfAdminLegacyTestPackage, mockCATAdminLegacyTestPackage, mockCombinedScoringPackage));
-        assertThat(blueprintElements).hasSize(8);
+        assertThat(blueprintElements).hasSize(9);
         BlueprintElement packageBlueprint = blueprintElements.get(0);
         assertThat(packageBlueprint.getType()).isEqualTo(BlueprintElementTypes.PACKAGE);
         assertThat(packageBlueprint.getId()).isEqualTo("SBAC-IRP-MATH-11-COMBINED");
@@ -86,7 +86,7 @@ public class TestPackageBlueprintMapperTest extends TestPackageBaseTest {
         assertThat(affinityGroupBpElement.getId()).isEqualTo("G11Math_Claim1_MC/MS");
         assertThat(affinityGroupBpElement.getType()).isEqualTo(BlueprintElementTypes.AFFINITY_GROUP);
 
-        BlueprintElement claimBpElement = blueprintElements.get(4);
+        BlueprintElement claimBpElement = blueprintElements.get(5);
         assertThat(claimBpElement.getId()).isEqualTo("2");
         assertThat(claimBpElement.blueprintElements()).hasSize(4);
         BlueprintElement targetBpElement = claimBpElement.blueprintElements().get(0);
