@@ -59,6 +59,10 @@ public class JobServiceImpl implements JobService {
         // If we have errors from deserializing  or saving the XML, no need to trigger step execution
         if (step.getErrors().isEmpty()) {
             messagingService.sendJobStepExecute(job.getId());
+        } else {
+            persistedJob.getSteps().stream()
+                    .filter(incompleteSteps -> !incompleteSteps.isComplete())
+                    .forEach(incompleteSteps -> incompleteSteps.setStatus(Status.FAIL));
         }
 
         testPackageStatusService.save(persistedJob);
@@ -81,24 +85,35 @@ public class JobServiceImpl implements JobService {
     @Async
     public void executeJobSteps(final String jobId) {
         final Job job = jobRepository.findOne(jobId);
-        // Set each step aside from FILE_UPLOAD to "in progress" status prior to execution
-        job.getSteps().stream()
-                .filter(step -> !step.getName().equals(TestPackageLoadJob.FILE_UPLOAD))
-                .forEach(step -> step.setStatus(Status.IN_PROGRESS));
-        jobRepository.save(job);
 
         // Handle each job step
         job.getSteps().stream()
                 .filter(step -> !step.isComplete())
                 .forEach(step -> {
                     if (testPackageLoaderStepHandlers.containsKey(step.getName())) {
+                        // Initialize the step status to "in progress"
+                        step.setStatus(Status.IN_PROGRESS);
+                        jobRepository.save(job);
+
                         testPackageLoaderStepHandlers.get(step.getName()).handle(job, step);
 
                         // Update job after each step has been processed to set step status/errors
                         jobRepository.save(job);
+
+                        // If we failed validation, lets bail out and mark remaining steps as "failed"
+                        if (step.getName().equals(TestPackageLoadJob.VALIDATE) && step.getStatus() == Status.FAIL) {
+                            job.getSteps().stream()
+                                    .filter(nonValidationSteps -> nonValidationSteps.getJobStepTarget() != TargetSystem.Internal)
+                                    .forEach(nonValidationSteps -> nonValidationSteps.setStatus(Status.FAIL));
+
+                            jobRepository.save(job);
+                             throw new RuntimeException("Error: The test package failed validation. Aborting test package load.");
+                        }
+
                         if (job.getType().equals(JobType.LOAD)) {
                             testPackageStatusService.save(job);
                         }
+
                     } else {
                         log.error("Attempting to call the step {} when it has not been registered to the loader step handler map.", step.getName());
                     }

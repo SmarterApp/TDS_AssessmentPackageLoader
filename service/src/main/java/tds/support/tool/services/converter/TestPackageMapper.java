@@ -8,9 +8,7 @@ import tds.testpackage.legacy.model.*;
 import tds.testpackage.legacy.model.Property;
 import tds.testpackage.model.*;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;

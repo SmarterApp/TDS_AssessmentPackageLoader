@@ -24,54 +24,6 @@ export class TestPackageJobService {
     // return Observable.of(createMockLoaderJobs());
   }
 
-  //TODO: Remove this mock method once we have a functional job system and real data
-  private createMockLoaderJobs(): TestPackageJob[] {
-    let error = new JobError();
-    error.message = "This is an error";
-    error.severity = "Error";
-    error.system = 'TIS';
-
-    let jobs: TestPackageJob[] = [];
-    for (var i = 0; i < 30; i++) {
-      let job = new TestPackageJob();
-      job.id = i.toString();
-      job.testPackageName = '(SBAC_PT)SBAC-ELA-G7-MATH' + i + '.xml';
-      job.createdAt = new Date();
-      job.type = "Create";
-
-      if (i % 2 === 0) {
-        job.tdsStepStatus = StepStatus.Fail;
-        job.artStepStatus = StepStatus.Success;
-        job.tisStepStatus = StepStatus.InProgress;
-        job.thssStepStatus = StepStatus.InProgress;
-        job.errors = [error];
-      } else {
-        job.tdsStepStatus = StepStatus.Success;
-        job.artStepStatus = StepStatus.Success;
-        job.tisStepStatus = StepStatus.Success;
-        job.thssStepStatus = StepStatus.Success;
-      }
-
-      if (i === 7) {
-        for (var j = 0; j < 20; j++) {
-          let error2 = new JobError();
-          error2.message = "This is a really really really long test delivery system error that should go beyond the width of the data grid. Should be fully displayable in a onhover tooltipe";
-          error2.severity = "Error";
-          error2.system = 'TDS';
-          job.tdsStepStatus = StepStatus.Fail;
-          job.artStepStatus = StepStatus.NotApplicable;
-          job.tisStepStatus = StepStatus.NotApplicable;
-          job.thssStepStatus = StepStatus.NotApplicable;
-          job.errors.push(error2);
-        }
-      }
-
-      jobs.push(job);
-    }
-
-    return jobs;
-  }
-
   private mapLoaderJobsFromApi(apiModel): TestPackageJob {
     let job = new TestPackageJob();
     job.id = apiModel.id;
@@ -84,6 +36,9 @@ export class TestPackageJobService {
       job.parentJobId = apiModel.parentJobId;
     }
 
+    job.validationStepStatus = apiModel.steps
+      .filter(step => step.name.indexOf('test-package-validate') >= 0)
+      .map(step => step.status)[0] || StepStatus.NotApplicable;
     job.tdsStepStatus = apiModel.steps
       .filter(step => step.name.indexOf('test-package-tds') >= 0)
       .map(step => step.status)[0] || StepStatus.NotApplicable;
@@ -115,6 +70,12 @@ export class TestPackageJobService {
               break;
             case /test-package-thss/.test(step.name):
               jobError.system = 'THSS';
+              break;
+            case /test-package-file-upload/.test(step.name):
+              jobError.system = 'Validation';
+              break;
+            case /test-package-validate/.test(step.name):
+              jobError.system = 'Validation';
               break;
           }
 

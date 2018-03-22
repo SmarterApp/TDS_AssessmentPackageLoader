@@ -13,6 +13,7 @@ import org.springframework.data.annotation.Transient;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +45,7 @@ import static tds.testpackage.model.XmlUtil.*;
  */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Segment.Builder.class)
+@XmlType(propOrder={"segmentBlueprint", "pool", "segmentForms"})
 public abstract class Segment {
     @XmlAttribute
     public abstract String getId();
