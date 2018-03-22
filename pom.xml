@@ -29,8 +29,8 @@
         <java.version>1.8</java.version>
         <docker.image.prefix>smarterbalanced</docker.image.prefix>
         <integration-tests.skip>true</integration-tests.skip>
-        <tds-common.version>5.0.1-SNAPSHOT</tds-common.version>
-        <tds-common-legacy.version>5.0.1-SNAPSHOT</tds-common-legacy.version>
+        <tds-common.version>5.0.3</tds-common.version>
+        <tds-common-legacy.version>5.0.3</tds-common-legacy.version>
         <tds-shared-build.version>4.0.6.RELEASE</tds-shared-build.version>
         <jackson.version>2.9.2</jackson.version>
 
