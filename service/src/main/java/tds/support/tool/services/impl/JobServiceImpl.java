@@ -107,7 +107,7 @@ public class JobServiceImpl implements JobService {
                                     .forEach(nonValidationSteps -> nonValidationSteps.setStatus(Status.FAIL));
 
                             jobRepository.save(job);
-                             throw new RuntimeException("An error occurred while validating the test package");
+                             throw new RuntimeException("Error: The test package failed validation. Aborting test package load.");
                         }
 
                         if (job.getType().equals(JobType.LOAD)) {

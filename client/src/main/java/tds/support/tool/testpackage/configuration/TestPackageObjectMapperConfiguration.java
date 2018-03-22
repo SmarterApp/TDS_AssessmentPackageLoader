@@ -23,6 +23,8 @@ import javax.xml.validation.Validator;
 
 @Component
 public class TestPackageObjectMapperConfiguration {
+    private static final String TEST_PACKAGE_SCHEMA_PATH = "/xsd/v4-test-package.xsd";
+
     public XmlMapper getXmlMapper() {
         final XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.registerModule(new Jdk8Module());
@@ -58,7 +60,7 @@ public class TestPackageObjectMapperConfiguration {
     }
 
     public Validator getTestPackageSchemaValidator() throws SAXException {
-        Source schemaSource = new StreamSource(this.getClass().getResourceAsStream("/xsd/v4-test-package.xsd"));
+        Source schemaSource = new StreamSource(this.getClass().getResourceAsStream(TEST_PACKAGE_SCHEMA_PATH));
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema schema = factory.newSchema(schemaSource);
         return schema.newValidator();
