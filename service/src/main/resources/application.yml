@@ -52,3 +52,12 @@ support-tool:
   assessment-url: http://localhost:32841
   thss-api-url: http://localhost:28039/api
   tis-api-url: http://localohst:53708/api
+
+#SAML
+saml:
+  key-store-file: file:/Users/emunoz/saml/ernie-local.jks
+  key-store-password: password123
+  private-key-entry-alias: ernie-local
+  private-key-entry-password: password
+  idp-metadata-url: https://sso-deployment.sbtds.org/auth/oauth2/access_token?realm=/sbac
+  sp-entity-id: ernie-local
