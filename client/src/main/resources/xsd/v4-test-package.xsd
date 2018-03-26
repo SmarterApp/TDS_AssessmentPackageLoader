@@ -217,11 +217,11 @@ The root element of the test package. The <TestPackage> element contains an opti
                                                                     - ItemGroups: One or more groups of items (containg one or more items and potentially a stimuli) that make up the items in the form</xs:documentation>
                                                             </xs:annotation>
                                                             <xs:complexType>
-                                                                <xs:all>
+                                                                <xs:sequence>
                                                                     <xs:element ref="Presentations"/>
                                                                     <xs:element maxOccurs="unbounded" ref="ItemGroup"
                                                                     />
-                                                                </xs:all>
+                                                                </xs:sequence>
                                                                 <xs:attribute name="id" type="xs:token"
                                                                               use="required"/>
                                                                 <xs:attribute default="Default" name="cohort"
