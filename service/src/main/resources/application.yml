@@ -59,5 +59,5 @@ saml:
   key-store-password: password123
   private-key-entry-alias: ernie-local
   private-key-entry-password: password
-  idp-metadata-url: https://sso-deployment.sbtds.org/auth/oauth2/access_token?realm=/sbac
+  idp-metadata-url: https://sso-deployment.sbtds.org/auth/saml2/jsp/exportmetadata.jsp?realm=/sbac
   sp-entity-id: ernie-local

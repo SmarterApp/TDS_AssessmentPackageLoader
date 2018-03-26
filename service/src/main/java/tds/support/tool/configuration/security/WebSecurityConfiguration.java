@@ -15,7 +15,6 @@ public class WebSecurityConfiguration extends SamlWebSecurityConfiguration {
     @Override
     public AuthenticationSuccessHandler authenticationSuccessHandler() {
         final SavedRequestAwareAuthenticationSuccessHandler handler = new SavedRequestAwareAuthenticationSuccessHandler();
-        handler.setDefaultTargetUrl("/landing");
         return handler;
     }
 
@@ -28,7 +27,7 @@ public class WebSecurityConfiguration extends SamlWebSecurityConfiguration {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/").permitAll();
+        http.authorizeRequests().antMatchers("/").authenticated();
         super.configure(http);
     }
 
