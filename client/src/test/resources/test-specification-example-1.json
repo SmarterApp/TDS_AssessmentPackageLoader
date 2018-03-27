@@ -9,7 +9,7 @@
   "blueprint": [
     {
       "id": "SBAC-IRP-COMBINED-MATH-11",
-      "type": "combined",
+      "type": "package",
       "scoring": {
         "rules": [
           {

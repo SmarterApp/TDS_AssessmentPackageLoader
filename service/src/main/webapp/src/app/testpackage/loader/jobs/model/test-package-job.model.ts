@@ -8,6 +8,7 @@ export class TestPackageJob {
   type: string; // load/delete/rollback
   parentJobId: string; // Used to identify which loader job triggered a rollback
   // Initialize the steps as "in progress"
+  validationStepStatus: StepStatus = StepStatus.InProgress;
   tdsStepStatus: StepStatus = StepStatus.NotApplicable;
   artStepStatus: StepStatus = StepStatus.NotApplicable;
   tisStepStatus: StepStatus = StepStatus.NotApplicable;

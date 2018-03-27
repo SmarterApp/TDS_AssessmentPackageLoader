@@ -10,12 +10,21 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 import org.springframework.stereotype.Component;
-
+import org.xml.sax.SAXException;
 import tds.teacherhandscoring.model.RubricList;
 import tds.teacherhandscoring.model.RubricListSerializer;
 
+import javax.xml.XMLConstants;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+
 @Component
 public class TestPackageObjectMapperConfiguration {
+    private static final String TEST_PACKAGE_SCHEMA_PATH = "/xsd/v4-test-package.xsd";
+
     public XmlMapper getXmlMapper() {
         final XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.registerModule(new Jdk8Module());
@@ -48,5 +57,12 @@ public class TestPackageObjectMapperConfiguration {
         objectMapper.registerModule(module);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         return objectMapper;
+    }
+
+    public Validator getTestPackageSchemaValidator() throws SAXException {
+        Source schemaSource = new StreamSource(this.getClass().getResourceAsStream(TEST_PACKAGE_SCHEMA_PATH));
+        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema = factory.newSchema(schemaSource);
+        return schema.newValidator();
     }
 }

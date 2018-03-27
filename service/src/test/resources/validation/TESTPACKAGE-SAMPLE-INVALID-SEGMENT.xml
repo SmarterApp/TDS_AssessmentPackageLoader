@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TestPackage xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:noNamespaceSchemaLocation="file:/Users/emunoz/Downloads/v2-test-package-schema/v2-test-package.xsd"
-             publisher="SBAC_PT" publishDate="2015-08-19T18:13:51.0" subject="MATH" type="summative" version="8185" bankKey="187" academicYear="2017-2018">
+<TestPackage publisher="SBAC_PT" publishDate="2015-08-19T18:13:51.0" subject="MATH" type="summative" version="8185" bankKey="187" academicYear="2017-2018">
     <Blueprint>
         <BlueprintElement id="SBAC-IRP-COMBINED-MATH-11" type="package">
             <Scoring>
@@ -40,8 +37,8 @@
                     </Rule>
                 </Rules>
             </Scoring>
-            <BlueprintElement id="SBAC-IRP-CAT-MATH-11" type="test"/>
-            <BlueprintElement id="SBAC-IRP-Perf-MATH-11" type="test"/>
+            <BlueprintElement id="SBAC-IRP-CAT-MATH-11-EXAMPLE" type="test"/>
+            <BlueprintElement id="SBAC-IRP-Perf-MATH-11-EXAMPLE" type="test"/>
         </BlueprintElement>
         <BlueprintElement id="G11Math_Claim1_MC/MS" type="affinitygroup"/>
         <BlueprintElement id="G11Math_Claim2/4" type="affinitygroup"/>
@@ -200,14 +197,15 @@
             </BlueprintElement>
         </BlueprintElement>
     </Blueprint>
-    <Test id="SBAC-IRP-CAT-MATH-11" label="IRP CAT Grade 11 Math">
+    <Test id="SBAC-IRP-CAT-MATH-11-EXAMPLE" label="IRP CAT Grade 11 Math - EXAMPLE">
         <Grades>
             <Grade value="11"/>
         </Grades>
         <Segments>
-            <Segment id="SBAC-IRP-CAT-MATH-11" algorithmType="adaptive" algorithmImplementation="AIR ADAPTIVE">
+            <Segment id="SOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONGSOMETHINGVERYLONG"
+                     algorithmType="adaptive" algorithmImplementation="AIR ADAPTIVE">
                 <SegmentBlueprint>
-                    <SegmentBlueprintElement idRef="SBAC-IRP-CAT-MATH-11" minExamItems="8" maxExamItems="8">
+                    <SegmentBlueprintElement idRef="SBAC-IRP-CAT-MATH-11-EXAMPLE" minExamItems="8" maxExamItems="8">
                         <ItemSelection>
                             <Property name="bpweight" value="1"/>
                             <Property name="startability" value="0.506053"/>
@@ -657,315 +655,6 @@
                         </ItemSelection>
                     </SegmentBlueprintElement>
                 </SegmentBlueprint>
-                <Pool>
-                    <ItemGroup id="1899">
-                        <Item id="1899" type="EQ" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="G11Math_DOK2"/>
-                                <BlueprintReference idRef="1|N-RN|A|a/s|N-RN.2"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b" value="1.000000000000000e-015"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="1915">
-                        <Item id="1915" type="MI" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="1|A-SSE|D|m|A-SSE.2"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b" value="1.000000000000000e-015"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="1916">
-                        <Item id="1916" type="EQ" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="G11Math_DOK2"/>
-                                <BlueprintReference idRef="1|A-SSE|E|m|A-SSE.3b"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.017200000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="b" value="2.545770000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="1926">
-                        <Item id="1926" type="MS" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="G11Math_Claim1_MC/MS"/>
-                                <BlueprintReference idRef="G11Math_DOK2"/>
-                                <BlueprintReference idRef="1|A-REI|H|m|A-REI.2"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="3.377900000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="b" value="4.648680000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="1927">
-                        <Item id="1927" type="TI" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="G11Math_Claim2/4"/>
-                                <BlueprintReference idRef="G11Math_DOK2"/>
-                                <BlueprintReference idRef="2|S-CP|A"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRTGPC" scorePoints="3" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b0" value="1.000000000000000e-015"/>
-                                <ItemScoreParameter measurementParameter="b1" value="1.000000000000000e-015"/>
-                                <ItemScoreParameter measurementParameter="b2" value="1.000000000000000e-015"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="1929">
-                        <Item id="1929" type="EQ" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="G11Math_DOK2"/>
-                                <BlueprintReference idRef="1|A-REI|I|m|A-REI.4b"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="5.988900000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="b" value="-1.689660000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="1930">
-                        <Item id="1930" type="EQ" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="G11Math_DOK2"/>
-                                <BlueprintReference idRef="1|G-SRT|P|m|G-SRT.8"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b" value="1.000000000000000e-015"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="1936">
-                        <Item id="1936" type="MI" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="1|G-SRT|P|m|G-SRT.8"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b" value="-2.856000000000000e-002"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="1948">
-                        <Item id="1948" type="GI" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="G11Math_DOK2"/>
-                                <BlueprintReference idRef="1|F-IF|K|m|F-IF.1"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRTGPC" scorePoints="2" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b0" value="1.000000000000000e-015"/>
-                                <ItemScoreParameter measurementParameter="b1" value="1.000000000000000e-015"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="1956">
-                        <Item id="1956" type="MC" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="G11Math_Claim1_MC/MS"/>
-                                <BlueprintReference idRef="1|N-Q|C|m|N-Q.1"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b" value="1.000000000000000e-015"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="1969">
-                        <Item id="1969" type="GI" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="G11Math_DOK2"/>
-                                <BlueprintReference idRef="1|F-IF|M|m|F-IF.7a"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b" value="1.000000000000000e-015"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="1997">
-                        <Item id="1997" type="MI" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="G11Math_Claim2/4"/>
-                                <BlueprintReference idRef="G11Math_DOK2"/>
-                                <BlueprintReference idRef="2|G-SRT|D|NA|NA"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="8.318500000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="b" value="7.261500000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="1998">
-                        <Item id="1998" type="MC" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="3|A-REI|G|NA|NA"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="7.411800000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="b" value="1.238580000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="1999">
-                        <Item id="1999" type="EQ" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="G11Math_DOK2"/>
-                                <BlueprintReference idRef="3|A-REI|D|NA|NA"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.140980000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b" value="2.103470000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="2005">
-                        <Item id="2005" type="MC" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="3|N-RN|E|NA|NA"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.473450000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b" value="-6.760500000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="2006">
-                        <Item id="2006" type="MS" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="G11Math_Claim2/4"/>
-                                <BlueprintReference idRef="4"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="8.444500000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="b" value="3.013630000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="2029">
-                        <Item id="2029" type="GI" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="G11Math_DOK2"/>
-                                <BlueprintReference idRef="3|G-SRT|A|NA|NA"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="5.327900000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="b" value="6.780300000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                    <ItemGroup id="2032">
-                        <Item id="2032" type="EQ" >
-                            <Presentations>
-                                <Presentation code="ENU"/>
-                            </Presentations>
-                            <BlueprintReferences>
-                                <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                <BlueprintReference idRef="G11Math_Claim2/4"/>
-                                <BlueprintReference idRef="G11Math_DOK2"/>
-                                <BlueprintReference idRef="4|G-MG|A|NA|NA"/>
-                            </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="7.263700000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="b" value="-1.497860000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
-                        </Item>
-                    </ItemGroup>
-                </Pool>
             </Segment>
         </Segments>
         <Tools>
@@ -995,58 +684,22 @@
             </Tool>
         </Tools>
     </Test>
-    <Test id="SBAC-IRP-Perf-MATH-11" label="IRP Perf Grade 11 Math">
+    <Test id="SBAC-IRP-Perf-MATH-11-EXAMPLE" label="IRP Perf Grade 11 Math - EXAMPLE">
         <Grades>
             <Grade value="11"/>
         </Grades>
         <Segments>
-            <Segment id="SBAC-IRP-Perf-MATH-11" position="1" algorithmType="fixedform" algorithmImplementation="FAIRWAY ROUNDROBIN">
+            <Segment id="SBAC-IRP-Perf-MATH-11-EXAMPLE" position="1" algorithmType="fixedform" algorithmImplementation="FAIRWAY ROUNDROBIN">
                 <SegmentBlueprint>
-                    <SegmentBlueprintElement idRef="SBAC-IRP-Perf-MATH-11" minExamItems="7" maxExamItems="7">
+                    <SegmentBlueprintElement idRef="SBAC-IRP-Perf-MATH-11-EXAMPLE" minExamItems="7" maxExamItems="7">
                         <ItemSelection>
                             <Property name="slope" value="79.3"/>
                             <Property name="intercept" value="2514.9"/>
                         </ItemSelection>
                     </SegmentBlueprintElement>
                 </SegmentBlueprint>
-                <SegmentForms>
-                    <SegmentForm id="IRP::MathG11::Perf::SP15" cohort="Default">
-                        <Presentations>
-                            <Presentation code="ENU"/>
-                        </Presentations>
-                        <ItemGroup id="3688">
-                            <Stimulus id="3688" />
-                            <Item id="1434" type="GI">
-                                <Presentations>
-                                    <Presentation code="ENU"/>
-                                </Presentations>
-                                <BlueprintReferences>
-                                    <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                    <BlueprintReference idRef="2|F-IF|A"/>
-                                </BlueprintReferences>
-                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                    <ItemScoreParameter measurementParameter="a" value="6.389300000000000e-001" />
-                                    <ItemScoreParameter measurementParameter="b" value="3.027330000000000e+000" />
-                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000" />
-                                </ItemScoreDimension>
-                            </Item>
-                            <Item id="1432" type="ER">
-                                <Presentations>
-                                    <Presentation code="ENU"/>
-                                </Presentations>
-                                <BlueprintReferences>
-                                    <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11"/>
-                                    <BlueprintReference idRef="3|F-IF|B"/>
-                                </BlueprintReferences>
-                                <ItemScoreDimension measurementModel="IRTGPC" scorePoints="2" weight="1.000000000000000e+000">
-                                    <ItemScoreParameter measurementParameter="a" value="7.479900000000000e-001" />
-                                    <ItemScoreParameter measurementParameter="b0" value="-4.015500000000000e-001" />
-                                    <ItemScoreParameter measurementParameter="b1" value="7.623700000000000e-001" />
-                                </ItemScoreDimension>
-                            </Item>
-                        </ItemGroup>
-                    </SegmentForm>
-                </SegmentForms>
+            </Segment>
+            <Segment id="SBAC-IRP-Perf-MATH-11-EXAMPLE-SEG2" position="2" algorithmType="foo" algorithmImplementation="bar">
             </Segment>
         </Segments>
         <Tools>

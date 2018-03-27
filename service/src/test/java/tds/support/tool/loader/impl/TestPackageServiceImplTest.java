@@ -14,6 +14,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+import org.xml.sax.SAXException;
 import tds.support.tool.model.TestPackageMetadata;
 import tds.support.tool.repositories.MongoTestPackageRepository;
 import tds.support.tool.repositories.loader.TestPackageMetadataRepository;
@@ -23,9 +24,13 @@ import tds.support.tool.services.loader.impl.TestPackageServiceImpl;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 import tds.testpackage.model.TestPackage;
 
+import javax.xml.transform.Source;
+import javax.xml.validation.Validator;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Matchers.isA;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -46,20 +51,24 @@ public class TestPackageServiceImplTest {
     private XmlMapper mockXmlObjectMapper;
 
     @Mock
+    private Validator mockValidator;
+
+    @Mock
     TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration;
 
     private ArgumentCaptor<TestPackageMetadata> metadataArgumentCaptor;
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException, SAXException {
         when(testPackageObjectMapperConfiguration.getXmlMapper()).thenReturn(mockXmlObjectMapper);
+        when(testPackageObjectMapperConfiguration.getTestPackageSchemaValidator()).thenReturn(mockValidator);
         service = new TestPackageServiceImpl(mockTestPackageRepository, mockTestPackageMetadataRepository,
             mockMongoTestPackageRepository, testPackageObjectMapperConfiguration);
         metadataArgumentCaptor = ArgumentCaptor.forClass(TestPackageMetadata.class);
     }
 
     @Test
-    public void shouldSaveTestPackage() throws IOException {
+    public void shouldSaveTestPackage() throws IOException, SAXException {
         final String jobId = "MyJobId";
         final String packageName = "MyPackageName";
         final String testPackageId = "TestPackageId";
@@ -107,6 +116,7 @@ public class TestPackageServiceImplTest {
             eq(testPackageSize));
         verify(mockMongoTestPackageRepository).save(testPackage);
         verify(mockTestPackageMetadataRepository).save(metadataArgumentCaptor.capture());
+        verify(mockValidator).validate(isA(Source.class));
 
         TestPackageMetadata metadata = metadataArgumentCaptor.getValue();
         assertThat(metadata).isNotNull();
@@ -123,6 +133,17 @@ public class TestPackageServiceImplTest {
 
         when(mockTestPackageRepository.savePackage(eq(jobId), eq(packageName), isA(ByteArrayInputStream.class),
             eq(testPackageSize))).thenThrow(IOException.class);
+        service.saveTestPackage(jobId, packageName, inputStream, testPackageSize);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void shouldThrowRuntimeForSAXValidationException() throws IOException, SAXException {
+        final String jobId = "MyJobId";
+        final String packageName = "MyPackageName";
+        final InputStream inputStream = new ByteArrayInputStream("test".getBytes(StandardCharsets.UTF_8.name()));
+        final long testPackageSize = 1337;
+
+        doThrow(SAXException.class).when(mockValidator).validate(isA(Source.class));
         service.saveTestPackage(jobId, packageName, inputStream, testPackageSize);
     }
 }
