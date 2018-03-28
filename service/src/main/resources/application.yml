@@ -19,12 +19,6 @@ security:
 
 server:
   port: 8080
-  context-path: /supporttool
-  undertow:
-    buffer-size: 16384
-    io-threads: 64
-    worker-threads: 512
-    direct-buffers: true
 
 spring:
   mvc:
@@ -55,9 +49,9 @@ support-tool:
 
 #SAML
 saml:
-  key-store-file: file:/Users/emunoz/saml/ernie-local.jks
-  key-store-password: password123
-  private-key-entry-alias: ernie-local
-  private-key-entry-password: password
-  idp-metadata-url: https://sso-deployment.sbtds.org/auth/saml2/jsp/exportmetadata.jsp?realm=/sbac
-  sp-entity-id: ernie-local
+  key-store-file: ${tds.java.keystore.file}
+  key-store-password: ${tds.java.keystore.password}
+  private-key-entry-alias: ${tds.java.private.key.alias}
+  private-key-entry-password: ${tds.java.private.key.password}
+  idp-metadata-url: ${tds.idp.metadata.url}
+  sp-entity-id: ${tds.sp.entityid}
