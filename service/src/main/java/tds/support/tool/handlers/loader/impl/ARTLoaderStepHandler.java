@@ -4,17 +4,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
+
 import tds.common.ValidationError;
 import tds.support.job.Error;
-import tds.support.job.*;
+import tds.support.job.ErrorSeverity;
+import tds.support.job.Job;
+import tds.support.job.Status;
+import tds.support.job.Step;
 import tds.support.tool.handlers.loader.TestPackageHandler;
 import tds.support.tool.model.TestPackageMetadata;
 import tds.support.tool.repositories.MongoTestPackageRepository;
 import tds.support.tool.repositories.loader.TestPackageMetadataRepository;
 import tds.support.tool.services.ARTTestPackageService;
+import tds.support.tool.services.ProgmanClientService;
 import tds.testpackage.model.TestPackage;
-
-import java.util.Optional;
 
 @Component
 public class ARTLoaderStepHandler implements TestPackageHandler {
@@ -23,14 +28,17 @@ public class ARTLoaderStepHandler implements TestPackageHandler {
     private final ARTTestPackageService artTestPackageService;
     private final MongoTestPackageRepository mongoTestPackageRepository;
     private final TestPackageMetadataRepository testPackageMetadataRepository;
+    private final ProgmanClientService progmanClientService;
 
     @Autowired
     public ARTLoaderStepHandler(final ARTTestPackageService artTestPackageService,
                                 final MongoTestPackageRepository mongoTestPackageRepository,
-                                final TestPackageMetadataRepository testPackageMetadataRepository) {
+                                final TestPackageMetadataRepository testPackageMetadataRepository,
+                                final ProgmanClientService progmanClientService) {
         this.artTestPackageService = artTestPackageService;
         this.mongoTestPackageRepository = mongoTestPackageRepository;
         this.testPackageMetadataRepository = testPackageMetadataRepository;
+        this.progmanClientService = progmanClientService;
     }
 
     @Override
@@ -38,8 +46,8 @@ public class ARTLoaderStepHandler implements TestPackageHandler {
         try {
             TestPackageMetadata metadata = testPackageMetadataRepository.findByJobId(job.getId());
             TestPackage testPackage = mongoTestPackageRepository.findOne(metadata.getTestPackageId());
-            // TODO: Get tenantId from progman
-            Optional<ValidationError> maybeError = artTestPackageService.loadTestPackage("58703df1e4b0f3fb93dba0f3", testPackage);
+
+            Optional<ValidationError> maybeError = artTestPackageService.loadTestPackage(progmanClientService.getTenantId(), testPackage);
 
             if (maybeError.isPresent()) {
                 step.setStatus(Status.FAIL);
