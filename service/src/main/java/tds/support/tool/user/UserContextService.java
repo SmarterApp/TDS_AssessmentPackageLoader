@@ -4,6 +4,6 @@ import tds.support.tool.security.model.User;
 
 import javax.validation.constraints.NotNull;
 
-public interface UserContextSevice {
+public interface UserContextService {
     UserContext getUserContext(@NotNull User user);
 }

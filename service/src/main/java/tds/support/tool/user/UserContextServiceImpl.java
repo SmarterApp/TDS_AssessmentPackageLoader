@@ -6,7 +6,7 @@ import tds.support.tool.security.model.User;
 import javax.validation.constraints.NotNull;
 
 @Service
-public class UserContextServiceImpl implements UserContextSevice {
+public class UserContextServiceImpl implements UserContextService {
     @Override
     public UserContext getUserContext(@NotNull final User user) {
         return UserContext.builder()

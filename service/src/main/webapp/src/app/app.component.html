@@ -21,11 +21,11 @@
               <li class="navbar-link">
                 <div class="btn-group" dropdown>
                   <button type="button" dropdownToggle class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 8px">
-                    <i class="fa fa-user-circle"></i> <span>{{'Welcome'}}</span> <span class="caret"></span>
+                    <i class="fa fa-user-circle"></i> <span *ngIf="user">Welcome {{ user.firstName }} {{ user.lastName }}</span> <span class="caret"></span>
                   </button>
-                  <ul *dropdownMenu class="dropdown-menu mt-md" role="menu">
+                  <ul *dropdownMenu class="dropdown-menu mt-md" role="menu" style="margin: -5px 10px">
                     <li role="menuitem">
-                      <a class="dropdown-item" href="javascript:void(0)" onclick="window.document.logoutForm.submit()">{{'messages.logout'}}</a>
+                      <a class="dropdown-item" href="javascript:void(0)" onclick="window.document.logoutForm.submit()">Logout</a>
                       <form name="logoutForm" method="post" action="/saml/logout" class="hidden"></form>
                     </li>
                   </ul>
