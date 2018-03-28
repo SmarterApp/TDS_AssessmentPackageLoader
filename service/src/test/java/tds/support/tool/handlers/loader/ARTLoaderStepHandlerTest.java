@@ -42,11 +42,11 @@ public class ARTLoaderStepHandlerTest {
     private TestPackageMetadataRepository mockTestPackageMetadataRepository;
 
     @Mock
-    private ProgmanClientServiceImpl progmanClientService;
+    private ProgmanClientServiceImpl mockProgmanClientService;
 
     @Before
     public void setup() {
-        handler = new ARTLoaderStepHandler(mockService, mockTestPackageRepository, mockTestPackageMetadataRepository, progmanClientService);
+        handler = new ARTLoaderStepHandler(mockService, mockTestPackageRepository, mockTestPackageMetadataRepository, mockProgmanClientService);
         mockTestPackage = TestPackage.builder()
                 .setAcademicYear("1234")
                 .setBankKey(123)
@@ -71,6 +71,7 @@ public class ARTLoaderStepHandlerTest {
         when(mockTestPackageMetadataRepository.findByJobId(mockJob.getId())).thenReturn(mockMetadata);
         when(mockTestPackageRepository.findOne(mockMetadata.getTestPackageId())).thenReturn(mockTestPackage);
         when(mockService.loadTestPackage(tenantId, mockTestPackage)).thenReturn(Optional.empty());
+        when(mockProgmanClientService.getTenantId()).thenReturn(tenantId);
 
         handler.handle(mockJob, mockStep);
         assertThat(mockStep.isComplete()).isTrue();
@@ -95,6 +96,7 @@ public class ARTLoaderStepHandlerTest {
         when(mockTestPackageRepository.findOne(mockMetadata.getTestPackageId())).thenReturn(mockTestPackage);
         when(mockService.loadTestPackage(tenantId, mockTestPackage))
                 .thenReturn(Optional.of(new ValidationError("Some", "Error")));
+        when(mockProgmanClientService.getTenantId()).thenReturn(tenantId);
 
         handler.handle(mockJob, mockStep);
         assertThat(mockStep.isComplete()).isTrue();
@@ -119,6 +121,7 @@ public class ARTLoaderStepHandlerTest {
         when(mockTestPackageRepository.findOne(mockMetadata.getTestPackageId())).thenReturn(mockTestPackage);
         when(mockService.loadTestPackage(tenantId, mockTestPackage))
                 .thenThrow(HttpClientErrorException.class);
+        when(mockProgmanClientService.getTenantId()).thenReturn(tenantId);
 
         handler.handle(mockJob, mockStep);
         assertThat(mockStep.isComplete()).isTrue();
