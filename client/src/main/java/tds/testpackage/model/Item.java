@@ -10,10 +10,7 @@ import com.google.auto.value.AutoValue;
 import org.springframework.data.annotation.Transient;
 import tds.teacherhandscoring.model.TeacherHandScoring;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 

@@ -24,6 +24,14 @@ public class SupportToolProperties {
     private String assessmentUrl;
     private String thssApiUrl;
     private String tisApiUrl;
+    private String progmanUrl;
+    private String progmanTenant;
+    private String progmanTenantLevel;
+    private String SsoUrl;
+    private String SsoUsername;
+    private String SsoPassword;
+    private String SsoClientSecret;
+    private String SsoClientId;
 
     /**
      * @return URL that points to the deployed instance of Administration and Registration Tools (ART) REST component.
@@ -70,6 +78,94 @@ public class SupportToolProperties {
         this.tisApiUrl = removeTrailingSlash(tisApiUrl);
     }
 
+    /**
+     * @return URL that points to the deployed instance of Progman REST component,
+     *   e.g.: http://progman-web-deployment.sbtds.org:8080/rest/
+     */
+    public Optional<String> getProgmanUrl() {
+        return Optional.ofNullable(progmanUrl);
+    }
+
+    public void setProgmanUrl(final String progmanUrl) {
+        this.progmanUrl = removeTrailingSlash(progmanUrl);
+    }
+
+    /**
+     * @return Progman tenant, e.g.: CA
+     */
+    public Optional<String> getProgmanTenant() {
+        return Optional.ofNullable(progmanTenant);
+    }
+
+    public void setProgmanTenant(final String progmanTenant) {
+        this.progmanTenant = progmanTenant;
+    }
+
+    /**
+     * @return Progman tenant level, e.g.: STATE
+     */
+    public Optional<String> getProgmanTenantLevel() {
+        return Optional.ofNullable(progmanTenantLevel);
+    }
+
+    public void setProgmanTenantLevel(final String progmanTenantLevel) {
+        this.progmanTenantLevel = progmanTenantLevel;
+    }
+
+    /**
+     * @return SSO endpoint, e.g.: https://sso-deployment.sbtds.org/auth/oauth2/access_token?realm=/sbac
+     */
+    public Optional<String> getSsoUrl() {
+        return Optional.ofNullable(SsoUrl);
+    }
+
+    public void setSsoUrl(final String ssoUrl) {
+        this.SsoUrl = removeTrailingSlash(ssoUrl);
+    }
+
+    /**
+     * @return SSO username, e.g.: user@example.com
+     */
+    public Optional<String> getSsoUsername() {
+        return Optional.ofNullable(SsoUsername);
+    }
+
+    public void setSsoUsername(final String ssoUsername) {
+        this.SsoUsername = ssoUsername;
+    }
+
+    /**
+     * @return SSO password, e.g.: password
+     */
+    public Optional<String> getSsoPassword() {
+        return Optional.ofNullable(SsoPassword);
+    }
+
+    public void setSsoPassword(final String ssoPassword) {
+        this.SsoPassword = ssoPassword;
+    }
+
+    /**
+     * @return SSO client secret, e.g.: mySecret12345
+     */
+    public Optional<String> getSsoClientSecret() {
+        return Optional.ofNullable(SsoClientSecret);
+    }
+
+    public void setSsoClientSecret(final String ssoClientSecret) {
+        this.SsoClientSecret = ssoClientSecret;
+    }
+
+    /**
+     * @return SSO client ID, e.g.: pm
+     */
+    public Optional<String> getSsoClientId() {
+        return Optional.ofNullable(SsoClientId);
+    }
+
+    public void setSsoClientId(final String ssoClientId) {
+        this.SsoClientId = ssoClientId;
+    }
     /**
      * Remove the trailing slash from a URL (if one exists)
      *

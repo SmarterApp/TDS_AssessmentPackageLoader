@@ -10,16 +10,14 @@ import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.annotation.Transient;
 
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @AutoValue
 @JsonDeserialize(builder = AutoValue_SegmentForm.Builder.class)
+@XmlType(propOrder={"presentations", "itemGroups"})
 public abstract class SegmentForm {
     @XmlAttribute
     public abstract String getId();
