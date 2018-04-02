@@ -1,6 +1,7 @@
 package tds.support.tool.security.model;
 
 import com.google.common.collect.ImmutableSet;
+import tds.support.tool.security.permission.client.Permission;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -88,7 +89,8 @@ public class PermissionScope implements Serializable {
     }
 
     public static PermissionScope getScopeOrEmpty(final Map<String, Permission> permissionMap, final String permissionId) {
-        return permissionMap.containsKey(permissionId) ? permissionMap.get(permissionId).getScope() : EMPTY;
+//        return permissionMap.containsKey(permissionId) ? permissionMap.get(permissionId).getScope() : EMPTY;
+        return EMPTY;
     }
 
     public static Builder builder() {

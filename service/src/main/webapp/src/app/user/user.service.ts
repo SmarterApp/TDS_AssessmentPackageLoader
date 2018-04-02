@@ -22,7 +22,7 @@ export class UserService {
       map(serverUser => <User>{
         firstName: serverUser.firstName,
         lastName: serverUser.lastName,
-        // permissions: serverUser.permissions
+        permissions: serverUser.permissions
       }),
       catchError(error => UnauthenticatedUser)
     )

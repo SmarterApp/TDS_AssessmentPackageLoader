@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import org.springframework.security.core.GrantedAuthority;
+import tds.support.tool.security.permission.client.Permission;
 
 import java.util.Collection;
 import java.util.Map;
@@ -53,13 +54,13 @@ public class User extends org.springframework.security.core.userdetails.User {
         return permissionsById;
     }
 
-    public PermissionScope getPermissionScopeByPermissionId(final String id) {
-        final Permission permission = getPermissionsById().get(id);
-        if (permission == null) {
-            return PermissionScope.EMPTY;
-        }
-        return permission.getScope();
-    }
+//    public PermissionScope getPermissionScopeByPermissionId(final String id) {
+//        final Permission permission = getPermissionsById().get(id);
+//        if (permission == null) {
+//            return PermissionScope.EMPTY;
+//        }
+//        return permission.getScope();
+//    }
 
     /**
      * Builder for User

@@ -2,6 +2,7 @@ import {Routes} from "@angular/router";
 import {TestPackageComponent} from "./testpackage/loader/test-package.component";
 import {UploadLoaderJobComponent} from "./testpackage/loader/jobs/upload/upload-loader-job.component";
 import {TestPackageStatusComponent} from "./testpackage/loader/status/test-package-status.component";
+import {ErrorComponent} from "./error.component";
 
 export const routes: Routes = [
   {
@@ -12,6 +13,11 @@ export const routes: Routes = [
   {
     path: '',
     children: [
+      {
+        path: 'error',
+        pathMatch: 'prefix',
+        component: ErrorComponent
+      },
       {
         path: 'loader',
         pathMatch: 'prefix',

@@ -2,9 +2,6 @@ import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {User} from "./user/user";
 import {UserService} from "./user/user.service";
-import {_throw} from "rxjs/observable/throw";
-import {catchError} from "rxjs/operators";
-import {forkJoin} from "rxjs/observable/forkJoin";
 
 @Component({
   selector: 'app-root',
@@ -14,6 +11,7 @@ export class AppComponent implements OnInit {
   title = 'TDS Support Tool';
   footer = '© The Regents of the University of California – Smarter Balanced Assessment Consortium';
   user: User;
+  errorOccurred = false;
 
   constructor(private router: Router,
               private userService: UserService) {
@@ -21,7 +19,15 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {
     this.userService.getUser()
-      .subscribe(user => this.user = user);
+      .subscribe(user => {
+        const hasPermissions = (user.permissions || []).length > 0;
+        if (!hasPermissions) {
+          this.errorOccurred = true;
+          // Reroute to error page if user has no read/write permissions
+          this.router.navigateByUrl('/error')
+        }
+        return this.user = user;
+      });
 
   }
 }
