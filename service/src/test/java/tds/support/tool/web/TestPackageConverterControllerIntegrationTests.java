@@ -68,18 +68,18 @@ public class TestPackageConverterControllerIntegrationTests {
     }
 
     @Test
-    public void shouldReturn500ForMissingFile() throws Exception {
+    public void shouldReturn400ForMissingFile() throws Exception {
         http.perform(MockMvcRequestBuilders.fileUpload("/api/convert/new")
                 .param("testPackageName", "testPackageFilename"))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isBadRequest());
     }
 
     @Test
-    public void shouldReturn500ForMissingTestPackageName() throws Exception {
+    public void shouldReturn400ForMissingTestPackageName() throws Exception {
         MockMultipartFile mockFile = new MockMultipartFile("file", "testpackage.something", "multipart/form-data", "<TestPackage/>".getBytes());
 
         http.perform(MockMvcRequestBuilders.fileUpload("/api/convert/new")
                 .file(mockFile))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isBadRequest());
     }
 }

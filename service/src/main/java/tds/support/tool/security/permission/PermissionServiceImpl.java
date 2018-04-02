@@ -22,12 +22,11 @@ public class PermissionServiceImpl implements PermissionService {
     /**
      * The component for which permission information will be looked up
      */
-    private String component;
+    private static final String SUPPORT_TOOL_COMPONENT_NAME = "Support Tool";
 
     @Autowired
     public PermissionServiceImpl(final PermissionWebServiceClient client) {
         this.client = checkNotNull(client);
-        this.component = "Support Tool";
     }
 
     /**
@@ -35,12 +34,12 @@ public class PermissionServiceImpl implements PermissionService {
      */
     public Map<String, Collection<String>> getPermissionsByRole() throws UnauthorizedUserException {
 
-        final Response<Role> response = client.getRole(component);
+        final Response<Role> response = client.getRole(SUPPORT_TOOL_COMPONENT_NAME);
 
         if (response.getStatus() == null || !response.getStatus().equals(Response.Status.SUCCESS)) {
             throw new UnauthorizedUserException(String.format(
                     "Error getting roles and permissions for component \"%s\". Server responded with message: \"%s\"",
-                    component, response.getMessage()));
+                    SUPPORT_TOOL_COMPONENT_NAME, response.getMessage()));
         }
 
         final Map<String, Collection<String>> permissionsByRole = newHashMap();

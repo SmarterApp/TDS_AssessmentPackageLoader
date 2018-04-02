@@ -36,40 +36,6 @@ public class PermissionWebServiceClient {
     }
 
     /**
-     * Gets all components and the permissions associated with these components
-     *
-     * @return response containing all registered components
-     */
-    public Response<Component> getComponents() {
-        return get("/component",
-                new ParameterizedTypeReference<Response<Component>>() {},
-                ImmutableMap.of());
-    }
-
-    /**
-     * Gets the component and permissions associated with the given component name
-     *
-     * @param component Component name as registered in the permission management system
-     * @return response containing the matching component or a response with a failure status if no matching component is found
-     */
-    public Response<Component> getComponent(final String component) {
-        return get("/component?component={component}",
-                new ParameterizedTypeReference<Response<Component>>() {},
-                ImmutableMap.of("component", component));
-    }
-
-    /**
-     * Gets all roles and the components and permissions associated with the roles
-     *
-     * @return response containing all registered roles
-     */
-    public Response<Role> getRoles() {
-        return get("/role",
-                new ParameterizedTypeReference<Response<Role>>() {},
-                ImmutableMap.of());
-    }
-
-    /**
      * Gets the role and the components and permissions associated with that role for the given component name
      *
      * @param component Component name as registered in the permission management system
@@ -80,18 +46,6 @@ public class PermissionWebServiceClient {
                 new ParameterizedTypeReference<Response<Role>>() {},
                 ImmutableMap.of("component", component));
     }
-
-    /**
-     * Gets all permissions
-     *
-     * @return response containing all registered permissions
-     */
-    public Response<Permission> getPermissions() {
-        return get("/permission",
-                new ParameterizedTypeReference<Response<Permission>>() {},
-                ImmutableMap.of());
-    }
-
 
     private <T> T get(String path, ParameterizedTypeReference<T> typeReference, Map<String, ?> parameters) {
         final String url = endpoint + path;
