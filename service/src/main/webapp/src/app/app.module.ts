@@ -10,11 +10,13 @@ import {BreadcrumbsComponent} from "./breadcrumbs/breadcrumbs.component";
 import {CommonModule} from "./shared/common.module";
 import { TestPackageStatusModule } from "./testpackage/loader/status/test-package-status.module";
 import {UserModule} from "./user/user.module";
+import {ErrorComponent} from "./error.component";
 
 @NgModule({
   declarations: [
     AppComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,

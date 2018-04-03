@@ -2,7 +2,7 @@ package tds.support.tool.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import tds.support.tool.security.model.Grant;
-import tds.support.tool.security.model.Permission;
+import tds.support.tool.security.permission.client.Permission;
 
 import java.util.Collection;
 import java.util.Set;
