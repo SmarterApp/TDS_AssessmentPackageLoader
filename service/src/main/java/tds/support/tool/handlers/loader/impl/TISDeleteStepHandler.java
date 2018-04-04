@@ -39,9 +39,9 @@ public class TISDeleteStepHandler implements TestPackageHandler {
     @Override
     public void handle(final Job job, final Step step) {
         try {
-            Job loaderJob = jobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(job.getName(), JobType.LOAD);
-            TestPackageMetadata metadata = testPackageMetadataRepository.findByJobId(loaderJob.getId());
-            TestPackage testPackage = mongoTestPackageRepository.findOne(metadata.getTestPackageId());
+            final Job loaderJob = jobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(job.getName(), JobType.LOAD);
+            final TestPackageMetadata metadata = testPackageMetadataRepository.findByJobId(loaderJob.getId());
+            final TestPackage testPackage = mongoTestPackageRepository.findOne(metadata.getTestPackageId());
             tisTestPackageService.deleteTestPackage(testPackage);
             step.setStatus(Status.SUCCESS);
         } catch (Exception e) {
