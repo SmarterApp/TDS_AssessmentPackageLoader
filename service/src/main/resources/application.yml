@@ -52,7 +52,7 @@ support-tool:
   art-rest-url: http://localhost:8080/rest
   assessment-url: http://localhost:32841
   thss-api-url: http://localhost:28039/api
-  tis-api-url: http://localohst:53708/api
+  tis-api-url: http://localhost:53708/api
 
   progman-tenant-level: STATE
   progman-tenant: CA
