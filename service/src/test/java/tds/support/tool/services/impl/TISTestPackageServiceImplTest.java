@@ -15,6 +15,7 @@ import tds.common.ValidationError;
 import tds.common.web.resources.NoContentResponseResource;
 import tds.support.tool.configuration.SupportToolProperties;
 import tds.support.tool.services.TISTestPackageService;
+import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 import tds.testpackage.model.TestPackage;
 
 import java.io.IOException;
@@ -38,9 +39,18 @@ public class TISTestPackageServiceImplTest {
     @Mock
     private SupportToolProperties supportToolProperties;
 
+    @Mock
+    private TestPackageObjectMapperConfiguration objectMapperConfiguration;
+
+    @Mock
+    private XmlMapper mockMapper;
+
     @Before
     public void setup() throws IOException {
-        service = new TISTestPackageServiceImpl(restTemplate, supportToolProperties);
+        when(mockMapper.writeValueAsString(mockTestPackage)).thenReturn("testPackage");
+        when(objectMapperConfiguration.getLegacyTestSpecXmlMapper()).thenReturn(mockMapper);
+
+        service = new TISTestPackageServiceImpl(restTemplate, supportToolProperties, objectMapperConfiguration);
         XmlMapper testPackageMapper = new XmlMapper();
         testPackageMapper.registerModule(new Jdk8Module());
         mockTestPackage = testPackageMapper.readValue(this.getClass().getResourceAsStream(
