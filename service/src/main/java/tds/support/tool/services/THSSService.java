@@ -1,9 +1,11 @@
 package tds.support.tool.services;
 
 import tds.common.ValidationError;
+import tds.teacherhandscoring.model.TeacherHandScoringConfiguration;
 import tds.testpackage.model.TestPackage;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -20,4 +22,6 @@ public interface THSSService {
     Optional<ValidationError> loadTestPackage(final String name, final TestPackage testPackage) throws IOException;
 
     Optional<ValidationError> deleteTestPackage(final TestPackage testPackage);
+
+    List<TeacherHandScoringConfiguration> getThssConfiguration(final TestPackage testPackage);
 }

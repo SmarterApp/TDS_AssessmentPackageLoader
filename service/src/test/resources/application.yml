@@ -24,3 +24,5 @@ support-tool:
   assessment-url: http://localhost:32841
   thss-api-url: http://localhost:28039/api
   tis-api-url: http://localohst:53708/api
+
+tds.contentUrl: http://content-service

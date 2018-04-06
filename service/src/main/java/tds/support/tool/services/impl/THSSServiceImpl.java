@@ -10,6 +10,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -116,9 +117,12 @@ public class THSSServiceImpl implements THSSService {
 
         final ResponseEntity<TeacherHandScoringApiResultFile> responseEntity = restTemplate.exchange(builder.build().toUri(), HttpMethod.DELETE, null, TeacherHandScoringApiResultFile.class);
 
-        if (responseEntity.getBody() != null
-            && !responseEntity.getBody().getSuccess()){
-            return Optional.of(new ValidationError("Error", responseEntity.getBody().getErrorMessage()));
+        if (responseEntity.getBody() != null) {
+            final TeacherHandScoringApiResultFile body = responseEntity.getBody();
+            if (!body.getSuccess()) {
+                final String errorMessage = (body.getErrorMessage() != null) ? body.getErrorMessage() : "";
+                return Optional.of(new ValidationError("Error", errorMessage));
+            }
         }
         return Optional.empty();
     }

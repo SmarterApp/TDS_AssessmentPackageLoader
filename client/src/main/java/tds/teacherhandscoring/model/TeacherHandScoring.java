@@ -110,6 +110,8 @@ abstract public class TeacherHandScoring {
 
     /**
      * Item content xml path: //rubriclist/rubric/val
+     * Initially null after loading from test specification.
+     * Populated from the item content retrieved from the content service
      * @return Rubric list found in the item content XML
      */
     @JsonProperty(value = "rubriclist")
@@ -187,7 +189,10 @@ abstract public class TeacherHandScoring {
     abstract Builder toBuilder();
 
     public TeacherHandScoring withRubricList(final String rubricList) {
-        return toBuilder().setRubricList(rubricList).build();
+        final TeacherHandScoring newTeacherHandScoring = toBuilder().setRubricList(rubricList).build();
+        newTeacherHandScoring.setItem(getItem());
+        newTeacherHandScoring.setTestPackage(getTestPackage());
+        return newTeacherHandScoring;
     }
 
     @AutoValue.Builder
