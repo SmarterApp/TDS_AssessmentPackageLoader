@@ -78,6 +78,29 @@ public class TISLoaderStepHandlerTest {
     }
 
     @Test
+    public void shouldHandleStepSuccessfullyWithWarns() {
+        TestPackageLoadJob mockJob = random(TestPackageLoadJob.class);
+        Step mockStep = random(Step.class);
+        int errorsBefore = mockStep.getErrors().size();
+        TestPackageMetadata mockMetadata = random(TestPackageMetadata.class);
+
+        when(mockTestPackageMetadataRepository.findByJobId(mockJob.getId())).thenReturn(mockMetadata);
+        when(mockTestPackageRepository.findOne(mockMetadata.getTestPackageId())).thenReturn(mockTestPackage);
+        when(mockService.loadTestPackage(mockJob.getName(), mockTestPackage))
+                .thenReturn(Optional.of(new ValidationError("WARN", "Just a warning...")));
+
+        handler.handle(mockJob, mockStep);
+        assertThat(mockStep.isComplete()).isTrue();
+        assertThat(mockStep.getStatus()).isEqualTo(Status.SUCCESS);
+        int errorsAfter = mockStep.getErrors().size();
+        assertThat(errorsAfter).isGreaterThan(errorsBefore);
+
+        verify(mockTestPackageMetadataRepository).findByJobId(mockJob.getId());
+        verify(mockTestPackageRepository).findOne(mockMetadata.getTestPackageId());
+        verify(mockService).loadTestPackage(mockJob.getName(), mockTestPackage);
+    }
+
+    @Test
     public void shouldReturnErrorFromServiceCallAndFailStep() {
         TestPackageLoadJob mockJob = random(TestPackageLoadJob.class);
         Step mockStep = random(Step.class);
