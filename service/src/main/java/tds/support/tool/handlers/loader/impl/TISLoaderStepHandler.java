@@ -38,8 +38,13 @@ public class TISLoaderStepHandler implements TestPackageHandler {
             Optional<ValidationError> maybeError = tisTestPackageService.loadTestPackage(job.getName(), testPackage);
 
             if (maybeError.isPresent()) {
-                step.setStatus(Status.FAIL);
-                step.addError(new Error(maybeError.get().getMessage(), ErrorSeverity.CRITICAL));
+                if (!maybeError.get().getCode().equalsIgnoreCase(ErrorSeverity.WARN.name())) {
+                    step.setStatus(Status.FAIL);
+                    step.addError(new Error(maybeError.get().getMessage(), ErrorSeverity.CRITICAL));
+                } else {
+                    step.setStatus(Status.SUCCESS);
+                    step.addError(new Error(maybeError.get().getMessage(), ErrorSeverity.WARN));
+                }
             } else {
                 step.setStatus(Status.SUCCESS);
             }
