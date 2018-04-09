@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 @JsonDeserialize(builder = AutoValue_PerformanceLevel.Builder.class)
 public abstract class PerformanceLevel {
     @JsonProperty("pLevel")
-    @XmlAttribute
+    @XmlAttribute(name="pLevel")
     public abstract int getPLevel();
     @XmlAttribute
     public abstract double getScaledLo();

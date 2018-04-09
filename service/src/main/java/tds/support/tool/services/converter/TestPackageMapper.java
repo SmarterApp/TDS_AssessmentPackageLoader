@@ -217,18 +217,25 @@ public class TestPackageMapper {
                 .collect(Collectors.toMap(ti -> ti.getIdentifier().getUniqueid(), Function.identity()));
 
         return groupItems.stream()
+                .peek(gi -> {
+                    if (!testItemMap.containsKey(gi.getItemid())) {
+                        log.warn("No item defined in the item pool for the item {}. Skipping...",
+                                gi.getItemid());
+                    }
+                })
+                .filter(gi -> testItemMap.containsKey(gi.getItemid()))
                 .map(gi -> Item.builder()
-                        // If the item key is "187-1234" the item ID is "1234"
-                        .setId(TestPackageUtils.parseIdFromKey(gi.getItemid()))
-                        .setAdministrationRequired(Optional.ofNullable(gi.getAdminrequired()))
-                        .setFieldTest(Optional.ofNullable(gi.getIsfieldtest()))
-                        .setActive(Optional.ofNullable(gi.getIsactive()))
-                        .setResponseRequired(Optional.ofNullable(gi.getResponserequired()))
-                        .setType(testItemMap.get(gi.getItemid()).getItemtype())
-                        .setPresentations(mapPresentations(testItemMap.get(gi.getItemid()).getPoolproperty()))
-                        .setItemScoreDimension(mapItemScoreDimensions(testItemMap.get(gi.getItemid()).getItemscoredimension().get(0)))
-                        .setBlueprintReferences(mapBlueprintReferences(testItemMap.get(gi.getItemid()).getBpref(), bluePrintIdsToNames))
-                        .build())
+                            // If the item key is "187-1234" the item ID is "1234"
+                            .setId(TestPackageUtils.parseIdFromKey(gi.getItemid()))
+                            .setAdministrationRequired(Optional.ofNullable(gi.getAdminrequired()))
+                            .setFieldTest(Optional.ofNullable(gi.getIsfieldtest()))
+                            .setActive(Optional.ofNullable(gi.getIsactive()))
+                            .setResponseRequired(Optional.ofNullable(gi.getResponserequired()))
+                            .setType(testItemMap.get(gi.getItemid()).getItemtype())
+                            .setPresentations(mapPresentations(testItemMap.get(gi.getItemid()).getPoolproperty()))
+                            .setItemScoreDimension(mapItemScoreDimensions(testItemMap.get(gi.getItemid()).getItemscoredimension().get(0)))
+                            .setBlueprintReferences(mapBlueprintReferences(testItemMap.get(gi.getItemid()).getBpref(), bluePrintIdsToNames))
+                            .build())
                 .collect(Collectors.toList());
     }
 

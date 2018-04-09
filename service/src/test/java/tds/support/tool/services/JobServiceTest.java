@@ -1,22 +1,18 @@
 package tds.support.tool.services;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.paweladamski.httpclientmock.HttpClientMock;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.*;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -43,12 +39,15 @@ import tds.support.tool.services.impl.THSSServiceImpl;
 import tds.support.tool.services.loader.MessagingService;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.springframework.test.web.client.ExpectedCount.manyTimes;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 @RunWith(SpringRunner.class)
@@ -113,7 +112,6 @@ public class JobServiceTest {
                     "        }\n" +
                     "    ]\n" +
                     "}");
-
 
                 return httpClientMock;
             };

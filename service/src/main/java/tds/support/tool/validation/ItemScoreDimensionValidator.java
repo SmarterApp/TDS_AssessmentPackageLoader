@@ -18,6 +18,7 @@ public class ItemScoreDimensionValidator implements TestPackageValidator {
             "IRT3PLN",
             "IRTPCL",
             "RAW",
+            "RAWSCORE",
             "IRT3PL",
             "IRTGPC"
     );

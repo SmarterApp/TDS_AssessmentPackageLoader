@@ -18,6 +18,7 @@ import java.util.List;
 @AutoValue
 @JsonDeserialize(using = TestPackageDeserializer.class,  builder = AutoValue_TestPackage.Builder.class)
 @XmlRootElement(name = "TestPackage")
+@XmlType(propOrder={"blueprint", "assessments"})
 public abstract class TestPackage {
     @Id
     @XmlTransient
