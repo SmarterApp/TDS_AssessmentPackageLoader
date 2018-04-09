@@ -9,3 +9,12 @@
   background-color: #eee;
   border-radius: 4px;
 }
+
+.ui-paginator-pages {
+  text-align: center;
+  font-size: 20px;
+
+  a {
+    padding: 2px;
+  }
+}
