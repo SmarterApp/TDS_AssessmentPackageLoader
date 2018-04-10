@@ -22,6 +22,7 @@ import java.util.Optional;
 public class SupportToolProperties {
     private String artRestUrl;
     private String assessmentUrl;
+    private String contentUrl;
     private String thssApiUrl;
     private String tisApiUrl;
     private String progmanUrl;
@@ -54,6 +55,18 @@ public class SupportToolProperties {
     public void setAssessmentUrl(final String assessmentUrl) {
         if (assessmentUrl == null) throw new IllegalArgumentException("asssessmentUrl cannot be null");
         this.assessmentUrl = removeTrailingSlash(assessmentUrl);
+    }
+
+    /**
+     * @return URL that points to the deployed Content microservice.
+     */
+    public String getContentUrl() {
+        return contentUrl;
+    }
+
+    public void setContentUrl(final String contentUrl) {
+        if (contentUrl == null) throw new IllegalArgumentException("contentUrl cannot be null");
+        this.contentUrl = removeTrailingSlash(contentUrl);
     }
 
     /**

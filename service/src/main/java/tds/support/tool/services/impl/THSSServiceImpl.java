@@ -69,13 +69,12 @@ public class THSSServiceImpl implements THSSService {
 
     @Autowired
     public THSSServiceImpl(@Value("${tds.content.format:/tds/bank/items/Item-%1$s-%2$s/item-%1$s-%2$s.xml}") final String itemContentFormat,
-                           @Value("${tds.contentUrl}") final String contentUrl,
                            final Supplier<CloseableHttpClient> httpClientSupplier,
-                           SupportToolProperties supportToolProperties,
+                           final SupportToolProperties supportToolProperties,
                            final RestTemplate restTemplate,
                            final TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration) {
         this.itemContentFormat = itemContentFormat;
-        this.contentUrl = contentUrl;
+        this.contentUrl = supportToolProperties.getContentUrl();
         this.thssUrl = supportToolProperties.getThssApiUrl().orElseThrow(() -> new RuntimeException("THSS api url property is not configured"));
         this.restTemplate = restTemplate;
         this.httpClientSupplier = httpClientSupplier;
