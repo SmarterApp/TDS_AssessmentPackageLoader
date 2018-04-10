@@ -39,7 +39,7 @@
                                     <!--<ItemScoreParameter measurementParameter="b2" value="2.731340000000000e+000" />-->
                                     <!--<ItemScoreParameter measurementParameter="b3" value="4.805220000000000e+000" />-->
                                 <!--</ItemScoreDimension>-->
-                                <TeacherHandScoring baseUrl="C:\src\tss\Item-Manager\OH_ Items" exemplar="G3_2703_TM.pdf" trainingGuide="G3_2703_SG.pdf" layout="WAI" description="Mandatory Financial Literacy Classes - SBAC_Field">
+                                <TeacherHandScoring exemplar="G3_2703_TM.pdf" trainingGuide="G3_2703_SG.pdf" layout="WAI" description="Mandatory Financial Literacy Classes - SBAC_Field">
                                     <Dimensions>
                                         <![CDATA[
                                             [

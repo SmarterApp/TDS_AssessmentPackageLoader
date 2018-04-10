@@ -60,11 +60,9 @@ public class TeacherHandScoringTests {
 
     @Test
     public void TeacherHandScoringShouldSerializeToJsonWithoutError() throws Exception {
-        InputStream inputStream = TeacherHandScoringTests.class.getClassLoader().getResourceAsStream("rubric-list-example-1.xml");
         String dimensions = Resources.toString(TeacherHandScoringTests.class.getClassLoader().getResource("dimensions.json"), UTF_8);
 
         TeacherHandScoring teacherHandScoring = TeacherHandScoring.builder().
-            setBaseUrl("C:\\\\src\\\\tss\\\\Item-Manager\\\\OH_ Items").
             setDescription("Mandatory Financial Literacy Classes - SBAC_Field").
             setExemplar("G3_2703_TM.pdf").
             setTrainingGuide("G3_2703_SG.pdf").

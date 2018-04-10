@@ -87,12 +87,6 @@ abstract public class TeacherHandScoring {
         "        \"minPoints\": \"0\"\n" +
         "      }\n" +
         "    ]";
-
-    /**
-     * @return location of the PDFs on the THSS server
-     */
-    public abstract String getBaseUrl();
-
     /**
      * Note: naming convention is itemId + "_TM.pdf"
      *
@@ -198,7 +192,6 @@ abstract public class TeacherHandScoring {
     @AutoValue.Builder
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     public abstract static class Builder {
-        public abstract Builder setBaseUrl(String newBaseUrl);
 
         public abstract Builder setExemplar(String newExemplar);
 
