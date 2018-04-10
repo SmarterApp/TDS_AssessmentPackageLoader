@@ -480,72 +480,8 @@ The Dependency can be read as:
                                     <xs:documentation>Teacher Hand Scoring System configuration. Reference https://github.com/SmarterApp/TDS_TeacherHandScoringSystem</xs:documentation>
                                 </xs:annotation>
                                 <xs:complexType>
-                                    <xs:sequence>
-                                        <xs:element name="rubriclist" maxOccurs="unbounded"
-                                                    minOccurs="0">
-                                            <xs:annotation>
-                                                <xs:documentation xml:lang="en-US">
-                                                    Define the rubriclist type. Rubrics associated with the item.
-                                                </xs:documentation>
-                                            </xs:annotation>
-                                            <xs:complexType>
-                                                <xs:choice maxOccurs="unbounded" minOccurs="0">
-                                                    <xs:element name="rubric">
-                                                        <xs:annotation>
-                                                            <xs:documentation xml:lang="en-US">Define the rubric type. The scoring rubric.</xs:documentation>
-                                                        </xs:annotation>
-                                                        <xs:complexType>
-                                                            <xs:sequence>
-                                                                <xs:element type="xs:string" name="name"/>
-                                                                <xs:element type="xs:string" name="val"/>
-                                                            </xs:sequence>
-                                                            <xs:attribute type="xs:byte" name="scorepoint"/>
-                                                        </xs:complexType>
-                                                    </xs:element>
-                                                    <xs:element name="samplelist">
-                                                        <xs:annotation>
-                                                            <xs:documentation xml:lang="en-US">
-                                                                Define the samplelist type. Example responses that deserve certain item point values.
-                                                            </xs:documentation>
-                                                        </xs:annotation>
-                                                        <xs:complexType>
-                                                            <xs:sequence>
-                                                                <xs:element name="sample" maxOccurs="unbounded"
-                                                                            minOccurs="0">
-                                                                    <xs:annotation>
-                                                                        <xs:documentation xml:lang="en-US">Define the sample type.</xs:documentation>
-                                                                    </xs:annotation>
-                                                                    <xs:complexType>
-                                                                        <xs:sequence>
-                                                                            <xs:element type="xs:string" name="name"/>
-                                                                            <xs:element type="xs:string" name="annotation"/>
-                                                                            <xs:element type="xs:string" name="samplecontent"
-                                                                            />
-                                                                        </xs:sequence>
-                                                                        <xs:attribute type="xs:string" name="purpose"
-                                                                                      use="optional"/>
-                                                                        <xs:attribute type="xs:byte" name="scorepoint"
-                                                                                      use="optional"/>
-                                                                    </xs:complexType>
-                                                                </xs:element>
-                                                                <xs:element type="xs:string" name="name"
-                                                                            minOccurs="0"/>
-                                                                <xs:element type="xs:string" name="val"
-                                                                            minOccurs="0"/>
-                                                            </xs:sequence>
-                                                            <xs:attribute type="xs:byte" name="maxval"
-                                                                          use="optional"/>
-                                                            <xs:attribute type="xs:byte" name="minval"
-                                                                          use="optional"/>
-                                                            <xs:attribute type="xs:byte" name="scorepoint"
-                                                                          use="optional"/>
-                                                        </xs:complexType>
-                                                    </xs:element>
-                                                </xs:choice>
-                                            </xs:complexType>
-                                        </xs:element>
-                                        <xs:element name="Dimensions" type="xs:string" minOccurs="0"
-                                        />
+                                    <xs:sequence minOccurs="0">
+                                                    <xs:element  name="Dimensions" type="xs:string" />
                                     </xs:sequence>
                                     <xs:attribute name="baseUrl" type="xs:anyURI"/>
                                     <xs:attribute name="exemplar" type="xs:token"/>

@@ -34,3 +34,5 @@ support-tool:
   sso-password: ${support-tool.sso-password}
   sso-url: https://sso-deployment.sbtds.org/auth/oauth2/access_token?realm=/sbac
   sso-username: ${support-tool.sso-username}
+
+tds.contentUrl: http://content-service

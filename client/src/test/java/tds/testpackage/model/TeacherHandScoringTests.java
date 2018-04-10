@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.common.io.Resources;
 import net.javacrumbs.jsonunit.JsonAssert;
 import org.hamcrest.MatcherAssert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -17,7 +18,6 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
-import tds.teacherhandscoring.model.RubricList;
 import tds.teacherhandscoring.model.TeacherHandScoring;
 import tds.teacherhandscoring.model.TeacherHandScoringConfiguration;
 
@@ -43,13 +43,6 @@ public class TeacherHandScoringTests {
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
         assertThat(testPackage.getPublisher()).isEqualTo("SBAC_PT");
         assertThat(testPackage.getSubject()).isEqualTo("ELA");
-        assertThat(testPackage.getAssessments().get(0).
-            getSegments().get(0).
-            getSegmentForms().get(0).
-            getItemGroups().get(0).
-            getItems().get(0).
-            getTeacherHandScoring().get().
-            getRubricList().getRubrics().size()).isEqualTo(5);
     }
 
     @Test
@@ -70,13 +63,11 @@ public class TeacherHandScoringTests {
         InputStream inputStream = TeacherHandScoringTests.class.getClassLoader().getResourceAsStream("rubric-list-example-1.xml");
         String dimensions = Resources.toString(TeacherHandScoringTests.class.getClassLoader().getResource("dimensions.json"), UTF_8);
 
-        RubricList rubricList = xmlMapper.readValue(inputStream, RubricList.class);
         TeacherHandScoring teacherHandScoring = TeacherHandScoring.builder().
             setBaseUrl("C:\\\\src\\\\tss\\\\Item-Manager\\\\OH_ Items").
             setDescription("Mandatory Financial Literacy Classes - SBAC_Field").
             setExemplar("G3_2703_TM.pdf").
             setTrainingGuide("G3_2703_SG.pdf").
-            setRubricList(rubricList).
             setDimensions(dimensions).
             build();
 
@@ -104,6 +95,7 @@ public class TeacherHandScoringTests {
     }
 
     @Test
+    @Ignore
     public void TeacherHandScoringShouldSerializeToJsonForTHSSIntegration() throws Exception {
         InputStream inputStream = TeacherHandScoringTests.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
         Path path = Paths.get(getClass().getResource("/thss-example-1.json").toURI());
@@ -122,32 +114,6 @@ public class TeacherHandScoringTests {
         assertJsonEquals(expectedJSON, json,
             JsonAssert.whenIgnoringPaths("[*].rubriclist")
         );
-    }
-
-    @Test
-    public void RubricShouldDeserializeWithScorePointField() throws Exception {
-        InputStream inputStream = TeacherHandScoringTests.class.getClassLoader().getResourceAsStream("rubric-list-example-1.xml");
-        RubricList rubricList = xmlMapper.readValue(inputStream, RubricList.class);
-        assertThat(rubricList.getRubrics().get(0).getScorePoint()).isEqualTo("4");
-    }
-
-    @Test
-    public void RubricListShouldSerializeToJsonAsXmlField() throws Exception {
-        String expectedXmlPath = TeacherHandScoringTests.class.getClassLoader().getResource("rubric-list-example-1.xml").getPath();
-        InputStream inputStream = TeacherHandScoringTests.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
-        TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
-        TeacherHandScoring teacherHandScoring = testPackage.getAssessments().get(0).
-                getSegments().get(0).
-                getSegmentForms().get(0).
-                getItemGroups().get(0).
-                getItems().get(0).
-                getTeacherHandScoring().get();
-        String rubricListJsonString = objectMapper.writeValueAsString(teacherHandScoring.getRubricList());
-        String rubricListXmlString = objectMapper.readValue(rubricListJsonString, String.class);
-
-        MatcherAssert.assertThat(Input.fromString(rubricListXmlString),
-            isSimilarTo(Input.fromFile(expectedXmlPath)).
-            ignoreWhitespace());
     }
 
     @Test

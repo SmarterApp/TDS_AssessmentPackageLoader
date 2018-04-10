@@ -107,12 +107,16 @@ abstract public class TeacherHandScoring {
      */
     public abstract String getTrainingGuide();
 
+
     /**
      * Item content xml path: //rubriclist/rubric/val
+     * Initially null after loading from test specification.
+     * Populated from the item content retrieved from the content service
      * @return Rubric list found in the item content XML
      */
     @JsonProperty(value = "rubriclist")
-    public abstract RubricList getRubricList();
+    @Nullable
+    public abstract String getRubricList();
 
     /**
      * @return dimensions provided by SmarterBalanced, generally constant
@@ -182,6 +186,14 @@ abstract public class TeacherHandScoring {
         return new AutoValue_TeacherHandScoring.Builder();
     }
 
+    abstract Builder toBuilder();
+
+    public TeacherHandScoring withRubricList(final String rubricList) {
+        final TeacherHandScoring newTeacherHandScoring = toBuilder().setRubricList(rubricList).build();
+        newTeacherHandScoring.setItem(getItem());
+        newTeacherHandScoring.setTestPackage(getTestPackage());
+        return newTeacherHandScoring;
+    }
 
     @AutoValue.Builder
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
@@ -192,15 +204,14 @@ abstract public class TeacherHandScoring {
 
         public abstract Builder setTrainingGuide(String newTrainingGuide);
 
-        @JacksonXmlProperty(localName = "rubriclist")
-        public abstract Builder setRubricList(RubricList newRubricList);
-
         @JacksonXmlProperty(localName = "Dimensions")
         public abstract Builder setDimensions(Optional<String> newDimensions);
 
         public Builder setDimensions(String newDimensions) {
             return setDimensions(Optional.ofNullable(newDimensions));
         }
+
+        public abstract Builder setRubricList(String newRubricList);
 
         public abstract Builder setDescription(String newDescription);
 
