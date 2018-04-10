@@ -25,8 +25,6 @@ support-tool:
   thss-api-url: http://localhost:28039/api
   tis-api-url: http://localhost:53708/api
 
-tds.contentUrl: http://content-service
-
   progman-tenant-level: STATE
   progman-tenant: CA
   progman-url: http://progman-web-deployment.sbtds.org:8080/rest/
@@ -36,3 +34,5 @@ tds.contentUrl: http://content-service
   sso-password: ${support-tool.sso-password}
   sso-url: https://sso-deployment.sbtds.org/auth/oauth2/access_token?realm=/sbac
   sso-username: ${support-tool.sso-username}
+
+tds.contentUrl: http://content-service
