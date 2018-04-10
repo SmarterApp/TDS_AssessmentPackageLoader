@@ -22,6 +22,7 @@
                  tableStyleClass="table table-striped table-hover overflow"
                  [paginator]="true"
                  [rows]="10"
+                 [rowStyleClass]="getRowCss"
                  (onRowSelect)="onRowSelect($event)">
       <p-column field="testPackageName" header="Test Package Name" [sortable]="true"></p-column>
       <p-column field="createdAt" header="Date Created" [sortable]="true">

@@ -4,7 +4,6 @@ import {TestPackageJobService} from "./test-package-jobs.service";
 import {TestPackageJob, StepStatus} from "./model/test-package-job.model";
 import {TimerObservable} from "rxjs/observable/TimerObservable";
 import 'rxjs/add/operator/takeWhile';
-import {TestPackageStatusRow} from "../status/model/test-package-status-row";
 
 @Component({
   selector: 'test-package-jobs',
@@ -39,13 +38,11 @@ export class TestPackageJobsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    //TODO: Here is where we would pass in our query params filters
-    //this.updateResults()
-    // TimerObservable.create(0, 5000)
-    //   .takeWhile(() => this.alive)
-    //   .subscribe(() => {
+    TimerObservable.create(0, 5000)
+      .takeWhile(() => this.alive)
+      .subscribe(() => {
         this.updateResults();
-      // });
+      });
   }
 
   ngOnDestroy() {
