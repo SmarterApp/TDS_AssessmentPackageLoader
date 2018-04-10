@@ -121,14 +121,13 @@ abstract public class TeacherHandScoring {
     /**
      * @return dimensions provided by SmarterBalanced, generally constant
      */
-    protected abstract Optional<String> getDimensions();
+    protected abstract Optional<Dimensions> getDimensions();
 
     /**
      * @return dimensions provided by SmarterBalanced, generally constant
      */
-    @JsonRawValue
-    public String dimensions() {
-        return getDimensions().orElse(DEFAULT_DIMENSIONS);
+    public Dimensions dimensions() {
+        return getDimensions().orElse(new Dimensions(DEFAULT_DIMENSIONS));
     }
 
     /**
@@ -205,9 +204,9 @@ abstract public class TeacherHandScoring {
         public abstract Builder setTrainingGuide(String newTrainingGuide);
 
         @JacksonXmlProperty(localName = "Dimensions")
-        public abstract Builder setDimensions(Optional<String> newDimensions);
+        public abstract Builder setDimensions(Optional<Dimensions> newDimensions);
 
-        public Builder setDimensions(String newDimensions) {
+        public Builder setDimensions(Dimensions newDimensions) {
             return setDimensions(Optional.ofNullable(newDimensions));
         }
 
@@ -217,8 +216,10 @@ abstract public class TeacherHandScoring {
 
         public abstract Builder setLayout(Optional<String> newLayout);
 
+        @JsonProperty(value = "Passage")
         public abstract Builder setPassage(String newPassage);
 
+        @JsonProperty(value = "itemname")
         public abstract Builder setItemName(String newItemName);
 
         public abstract TeacherHandScoring build();

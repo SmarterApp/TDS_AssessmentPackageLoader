@@ -5,6 +5,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.common.io.Resources;
 import net.javacrumbs.jsonunit.JsonAssert;
 import org.hamcrest.MatcherAssert;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +17,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Optional;
 
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
+import tds.teacherhandscoring.model.Dimensions;
 import tds.teacherhandscoring.model.TeacherHandScoring;
 import tds.teacherhandscoring.model.TeacherHandScoringConfiguration;
 
@@ -68,7 +71,7 @@ public class TeacherHandScoringTests {
             setDescription("Mandatory Financial Literacy Classes - SBAC_Field").
             setExemplar("G3_2703_TM.pdf").
             setTrainingGuide("G3_2703_SG.pdf").
-            setDimensions(dimensions).
+            setDimensions(Optional.of(new Dimensions(dimensions))).
             build();
 
         objectMapper.writeValueAsString(teacherHandScoring);
@@ -92,6 +95,20 @@ public class TeacherHandScoringTests {
         assertThat(teacherHandScoringConfiguration.subject()).isEqualTo("ELA");
         assertThat(teacherHandScoringConfiguration.grade()).isEqualTo("11");
         assertThat(teacherHandScoringConfiguration.handScored()).isEqualTo("1");
+    }
+
+    @Test
+    public void TestPackageWithTeacherHandScoringShouldDeserializeFromJson() throws Exception {
+        InputStream inputStream = TeacherHandScoringTests.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
+        TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
+
+        String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(testPackage);
+        System.out.println(json);
+        TestPackage jsonTestPackage = objectMapper.readValue(json, TestPackage.class);
+        String json2 = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonTestPackage);
+        System.out.println();
+        System.out.println(json2);
+        assertJsonEquals(json, json2);
     }
 
     @Test
@@ -123,6 +140,36 @@ public class TeacherHandScoringTests {
 
          MatcherAssert.assertThat(
                 Input.fromString(testXml),isSimilarTo(Input.fromString(controlXml)));
+    }
+
+    public static class Message {
+        public Dimensions data;
+        public String field;
+    }
+
+    @Test
+    public void dimensionsDeserialization() throws Exception {
+        String fieldValue = "value";
+        String jsonValue = "{\"value\":{\"text\":\"123\"}}";
+        String jsonMessage = "{\"data\":" + jsonValue + ",\"field\":\"" + fieldValue + "\"}";
+
+        Message message = objectMapper.readValue(jsonMessage, Message.class);
+
+        Assert.assertEquals(jsonValue, message.data.getValue());
+        Assert.assertEquals(fieldValue, message.field);
+    }
+
+    @Test
+    public void dimensionsSerialization() throws Exception {
+        String fieldValue = "value";
+        String jsonValue = "{\"value\":{\"text\":\"123\"}}";
+        String jsonMessage = "{\"data\":" + jsonValue + ",\"field\":\"" + fieldValue + "\"}";
+
+        Message message = new Message();
+        message.data = new Dimensions(jsonValue);
+        message.field = fieldValue;
+
+        Assert.assertEquals(jsonMessage, objectMapper.writeValueAsString(message));
     }
 
 }
