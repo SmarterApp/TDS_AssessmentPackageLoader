@@ -100,7 +100,7 @@ public class THSSServiceImplTest {
                 return httpClientMock;
             };
 
-            return new THSSServiceImpl("/tds/bank/items/Item-%1$s-%2$s/item-%1$s-%2$s.xml", "http://localhost:28039/api", httpClientSupplier, supportToolProperties, restTemplate, testPackageObjectMapperConfiguration);
+            return new THSSServiceImpl("/tds/bank/items/Item-%1$s-%2$s/item-%1$s-%2$s.xml", httpClientSupplier, supportToolProperties, restTemplate, testPackageObjectMapperConfiguration);
         }
     }
 
