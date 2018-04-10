@@ -2,9 +2,9 @@
   <!-- Test Package Jobs Table -->
   <div class="form-group row">
     <div class="flex-children pt-sm pr-sm pb-sm pl-sm test-package-jobs-search-form-container">
-      <label for="search" class="sr-only">Search by Test Package Name or Job ID</label>
+      <label for="search" class="sr-only">Search by Test Package Name</label>
       <div class="flex-child grow">
-        <input [(ngModel)]="searchTerm" class="flex-child search form-control" id="search" type="text" placeholder="Search by Test Package Name or Job ID"
+        <input [(ngModel)]="searchTerm" class="flex-child search form-control" id="search" type="text" placeholder="Search by Test Package Name"
              autocomplete="off" (ngModelChange)="onSearchChange()">
       </div>
       <div class="flex-child"><button class="flex-child btn btn-default view-loaded-test-packages" (click)="statusClick()">View Loaded Test Packages</button></div>
@@ -20,11 +20,9 @@
                  selectionMode="single"
                  [(selection)]="selectedJob"
                  tableStyleClass="table table-striped table-hover overflow"
-                 [rowStyleClass]="getRowCss"
                  [paginator]="true"
                  [rows]="10"
                  (onRowSelect)="onRowSelect($event)">
-      <p-column field="shortId" header="Job ID" [sortable]="true"></p-column>
       <p-column field="testPackageName" header="Test Package Name" [sortable]="true"></p-column>
       <p-column field="createdAt" header="Date Created" [sortable]="true">
         <ng-template let-job="rowData" pTemplate="body">
@@ -39,11 +37,11 @@
         <ng-template let-job="rowData" pTemplate="body">
           <ng-container [ngSwitch]="job.validationStepStatus">
             <div class="text-align-center">
-              <i *ngSwitchCase="StepStatuses.Success" class="fa fa-check-circle load-success" title="The job was successful"></i>
-              <i *ngSwitchCase="StepStatuses.Fail" class="fa fa-exclamation-circle load-failure" title="The job has failures"></i>
+              <i *ngSwitchCase="StepStatuses.Success" class="fa fa-check-circle load-success" title="Validation was successful"></i>
+              <i *ngSwitchCase="StepStatuses.Fail" class="fa fa-exclamation-circle load-failure" title="Validation failed"></i>
               <i *ngSwitchCase="StepStatuses.NotApplicable" class="fa fa-minus load-not-applicable"></i>
-              <i *ngSwitchCase="StepStatuses.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
-              <i *ngSwitchCase="StepStatuses.NotStarted" class="fa fa-hourglass" title="The job is pending"></i>
+              <i *ngSwitchCase="StepStatuses.InProgress" class="fa fa-refresh" title="Validation is in progress"></i>
+              <i *ngSwitchCase="StepStatuses.NotStarted" class="fa fa-hourglass" title="Validation is pending"></i>
             </div>
           </ng-container>
         </ng-template>
@@ -55,7 +53,10 @@
         <ng-template let-job="rowData" pTemplate="body">
           <ng-container [ngSwitch]="job.tdsStepStatus">
             <div class="text-align-center">
-              <i *ngSwitchCase="StepStatuses.Success" class="fa fa-check-circle load-success" title="The job was successful"></i>
+              <ng-container *ngSwitchCase="StepStatuses.Success">
+                <i *ngIf="job.type !== 'ROLLBACK'" class="fa fa-check-circle load-success" title="The job was successful"></i>
+                <i *ngIf="job.type === 'ROLLBACK'" class="fa fa-undo load-success" title="The job was successful"></i>
+              </ng-container>
               <i *ngSwitchCase="StepStatuses.Fail" class="fa fa-exclamation-circle load-failure" title="The job has failures"></i>
               <i *ngSwitchCase="StepStatuses.NotApplicable" class="fa fa-minus load-not-applicable"></i>
               <i *ngSwitchCase="StepStatuses.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
@@ -71,7 +72,10 @@
         <ng-template let-job="rowData" pTemplate="body">
           <ng-container [ngSwitch]="job.artStepStatus">
             <div class="text-align-center">
-              <i *ngSwitchCase="StepStatuses.Success" class="fa fa-check-circle load-success" title="The job was successful"></i>
+              <ng-container *ngSwitchCase="StepStatuses.Success">
+                <i *ngIf="job.type !== 'ROLLBACK'" class="fa fa-check-circle load-success" title="The job was successful"></i>
+                <i *ngIf="job.type === 'ROLLBACK'" class="fa fa-undo load-success" title="The job was successful"></i>
+              </ng-container>
               <i *ngSwitchCase="StepStatuses.Fail" class="fa fa-exclamation-circle load-failure" title="The job has failures"></i>
               <i *ngSwitchCase="StepStatuses.NotApplicable" class="fa fa-minus load-not-applicable"></i>
               <i *ngSwitchCase="StepStatuses.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
@@ -87,8 +91,10 @@
         <ng-template let-job="rowData" pTemplate="body">
           <ng-container [ngSwitch]="job.tisStepStatus">
             <div class="text-align-center">
-              <i *ngSwitchCase="StepStatuses.Success" *ngIf="job.type !== 'ROLLBACK'" class="fa fa-check-circle load-success" title="The job was successful"></i>
-              <i *ngSwitchCase="StepStatuses.Success" *ngIf="job.type === 'ROLLBACK'" class="fa fa-undo load-success" title="The job was successful"></i>
+              <ng-container *ngSwitchCase="StepStatuses.Success">
+                <i *ngIf="job.type !== 'ROLLBACK'" class="fa fa-check-circle load-success" title="The job was successful"></i>
+                <i *ngIf="job.type === 'ROLLBACK'" class="fa fa-undo load-success" title="The job was successful"></i>
+              </ng-container>
               <i *ngSwitchCase="StepStatuses.Fail" class="fa fa-exclamation-circle load-failure" title="The job has failures"></i>
               <i *ngSwitchCase="StepStatuses.NotApplicable" class="fa fa-minus load-not-applicable"></i>
               <i *ngSwitchCase="StepStatuses.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
@@ -104,7 +110,10 @@
         <ng-template let-job="rowData" pTemplate="body">
           <ng-container [ngSwitch]="job.thssStepStatus">
             <div class="text-align-center">
-              <i *ngSwitchCase="StepStatuses.Success" class="fa fa-check-circle load-success" title="The job was successful"></i>
+              <ng-container *ngSwitchCase="StepStatuses.Success">
+                <i *ngIf="job.type !== 'ROLLBACK'" class="fa fa-check-circle load-success" title="The job was successful"></i>
+                <i *ngIf="job.type === 'ROLLBACK'" class="fa fa-undo load-success" title="The job was successful"></i>
+              </ng-container>
               <i *ngSwitchCase="StepStatuses.Fail" class="fa fa-exclamation-circle load-failure" title="The job has failures"></i>
               <i *ngSwitchCase="StepStatuses.NotApplicable" class="fa fa-minus load-not-applicable"></i>
               <i *ngSwitchCase="StepStatuses.InProgress" class="fa fa-refresh" title="The job is in progress"></i>
