@@ -107,7 +107,9 @@ public class JobServiceImpl implements JobService {
                                     .forEach(nonValidationSteps -> nonValidationSteps.setStatus(Status.FAIL));
 
                             jobRepository.save(job);
-                             throw new RuntimeException("Error: The test package failed validation. Aborting test package load.");
+                            throw new RuntimeException("Error: The test package failed validation. Aborting test package load.");
+                        } else if (step.getName().equals(TestPackageLoadJob.TDS_UPLOAD) && step.getStatus() == Status.FAIL) {
+                            throw new RuntimeException("Error: Unable to load the test package into TDS - Aborting other load steps.");
                         }
 
                         if (job.getType().equals(JobType.LOAD)) {
