@@ -6,14 +6,14 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import java.io.IOException;
 
-public class DimensionsSerializer extends StdSerializer<Dimensions> {
+public class RawValueSerializer extends StdSerializer<RawValue> {
 
-    public DimensionsSerializer() {
-        super(Dimensions.class);
+    public RawValueSerializer() {
+        super(RawValue.class);
     }
 
     @Override
-    public void serialize(Dimensions packet, JsonGenerator generator, SerializerProvider provider) throws IOException {
+    public void serialize(RawValue packet, JsonGenerator generator, SerializerProvider provider) throws IOException {
         if (packet.getValue() == null) {
             generator.writeNull();
         } else {

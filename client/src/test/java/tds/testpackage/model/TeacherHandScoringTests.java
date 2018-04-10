@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
-import tds.teacherhandscoring.model.Dimensions;
+import tds.teacherhandscoring.model.RawValue;
 import tds.teacherhandscoring.model.TeacherHandScoring;
 import tds.teacherhandscoring.model.TeacherHandScoringConfiguration;
 
@@ -71,7 +71,7 @@ public class TeacherHandScoringTests {
             setDescription("Mandatory Financial Literacy Classes - SBAC_Field").
             setExemplar("G3_2703_TM.pdf").
             setTrainingGuide("G3_2703_SG.pdf").
-            setDimensions(Optional.of(new Dimensions(dimensions))).
+            setDimensions(Optional.of(new RawValue(dimensions))).
             build();
 
         objectMapper.writeValueAsString(teacherHandScoring);
@@ -143,7 +143,7 @@ public class TeacherHandScoringTests {
     }
 
     public static class Message {
-        public Dimensions data;
+        public RawValue data;
         public String field;
     }
 
@@ -166,7 +166,7 @@ public class TeacherHandScoringTests {
         String jsonMessage = "{\"data\":" + jsonValue + ",\"field\":\"" + fieldValue + "\"}";
 
         Message message = new Message();
-        message.data = new Dimensions(jsonValue);
+        message.data = new RawValue(jsonValue);
         message.field = fieldValue;
 
         Assert.assertEquals(jsonMessage, objectMapper.writeValueAsString(message));
