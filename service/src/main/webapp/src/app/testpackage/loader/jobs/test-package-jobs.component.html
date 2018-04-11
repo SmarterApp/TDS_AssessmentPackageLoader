@@ -2,9 +2,9 @@
   <!-- Test Package Jobs Table -->
   <div class="form-group row">
     <div class="flex-children pt-sm pr-sm pb-sm pl-sm test-package-jobs-search-form-container">
-      <label for="search" class="sr-only">Search by Test Package Name</label>
+      <label for="search" class="sr-only">Search by Test Package Name or Job Id</label>
       <div class="flex-child grow">
-        <input [(ngModel)]="searchTerm" class="flex-child search form-control" id="search" type="text" placeholder="Search by Test Package Name"
+        <input [(ngModel)]="searchTerm" class="flex-child search form-control" id="search" type="text" placeholder="Search by Test Package Name or Job Id"
              autocomplete="off" (ngModelChange)="onSearchChange()">
       </div>
       <div class="flex-child"><button class="flex-child btn btn-default view-loaded-test-packages" (click)="statusClick()">View Loaded Test Packages</button></div>
@@ -24,6 +24,7 @@
                  [rows]="10"
                  [rowStyleClass]="getRowCss"
                  (onRowSelect)="onRowSelect($event)">
+      <p-column field="shortId" header="Job Id" [sortable]="true"></p-column>
       <p-column field="testPackageName" header="Test Package Name" [sortable]="true"></p-column>
       <p-column field="createdAt" header="Date Created" [sortable]="true">
         <ng-template let-job="rowData" pTemplate="body">
