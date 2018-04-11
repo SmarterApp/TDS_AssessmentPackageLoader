@@ -91,14 +91,14 @@ abstract public class TeacherHandScoring {
      *
      * @return filename of tech manual
      */
-    public abstract String getExemplar();
+    public abstract Optional<String> getExemplar();
 
     /**
      * Note: naming convention is itemId + "_SG.pdf"
      *
      * @return filename of scoring guide
      */
-    public abstract String getTrainingGuide();
+    public abstract Optional<String> getTrainingGuide();
 
 
     /**
@@ -191,9 +191,17 @@ abstract public class TeacherHandScoring {
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     public abstract static class Builder {
 
-        public abstract Builder setExemplar(String newExemplar);
+        protected abstract Builder setExemplar(Optional<String> newExemplar);
 
-        public abstract Builder setTrainingGuide(String newTrainingGuide);
+        public Builder setExemplar(String newExemplar) {
+            return setExemplar(Optional.ofNullable(newExemplar));
+        }
+
+        protected abstract Builder setTrainingGuide(Optional<String> newTrainingGuide);
+
+        public Builder setTrainingGuide(String newTrainingGuide) {
+            return setTrainingGuide(Optional.ofNullable(newTrainingGuide));
+        }
 
         @JacksonXmlProperty(localName = "Dimensions")
         public abstract Builder setDimensions(Optional<RawValue> newDimensions);
