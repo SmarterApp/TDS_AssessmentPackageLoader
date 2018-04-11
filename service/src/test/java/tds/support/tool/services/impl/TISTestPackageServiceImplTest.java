@@ -50,7 +50,7 @@ public class TISTestPackageServiceImplTest {
         when(mockMapper.writeValueAsString(mockTestPackage)).thenReturn("testPackage");
         when(objectMapperConfiguration.getLegacyTestSpecXmlMapper()).thenReturn(mockMapper);
 
-        service = new TISTestPackageServiceImpl(restTemplate, supportToolProperties, objectMapperConfiguration);
+        service = new TISTestPackageServiceImpl(restTemplate, supportToolProperties);
         XmlMapper testPackageMapper = new XmlMapper();
         testPackageMapper.registerModule(new Jdk8Module());
         mockTestPackage = testPackageMapper.readValue(this.getClass().getResourceAsStream(
