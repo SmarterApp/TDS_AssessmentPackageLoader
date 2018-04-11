@@ -46,8 +46,6 @@ public class TestPackageObjectMapperConfiguration {
      * used to post data to the THSS server.
      */
     public ObjectMapper getThssObjectMapper() {
-        final XmlMapper xmlMapper = getXmlMapper();
-
         final ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new Jdk8Module());
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);

@@ -19,6 +19,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -126,6 +127,7 @@ public class THSSServiceImplTest {
 
     @Before
     public void setup() throws Exception {
+        restTemplate.setInterceptors(Arrays.asList());
         mockServer = MockRestServiceServer.createServer(restTemplate);
         xmlMapper = testPackageObjectMapperConfiguration.getXmlMapper();
         objectMapper = testPackageObjectMapperConfiguration.getThssObjectMapper();
