@@ -32,6 +32,7 @@ import tds.common.ValidationError;
 import tds.support.tool.configuration.SupportToolProperties;
 import tds.support.tool.services.THSSService;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
+import tds.teacherhandscoring.model.RawValue;
 import tds.teacherhandscoring.model.TeacherHandScoring;
 import tds.teacherhandscoring.model.TeacherHandScoringApiResult;
 import tds.teacherhandscoring.model.TeacherHandScoringApiResultFile;
@@ -150,10 +151,10 @@ public class THSSServiceImpl implements THSSService {
         final UriComponentsBuilder builder =
             UriComponentsBuilder.fromHttpUrl(String.format("%s/rubric?itemPath=%s", contentUrl, itemPath));
 
-        final ResponseEntity<Optional<String>> responseEntity = restTemplate.exchange(builder.build().toUri(), HttpMethod.GET, null, new ParameterizedTypeReference<Optional<String>>(){});
+        final ResponseEntity<Optional<RawValue>> responseEntity = restTemplate.exchange(builder.build().toUri(), HttpMethod.GET, null, new ParameterizedTypeReference<Optional<RawValue>>(){});
 
-        final String rubricListXml = responseEntity.getBody().orElse("");
-        return teacherHandScoring.withRubricList(rubricListXml);
+        final RawValue rubricListXml = responseEntity.getBody().orElse(new RawValue(""));
+        return teacherHandScoring.withRubricList(rubricListXml.getValue());
     }
 
     /**

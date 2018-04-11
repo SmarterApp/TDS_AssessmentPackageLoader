@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
@@ -116,19 +115,18 @@ abstract public class TeacherHandScoring {
      */
     @JsonProperty(value = "rubriclist")
     @Nullable
-    public abstract String getRubricList();
+    public abstract RawValue getRubricList();
 
     /**
      * @return dimensions provided by SmarterBalanced, generally constant
      */
-    protected abstract Optional<String> getDimensions();
+    protected abstract Optional<RawValue> getDimensions();
 
     /**
      * @return dimensions provided by SmarterBalanced, generally constant
      */
-    @JsonRawValue
-    public String dimensions() {
-        return getDimensions().orElse(DEFAULT_DIMENSIONS);
+    public RawValue dimensions() {
+        return getDimensions().orElse(new RawValue(DEFAULT_DIMENSIONS));
     }
 
     /**
@@ -189,7 +187,7 @@ abstract public class TeacherHandScoring {
     abstract Builder toBuilder();
 
     public TeacherHandScoring withRubricList(final String rubricList) {
-        final TeacherHandScoring newTeacherHandScoring = toBuilder().setRubricList(rubricList).build();
+        final TeacherHandScoring newTeacherHandScoring = toBuilder().setRubricList(new RawValue(rubricList)).build();
         newTeacherHandScoring.setItem(getItem());
         newTeacherHandScoring.setTestPackage(getTestPackage());
         return newTeacherHandScoring;
@@ -205,20 +203,22 @@ abstract public class TeacherHandScoring {
         public abstract Builder setTrainingGuide(String newTrainingGuide);
 
         @JacksonXmlProperty(localName = "Dimensions")
-        public abstract Builder setDimensions(Optional<String> newDimensions);
+        public abstract Builder setDimensions(Optional<RawValue> newDimensions);
 
-        public Builder setDimensions(String newDimensions) {
+        public Builder setDimensions(RawValue newDimensions) {
             return setDimensions(Optional.ofNullable(newDimensions));
         }
 
-        public abstract Builder setRubricList(String newRubricList);
+        public abstract Builder setRubricList(RawValue newRubricList);
 
         public abstract Builder setDescription(String newDescription);
 
         public abstract Builder setLayout(Optional<String> newLayout);
 
+        @JsonProperty(value = "Passage")
         public abstract Builder setPassage(String newPassage);
 
+        @JsonProperty(value = "itemname")
         public abstract Builder setItemName(String newItemName);
 
         public abstract TeacherHandScoring build();
