@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
@@ -35,6 +36,7 @@ import tds.support.job.TestPackageDeleteJob;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.tool.handlers.loader.TestPackageHandler;
 import tds.support.tool.handlers.loader.impl.*;
+import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,12 +101,13 @@ public class SupportToolServiceConfiguration {
     }
 
     @Bean
-    public RestTemplateBuilder restTemplateBuilder(final ApplicationContext applicationContext) {
+    public RestTemplateBuilder restTemplateBuilder(TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration, final ApplicationContext applicationContext) {
         final ObjectMapper objectMapper = getIntegrationObjectMapper();
+        final XmlMapper xmlMapper = testPackageObjectMapperConfiguration.getLegacyTestSpecXmlMapper();
         return new RestTemplateBuilder().
             additionalMessageConverters(
                 new MappingJackson2HttpMessageConverter(objectMapper),
-                new MappingJackson2XmlHttpMessageConverter(),
+                new MappingJackson2XmlHttpMessageConverter(xmlMapper),
                 new ResourceHttpMessageConverter()).
             additionalInterceptors(new RestTemplateLoggingInterceptor(objectMapper, applicationContext.getId())).
             additionalMessageConverters();
