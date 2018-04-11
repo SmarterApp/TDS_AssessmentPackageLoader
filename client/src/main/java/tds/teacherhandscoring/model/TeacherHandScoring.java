@@ -86,25 +86,19 @@ abstract public class TeacherHandScoring {
         "        \"minPoints\": \"0\"\n" +
         "      }\n" +
         "    ]";
-
-    /**
-     * @return location of the PDFs on the THSS server
-     */
-    public abstract String getBaseUrl();
-
     /**
      * Note: naming convention is itemId + "_TM.pdf"
      *
      * @return filename of tech manual
      */
-    public abstract String getExemplar();
+    public abstract Optional<String> getExemplar();
 
     /**
      * Note: naming convention is itemId + "_SG.pdf"
      *
      * @return filename of scoring guide
      */
-    public abstract String getTrainingGuide();
+    public abstract Optional<String> getTrainingGuide();
 
 
     /**
@@ -196,11 +190,18 @@ abstract public class TeacherHandScoring {
     @AutoValue.Builder
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     public abstract static class Builder {
-        public abstract Builder setBaseUrl(String newBaseUrl);
 
-        public abstract Builder setExemplar(String newExemplar);
+        protected abstract Builder setExemplar(Optional<String> newExemplar);
 
-        public abstract Builder setTrainingGuide(String newTrainingGuide);
+        public Builder setExemplar(String newExemplar) {
+            return setExemplar(Optional.ofNullable(newExemplar));
+        }
+
+        protected abstract Builder setTrainingGuide(Optional<String> newTrainingGuide);
+
+        public Builder setTrainingGuide(String newTrainingGuide) {
+            return setTrainingGuide(Optional.ofNullable(newTrainingGuide));
+        }
 
         @JacksonXmlProperty(localName = "Dimensions")
         public abstract Builder setDimensions(Optional<RawValue> newDimensions);

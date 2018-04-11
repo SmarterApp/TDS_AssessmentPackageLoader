@@ -483,7 +483,6 @@ The Dependency can be read as:
                                     <xs:sequence minOccurs="0">
                                                     <xs:element  name="Dimensions" type="xs:string" />
                                     </xs:sequence>
-                                    <xs:attribute name="baseUrl" type="xs:anyURI"/>
                                     <xs:attribute name="exemplar" type="xs:token"/>
                                     <xs:attribute name="trainingGuide" type="xs:token"/>
                                     <xs:attribute default="WAI" name="layout" type="xs:token"/>
