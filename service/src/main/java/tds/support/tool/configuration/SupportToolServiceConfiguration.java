@@ -13,6 +13,9 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -21,11 +24,13 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
 import tds.common.configuration.JacksonObjectMapperConfiguration;
 import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
+import tds.common.web.interceptors.RestTemplateLoggingInterceptor;
 import tds.support.job.TestPackageDeleteJob;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.tool.handlers.loader.TestPackageHandler;
@@ -93,18 +98,23 @@ public class SupportToolServiceConfiguration {
             .registerModule(new JavaTimeModule());
     }
 
-    @Bean(name = "integrationRestTemplate")
-    public RestTemplate restTemplate() {
-        // Jackson Converters
-        final MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(getIntegrationObjectMapper());
-        final RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
-        final List<HttpMessageConverter<?>> converters = new ArrayList<>();
-        converters.add(converter);
-        converters.add(new ResourceHttpMessageConverter());
-        restTemplate.setMessageConverters(converters);
+    @Bean
+    public RestTemplateBuilder restTemplateBuilder(final ApplicationContext applicationContext) {
+        final ObjectMapper objectMapper = getIntegrationObjectMapper();
+        return new RestTemplateBuilder().
+            additionalMessageConverters(
+                new MappingJackson2HttpMessageConverter(objectMapper),
+                new MappingJackson2XmlHttpMessageConverter(),
+                new ResourceHttpMessageConverter()).
+            additionalInterceptors(new RestTemplateLoggingInterceptor(objectMapper, applicationContext.getId())).
+            additionalMessageConverters();
+    }
 
-        return restTemplate;
+    @Bean(name = "integrationRestTemplate")
+    public RestTemplate restTemplate(final RestTemplateBuilder restTemplateBuilder) {
+        return restTemplateBuilder.
+            requestFactory(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory())).
+            build();
     }
 
     @Bean

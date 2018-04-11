@@ -23,6 +23,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -169,6 +170,7 @@ public class JobServiceTest {
 
     @Before
     public void setup() throws Exception {
+        restTemplate.setInterceptors(Arrays.asList());
         ObjectMapper objectMapper = testPackageObjectMapperConfiguration.getThssObjectMapper();
         jobService = new JobServiceImpl(jobRepository, testPackageFileHandler, messagingService, testPackageStatusService, testPackageLoaderStepHandlers);
         mockServer = MockRestServiceServer.bindTo(restTemplate).ignoreExpectOrder(true).build();
