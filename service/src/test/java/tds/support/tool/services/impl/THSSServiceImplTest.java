@@ -64,6 +64,7 @@ public class THSSServiceImplTest {
         public THSSService mockService() {
             SupportToolProperties supportToolProperties = new SupportToolProperties();
             supportToolProperties.setThssApiUrl("http://localhost:28039/api");
+            supportToolProperties.setContentUrl("http://localhost:32848");
             // can also use mock bin to record http request.
             // ie: https://requestloggerbin.herokuapp.com/bin/72b396ea-f403-41f3-b42a-2447c6e84416/api
 
@@ -100,7 +101,7 @@ public class THSSServiceImplTest {
                 return httpClientMock;
             };
 
-            return new THSSServiceImpl("/tds/bank/items/Item-%1$s-%2$s/item-%1$s-%2$s.xml", "http://localhost:28039/api", httpClientSupplier, supportToolProperties, restTemplate, testPackageObjectMapperConfiguration);
+            return new THSSServiceImpl("/tds/bank/items/Item-%1$s-%2$s/item-%1$s-%2$s.xml", httpClientSupplier, supportToolProperties, restTemplate, testPackageObjectMapperConfiguration);
         }
     }
 

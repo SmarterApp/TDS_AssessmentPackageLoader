@@ -32,6 +32,7 @@ import tds.common.ValidationError;
 import tds.support.tool.configuration.SupportToolProperties;
 import tds.support.tool.services.THSSService;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
+import tds.teacherhandscoring.model.RawValue;
 import tds.teacherhandscoring.model.TeacherHandScoring;
 import tds.teacherhandscoring.model.TeacherHandScoringApiResult;
 import tds.teacherhandscoring.model.TeacherHandScoringApiResultFile;
@@ -69,13 +70,12 @@ public class THSSServiceImpl implements THSSService {
 
     @Autowired
     public THSSServiceImpl(@Value("${tds.content.format:/tds/bank/items/Item-%1$s-%2$s/item-%1$s-%2$s.xml}") final String itemContentFormat,
-                           @Value("${tds.contentUrl}") final String contentUrl,
                            final Supplier<CloseableHttpClient> httpClientSupplier,
-                           SupportToolProperties supportToolProperties,
+                           final SupportToolProperties supportToolProperties,
                            final RestTemplate restTemplate,
                            final TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration) {
         this.itemContentFormat = itemContentFormat;
-        this.contentUrl = contentUrl;
+        this.contentUrl = supportToolProperties.getContentUrl();
         this.thssUrl = supportToolProperties.getThssApiUrl().orElseThrow(() -> new RuntimeException("THSS api url property is not configured"));
         this.restTemplate = restTemplate;
         this.httpClientSupplier = httpClientSupplier;
@@ -151,10 +151,10 @@ public class THSSServiceImpl implements THSSService {
         final UriComponentsBuilder builder =
             UriComponentsBuilder.fromHttpUrl(String.format("%s/rubric?itemPath=%s", contentUrl, itemPath));
 
-        final ResponseEntity<Optional<String>> responseEntity = restTemplate.exchange(builder.build().toUri(), HttpMethod.GET, null, new ParameterizedTypeReference<Optional<String>>(){});
+        final ResponseEntity<Optional<RawValue>> responseEntity = restTemplate.exchange(builder.build().toUri(), HttpMethod.GET, null, new ParameterizedTypeReference<Optional<RawValue>>(){});
 
-        final String rubricListXml = responseEntity.getBody().orElse("");
-        return teacherHandScoring.withRubricList(rubricListXml);
+        final RawValue rubricListXml = responseEntity.getBody().orElse(new RawValue(""));
+        return teacherHandScoring.withRubricList(rubricListXml.getValue());
     }
 
     /**
