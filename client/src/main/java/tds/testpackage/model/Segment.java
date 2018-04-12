@@ -53,8 +53,10 @@ public abstract class Segment {
     @JsonProperty("position")
     protected abstract Optional<Integer> getPosition();
 
+    @JsonProperty
     protected abstract Optional<String> getEntryApproval();
 
+    @JsonProperty
     protected abstract Optional<String> getExitApproval();
 
     @XmlAttribute

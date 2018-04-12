@@ -240,6 +240,22 @@ public class TestPackageSerializationTest {
     }
 
     @Test
+    public void shouldRoundTripJsonSerializeSegment() throws Exception {
+        Segment segment = Segment.builder().
+            setAlgorithmImplementation("FAIRWAY ROUNDROBIN").
+            setId("SBAC-IRP-Perf-MATH-11").
+            setAlgorithmType("fixedform").
+            setEntryApproval(true).
+            setExitApproval(true).
+            build();
+
+        String json = objectMapper.writeValueAsString(segment);
+
+        Segment segment2 = objectMapper.readValue(json, Segment.class);
+        assertThat(segment2).isEqualTo(segment);
+    }
+
+    @Test
     public void shouldDeserializeFromXml() throws IOException {
         InputStream inputStream = TestPackageSerializationTest.class.getClassLoader().getResourceAsStream("test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
