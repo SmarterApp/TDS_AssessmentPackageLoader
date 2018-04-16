@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Optional;
+
 import tds.common.ValidationError;
 import tds.common.web.resources.NoContentResponseResource;
 import tds.support.tool.configuration.SupportToolProperties;
@@ -16,17 +19,15 @@ import tds.support.tool.services.TDSTestPackageService;
 import tds.support.tool.utils.TestPackageUtils;
 import tds.testpackage.model.TestPackage;
 
-import java.util.Optional;
-
 @Service
 public class TDSTestPackageServiceImpl implements TDSTestPackageService {
     private final RestTemplate restTemplate;
     private final SupportToolProperties properties;
 
     @Autowired
-    public TDSTestPackageServiceImpl(final RestTemplate restTemplate,
+    public TDSTestPackageServiceImpl(final RestTemplate integrationRestTemplate,
                                      final SupportToolProperties properties) {
-        this.restTemplate = restTemplate;
+        this.restTemplate = integrationRestTemplate;
         this.properties = properties;
     }
 

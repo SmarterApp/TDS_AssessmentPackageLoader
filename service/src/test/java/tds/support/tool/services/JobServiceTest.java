@@ -4,10 +4,8 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.paweladamski.httpclientmock.HttpClientMock;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.hamcrest.Matcher;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import org.springframework.context.annotation.*;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.client.ExpectedCount;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
@@ -41,11 +38,6 @@ import tds.support.tool.services.impl.JobServiceImpl;
 import tds.support.tool.services.impl.THSSServiceImpl;
 import tds.support.tool.services.loader.MessagingService;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
-
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -82,7 +74,7 @@ public class JobServiceTest {
         @Autowired
         TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration;
         @Autowired
-        RestTemplate restTemplate;
+        RestTemplate integrationRestTemplate;
 
         @Bean
         @Primary
@@ -120,7 +112,7 @@ public class JobServiceTest {
                 return httpClientMock;
             };
 
-            return new THSSServiceImpl("/tds/bank/items/Item-%1$s-%2$s/item-%1$s-%2$s.xml", httpClientSupplier, supportToolProperties, restTemplate, testPackageObjectMapperConfiguration);
+            return new THSSServiceImpl("/tds/bank/items/Item-%1$s-%2$s/item-%1$s-%2$s.xml", httpClientSupplier, supportToolProperties, integrationRestTemplate, testPackageObjectMapperConfiguration);
         }
     }
 
@@ -136,7 +128,7 @@ public class JobServiceTest {
     @Autowired
     private TestPackageStatusService testPackageStatusService;
     @Autowired
-    private RestTemplate restTemplate;
+    private RestTemplate integrationRestTemplate;
 
     @MockBean
     AmazonS3 amazonS3;
@@ -170,10 +162,10 @@ public class JobServiceTest {
 
     @Before
     public void setup() throws Exception {
-        restTemplate.setInterceptors(Arrays.asList());
+        integrationRestTemplate.setInterceptors(Arrays.asList());
         ObjectMapper objectMapper = testPackageObjectMapperConfiguration.getThssObjectMapper();
         jobService = new JobServiceImpl(jobRepository, testPackageFileHandler, messagingService, testPackageStatusService, testPackageLoaderStepHandlers);
-        mockServer = MockRestServiceServer.bindTo(restTemplate).ignoreExpectOrder(true).build();
+        mockServer = MockRestServiceServer.bindTo(integrationRestTemplate).ignoreExpectOrder(true).build();
         String jsonResponse = objectMapper.writeValueAsString(Optional.of(RUBRIC_LIST));
         mockServer.expect(manyTimes(), method(HttpMethod.GET)).andRespond(withSuccess(jsonResponse, MediaType.APPLICATION_JSON_UTF8));
         mockServer.expect(manyTimes(), method(HttpMethod.POST)).andRespond(withSuccess());

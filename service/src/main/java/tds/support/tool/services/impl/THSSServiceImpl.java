@@ -10,7 +10,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -72,12 +71,12 @@ public class THSSServiceImpl implements THSSService {
     public THSSServiceImpl(@Value("${tds.content.format:/tds/bank/items/Item-%1$s-%2$s/item-%1$s-%2$s.xml}") final String itemContentFormat,
                            final Supplier<CloseableHttpClient> httpClientSupplier,
                            final SupportToolProperties supportToolProperties,
-                           final RestTemplate restTemplate,
+                           final RestTemplate integrationRestTemplate,
                            final TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration) {
         this.itemContentFormat = itemContentFormat;
         this.contentUrl = supportToolProperties.getContentUrl();
         this.thssUrl = supportToolProperties.getThssApiUrl().orElseThrow(() -> new RuntimeException("THSS api url property is not configured"));
-        this.restTemplate = restTemplate;
+        this.restTemplate = integrationRestTemplate;
         this.httpClientSupplier = httpClientSupplier;
         this.objectMapper = testPackageObjectMapperConfiguration.getThssObjectMapper();
     }
