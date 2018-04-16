@@ -5,9 +5,12 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.Optional;
+
 import tds.common.ValidationError;
 import tds.common.web.resources.NoContentResponseResource;
 import tds.support.tool.configuration.SupportToolProperties;
@@ -15,19 +18,15 @@ import tds.support.tool.services.ARTTestPackageService;
 import tds.support.tool.utils.TestPackageUtils;
 import tds.testpackage.model.TestPackage;
 
-import java.util.Optional;
-
 @Service
 public class ARTTestPackageServiceImpl implements ARTTestPackageService {
-    //TODO: This RestTemplate will need to be changed to an OAuth2RestTemplate once security is in place
-    private final RestTemplate restTemplate;
     private final SupportToolProperties properties;
+    private final OAuth2RestTemplate restTemplate;
 
     @Autowired
-    public ARTTestPackageServiceImpl(final RestTemplate restTemplate,
-                                     final SupportToolProperties properties) {
-        this.restTemplate = restTemplate;
+    public ARTTestPackageServiceImpl(final SupportToolProperties properties, final OAuth2RestTemplate oAuth2RestTemplate) {
         this.properties = properties;
+        this.restTemplate = oAuth2RestTemplate;
     }
 
     @Override

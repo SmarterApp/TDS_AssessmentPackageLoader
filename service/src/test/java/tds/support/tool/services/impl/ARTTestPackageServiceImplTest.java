@@ -8,17 +8,18 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
-import tds.common.ValidationError;
-import tds.common.web.resources.NoContentResponseResource;
-import tds.support.tool.configuration.SupportToolProperties;
-import tds.support.tool.services.ARTTestPackageService;
-import tds.testpackage.model.TestPackage;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Optional;
+
+import tds.common.ValidationError;
+import tds.common.web.resources.NoContentResponseResource;
+import tds.support.tool.configuration.SupportToolProperties;
+import tds.support.tool.services.ARTTestPackageService;
+import tds.testpackage.model.TestPackage;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
@@ -32,14 +33,14 @@ public class ARTTestPackageServiceImplTest {
     private ARTTestPackageService service;
 
     @Mock
-    private RestTemplate restTemplate;
+    private OAuth2RestTemplate restTemplate;
 
     @Mock
     private SupportToolProperties supportToolProperties;
 
     @Before
     public void setup() {
-        service = new ARTTestPackageServiceImpl(restTemplate, supportToolProperties);
+        service = new ARTTestPackageServiceImpl(supportToolProperties, restTemplate);
         mockTestPackage = TestPackage.builder()
                 .setAcademicYear("1234")
                 .setBankKey(123)

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>tds-support-tool-service</artifactId>
-    <version>0.0.15-SNAPSHOT</version>
+    <version>0.0.16-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>tds-support-tool-service</name>
@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.opentestsystem.delivery</groupId>
         <artifactId>tds-support-tool</artifactId>
-        <version>0.0.15-SNAPSHOT</version>
+        <version>0.0.16-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -23,6 +23,10 @@
 
     <dependencies>
         <!-- TDS Dependencies -->
+        <dependency>
+            <groupId>org.opentestsystem.delivery</groupId>
+            <artifactId>tds-common</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.opentestsystem.delivery</groupId>
             <artifactId>tds-common-legacy</artifactId>
@@ -109,7 +113,6 @@
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
         </dependency>
-
     </dependencies>
 
     <build>

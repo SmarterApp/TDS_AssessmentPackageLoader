@@ -26,9 +26,9 @@ public class TISTestPackageServiceImpl implements TISTestPackageService {
     private final SupportToolProperties properties;
 
     @Autowired
-    public TISTestPackageServiceImpl(final RestTemplate restTemplate,
+    public TISTestPackageServiceImpl(final RestTemplate integrationRestTemplate,
                                      final SupportToolProperties properties) {
-        this.restTemplate = restTemplate;
+        this.restTemplate = integrationRestTemplate;
         this.properties = properties;
     }
 

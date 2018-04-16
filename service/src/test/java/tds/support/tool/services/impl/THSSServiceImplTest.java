@@ -46,7 +46,7 @@ public class THSSServiceImplTest {
     THSSService thssService;
 
     @Autowired
-    RestTemplate restTemplate;
+    RestTemplate integrationRestTemplate;
 
     MockRestServiceServer mockServer;
     XmlMapper xmlMapper;
@@ -58,7 +58,7 @@ public class THSSServiceImplTest {
         TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration;
 
         @Autowired
-        RestTemplate restTemplate;
+        RestTemplate integrationRestTemplate;
 
         @Bean
         @Primary
@@ -102,7 +102,7 @@ public class THSSServiceImplTest {
                 return httpClientMock;
             };
 
-            return new THSSServiceImpl("/tds/bank/items/Item-%1$s-%2$s/item-%1$s-%2$s.xml", httpClientSupplier, supportToolProperties, restTemplate, testPackageObjectMapperConfiguration);
+            return new THSSServiceImpl("/tds/bank/items/Item-%1$s-%2$s/item-%1$s-%2$s.xml", httpClientSupplier, supportToolProperties, integrationRestTemplate, testPackageObjectMapperConfiguration);
         }
     }
 
@@ -127,8 +127,8 @@ public class THSSServiceImplTest {
 
     @Before
     public void setup() throws Exception {
-        restTemplate.setInterceptors(Arrays.asList());
-        mockServer = MockRestServiceServer.createServer(restTemplate);
+        integrationRestTemplate.setInterceptors(Arrays.asList());
+        mockServer = MockRestServiceServer.createServer(integrationRestTemplate);
         xmlMapper = testPackageObjectMapperConfiguration.getXmlMapper();
         objectMapper = testPackageObjectMapperConfiguration.getThssObjectMapper();
         String jsonResponse = objectMapper.writeValueAsString(Optional.of(RUBRIC_LIST));
