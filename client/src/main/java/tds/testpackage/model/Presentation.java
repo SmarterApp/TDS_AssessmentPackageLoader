@@ -1,6 +1,7 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
@@ -22,6 +23,7 @@ public abstract class Presentation {
         "ESN", "Spanish",
         "ENU-Braille", "Braille");
 
+    @JsonProperty
     protected abstract Optional<String> getLabel();
 
     /**
