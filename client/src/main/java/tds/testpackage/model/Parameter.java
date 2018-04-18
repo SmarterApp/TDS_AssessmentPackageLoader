@@ -33,8 +33,9 @@ public abstract class Parameter {
     public abstract List<Value> getValues();
 
     @Nullable
-    @XmlElement(name="Property", type=Property.class)
     protected abstract List<Property> getProperties();
+
+    @XmlElement(name="Property", type=Property.class)
     @JsonProperty(value = "properties")
     public List<Property> properties() {
         return Optional.ofNullable(getProperties()).orElse(new ArrayList<>());

@@ -30,10 +30,10 @@ public abstract class Rule {
     public abstract int getComputationOrder();
 
     @Nullable
-    @XmlElement(name="Parameter", type=Parameter.class)
     protected abstract List<Parameter> getParameters();
 
     @JsonProperty(value = "parameters")
+    @XmlElement(name="Parameter", type=Parameter.class)
     public List<Parameter> parameters() {
         return Optional.ofNullable(getParameters()).orElse(new ArrayList<>());
     }
