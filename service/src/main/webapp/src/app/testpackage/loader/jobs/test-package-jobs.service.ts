@@ -27,6 +27,7 @@ export class TestPackageJobService {
   private mapLoaderJobsFromApi(apiModel): TestPackageJob {
     let job = new TestPackageJob();
     job.id = apiModel.id;
+    job.shortId = job.id.substr(job.id.length - 8);
 
     job.testPackageName = apiModel.name;
     job.createdAt = new Date(apiModel.createdAt);

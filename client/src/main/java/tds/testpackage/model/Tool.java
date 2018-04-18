@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableMap;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.data.annotation.Transient;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -241,6 +242,7 @@ public abstract class Tool {
                             .build())
             .build();
 
+    @XmlAttribute
     public abstract String getName();
     public abstract Optional<String> getStudentPackageFieldName();
     public abstract Optional<String> getAllowChange();

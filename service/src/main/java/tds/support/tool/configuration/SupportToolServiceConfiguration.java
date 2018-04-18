@@ -7,12 +7,15 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.guava.GuavaModule;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -21,21 +24,35 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
+import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResourceDetails;
+import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
+import org.springframework.security.oauth2.common.AuthenticationScheme;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
 import tds.common.configuration.JacksonObjectMapperConfiguration;
 import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
+import tds.common.web.interceptors.RestTemplateLoggingInterceptor;
 import tds.support.job.TestPackageDeleteJob;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.tool.handlers.loader.TestPackageHandler;
-import tds.support.tool.handlers.loader.impl.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
+import tds.support.tool.handlers.loader.impl.ARTDeleteStepHandler;
+import tds.support.tool.handlers.loader.impl.ARTLoaderStepHandler;
+import tds.support.tool.handlers.loader.impl.ParseAndValidateHandler;
+import tds.support.tool.handlers.loader.impl.TDSDeleteStepHandler;
+import tds.support.tool.handlers.loader.impl.TDSLoaderStepHandler;
+import tds.support.tool.handlers.loader.impl.THSSDeleteStepHandler;
+import tds.support.tool.handlers.loader.impl.THSSLoaderStepHandler;
+import tds.support.tool.handlers.loader.impl.TISDeleteStepHandler;
+import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
+import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 
 @EnableAsync
 @Configuration
@@ -45,6 +62,7 @@ import java.util.function.Supplier;
     JacksonObjectMapperConfiguration.class,
     MvcConfig.class
 })
+
 public class SupportToolServiceConfiguration {
     @Bean
     public AmazonS3 getAmazonS3(final S3Properties s3Properties) {
@@ -68,7 +86,7 @@ public class SupportToolServiceConfiguration {
         final ARTDeleteStepHandler artDeleteStepHandler,
         final TISDeleteStepHandler tisDeleteStepHandler,
         final THSSDeleteStepHandler thssDeleteStepHandler
-        ) {
+    ) {
 
         final Map<String, TestPackageHandler> handlerMap = new HashMap<>();
         handlerMap.put(TestPackageLoadJob.VALIDATE, parseAndValidateHandler);
@@ -93,22 +111,58 @@ public class SupportToolServiceConfiguration {
             .registerModule(new JavaTimeModule());
     }
 
-    @Bean(name = "integrationRestTemplate")
-    public RestTemplate restTemplate() {
-        // Jackson Converters
-        final MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        converter.setObjectMapper(getIntegrationObjectMapper());
-        final RestTemplate restTemplate = new RestTemplate(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()));
-        final List<HttpMessageConverter<?>> converters = new ArrayList<>();
-        converters.add(converter);
-        converters.add(new ResourceHttpMessageConverter());
-        restTemplate.setMessageConverters(converters);
+    @Bean
+    public RestTemplateBuilder restTemplateBuilder(TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration, final ApplicationContext applicationContext) {
+        final ObjectMapper objectMapper = getIntegrationObjectMapper();
+        final XmlMapper xmlMapper = testPackageObjectMapperConfiguration.getLegacyTestSpecXmlMapper();
+        return new RestTemplateBuilder().
+            additionalMessageConverters(
+                new MappingJackson2HttpMessageConverter(objectMapper),
+                new MappingJackson2XmlHttpMessageConverter(xmlMapper),
+                new ResourceHttpMessageConverter()).
+            additionalInterceptors(new RestTemplateLoggingInterceptor(objectMapper, applicationContext.getId())).
+            additionalMessageConverters();
+    }
 
-        return restTemplate;
+    @Bean(name = "integrationRestTemplate")
+    public RestTemplate integrationRestTemplate(final RestTemplateBuilder restTemplateBuilder) {
+        return restTemplateBuilder.
+            requestFactory(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory())).
+            build();
     }
 
     @Bean
     public Supplier<CloseableHttpClient> httpClientSupplier() {
         return () -> HttpClients.createDefault();
+    }
+
+    @Bean
+    public OAuth2RestTemplate oAuthRestTemplate(final SupportToolProperties properties) {
+        final OAuth2RestTemplate restTemplate = new OAuth2RestTemplate(ssoAuthResource(properties));
+        for (final HttpMessageConverter<?> messageConverter : restTemplate.getMessageConverters()) {
+            if (messageConverter instanceof MappingJackson2HttpMessageConverter) {
+                final MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter =
+                    (MappingJackson2HttpMessageConverter) messageConverter;
+                mappingJackson2HttpMessageConverter.setObjectMapper(getIntegrationObjectMapper());
+                break;
+            }
+        }
+        return restTemplate;
+    }
+
+    private OAuth2ProtectedResourceDetails ssoAuthResource(final SupportToolProperties properties) {
+        final ResourceOwnerPasswordResourceDetails resourceDetails = new ResourceOwnerPasswordResourceDetails();
+        resourceDetails.setUsername(properties.getSsoUsername().orElseThrow(() -> new RuntimeException(
+            "SSO Username property is not configured")));
+        resourceDetails.setPassword(properties.getSsoPassword().orElseThrow(() -> new RuntimeException(
+            "SSL Password property is not configured")));
+        resourceDetails.setClientId(properties.getSsoClientId().orElseThrow(() -> new RuntimeException(
+            "SSL Client ID property is not configured")));
+        resourceDetails.setClientSecret(properties.getSsoClientSecret().orElseThrow(() -> new RuntimeException(
+            "SSL Client Secret property is not configured")));
+        resourceDetails.setAccessTokenUri(properties.getSsoUrl().orElseThrow(() -> new RuntimeException(
+            "SSO Url property is not configured")));
+        resourceDetails.setClientAuthenticationScheme(AuthenticationScheme.form);
+        return resourceDetails;
     }
 }

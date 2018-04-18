@@ -12,19 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.*;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Supplier;
 
 import tds.support.job.Job;
@@ -41,10 +40,10 @@ import tds.support.tool.services.loader.MessagingService;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.springframework.test.web.client.ExpectedCount.manyTimes;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.method;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.requestTo;
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 @RunWith(SpringRunner.class)
@@ -75,7 +74,7 @@ public class JobServiceTest {
         @Autowired
         TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration;
         @Autowired
-        RestTemplate restTemplate;
+        RestTemplate integrationRestTemplate;
 
         @Bean
         @Primary
@@ -110,14 +109,15 @@ public class JobServiceTest {
                     "    ]\n" +
                     "}");
 
-
                 return httpClientMock;
             };
 
-            return new THSSServiceImpl(httpClientSupplier, supportToolProperties, restTemplate, testPackageObjectMapperConfiguration);
+            return new THSSServiceImpl("/tds/bank/items/Item-%1$s-%2$s/item-%1$s-%2$s.xml", httpClientSupplier, supportToolProperties, integrationRestTemplate, testPackageObjectMapperConfiguration);
         }
     }
 
+    @Autowired
+    TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration;
     @Autowired
     private JobRepository jobRepository;
     @Autowired
@@ -128,7 +128,7 @@ public class JobServiceTest {
     @Autowired
     private TestPackageStatusService testPackageStatusService;
     @Autowired
-    private RestTemplate restTemplate;
+    private RestTemplate integrationRestTemplate;
 
     @MockBean
     AmazonS3 amazonS3;
@@ -140,12 +140,35 @@ public class JobServiceTest {
     JobService jobService;
     MockRestServiceServer mockServer;
 
+    static String RUBRIC_LIST =
+        "<rubriclist>\n" +
+        "   <rubric scorepoint=\"4\">\n" +
+        "       <name>        Rubric 4</name>\n" +
+        "       <val>\n" +
+        "           <![CDATA[<p style=\"\">&#xA0;</p><p><dl><dt style=\"float: left; margin-top: 1px; margin-bottom: -1em;\">a)</dt><dd style=\"float: top;padding-left:1.5000em; padding-left:1.5000em; \"><p style=\"font-style:normal; font-weight:normal; \">Inference here.</p></dd><dt style=\"float: left; margin-top: 1px; margin-bottom: -1em;\">b)</dt><dd style=\"float: top;padding-left:1.5000em; padding-left:1.5000em; \"><p style=\"font-style:normal; font-weight:normal; \">Text-supported example: “....” (paragraph reference)</p></dd><dt style=\"float: left; margin-top: 1px; margin-bottom: -1em;\">c)</dt><dd style=\"float: top;padding-left:1.5000em; padding-left:1.5000em; \"><p style=\"font-style:normal; font-weight:normal; \">Inference here.</p></dd><dt style=\"float: left; margin-top: 1px; margin-bottom: -1em;\">d)</dt><dd style=\"float: top;padding-left:1.5000em; padding-left:1.5000em; \"><p style=\"font-style:normal; font-weight:normal; \">Text-supported example: “....” (paragraph reference)</p></dd></dl></p>]]>\n" +
+        "       </val>\n" +
+        "   </rubric>\n" +
+        "   <samplelist maxval=\"4\" minval=\"4\">\n" +
+        "       <sample purpose=\"OtherExemplar\" scorepoint=\"4\">\n" +
+        "           <name>4-Point Other Official Sample Answers      </name>\n" +
+        "           <annotation />\n" +
+        "           <samplecontent>\n" +
+        "               <![CDATA[<p style=\"\">&#xA0;</p>]]>\n" +
+        "           </samplecontent>\n" +
+        "       </sample>\n" +
+        "   </samplelist>\n" +
+        "</rubriclist>";
+
+
     @Before
-    public void setup() {
+    public void setup() throws Exception {
+        integrationRestTemplate.setInterceptors(Arrays.asList());
+        ObjectMapper objectMapper = testPackageObjectMapperConfiguration.getThssObjectMapper();
         jobService = new JobServiceImpl(jobRepository, testPackageFileHandler, messagingService, testPackageStatusService, testPackageLoaderStepHandlers);
-        mockServer = MockRestServiceServer.createServer(restTemplate);
-        mockServer.expect(method(HttpMethod.POST))
-            .andRespond(withSuccess());
+        mockServer = MockRestServiceServer.bindTo(integrationRestTemplate).ignoreExpectOrder(true).build();
+        String jsonResponse = objectMapper.writeValueAsString(Optional.of(RUBRIC_LIST));
+        mockServer.expect(manyTimes(), method(HttpMethod.GET)).andRespond(withSuccess(jsonResponse, MediaType.APPLICATION_JSON_UTF8));
+        mockServer.expect(manyTimes(), method(HttpMethod.POST)).andRespond(withSuccess());
     }
 
     @After

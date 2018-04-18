@@ -22,8 +22,15 @@ public class TestPackageUtils {
     }
 
     public static String parseItemGroupId(final String groupKey) {
-        final String[] groupKeyStrSplit = groupKey.split("-");
-        return groupKey.startsWith("I")
+
+        // Sometimes the item group identifiers have a colon - the item group key is on the right side
+        final String parsedGroupKey = groupKey.contains(":")
+                ? groupKey.substring(groupKey.indexOf(":") + 1, groupKey.length())
+                : groupKey;
+
+        final String[] groupKeyStrSplit = parsedGroupKey.split("-");
+
+        return parsedGroupKey.startsWith("I")
                 ? groupKeyStrSplit[groupKeyStrSplit.length - 1]
                 : groupKeyStrSplit[groupKeyStrSplit.length - 2];
     }

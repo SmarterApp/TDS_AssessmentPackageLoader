@@ -11,8 +11,6 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
-import tds.teacherhandscoring.model.RubricList;
-import tds.teacherhandscoring.model.RubricListSerializer;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
@@ -48,13 +46,8 @@ public class TestPackageObjectMapperConfiguration {
      * used to post data to the THSS server.
      */
     public ObjectMapper getThssObjectMapper() {
-        final XmlMapper xmlMapper = getXmlMapper();
-
         final ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new Jdk8Module());
-        final SimpleModule module = new SimpleModule();
-        module.addSerializer(RubricList.class, new RubricListSerializer(xmlMapper));
-        objectMapper.registerModule(module);
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         return objectMapper;
     }

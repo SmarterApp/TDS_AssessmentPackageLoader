@@ -20,7 +20,7 @@ import { Router } from "@angular/router";
  */
 @Component({
   templateUrl: './test-package-status.component.html',
-  styleUrls: ['./test-package-status.component.css', '../../test-package.component.scss'],
+  styleUrls: ['./test-package-status.component.scss', '../../test-package.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class TestPackageStatusComponent implements OnInit, OnDestroy {
@@ -241,11 +241,11 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
    * @param {string} name The name of the test package to delete
    */
   deleteTestPackage(name: string) {
-    const message = `Are you sure you want to delete the '${ name }' test package?`;
+    const message = `Are you sure you want to delete the '${ name }' test package? The test package will be deleted from all systems it is currently loaded into.`;
     if (window.confirm(message)) {
       this.testPackageStatusService.deleteTestPackage(name);
 
-      alert("Test Package '" + name + "' is in the process of being deleted.  Once the test package has been deleted from all systems, the test packag willl no longer appear in this list.");
+      alert("Test Package '" + name + "' is in the process of being deleted.  Once the test package has been deleted from all systems, the test package will no longer appear in this list.");
 
       this.getData(this._searchTermText, {
         page: 0,

@@ -3,15 +3,25 @@
   <div *ngIf="!selectedJob" class="test-package-none-selected">
     <h3>Select a test package job to view more details</h3>
   </div>
-  <span *ngIf="selectedJob" class="h3 blue-dark">{{selectedJob.testPackageName}}</span>
+  <ng-container *ngIf="selectedJob">
+    <span class="h3 blue-dark">{{selectedJob.testPackageName}}</span>
+    <label class="date-label">Date Created (UTC): {{ selectedJob?.createdAt.toUTCString() }}</label>
+  </ng-container>
+
   <!-- Success view -->
-  <div *ngIf="selectedJob?.isSuccessful()" class="test-package-details-success">
-    <h3 *ngIf="selectedJob?.type === 'LOAD'"><i class="fa fa-check-circle"></i>The test package was successfully loaded</h3>
+  <div *ngIf="selectedJob?.isSuccessful() && selectedJob?.errors.length === 0" class="test-package-details-success">
+    <h3 *ngIf="selectedJob?.type === 'LOAD'">
+      <i class="fa fa-check-circle"></i>
+      The test package was successfully loaded
+    </h3>
     <h3 *ngIf="selectedJob?.type === 'ROLLBACK'">
       <i class="fa fa-check-circle"></i>
       The loaded test package was successfully rolled back as a result from a failure in the job with id <strong>{{ selectedJob.parentJobId }}</strong>
     </h3>
-    <h3 *ngIf="selectedJob?.type === 'DELETE'"><i class="fa fa-check-circle"></i>The test package was successfully deleted</h3>
+    <h3 *ngIf="selectedJob?.type === 'DELETE'">
+      <i class="fa fa-check-circle"></i>
+      The test package was successfully deleted
+    </h3>
   </div>
 
   <!-- Failure view -->

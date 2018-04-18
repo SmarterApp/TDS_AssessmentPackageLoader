@@ -85,6 +85,31 @@ public class ARTLoaderStepHandlerTest {
     }
 
     @Test
+    public void shouldHandleStepSuccessfullyWithWarns() {
+        final String tenantId = "58703df1e4b0f3fb93dba0f3";
+        TestPackageLoadJob mockJob = random(TestPackageLoadJob.class);
+        Step mockStep = random(Step.class);
+        int errorsBefore = mockStep.getErrors().size();
+        TestPackageMetadata mockMetadata = random(TestPackageMetadata.class);
+
+        when(mockTestPackageMetadataRepository.findByJobId(mockJob.getId())).thenReturn(mockMetadata);
+        when(mockTestPackageRepository.findOne(mockMetadata.getTestPackageId())).thenReturn(mockTestPackage);
+        when(mockService.loadTestPackage(tenantId, mockTestPackage))
+                .thenReturn(Optional.of(new ValidationError("WARN", "Just a warning...")));
+        when(mockProgmanClientService.getTenantId()).thenReturn(tenantId);
+
+        handler.handle(mockJob, mockStep);
+        assertThat(mockStep.isComplete()).isTrue();
+        assertThat(mockStep.getStatus()).isEqualTo(Status.SUCCESS);
+        int errorsAfter = mockStep.getErrors().size();
+        assertThat(errorsAfter).isGreaterThan(errorsBefore);
+
+        verify(mockTestPackageMetadataRepository).findByJobId(mockJob.getId());
+        verify(mockTestPackageRepository).findOne(mockMetadata.getTestPackageId());
+        verify(mockService).loadTestPackage(tenantId, mockTestPackage);
+    }
+
+    @Test
     public void shouldReturnErrorFromServiceCallAndFailStep() {
         final String tenantId = "58703df1e4b0f3fb93dba0f3";
         TestPackageLoadJob mockJob = random(TestPackageLoadJob.class);

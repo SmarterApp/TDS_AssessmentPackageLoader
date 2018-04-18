@@ -250,6 +250,7 @@ public class TestPackageBlueprintMapper {
                                 .filter(bpEl -> bpEl.getElementtype().equalsIgnoreCase(BlueprintElementTypes.CONTENT_LEVEL));
                     }
                 })
+                .distinct()
                 .collect(Collectors.groupingBy(bpEl -> TestPackageUtils.parseIdFromKey(bpEl.getParentid())));
 
         // Map all claims - these are our root level elements

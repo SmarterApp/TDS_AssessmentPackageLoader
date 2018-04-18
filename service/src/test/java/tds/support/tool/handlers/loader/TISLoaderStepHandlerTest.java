@@ -7,15 +7,14 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.web.client.HttpClientErrorException;
 import tds.common.ValidationError;
-import tds.support.job.Job;
 import tds.support.job.Status;
 import tds.support.job.Step;
 import tds.support.job.TestPackageLoadJob;
-import tds.support.tool.handlers.loader.impl.TDSLoaderStepHandler;
+import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
 import tds.support.tool.model.TestPackageMetadata;
 import tds.support.tool.repositories.MongoTestPackageRepository;
 import tds.support.tool.repositories.loader.TestPackageMetadataRepository;
-import tds.support.tool.services.TDSTestPackageService;
+import tds.support.tool.services.TISTestPackageService;
 import tds.testpackage.model.TestPackage;
 
 import java.util.ArrayList;
@@ -27,12 +26,12 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class TDSLoaderStepHandlerTest {
+public class TISLoaderStepHandlerTest {
     private TestPackageHandler handler;
     private TestPackage mockTestPackage;
 
     @Mock
-    private TDSTestPackageService mockService;
+    private TISTestPackageService mockService;
 
     @Mock
     private MongoTestPackageRepository mockTestPackageRepository;
@@ -42,7 +41,7 @@ public class TDSLoaderStepHandlerTest {
 
     @Before
     public void setup() {
-        handler = new TDSLoaderStepHandler(mockService, mockTestPackageMetadataRepository, mockTestPackageRepository);
+        handler = new TISLoaderStepHandler(mockService, mockTestPackageRepository, mockTestPackageMetadataRepository);
         mockTestPackage = TestPackage.builder()
                 .setAcademicYear("1234")
                 .setBankKey(123)
@@ -77,7 +76,6 @@ public class TDSLoaderStepHandlerTest {
         verify(mockTestPackageRepository).findOne(mockMetadata.getTestPackageId());
         verify(mockService).loadTestPackage(mockJob.getName(), mockTestPackage);
     }
-
 
     @Test
     public void shouldHandleStepSuccessfullyWithWarns() {

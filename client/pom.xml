@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>tds-support-tool-client</artifactId>
-    <version>0.0.12-SNAPSHOT</version>
+    <version>0.0.16-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>tds-support-tool-client</name>
@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.opentestsystem.delivery</groupId>
         <artifactId>tds-support-tool</artifactId>
-        <version>0.0.12-SNAPSHOT</version>
+        <version>0.0.16-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -23,10 +23,6 @@
 
     <dependencies>
         <!-- TDS Dependencies -->
-        <dependency>
-            <groupId>org.opentestsystem.delivery</groupId>
-            <artifactId>tds-common</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>

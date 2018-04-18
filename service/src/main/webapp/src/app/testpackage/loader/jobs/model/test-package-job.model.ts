@@ -2,6 +2,7 @@ import {JobError} from "../../../../shared/job-error.model";
 
 export class TestPackageJob {
   id: string;
+  shortId: string;
   testPackageName: string;
   createdAt: Date;
   errors: JobError[] = new Array<JobError>();

@@ -197,6 +197,7 @@ public class TestPackageMapper {
     private static List<ItemGroup> mapItemGroups(final List<Itemgroup> itemGroups, final Itempool itemPool,
                                                  final Map<String, String> bluePrintIdsToNames) {
         return itemGroups.stream()
+                .filter(itemgroup -> !itemGroupContainsNonExistentItem(itemgroup, itemPool))
                 .map(ig ->
                         ItemGroup.builder()
                                 // If legacy itemgroup id is "G-187-1234-0", parse out "1234"
@@ -207,6 +208,14 @@ public class TestPackageMapper {
                                 .setItems(mapItems(ig.getGroupitem(), itemPool, bluePrintIdsToNames))
                                 .build())
                 .collect(Collectors.toList());
+    }
+
+    private static boolean itemGroupContainsNonExistentItem(final Itemgroup itemgroup, final Itempool itemPool) {
+        Map<String, Testitem> testItemMap = itemPool.getTestitem().stream()
+                .collect(Collectors.toMap(ti -> ti.getIdentifier().getUniqueid(), Function.identity()));
+
+        return itemgroup.getGroupitem().stream()
+                .anyMatch(item -> !testItemMap.containsKey(item.getItemid()));
     }
 
     private static List<Item> mapItems(final List<Groupitem> groupItems, final Itempool itemPool,
@@ -225,17 +234,17 @@ public class TestPackageMapper {
                 })
                 .filter(gi -> testItemMap.containsKey(gi.getItemid()))
                 .map(gi -> Item.builder()
-                            // If the item key is "187-1234" the item ID is "1234"
-                            .setId(TestPackageUtils.parseIdFromKey(gi.getItemid()))
-                            .setAdministrationRequired(Optional.ofNullable(gi.getAdminrequired()))
-                            .setFieldTest(Optional.ofNullable(gi.getIsfieldtest()))
-                            .setActive(Optional.ofNullable(gi.getIsactive()))
-                            .setResponseRequired(Optional.ofNullable(gi.getResponserequired()))
-                            .setType(testItemMap.get(gi.getItemid()).getItemtype())
-                            .setPresentations(mapPresentations(testItemMap.get(gi.getItemid()).getPoolproperty()))
-                            .setItemScoreDimension(mapItemScoreDimensions(testItemMap.get(gi.getItemid()).getItemscoredimension().get(0)))
-                            .setBlueprintReferences(mapBlueprintReferences(testItemMap.get(gi.getItemid()).getBpref(), bluePrintIdsToNames))
-                            .build())
+                        // If the item key is "187-1234" the item ID is "1234"
+                        .setId(TestPackageUtils.parseIdFromKey(gi.getItemid()))
+                        .setAdministrationRequired(Optional.ofNullable(gi.getAdminrequired()))
+                        .setFieldTest(Optional.ofNullable(gi.getIsfieldtest()))
+                        .setActive(Optional.ofNullable(gi.getIsactive()))
+                        .setResponseRequired(Optional.ofNullable(gi.getResponserequired()))
+                        .setType(testItemMap.get(gi.getItemid()).getItemtype())
+                        .setPresentations(mapPresentations(testItemMap.get(gi.getItemid()).getPoolproperty()))
+                        .setItemScoreDimension(mapItemScoreDimensions(testItemMap.get(gi.getItemid()).getItemscoredimension().get(0)))
+                        .setBlueprintReferences(mapBlueprintReferences(testItemMap.get(gi.getItemid()).getBpref(), bluePrintIdsToNames))
+                        .build())
                 .collect(Collectors.toList());
     }
 

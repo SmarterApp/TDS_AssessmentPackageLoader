@@ -1,0 +1,25 @@
+
+.status-is-deleted {
+  color: #900;
+  background-color: #fee !important;
+}
+
+.disabled-button {
+  color: #999;
+  background-color: #eee;
+  border-radius: 4px;
+}
+
+.table td {
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+
+.ui-paginator-pages {
+  text-align: center;
+  font-size: 20px;
+
+  a {
+    padding: 2px;
+  }
+}

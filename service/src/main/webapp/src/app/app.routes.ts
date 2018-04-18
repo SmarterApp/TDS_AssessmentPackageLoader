@@ -12,51 +12,52 @@ export const routes: Routes = [
   },
   {
     path: '',
+    redirectTo: 'loader',
+    pathMatch: 'full',
+  },
+  {
+    path: 'loader',
+    pathMatch: 'prefix',
+    data: {
+      breadcrumb: {
+        label: "Load Test Package Jobs"
+      }
+    },
     children: [
+      {
+        path: '',
+        pathMatch: 'prefix',
+        component: TestPackageComponent
+      },
       {
         path: 'error',
         pathMatch: 'prefix',
         component: ErrorComponent
       },
       {
-        path: 'loader',
+        path: 'upload',
         pathMatch: 'prefix',
         data: {
           breadcrumb: {
-            label: "Load Test Package Jobs"
+            label: "Create Test Package Loader Jobs"
           }
         },
         children: [
           {
             path: '',
             pathMatch: 'prefix',
-            component: TestPackageComponent
-          }, {
-            path: 'upload',
-            pathMatch: 'prefix',
-            data: {
-              breadcrumb: {
-                label: "Create Test Package Loader Jobs"
-              }
-            },
-            children: [
-              {
-                path: '',
-                pathMatch: 'prefix',
-                component: UploadLoaderJobComponent
-              }
-            ]
-          }, {
-            path: 'status',
-            pathMatch: 'prefix',
-            component: TestPackageStatusComponent,
-            data: {
-              breadcrumb: {
-                label: "Loaded Test Packages"
-              }
-            }
+            component: UploadLoaderJobComponent
           }
         ]
+      }, {
+        path: 'status',
+        pathMatch: 'prefix',
+        component: TestPackageStatusComponent,
+        data: {
+          breadcrumb: {
+            label: "Loaded Test Packages"
+          }
+        }
       }
     ]
   }

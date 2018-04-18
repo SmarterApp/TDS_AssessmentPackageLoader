@@ -8,6 +8,8 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,7 @@ import tds.common.ValidationError;
 import tds.support.tool.configuration.SupportToolProperties;
 import tds.support.tool.services.THSSService;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
+import tds.teacherhandscoring.model.RawValue;
 import tds.teacherhandscoring.model.TeacherHandScoring;
 import tds.teacherhandscoring.model.TeacherHandScoringApiResult;
 import tds.teacherhandscoring.model.TeacherHandScoringApiResultFile;
@@ -56,6 +59,8 @@ import tds.testpackage.model.TestPackageDeserializer;
  */
 @Service
 public class THSSServiceImpl implements THSSService {
+    final private String itemContentFormat;
+    final private String contentUrl;
     final private Supplier<CloseableHttpClient> httpClientSupplier;
     final private String thssUrl;
     final private ObjectMapper objectMapper;
@@ -63,9 +68,15 @@ public class THSSServiceImpl implements THSSService {
 
 
     @Autowired
-    public THSSServiceImpl(final Supplier<CloseableHttpClient> httpClientSupplier, SupportToolProperties supportToolProperties, final RestTemplate restTemplate, final TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration) {
+    public THSSServiceImpl(@Value("${tds.content.format:/tds/bank/items/Item-%1$s-%2$s/item-%1$s-%2$s.xml}") final String itemContentFormat,
+                           final Supplier<CloseableHttpClient> httpClientSupplier,
+                           final SupportToolProperties supportToolProperties,
+                           final RestTemplate integrationRestTemplate,
+                           final TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration) {
+        this.itemContentFormat = itemContentFormat;
+        this.contentUrl = supportToolProperties.getContentUrl();
         this.thssUrl = supportToolProperties.getThssApiUrl().orElseThrow(() -> new RuntimeException("THSS api url property is not configured"));
-        this.restTemplate = restTemplate;
+        this.restTemplate = integrationRestTemplate;
         this.httpClientSupplier = httpClientSupplier;
         this.objectMapper = testPackageObjectMapperConfiguration.getThssObjectMapper();
     }
@@ -76,7 +87,6 @@ public class THSSServiceImpl implements THSSService {
 
         final UriComponentsBuilder builder =
                 UriComponentsBuilder.fromHttpUrl(String.format("%s/item/submit", thssUrl));
-
         final List<TeacherHandScoringConfiguration> teacherHandScoringConfigurationList = getThssConfiguration(testPackage);
         final String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(teacherHandScoringConfigurationList);
 
@@ -106,9 +116,12 @@ public class THSSServiceImpl implements THSSService {
 
         final ResponseEntity<TeacherHandScoringApiResultFile> responseEntity = restTemplate.exchange(builder.build().toUri(), HttpMethod.DELETE, null, TeacherHandScoringApiResultFile.class);
 
-        if (responseEntity.getBody() != null
-            && !responseEntity.getBody().getSuccess()){
-            return Optional.of(new ValidationError("Error", responseEntity.getBody().getErrorMessage()));
+        if (responseEntity.getBody() != null) {
+            final TeacherHandScoringApiResultFile body = responseEntity.getBody();
+            if (!body.getSuccess()) {
+                final String errorMessage = (body.getErrorMessage() != null) ? body.getErrorMessage() : "";
+                return Optional.of(new ValidationError("Error", errorMessage));
+            }
         }
         return Optional.empty();
     }
@@ -116,16 +129,31 @@ public class THSSServiceImpl implements THSSService {
     /**
      * Extracts all of the TeacherHandScoringConfiguration elements out of the TestPackage.
      */
-    public static List<TeacherHandScoringConfiguration> getThssConfiguration(final TestPackage testPackage) {
+    public List<TeacherHandScoringConfiguration> getThssConfiguration(final TestPackage testPackage) {
         final List<TeacherHandScoring> teacherHandScoringList = testPackage.getAssessments().stream().
                 flatMap(assessment -> assessment.getSegments().stream()).
                 flatMap(THSSServiceImpl::getSegmentItems).
                 map(Item::getTeacherHandScoring).
-                filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
+                filter(Optional::isPresent).map(Optional::get).
+                map(teacherHandScoring -> loadRubric(teacherHandScoring)).
+            collect(Collectors.toList());
 
         return teacherHandScoringList.stream().
                 map(TeacherHandScoringConfiguration::new).
                 collect(Collectors.toList());
+    }
+
+    private TeacherHandScoring loadRubric(final TeacherHandScoring teacherHandScoring) {
+        final int bankKey = teacherHandScoring.getItem().getTestPackage().getBankKey();
+        final String itemKey = teacherHandScoring.getItem().getId();
+        final String itemPath = String.format(itemContentFormat, bankKey, itemKey);
+        final UriComponentsBuilder builder =
+            UriComponentsBuilder.fromHttpUrl(String.format("%s/rubric?itemPath=%s", contentUrl, itemPath));
+
+        final ResponseEntity<Optional<RawValue>> responseEntity = restTemplate.exchange(builder.build().toUri(), HttpMethod.GET, null, new ParameterizedTypeReference<Optional<RawValue>>(){});
+
+        final RawValue rubricListXml = responseEntity.getBody().orElse(new RawValue(""));
+        return teacherHandScoring.withRubricList(rubricListXml.getValue());
     }
 
     /**
