@@ -104,7 +104,7 @@ public class TestPackageMapper {
                             .setLabel(Optional.of(adminSegment.getSegmentid()))
                             /* Child Elements */
                             .setPool(isFixedForm ? null : mapItemGroups(adminSegment.getSegmentpool().getItemgroup(),
-                                    administration.getItempool(), blueprintIdsToNames))
+                                    administration.getItempool(), blueprintIdsToNames, null))
                             .setSegmentForms(mapSegmentForms(adminSegment.getSegmentform(),
                                     administration.getTestform(), administration.getItempool(), blueprintIdsToNames))
                             .setSegmentBlueprint(mapSegmentBlueprint(adminSegment, administration.getTestblueprint().getBpelement()))
@@ -184,18 +184,22 @@ public class TestPackageMapper {
                     .filter(fp -> fp.getIdentifier().getUniqueid().equalsIgnoreCase(legacyForm.getFormpartitionid()))
                     .findFirst().orElseThrow(IllegalArgumentException::new);
 
+            final Property languageProperty = testForm.getProperty().stream().filter(p -> p.getName().equalsIgnoreCase("language")).findFirst().get();
+            final String presentationCode = languageProperty.getValue();
+            final String presentationLabel = languageProperty.getLabel();
+            Presentation presentation = Presentation.builder().setCode(presentationCode).setLabel(presentationLabel).build();
             segmentForms.add(SegmentForm.builder()
                     .setCohort(TestPackageUtils.parseCohort(testForm.getIdentifier().getUniqueid()))
                     .setId(formPartition.getIdentifier().getName())
-                    .setPresentations(mapPresentations(testForm.getPoolproperty()))
-                    .setItemGroups(mapItemGroups(formPartition.getItemgroup(), itemPool, bluePrintIdsToNames))
+                    .setPresentations(Arrays.asList(presentation))
+                    .setItemGroups(mapItemGroups(formPartition.getItemgroup(), itemPool, bluePrintIdsToNames, presentation))
                     .build());
         }
         return segmentForms;
     }
 
     private static List<ItemGroup> mapItemGroups(final List<Itemgroup> itemGroups, final Itempool itemPool,
-                                                 final Map<String, String> bluePrintIdsToNames) {
+                                                 final Map<String, String> bluePrintIdsToNames, final Presentation presentation) {
         return itemGroups.stream()
                 .filter(itemgroup -> !itemGroupContainsNonExistentItem(itemgroup, itemPool))
                 .map(ig ->
@@ -205,7 +209,7 @@ public class TestPackageMapper {
                                 .setMaxItems(Optional.of(ig.getMaxitems()))
                                 .setMaxResponses(Optional.of(ig.getMaxresponses()))
                                 .setStimulus(mapStimuli(ig.getPassageref()))
-                                .setItems(mapItems(ig.getGroupitem(), itemPool, bluePrintIdsToNames))
+                                .setItems(mapItems(ig.getGroupitem(), itemPool, bluePrintIdsToNames, presentation))
                                 .build())
                 .collect(Collectors.toList());
     }
@@ -219,7 +223,7 @@ public class TestPackageMapper {
     }
 
     private static List<Item> mapItems(final List<Groupitem> groupItems, final Itempool itemPool,
-                                       final Map<String, String> bluePrintIdsToNames) {
+                                       final Map<String, String> bluePrintIdsToNames, final Presentation presentation) {
         Set<String> groupItemIds = groupItems.stream().map(Groupitem::getItemid).collect(Collectors.toSet());
         Map<String, Testitem> testItemMap = itemPool.getTestitem().stream()
                 .filter(testItem -> groupItemIds.contains(testItem.getIdentifier().getUniqueid()))
@@ -241,7 +245,7 @@ public class TestPackageMapper {
                         .setActive(Optional.ofNullable(gi.getIsactive()))
                         .setResponseRequired(Optional.ofNullable(gi.getResponserequired()))
                         .setType(testItemMap.get(gi.getItemid()).getItemtype())
-                        .setPresentations(mapPresentations(testItemMap.get(gi.getItemid()).getPoolproperty()))
+                        .setPresentations((presentation != null) ? Arrays.asList(presentation) : mapPresentations(testItemMap.get(gi.getItemid()).getPoolproperty()))
                         .setItemScoreDimension(mapItemScoreDimensions(testItemMap.get(gi.getItemid()).getItemscoredimension().get(0)))
                         .setBlueprintReferences(mapBlueprintReferences(testItemMap.get(gi.getItemid()).getBpref(), bluePrintIdsToNames))
                         .build())
