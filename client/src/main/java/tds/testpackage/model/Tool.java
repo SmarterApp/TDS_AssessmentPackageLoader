@@ -73,7 +73,6 @@ public abstract class Tool {
             .put("Dictionary",
                     Tool.builder().setName("Dictionary")
                             .setStudentPackageFieldName("TDSAcc-Dictionary")
-                            .setDependsOnToolType("Language")
                             .build())
             .put("Emboss",
                     Tool.builder().setName("Emboss")
