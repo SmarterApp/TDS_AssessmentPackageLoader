@@ -58,8 +58,7 @@ public class ARTTestPackageServiceImpl implements ARTTestPackageService {
                         .fromHttpUrl(String.format("%s/tsbassessment",
                                 properties.getArtRestUrl().get()));
 
-        // The 'assessmentKey' in our request should be the shorter ID, not the real full Key.
-        testPackage.getAssessments().forEach(assessment -> builder.queryParam("assessmentKey", assessment.getId()));
+        testPackage.getAssessments().forEach(assessment -> builder.queryParam("assessmentKey", assessment.getKey()));
 
         restTemplate.delete(builder.build().toUri());
     }
