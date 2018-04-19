@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +43,7 @@ import java.util.Optional;
  */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_BlueprintElement.Builder.class)
+@XmlType(propOrder={"scoring", "blueprintElements"})
 public abstract class BlueprintElement {
     @XmlAttribute
     public abstract String getId();

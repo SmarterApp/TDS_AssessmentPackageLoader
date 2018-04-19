@@ -32,8 +32,8 @@ public abstract class Rule {
     @Nullable
     protected abstract List<Parameter> getParameters();
 
-    @XmlElement(name="Parameter", type=Parameter.class)
     @JsonProperty(value = "parameters")
+    @XmlElement(name="Parameter", type=Parameter.class)
     public List<Parameter> parameters() {
         return Optional.ofNullable(getParameters()).orElse(new ArrayList<>());
     }
