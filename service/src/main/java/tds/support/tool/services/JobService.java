@@ -1,5 +1,6 @@
 package tds.support.tool.services;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import tds.support.job.Job;
 import tds.support.job.JobType;
 
@@ -20,6 +21,8 @@ public interface JobService {
      * @param skipScoring     {@code true} if scoring is to be skipped in the upload
      * @return the {@link tds.support.job.Job} created
      */
+
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
     Job startPackageImport(final String packageName, final InputStream testPackage, long testPackageSize,
                            final boolean skipArt, final boolean skipScoring);
 
@@ -29,8 +32,11 @@ public interface JobService {
      * @param jobTypes The type of jobs to fetch
      * @return A collection of all jobs matching
      */
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
     List<Job> findJobs(final JobType... jobTypes);
 
+
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
     void executeJobSteps(String jobId);
 
     /**
@@ -39,5 +45,7 @@ public interface JobService {
      *
      * @param testPackageName The name of the {@link tds.testpackage.model.TestPackage}.
      */
+
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
     void startPackageDelete(final String testPackageName);
 }

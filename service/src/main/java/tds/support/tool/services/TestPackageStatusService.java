@@ -2,6 +2,7 @@ package tds.support.tool.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import tds.support.job.Job;
 import tds.support.job.TestPackageStatus;
 
@@ -16,6 +17,7 @@ public interface TestPackageStatusService {
      * @param job The {@link tds.support.job.Job} that is loading the test package
      * @return The {@link tds.support.job.TestPackageStatus} that was created
      */
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
     TestPackageStatus save(final Job job);
 
     /**
@@ -25,6 +27,7 @@ public interface TestPackageStatusService {
      *                 request
      * @return A {@link org.springframework.data.domain.Page} of {@link tds.support.job.TestPackageStatus} records
      */
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
     Page<TestPackageStatus> getAll(final Pageable pageable);
 
     /**
@@ -36,6 +39,7 @@ public interface TestPackageStatusService {
      * @return A {@link org.springframework.data.domain.Page} of {@link tds.support.job.TestPackageStatus}es that have a
      * name like the provided test package name fragment.
      */
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
     Page<TestPackageStatus> searchByName(final String testPackageNameFragment, final Pageable pageable);
 
     /**
@@ -44,5 +48,6 @@ public interface TestPackageStatusService {
      *
      * @param testPackageName The name of the {@link tds.testpackage.model.TestPackage} to delete
      */
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
     void delete(final String testPackageName);
 }

@@ -28,6 +28,7 @@ public class SupportToolProperties {
     private String progmanUrl;
     private String progmanTenant;
     private String progmanTenantLevel;
+    private String permissionsUrl;
     private String SsoUrl;
     private String SsoUsername;
     private String SsoPassword;
@@ -191,5 +192,13 @@ public class SupportToolProperties {
         } else {
             return url;
         }
+    }
+
+    public String getPermissionsUrl() {
+        return permissionsUrl;
+    }
+
+    public void setPermissionsUrl(final String permissionsUrl) {
+        this.permissionsUrl = permissionsUrl;
     }
 }

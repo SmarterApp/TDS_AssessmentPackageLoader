@@ -18,6 +18,15 @@ data:
     bucket-name: tds-resources
     test-package-prefix: support-content/dev/test-packages
 
+#SAML
+saml:
+  key-store-file: ${tds.java.keystore.file}
+  key-store-password: ${tds.java.keystore.password}
+  private-key-entry-alias: ${tds.java.private.key.alias}
+  private-key-entry-password: ${tds.java.private.key.password}
+  idp-metadata-url: ${tds.idp.metadata.url}
+  sp-entity-id: ${tds.sp.entityid}
+
 # URLs for dependent services
 support-tool:
   art-rest-url: http://localhost:8080/rest
@@ -25,6 +34,7 @@ support-tool:
   content-url:  http://localhost:32848
   thss-api-url: http://localhost:28039/api
   tis-api-url: http://localhost:53708/api
+  permissions-url: http:localhost:1234/rest
 
   progman-tenant-level: STATE
   progman-tenant: CA
@@ -35,3 +45,5 @@ support-tool:
   sso-password: ${support-tool.sso-password}
   sso-url: https://sso-deployment.sbtds.org/auth/oauth2/access_token?realm=/sbac
   sso-username: ${support-tool.sso-username}
+
+
