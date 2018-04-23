@@ -17,7 +17,6 @@ public interface TestPackageStatusService {
      * @param job The {@link tds.support.job.Job} that is loading the test package
      * @return The {@link tds.support.job.TestPackageStatus} that was created
      */
-    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
     TestPackageStatus save(final Job job);
 
     /**

@@ -22,7 +22,7 @@ public class JobStepExecutionMessageListener {
         try {
             jobService.executeJobSteps(jobId);
         } catch (Exception e) {
-            log.error("An exception occurred while processing the job execution message for job ID {}", jobId);
+            log.error("An exception occurred while processing the job execution message for job ID {}", jobId, e);
         }
     }
 }
