@@ -19,6 +19,10 @@ public class JobStepExecutionMessageListener {
 
     public void handleMessage(final String jobId) {
         log.debug("Processing message for jobId: " + jobId);
-        jobService.executeJobSteps(jobId);
+        try {
+            jobService.executeJobSteps(jobId);
+        } catch (Exception e) {
+            log.error("An exception occurred while processing the job execution message for job ID {}", jobId);
+        }
     }
 }

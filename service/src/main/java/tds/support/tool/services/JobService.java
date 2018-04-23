@@ -35,9 +35,12 @@ public interface JobService {
     @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
     List<Job> findJobs(final JobType... jobTypes);
 
-
-    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
-    void executeJobSteps(String jobId);
+    /**
+     * Executes a job step for the specified job ID
+     *
+     * @param jobId The id of the job to execute
+     */
+    void executeJobSteps(final String jobId);
 
     /**
      * Create a {@link tds.support.job.TestPackageDeleteJob} that will remove the
@@ -45,7 +48,6 @@ public interface JobService {
      *
      * @param testPackageName The name of the {@link tds.testpackage.model.TestPackage}.
      */
-
     @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
     void startPackageDelete(final String testPackageName);
 }
