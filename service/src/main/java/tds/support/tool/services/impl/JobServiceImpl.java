@@ -82,7 +82,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    @Async
+//    @Async
     public void executeJobSteps(final String jobId) {
         final Job job = jobRepository.findOne(jobId);
 
