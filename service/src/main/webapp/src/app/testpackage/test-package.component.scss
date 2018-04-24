@@ -47,6 +47,15 @@ p-datatable {
   font-family: "PT Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+ngx-datatable {
+  font-family: "PT Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+datatable-body-row.failed {
+  color: #900;
+  background-color: #fee;
+}
+
 .test-package-jobs-list-container {
   .ui-datatable-odd td,
   .ui-datatable-even td{

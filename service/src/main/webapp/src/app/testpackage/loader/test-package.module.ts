@@ -5,6 +5,7 @@ import { TestPackageJobsComponent } from "./jobs/test-package-jobs.component";
 import { TestPackageJobDetailsComponent } from "./jobs/test-package-job-details.component";
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
+import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { DataTableModule } from "primeng/primeng";
 import { UploadLoaderJobModule } from "./jobs/upload/upload-loader-job.module";
 
@@ -18,6 +19,7 @@ import { UploadLoaderJobModule } from "./jobs/upload/upload-loader-job.module";
     TestPackageJobsModule,
     BrowserModule,
     DataTableModule,
+    NgxDatatableModule,
     FormsModule,
     UploadLoaderJobModule
   ],
