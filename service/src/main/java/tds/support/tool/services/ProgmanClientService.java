@@ -8,6 +8,5 @@ public interface ProgmanClientService {
      *
      * @return The application's configured tenant ID.
      */
-    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
     String getTenantId();
 }
