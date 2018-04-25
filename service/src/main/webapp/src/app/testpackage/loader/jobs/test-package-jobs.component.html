@@ -15,7 +15,7 @@
     <ngx-datatable
       class="table table-striped table-hover overflow"
       [rows]="filteredTestPackageJobs"
-      [rowClass]="getRowCss"
+      [rowClass]="rowClass"
       [columnMode]="'force'"
       [columns]="columns"
       [headerHeight]="50"
@@ -23,16 +23,15 @@
       [rowHeight]="'auto'"
       [limit]="10"
       [selectionType]="'single'"
+      [reorderable]="false"
       [selected]="selected"
       (select)="onRowSelect($event)"
       [sorts]="[
-        {prop: 'createdAt', dir: 'desc'},
-        {prop: 'testPackageName', dir: 'asc'},
-        {prop: 'shortId', dir: 'asc'}
+        {prop: 'createdAt', dir: 'desc'}
       ]"
       [messages]="{
         emptyMessage:'No Test Package load jobs found.',
-        totalMessage:'total jobs.'
+        totalMessage:'total jobs'
         }"
     >
     </ngx-datatable>
