@@ -1,4 +1,7 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation} from "@angular/core";
+import {
+  Component, EventEmitter, Input, OnDestroy, OnInit, Output, TemplateRef, ViewChild,
+  ViewEncapsulation
+} from "@angular/core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {TestPackageJobService} from "./test-package-jobs.service";
 import {TestPackageJob, StepStatus} from "./model/test-package-job.model";
@@ -12,15 +15,21 @@ import 'rxjs/add/operator/takeWhile';
   encapsulation: ViewEncapsulation.None
 })
 export class TestPackageJobsComponent implements OnInit, OnDestroy {
+
+  @ViewChild('dateTmpl') dateTmpl: TemplateRef<any>;
+  @ViewChild('validateTmpl') validateTmpl: TemplateRef<any>;
+  @ViewChild('systemTmpl') systemTmpl: TemplateRef<any>;
+
   // query: LoaderJobsQuery;
   StepStatuses = StepStatus; // Need to include the enum as a property to access it in template
   searchTerm: string = '';
-  @Input()
   selectedJob: TestPackageJob;
   private alive: boolean; // used to unsubscribe from the TimerObservable when OnDestroy is called.
   @Output() selectedTestPackageJobChange: EventEmitter<TestPackageJob> = new EventEmitter<TestPackageJob>();
   filteredTestPackageJobs: TestPackageJob[];
   private _testPackageJobs: TestPackageJob[];
+  selected = [];
+  columns = [];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -38,6 +47,17 @@ export class TestPackageJobsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.columns = [
+        {prop: 'shortId', name: 'Job ID', width: 50},
+        {prop: 'testPackageName', name: 'Test Package Name', width : 340 },
+        {prop: 'createdAt', name: 'Date Created', cellTemplate: this.dateTmpl, width: 130},
+        {prop: 'type', name: 'Job Type', width: 50},
+        {prop: 'validationStepStatus', name: 'Validation', headerClass: "text-align-center", cellTemplate: this.validateTmpl, width: 30},
+        {prop: 'tdsStepStatus', name: 'TDS', headerClass: "text-align-center", cellTemplate: this.systemTmpl, width: 20},
+        {prop: 'artStepStatus', name: 'ART', headerClass: "text-align-center", cellTemplate: this.systemTmpl, width: 20},
+        {prop: 'tisStepStatus', name: 'TIS', headerClass: "text-align-center", cellTemplate: this.systemTmpl, width: 20},
+        {prop: 'thssStepStatus', name: 'THSS', headerClass: "text-align-center", cellTemplate: this.systemTmpl, width: 20},
+    ];
     TimerObservable.create(0, 5000)
       .takeWhile(() => this.alive)
       .subscribe(() => {
@@ -69,20 +89,24 @@ export class TestPackageJobsComponent implements OnInit, OnDestroy {
   }
 
   onRowSelect(event) {
-    this.selectedJob = event.data;
+    this.selectedJob = event['selected'][0];
     this.selectedTestPackageJobChange.emit(this.selectedJob);
   }
 
-  getRowCss(rowData: TestPackageJob) {
+  rowClass = (rowData: TestPackageJob) => {
+    if ( this.selectedJob && this.selectedJob.id === rowData.id) {
+      return 'active';
+    }
+
     return rowData.type == 'LOAD'
       && (rowData.validationStepStatus === 'FAIL'
-        || rowData.tdsStepStatus === 'FAIL'
-        || rowData.artStepStatus === 'FAIL'
-        || rowData.tisStepStatus === 'FAIL'
-        || rowData.thssStepStatus === 'FAIL')
+      || rowData.tdsStepStatus === 'FAIL'
+      || rowData.artStepStatus === 'FAIL'
+      || rowData.tisStepStatus === 'FAIL'
+      || rowData.thssStepStatus === 'FAIL')
       ? 'failed'
-      : ''
-  }
+      : '';
+  };
 
   uploadClick() {
     this.router.navigateByUrl('/loader/upload');

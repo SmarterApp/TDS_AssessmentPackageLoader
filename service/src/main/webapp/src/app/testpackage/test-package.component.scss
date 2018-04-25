@@ -47,6 +47,132 @@ p-datatable {
   font-family: "PT Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+ngx-datatable {
+  font-family: "PT Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  .datatable-header {
+    font-weight: bold;
+    padding: 5px 0 5px 8px;
+    background-color: #E6E6E6;
+    height: 40px !important;
+    border: 1px #DDD solid;
+    border-bottom: 2px #CCC solid;
+
+    .datatable-icon-down {
+      position:relative;
+      &:before {
+        content: "\f0d7";
+        font: normal 20px FontAwesome;
+        font-size: inherit;
+        -webkit-font-smoothing: antialiased;
+      }
+    }
+
+    .datatable-icon-up {
+      position:relative;
+      &:before {
+        content: "\f0d8";
+        font: normal 20px FontAwesome;
+        font-size: inherit;
+        -webkit-font-smoothing: antialiased;
+        position: absolute;
+        top: -10px;
+      }
+    }
+  }
+
+  .datatable-body-row {
+    border-bottom: 1px #DDD solid;
+    border-left: 1px #DDD solid;
+    border-right: 1px #DDD solid;
+    cursor: pointer;
+    padding-left: 5px;
+
+    &.active {
+      background-color: #3794e3 !important;
+      color: #FFFFFF !important;
+
+      i {
+        color: #FFF !important;
+      }
+    }
+  }
+
+  .datatable-footer {
+    .datatable-pager {
+      text-align: center !important;
+
+      .pages a {
+        color: #3696e6;
+        font-size: 20px;
+        border: none;
+      }
+
+      .pages.active a {
+        font-weight: bold;
+      }
+
+      a {
+        border: none;
+        padding: 2px;
+
+        &:hover {
+          background: transparent;
+          color: #176fb9;
+          text-decoration: underline;
+        }
+      }
+
+      li.disabled a i {
+        color: transparent;
+      }
+
+      .datatable-icon-left,
+      .datatable-icon-prev,
+      .datatable-icon-skip,
+      .datatable-icon-right {
+        position:relative;
+        color: #3696e6;
+        font-size: 20px;
+      }
+      .datatable-icon-left:before {
+        content: "\f04a";
+        font: normal 20px FontAwesome;
+        font-size: inherit;
+        -webkit-font-smoothing: antialiased;
+      }
+      .datatable-icon-right:before {
+        content: "\f04e";
+        font: normal 20px FontAwesome;
+        font-size: inherit;
+        -webkit-font-smoothing: antialiased;
+      }
+      .datatable-icon-prev:before {
+        content: "\f048";
+        font: normal 20px FontAwesome;
+        font-size: inherit;
+        -webkit-font-smoothing: antialiased;
+      }
+      .datatable-icon-skip:before {
+        content: "\f051";
+        font: normal 20px FontAwesome;
+        font-size: inherit;
+        -webkit-font-smoothing: antialiased;
+      }
+    }
+
+    .page-count {
+      position: absolute;
+      right: 10px;
+    }
+  }
+}
+
+datatable-body-row.failed {
+  color: #900;
+  background-color: #fee;
+}
+
 .test-package-jobs-list-container {
   .ui-datatable-odd td,
   .ui-datatable-even td{
@@ -79,4 +205,3 @@ p-datatable {
   from {transform:rotate(0deg);}
   to {transform:rotate(360deg);}
 }
-
