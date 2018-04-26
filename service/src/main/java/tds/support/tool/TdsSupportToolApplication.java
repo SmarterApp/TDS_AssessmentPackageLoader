@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @SpringBootApplication
 @Controller
 public class TdsSupportToolApplication {
-    @GetMapping(value = "/{path:[^\\.]*}")
+    @GetMapping(value = "/**/{path:[^\\.]*}")
     public String redirect() {
         return "forward:/";
     }
