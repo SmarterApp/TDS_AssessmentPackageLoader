@@ -1,0 +1,173 @@
+/* Support Tool Style Overrides  */
+@library-path: "../node_modules";
+@import "@{library-path}/bootstrap/less/bootstrap.less";
+@import "@{library-path}/font-awesome/less/font-awesome.less";
+@import "@{library-path}/sbac-ui-kit/src/less/sbac-ui-kit.less";
+
+
+body {
+  header {
+    background-color: transparent;
+    .box-shadow(none);
+    .well {
+      .border-top-radius(0px);
+    }
+  }
+
+  .breadcrumb {
+    .small;
+    border-width: 1px 0px;
+    border-style: solid;
+    border-color: @gray-light;
+    padding-right: 0px;
+    padding-left: @grid-gutter-width / 2;
+    background-color: @gray-lighter;
+    border-radius: @border-radius-base;
+    .box-shadow(0 6px 6px -6px rgba(0, 0, 0, .16) inset, 0 1px 1px 1px rgba(255, 255, 255, .95););
+    > .active {
+      color: @gray-darkest;
+    }
+  }
+
+  footer {
+    background-color: transparent;
+    padding: 0px;
+    border-top: none;
+    color: @gray-dark;
+    .box-shadow(none);
+  }
+
+  .test-package-jobs-container {
+    & > h3 {
+      margin-bottom: 5px;
+    }
+
+    .test-package-jobs-details {
+      height: 340px;
+
+      .date-label {
+        float: right;
+      }
+
+      .test-package-details-success {
+        text-align: center;
+        margin-top: 100px;
+
+        h3 {
+          color: #267738;
+          margin: 40px;
+        }
+        i {
+          margin-right: 5px;
+        }
+      }
+
+      .test-package-details-failure {
+        margin-top: 5px;
+
+        span {
+          color: #2a2b2d;
+        }
+      }
+
+      .test-package-none-selected {
+        text-align: center;
+        margin-top: 120px;
+
+        h3 {
+          color: @gray-dark;
+        }
+      }
+
+      .ui-datatable-tablewrapper {
+        margin-top: 10px;
+      }
+    }
+
+    .ui-datatable {
+      td {
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
+
+        span.error {
+          color: #e7124a;
+        }
+        span.warn {
+          color: yellow;
+        }
+      }
+
+      .ui-datatable-scrollable-body {
+        overflow: auto;
+        overflow-anchor: none;
+      }
+    }
+  }
+
+  .test-package-jobs-search-container {
+    padding: 0px;
+
+    p-datatable {
+      font-size: 14px;
+    }
+
+    .form-group {
+      margin: 0px;
+    }
+    .flex-children {
+      margin: 0px;
+    }
+
+    .test-package-jobs-search-form-container {
+      border: 1px solid @gray-lighter;
+      border-radius: 5px 5px 0 0;
+    }
+
+    .ui-datatable-emptymessage {
+      height: 240px;
+    }
+
+    .ui-paginator-bottom {
+      background-color: #E6E6E6;
+      text-align: center;
+
+      a {
+        margin: 0px 5px;
+
+        .fa {
+          color: #797979;
+        }
+      }
+    }
+
+    .ui-state-highlight > td {
+      background-color: #3696E6;
+      color: #FFFFFF;
+
+      .ui-cell-data i {
+        color: #FFFFFF;
+      }
+    }
+
+    .ui-widget-content > td {
+      cursor: pointer;
+    }
+
+    .ui-cell-data i {
+      margin-left: 10px;
+
+      &.fa-check-circle {
+        color: #267738;
+      }
+      &.fa-exclamation-circle {
+        color: #e7124a;
+      }
+      &.fa-minus {
+        color: #999999;
+      }
+      &.fa-hourglass {
+        color: #999999;
+      }
+    }
+  }
+}
