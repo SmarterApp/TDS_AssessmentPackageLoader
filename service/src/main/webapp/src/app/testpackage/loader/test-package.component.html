@@ -1,0 +1,18 @@
+<div class ="test-package-jobs-container">
+  <h3 class="blue mb-md">Test Package Loader Jobs</h3>
+
+  <div class="well">
+    <!-- Test Package Jobs Search -->
+    <div>
+      <div class="well">
+        <test-package-jobs (selectedTestPackageJobChange)="selectedTestPackageJobChange($event)"></test-package-jobs>
+      </div>
+    </div>
+
+    <div>
+      <div class="test-package-jobs-details well gray-lightest">
+        <test-package-job-details [selectedJob]=selectedJob></test-package-job-details>
+      </div>
+    </div>
+  </div>
+</div>

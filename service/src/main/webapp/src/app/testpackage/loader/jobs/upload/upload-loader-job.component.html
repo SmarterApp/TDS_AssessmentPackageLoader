@@ -1,0 +1,85 @@
+<h3 class="blue mb-md">Test Package Upload</h3>
+<div class="well">
+  <div class="alert alert-warning">
+    <strong class="mr-xs">WARNING</strong> Test packages in the uploaded file will replace existing test packages if they have the same Test Package ID and publisher.
+    <p>All other test packages will not be deleted or changed.</p>
+  </div>
+  <form class="loader-job-upload-form">
+    <div ng2FileDrop
+         *ngIf="!uploader.isUploading && !isReadOnly"
+         class="well my-drop-zone point"
+         [class.nv-file-over]="hasDropZoneOver"
+         [uploader]="uploader"
+         (fileOver)="fileOverBase($event)"
+         (click)="openFileDialog()">
+      <div class="center-center pt-sm">
+        <span class="gray-dark"><i class="fa fa-cloud-upload"></i> Drag and drop to upload or&nbsp;</span>
+        <span class="aqua">browse for files</span>
+      </div>
+    </div>
+    <div *ngIf="uploader.isUploading"
+         class="well my-drop-zone nv-file-over">
+      <div class="center-center pt-sm"><span class="gray-dark">Files are currently being uploaded</span></div>
+    </div>
+    <div hidden>
+      <input #fileDialog type="file" ng2FileSelect [uploader]="uploader" multiple accept="application/xml"/>
+    </div>
+    <!--<div hidden *ngIf="isMultiple === false">-->
+      <!--<input #fileDialog type="file" ng2FileSelect [uploader]="uploader"/>-->
+    <!--</div>-->
+
+    <div class="mt-md mb-md">
+      <div *ngIf="uploader.isUploading" class="progress">
+        <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': uploader.progress + '%' }"></div>
+      </div>
+    </div>
+
+    <h4>Pending Test Package Loader Jobs</h4>
+    <div class="pending-loader-jobs-container">
+      <table class="table">
+        <thead>
+        <tr>
+          <th width="90%">Name</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="uploader.queue.length === 0" class="empty-loader-queue">
+          <td>Upload test packages to load by drag-and-dropping them into the dotted area above</td>
+          <td></td>
+        </tr>
+        <tr *ngFor="let item of uploader.queue">
+          <td>{{ item?.file?.name }}</td>
+          <td nowrap>
+            <button type="button" class="btn btn-danger btn-xs"
+                    (click)="item.remove()">
+              <span class="glyphicon glyphicon-trash"></span> Remove
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="loader-job-options">
+      <fieldset>
+        <span class="help-block">Advanced Options</span>
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" [checked]="skipArt" (change)="skipArt = !skipArt" />
+            Skip loading test package into Administration and Registration Tools
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" [checked]="skipScoring" (change)="skipScoring = !skipScoring" />
+            Skip loading test package into Test Integration System & Teacher Hand Scoring System
+          </label>
+        </div>
+      </fieldset>
+      <div class="button-group">
+        <button type="button" class="cancel-button btn" (click)="onCancel()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="uploader.queue.length === 0">
+          <i class="fa fa-upload"></i>&nbsp;Create Upload Jobs
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

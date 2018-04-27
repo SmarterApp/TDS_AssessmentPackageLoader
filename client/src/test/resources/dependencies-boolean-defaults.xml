@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Dependencies>
+    <Dependency ifToolType="ifToolType0" ifToolCode="ifToolCode0" enabled="false"/>
+    <Dependency ifToolType="ifToolType1" ifToolCode="ifToolCode1"/>
+    <Dependency ifToolType="ifToolType2" ifToolCode="ifToolCode2" default="true"/>
+    <Dependency ifToolType="ifToolType3" ifToolCode="ifToolCode3" enabled="0"/>
+    <Dependency ifToolType="ifToolType4" ifToolCode="ifToolCode4" enabled="1"/>
+    <Dependency ifToolType="ifToolType5" ifToolCode="ifToolCode5" default="1"/>
+    <Dependency ifToolType="ifToolType6" ifToolCode="ifToolCode6" default="0"/>
+</Dependencies>
