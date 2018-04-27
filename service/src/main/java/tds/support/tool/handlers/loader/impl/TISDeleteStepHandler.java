@@ -15,6 +15,7 @@ import tds.support.tool.repositories.MongoTestPackageRepository;
 import tds.support.tool.repositories.loader.TestPackageMetadataRepository;
 import tds.support.tool.services.TISTestPackageService;
 import tds.testpackage.model.TestPackage;
+import tds.testpackage.model.TestPackageDeserializer;
 
 @Component
 public class TISDeleteStepHandler implements TestPackageHandler {
@@ -42,6 +43,7 @@ public class TISDeleteStepHandler implements TestPackageHandler {
             final Job loaderJob = jobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(job.getName(), JobType.LOAD);
             final TestPackageMetadata metadata = testPackageMetadataRepository.findByJobId(loaderJob.getId());
             final TestPackage testPackage = mongoTestPackageRepository.findOne(metadata.getTestPackageId());
+            TestPackageDeserializer.setTestPackageParent(testPackage);
             tisTestPackageService.deleteTestPackage(testPackage);
             step.setStatus(Status.SUCCESS);
         } catch (Exception e) {

@@ -11,6 +11,7 @@ import tds.support.tool.repositories.MongoTestPackageRepository;
 import tds.support.tool.repositories.loader.TestPackageMetadataRepository;
 import tds.support.tool.services.ARTTestPackageService;
 import tds.testpackage.model.TestPackage;
+import tds.testpackage.model.TestPackageDeserializer;
 
 @Component
 public class ARTDeleteStepHandler implements TestPackageHandler {
@@ -36,6 +37,7 @@ public class ARTDeleteStepHandler implements TestPackageHandler {
             Job loaderJob = jobRepository.findOneByNameAndTypeOrderByCreatedAtDesc(job.getName(), JobType.LOAD);
             TestPackageMetadata metadata = testPackageMetadataRepository.findByJobId(loaderJob.getId());
             TestPackage testPackage = mongoTestPackageRepository.findOne(metadata.getTestPackageId());
+            TestPackageDeserializer.setTestPackageParent(testPackage);
             artTestPackageService.deleteTestPackage(testPackage);
             step.setStatus(Status.SUCCESS);
         } catch (Exception e) {
