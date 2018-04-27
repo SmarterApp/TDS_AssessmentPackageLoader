@@ -47,6 +47,5 @@ public interface TestPackageStatusService {
      *
      * @param testPackageName The name of the {@link tds.testpackage.model.TestPackage} to delete
      */
-    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
     void delete(final String testPackageName);
 }
