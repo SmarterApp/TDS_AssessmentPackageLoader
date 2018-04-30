@@ -203,7 +203,6 @@ public abstract class Tool {
             .put("Thesaurus",
                     Tool.builder().setName("Thesaurus")
                             .setStudentPackageFieldName("TDSAcc-Thesaurus")
-                            .setDependsOnToolType("Language")
                             .build())
             .put("TTS",
                     Tool.builder().setName("TTS")
