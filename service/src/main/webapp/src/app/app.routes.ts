@@ -20,7 +20,7 @@ export const routes: Routes = [
     pathMatch: 'prefix',
     data: {
       breadcrumb: {
-        label: "Load Test Package Jobs"
+        label: "Test Package Jobs"
       }
     },
     children: [
@@ -39,7 +39,7 @@ export const routes: Routes = [
         pathMatch: 'prefix',
         data: {
           breadcrumb: {
-            label: "Create Test Package Loader Jobs"
+            label: "Test Package Upload"
           }
         },
         children: [
