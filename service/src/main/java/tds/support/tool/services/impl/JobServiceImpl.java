@@ -109,10 +109,10 @@ public class JobServiceImpl implements JobService {
                             jobRepository.save(job);
                             throw new RuntimeException("Error: The test package failed validation. Aborting test package load.");
                         } else if (step.getName().equals(TestPackageLoadJob.TDS_UPLOAD) && step.getStatus() == Status.FAIL) {
+                            // If TDS failed, then we did not actually load the job into any system
+                            testPackageStatusService.delete(job.getName());
                             throw new RuntimeException("Error: Unable to load the test package into TDS - Aborting other load steps.");
-                        }
-
-                        if (job.getType().equals(JobType.LOAD)) {
+                        } else if (job.getType().equals(JobType.LOAD)) { // No errors, save the status
                             testPackageStatusService.save(job);
                         }
 
@@ -127,8 +127,8 @@ public class JobServiceImpl implements JobService {
             createRollbackJobFromFailedJob((TestPackageLoadJob) job);
         }
 
-        // Delete the test package's status record if this is a DELETE or ROLLBACK job
-        if (job.getType().equals(JobType.DELETE) || job.getType().equals(JobType.ROLLBACK)) {
+        // Delete the test package's status record if this is a DELETE or ROLLBACK job - and the job was successful
+        if ((job.getType().equals(JobType.DELETE) || job.getType().equals(JobType.ROLLBACK)) && !hasJobStepFailure(job)) {
             testPackageStatusService.delete(job.getName());
         }
     }

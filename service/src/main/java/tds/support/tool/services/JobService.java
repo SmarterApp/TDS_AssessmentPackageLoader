@@ -48,6 +48,5 @@ public interface JobService {
      *
      * @param testPackageName The name of the {@link tds.testpackage.model.TestPackage}.
      */
-    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
     void startPackageDelete(final String testPackageName);
 }

@@ -1,6 +1,7 @@
 package tds.support.tool.services.impl;
 
 import com.google.common.collect.ImmutableMap;
+import nu.xom.jaxen.util.SingletonList;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -257,6 +258,24 @@ public class JobServiceImplTest {
         jobService.executeJobSteps(deleteJob.getId());
         verify(mockTestPackageStatusService, times(0)).save(deleteJob);
         verify(mockTestPackageStatusService, times(1)).delete(deleteJob.getName());
+    }
+
+    @Test
+    public void shouldNotDeleteTestPackageStatusRecordWhenJobIsADeleteJobAndFails() {
+        final Job deleteJob = new TestPackageDeleteJob("TestPackageName",
+                false,
+                false);
+        deleteJob.setId("deleteId");
+        Step failedStep = new Step("test", TargetSystem.TDS, "step");
+        failedStep.setStatus(Status.FAIL);
+        deleteJob.setSteps(Collections.singletonList(failedStep));
+
+        when(mockJobRepository.findOne(deleteJob.getId())).thenReturn(deleteJob);
+        when(mockJobRepository.save(isA(Job.class))).thenReturn(deleteJob);
+
+        jobService.executeJobSteps(deleteJob.getId());
+        verify(mockTestPackageStatusService, times(0)).save(deleteJob);
+        verify(mockTestPackageStatusService, times(0)).delete(deleteJob.getName());
     }
 
     @Test
