@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import tds.support.job.Job;
-import tds.support.job.TargetSystem;
-import tds.support.job.TestPackageStatus;
-import tds.support.job.TestPackageTargetSystemStatus;
+import tds.support.job.*;
 import tds.support.tool.repositories.loader.TestPackageStatusRepository;
 import tds.support.tool.services.TestPackageStatusService;
 
@@ -35,10 +32,15 @@ public class TestPackageStatusServiceImpl implements TestPackageStatusService {
 
     @Override
     public TestPackageStatus save(final Job job) {
-        final List<TestPackageTargetSystemStatus> targetSystems = job.getSteps().stream()
-                .filter(step -> TEST_PACKAGE_TARGET_SYSTEMS.contains(step.getJobStepTarget()))
-                .map(step -> new TestPackageTargetSystemStatus(step.getJobStepTarget(), step.getStatus()))
-                .collect(Collectors.toList());
+        final List<TestPackageTargetSystemStatus> targetSystems = job.getType() == JobType.LOAD
+                ? job.getSteps().stream()
+                    .filter(step -> TEST_PACKAGE_TARGET_SYSTEMS.contains(step.getJobStepTarget()))
+                    .map(step -> new TestPackageTargetSystemStatus(step.getJobStepTarget(), step.getStatus()))
+                    .collect(Collectors.toList())
+                : job.getSteps().stream() // If this is a delete/rollback job, remove successfully deleted systems
+                    .filter(step -> TEST_PACKAGE_TARGET_SYSTEMS.contains(step.getJobStepTarget()) && step.getStatus() != Status.SUCCESS)
+                    .map(step -> new TestPackageTargetSystemStatus(step.getJobStepTarget(), step.getStatus()))
+                    .collect(Collectors.toList());
 
         final TestPackageStatus testPackageStatus = new TestPackageStatus(job.getName(),
                 LocalDateTime.now(),

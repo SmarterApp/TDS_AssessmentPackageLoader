@@ -112,7 +112,7 @@ public class JobServiceImpl implements JobService {
                             // If TDS failed, then we did not actually load the job into any system
                             testPackageStatusService.delete(job.getName());
                             throw new RuntimeException("Error: Unable to load the test package into TDS - Aborting other load steps.");
-                        } else if (job.getType().equals(JobType.LOAD)) { // No errors, save the status
+                        } else { // No errors, save the status
                             testPackageStatusService.save(job);
                         }
 
