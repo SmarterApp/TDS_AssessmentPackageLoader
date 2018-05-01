@@ -58,7 +58,6 @@ public abstract class Tool {
             .put("Calculator",
                     Tool.builder().setName("Calculator")
                             .setStudentPackageFieldName("TDSAcc-Calculator")
-                            .setDependsOnToolType("Language")
                             .build())
             .put("Closed Captioning",
                     Tool.builder().setName("Closed Captioning")
