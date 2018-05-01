@@ -195,12 +195,13 @@ public class ToolsValidator implements TestPackageValidator {
                 .flatMap(tool -> tool.options().stream()
                         .filter(option -> !RECOGNIZED_TOOL_OPTIONS.contains(option.getCode())))
                 .forEach(option -> errors.add(new ValidationError(ErrorSeverity.WARN,
-                        String.format("An tool with an unrecognized ISAAP code was detected: %s", option.getCode()))));
+                        String.format("A tool with an unrecognized ISAAP code was detected: %s", option.getCode()))));
     }
 
     private void validateToolARTFieldNamesAreRecognized(final List<ValidationError> errors, final List<Tool> toolTypes) {
         // Validate that the student package field name matches what we expect (if one is defined)
         toolTypes.stream()
+                .filter(tool -> tool.getStudentPackageFieldName().isPresent())
                 .filter(tool -> TOOL_DEFAULTS_MAP.containsKey(tool.getName())
                         && !TOOL_DEFAULTS_MAP.get(tool.getName()).getStudentPackageFieldName().equals(tool.getStudentPackageFieldName()))
                 .forEach(tool -> errors.add(new ValidationError(ErrorSeverity.WARN,
