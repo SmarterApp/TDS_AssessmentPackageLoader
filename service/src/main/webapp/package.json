@@ -24,16 +24,19 @@
     "@angular/platform-server": "^5.0.0-rc.9",
     "@angular/router": "^5.0.0-rc.9",
     "@sbac/sbac-ui-kit": "0.0.21",
+    "@swimlane/ngx-datatable": "^11.3.2",
     "core-js": "^2.4.1",
     "handlebars": "^4.0.11",
+    "hoek": "^5.0.3",
     "lodash": "^4.17.4",
     "ng2-accordion": "0.0.15",
     "ng2-file-upload": "^1.2.1",
+    "ngx-bootstrap": "^2.0.3",
     "primeng": "^5.0.0",
     "rxjs": "^5.4.2",
     "sbac-ui-kit": "git+https://github.com/SmarterApp/SBAC-Global-UI-Kit.git#v0.0.12",
-    "zone.js": "^0.8.14",
-    "@swimlane/ngx-datatable": "^11.3.2"
+    "ssri": "^5.2.2",
+    "zone.js": "^0.8.14"
   },
   "devDependencies": {
     "@angular/cli": "^1.5.0",

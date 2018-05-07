@@ -23,7 +23,6 @@ export class TestPackageJobsComponent implements OnInit, OnDestroy {
   // query: LoaderJobsQuery;
   StepStatuses = StepStatus; // Need to include the enum as a property to access it in template
   searchTerm: string = '';
-  @Input()
   selectedJob: TestPackageJob;
   private alive: boolean; // used to unsubscribe from the TimerObservable when OnDestroy is called.
   @Output() selectedTestPackageJobChange: EventEmitter<TestPackageJob> = new EventEmitter<TestPackageJob>();
@@ -50,14 +49,14 @@ export class TestPackageJobsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.columns = [
         {prop: 'shortId', name: 'Job ID', width: 50},
-        {prop: 'testPackageName', name: 'Test Package Name'},
-        {prop: 'createdAt', name: 'Create Time', cellTemplate: this.dateTmpl, width: 125},
+        {prop: 'testPackageName', name: 'Test Package Name', width : 340 },
+        {prop: 'createdAt', name: 'Date Created', cellTemplate: this.dateTmpl, width: 130},
         {prop: 'type', name: 'Job Type', width: 50},
-        {prop: 'validationStepStatus', name: 'Validation', headerClass: "text-align-center", cellTemplate: this.validateTmpl, width: 25},
-        {prop: 'tdsStepStatus', name: 'TDS', headerClass: "text-align-center", cellTemplate: this.systemTmpl, width: 25},
-        {prop: 'artStepStatus', name: 'ART', headerClass: "text-align-center", cellTemplate: this.systemTmpl, width: 25},
-        {prop: 'tisStepStatus', name: 'TIS', headerClass: "text-align-center", cellTemplate: this.systemTmpl, width: 25},
-        {prop: 'thssStepStatus', name: 'THSS', headerClass: "text-align-center", cellTemplate: this.systemTmpl, width: 25},
+        {prop: 'validationStepStatus', name: 'Validation', headerClass: "text-align-center", cellTemplate: this.validateTmpl, width: 30},
+        {prop: 'tdsStepStatus', name: 'TDS', headerClass: "text-align-center", cellTemplate: this.systemTmpl, width: 20},
+        {prop: 'artStepStatus', name: 'ART', headerClass: "text-align-center", cellTemplate: this.systemTmpl, width: 20},
+        {prop: 'tisStepStatus', name: 'TIS', headerClass: "text-align-center", cellTemplate: this.systemTmpl, width: 20},
+        {prop: 'thssStepStatus', name: 'THSS', headerClass: "text-align-center", cellTemplate: this.systemTmpl, width: 20},
     ];
     TimerObservable.create(0, 5000)
       .takeWhile(() => this.alive)
@@ -94,16 +93,20 @@ export class TestPackageJobsComponent implements OnInit, OnDestroy {
     this.selectedTestPackageJobChange.emit(this.selectedJob);
   }
 
-  getRowCss(rowData: TestPackageJob) {
+  rowClass = (rowData: TestPackageJob) => {
+    if ( this.selectedJob && this.selectedJob.id === rowData.id) {
+      return 'active';
+    }
+
     return rowData.type == 'LOAD'
-    && (rowData.validationStepStatus === 'FAIL'
+      && (rowData.validationStepStatus === 'FAIL'
       || rowData.tdsStepStatus === 'FAIL'
       || rowData.artStepStatus === 'FAIL'
       || rowData.tisStepStatus === 'FAIL'
       || rowData.thssStepStatus === 'FAIL')
       ? 'failed'
-      : ''
-  }
+      : '';
+  };
 
   uploadClick() {
     this.router.navigateByUrl('/loader/upload');

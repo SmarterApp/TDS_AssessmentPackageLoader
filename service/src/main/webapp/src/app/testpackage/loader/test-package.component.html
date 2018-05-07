@@ -1,12 +1,11 @@
 <div class ="test-package-jobs-container">
-  <h3 class="blue mb-md">Test Package Loader Jobs</h3>
+  <h3 class="blue mb-md">Test Package Jobs</h3>
 
   <div class="well">
     <!-- Test Package Jobs Search -->
     <div>
       <div class="well">
-        <test-package-jobs [selectedJob]="selectedJob"
-                     (selectedTestPackageJobChange)="selectedTestPackageJobChange($event)"></test-package-jobs>
+        <test-package-jobs (selectedTestPackageJobChange)="selectedTestPackageJobChange($event)"></test-package-jobs>
       </div>
     </div>
 
