@@ -6,13 +6,10 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -105,60 +102,19 @@ public class TestPackageStatusServiceImplTest {
                 JobType.LOAD,
                 targetSystemStatuses));
 
-        final PageRequest pageRequest = new PageRequest(0, 2);
-        final Page<TestPackageStatus> testPackageStatusPage =
-            new PageImpl<>(testPackageStatuses, pageRequest, 10);
+        when(mockTestPackageStatusRepository.findAll()).thenReturn(testPackageStatuses);
 
-        when(mockTestPackageStatusRepository.findAll(pageRequest)).thenReturn(testPackageStatusPage);
+        final List<TestPackageStatus> result = testPackageStatusService.getAll();
 
-        final Page<TestPackageStatus> result = testPackageStatusService.getAll(pageRequest);
-
-        verify(mockTestPackageStatusRepository).findAll(pageRequest);
-        assertThat(result.getContent()).hasSize(2);
-        assertThat(result.getNumber()).isEqualTo(0);
-        assertThat(result.getSize()).isEqualTo(2);
-        assertThat(result.getNumberOfElements()).isEqualTo(2);
+        verify(mockTestPackageStatusRepository).findAll();
+        assertThat(result.size() == 2);
     }
 
     @Test
     public void shouldReturnAPageWithNoContentWhenThereAreNoTestPackageStatusRecords() {
-        final PageRequest pageRequest = new PageRequest(0, 2);
-        final Page<TestPackageStatus> testPackageStatusPage = new PageImpl<>(Collections.emptyList(),
-            pageRequest,
-            10);
-        when(mockTestPackageStatusRepository.findAll(pageRequest)).thenReturn(testPackageStatusPage);
-
-        Page<TestPackageStatus> result = testPackageStatusService.getAll(pageRequest);
-
-        verify(mockTestPackageStatusRepository).findAll(pageRequest);
-        assertThat(result.getContent()).hasSize(0);
-    }
-
-    @Test
-    public void shouldSearchForTestPackageStatusRecordsByName() {
-        final String testPackageName = "test-package-filename";
-        final List<TestPackageTargetSystemStatus> targetSystemStatuses = Arrays.asList(
-            new TestPackageTargetSystemStatus(TargetSystem.TDS, Status.SUCCESS),
-            new TestPackageTargetSystemStatus(TargetSystem.ART, Status.SUCCESS),
-            new TestPackageTargetSystemStatus(TargetSystem.TIS, Status.SUCCESS),
-            new TestPackageTargetSystemStatus(TargetSystem.THSS, Status.SUCCESS));
-        final TestPackageStatus expectedTestPackageStatus = new TestPackageStatus(testPackageName,
-            LocalDateTime.now(),
-            UUID.randomUUID().toString(),
-            JobType.LOAD,
-            targetSystemStatuses);
-
-        final PageRequest pageRequest = new PageRequest(0, 2);
-        final Page<TestPackageStatus> testPackageStatusPage =
-            new PageImpl<>(Collections.singletonList(expectedTestPackageStatus), pageRequest, 10);
-
-        when(mockTestPackageStatusRepository.findAllByNameContainingIgnoreCase(testPackageName, pageRequest))
-            .thenReturn(testPackageStatusPage);
-
-        final Page<TestPackageStatus> result = testPackageStatusService.searchByName(testPackageName, pageRequest);
-
-
-        verify(mockTestPackageStatusRepository).findAllByNameContainingIgnoreCase(testPackageName, pageRequest);
-        assertThat(result.getContent()).hasSize(1);
+        when(mockTestPackageStatusRepository.findAll()).thenReturn(new ArrayList<>());
+        List<TestPackageStatus> result = testPackageStatusService.getAll();
+        verify(mockTestPackageStatusRepository).findAll();
+        assertThat(result.size() == 0);
     }
 }
