@@ -17,7 +17,8 @@ describe('TestPackageStatusService', () => {
   it('should map a test package status JSON to TestPackageStatus', () => {
     let mockApiResult = {
       "name": "test package: all systems, some errors",
-      "uploadedAt": "2018-02-06T12:37:54.056",
+      "uploadedAt": new Date("2018-02-06T12:37:54.056"),
+      "jobId": "abc123",
       "targets": [{
         "target": "TDS",
         "status": "SUCCESS",
@@ -40,6 +41,9 @@ describe('TestPackageStatusService', () => {
     let status = TestPackageStatusRowMapper.map(mockApiResult);
 
     expect(status.name).toBe("test package: all systems, some errors");
-    expect(status.targets.length).toBe(4);
+    expect(status.tdsStatus).toBe("SUCCESS");
+    expect(status.artStatus).toBe("SUCCESS");
+    expect(status.tisStatus).toBe("FAIL");
+    expect(status.thssStatus).toBe("FAIL");
   });
 });

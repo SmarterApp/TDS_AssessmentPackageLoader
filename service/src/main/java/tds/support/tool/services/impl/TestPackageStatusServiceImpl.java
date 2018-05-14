@@ -2,17 +2,21 @@ package tds.support.tool.services.impl;
 
 import com.google.common.collect.ImmutableSet;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import tds.support.job.*;
-import tds.support.tool.repositories.loader.TestPackageStatusRepository;
-import tds.support.tool.services.TestPackageStatusService;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import tds.support.job.Job;
+import tds.support.job.JobType;
+import tds.support.job.Status;
+import tds.support.job.TargetSystem;
+import tds.support.job.TestPackageStatus;
+import tds.support.job.TestPackageTargetSystemStatus;
+import tds.support.tool.repositories.loader.TestPackageStatusRepository;
+import tds.support.tool.services.TestPackageStatusService;
 
 @Service
 public class TestPackageStatusServiceImpl implements TestPackageStatusService {
@@ -52,13 +56,8 @@ public class TestPackageStatusServiceImpl implements TestPackageStatusService {
     }
 
     @Override
-    public Page<TestPackageStatus> getAll(final Pageable pageable) {
-        return testPackageStatusRepository.findAll(pageable);
-    }
-
-    @Override
-    public Page<TestPackageStatus> searchByName(final String testPackageNameFragment, final Pageable pageable) {
-        return testPackageStatusRepository.findAllByNameContainingIgnoreCase(testPackageNameFragment, pageable);
+    public List<TestPackageStatus> getAll() {
+        return testPackageStatusRepository.findAll();
     }
 
     @Override
