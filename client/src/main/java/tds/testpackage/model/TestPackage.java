@@ -106,7 +106,7 @@ public abstract class TestPackage {
                 return parentId;
             }
 
-            String nestedParentId = getBlueprintElementParentIdHelper(id, bpElement.getId(), bpElement.blueprintElements());
+            final String nestedParentId = getBlueprintElementParentIdHelper(id, bpElement.getId(), bpElement.blueprintElements());
 
             if (nestedParentId != null) {
                 return nestedParentId;
@@ -118,10 +118,9 @@ public abstract class TestPackage {
 
     private void getFlatBlueprintHelper(final List<BlueprintElement> flattenedBlueprint, final List<BlueprintElement> childElements) {
         for (BlueprintElement bpElement : childElements) {
-            if (bpElement.blueprintElements().size() == 0) {
-                flattenedBlueprint.add(bpElement);
-            } else {
-                flattenedBlueprint.add(bpElement);
+            flattenedBlueprint.add(bpElement);
+
+            if (!bpElement.blueprintElements().isEmpty()) {
                 getFlatBlueprintHelper(flattenedBlueprint, bpElement.blueprintElements());
             }
         }
