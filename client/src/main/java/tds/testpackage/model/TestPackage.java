@@ -9,7 +9,9 @@ import com.google.auto.value.AutoValue;
 import org.springframework.data.annotation.Id;
 
 import javax.xml.bind.annotation.*;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * The test package.
@@ -83,5 +85,45 @@ public abstract class TestPackage {
         public abstract Builder setAssessments(List<Assessment> newAssessments);
 
         public abstract TestPackage build();
+    }
+
+    public Optional<String> getBlueprintElementParentId(final String id) {
+        String parentId = getBlueprintElementParentIdHelper(id, null, this.getBlueprint());
+        return parentId != null ? Optional.of(parentId) : Optional.empty();
+    }
+
+    public Map<String, BlueprintElement> getBlueprintMap() {
+        List<BlueprintElement> flattenedBlueprintElements = new ArrayList<>();
+        getFlatBlueprintHelper(flattenedBlueprintElements, this.getBlueprint());
+
+        return flattenedBlueprintElements.stream()
+                .collect(Collectors.toMap(BlueprintElement::getId, Function.identity()));
+    }
+
+    private String getBlueprintElementParentIdHelper(final String id, final String parentId,  final List<BlueprintElement> blueprint) {
+        for (BlueprintElement bpElement : blueprint) {
+            if (bpElement.getId().equalsIgnoreCase(id)){
+                return parentId;
+            }
+
+            String nestedParentId = getBlueprintElementParentIdHelper(id, bpElement.getId(), bpElement.blueprintElements());
+
+            if (nestedParentId != null) {
+                return nestedParentId;
+            }
+        }
+
+        return null;
+    }
+
+    private void getFlatBlueprintHelper(final List<BlueprintElement> flattenedBlueprint, final List<BlueprintElement> childElements) {
+        for (BlueprintElement bpElement : childElements) {
+            if (bpElement.blueprintElements().size() == 0) {
+                flattenedBlueprint.add(bpElement);
+            } else {
+                flattenedBlueprint.add(bpElement);
+                getFlatBlueprintHelper(flattenedBlueprint, bpElement.blueprintElements());
+            }
+        }
     }
 }
