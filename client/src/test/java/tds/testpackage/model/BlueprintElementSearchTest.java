@@ -38,18 +38,18 @@ public class BlueprintElementSearchTest {
 
     @Test
     public void shouldReturnParentIdOfBlueprintElement() {
-        final Optional<String> maybeTargetParentId = testPackage.getBlueprintElementParentId("1|G-SRT");
+        final Optional<String> maybeTargetParentId = testPackage.getBlueprintElement("1|G-SRT").flatMap(BlueprintElement::getParentBlueprintElement).map(BlueprintElement::getId);
 
         assertThat(maybeTargetParentId).isPresent();
         assertThat(maybeTargetParentId.get()).isEqualTo("1");
 
-        final Optional<String> maybeClaimParentId = testPackage.getBlueprintElementParentId("1");
+        final Optional<String> maybeClaimParentId = testPackage.getBlueprintElement("1").flatMap(BlueprintElement::getParentBlueprintElement).map(BlueprintElement::getId);
         assertThat(maybeClaimParentId).isEmpty(); // Claims do not have parents
     }
 
     @Test
     public void shouldReturnEmptyForNoExistingBlueprintElement() {
-        final Optional<String> maybeParentId = testPackage.getBlueprintElementParentId("foo");
+        final Optional<String> maybeParentId = testPackage.getBlueprintElement("foo").flatMap(BlueprintElement::getParentBlueprintElement).map(BlueprintElement::getId);
         assertThat(maybeParentId).isEmpty();
     }
 }

@@ -88,8 +88,23 @@ public abstract class TestPackage {
     }
 
     public Optional<BlueprintElement> getBlueprintElement(final String id) {
-        final BlueprintElement blueprintElement = getBlueprintElementHelper(id, this.getBlueprint());
-        return blueprintElement != null ? Optional.of(blueprintElement) : Optional.empty();
+        return getBlueprintElement(id, new LinkedList<>(this.getBlueprint()));
+    }
+
+    private Optional<BlueprintElement> getBlueprintElement(final String id, final LinkedList<BlueprintElement> blueprints) {
+        if (blueprints.isEmpty()) {
+            return Optional.empty();
+        }
+
+        final BlueprintElement head = blueprints.pop();
+
+        if (head.getId().equalsIgnoreCase(id)) {
+            return Optional.of(head);
+        }
+
+        blueprints.addAll(head.blueprintElements());
+
+        return getBlueprintElement(id, blueprints);
     }
 
     public Map<String, BlueprintElement> getBlueprintMap() {
@@ -98,22 +113,6 @@ public abstract class TestPackage {
 
         return flattenedBlueprintElements.stream()
                 .collect(Collectors.toMap(BlueprintElement::getId, Function.identity()));
-    }
-
-    private BlueprintElement getBlueprintElementHelper(final String id, final List<BlueprintElement> blueprint) {
-        for (BlueprintElement bpElement : blueprint) {
-            if (bpElement.getId().equalsIgnoreCase(id)){
-                return bpElement;
-            }
-
-            final BlueprintElement blueprintElement = getBlueprintElementHelper(id, bpElement.blueprintElements());
-
-            if (blueprintElement != null) {
-                return blueprintElement;
-            }
-        }
-
-        return null;
     }
 
     private void getFlatMapBlueprintHelper(final List<BlueprintElement> flattenedBlueprint,
