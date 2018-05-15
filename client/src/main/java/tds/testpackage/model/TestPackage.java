@@ -87,41 +87,42 @@ public abstract class TestPackage {
         public abstract TestPackage build();
     }
 
-    public Optional<String> getBlueprintElementParentId(final String id) {
-        String parentId = getBlueprintElementParentIdHelper(id, null, this.getBlueprint());
-        return parentId != null ? Optional.of(parentId) : Optional.empty();
+    public Optional<BlueprintElement> getBlueprintElement(final String id) {
+        final BlueprintElement blueprintElement = getBlueprintElementHelper(id, this.getBlueprint());
+        return blueprintElement != null ? Optional.of(blueprintElement) : Optional.empty();
     }
 
     public Map<String, BlueprintElement> getBlueprintMap() {
-        List<BlueprintElement> flattenedBlueprintElements = new ArrayList<>();
-        getFlatBlueprintHelper(flattenedBlueprintElements, this.getBlueprint());
+        final List<BlueprintElement> flattenedBlueprintElements = new ArrayList<>();
+        getFlatMapBlueprintHelper(flattenedBlueprintElements, this.getBlueprint());
 
         return flattenedBlueprintElements.stream()
                 .collect(Collectors.toMap(BlueprintElement::getId, Function.identity()));
     }
 
-    private String getBlueprintElementParentIdHelper(final String id, final String parentId,  final List<BlueprintElement> blueprint) {
+    private BlueprintElement getBlueprintElementHelper(final String id, final List<BlueprintElement> blueprint) {
         for (BlueprintElement bpElement : blueprint) {
             if (bpElement.getId().equalsIgnoreCase(id)){
-                return parentId;
+                return bpElement;
             }
 
-            final String nestedParentId = getBlueprintElementParentIdHelper(id, bpElement.getId(), bpElement.blueprintElements());
+            final BlueprintElement blueprintElement = getBlueprintElementHelper(id, bpElement.blueprintElements());
 
-            if (nestedParentId != null) {
-                return nestedParentId;
+            if (blueprintElement != null) {
+                return blueprintElement;
             }
         }
 
         return null;
     }
 
-    private void getFlatBlueprintHelper(final List<BlueprintElement> flattenedBlueprint, final List<BlueprintElement> childElements) {
+    private void getFlatMapBlueprintHelper(final List<BlueprintElement> flattenedBlueprint,
+                                           final List<BlueprintElement> childElements) {
         for (BlueprintElement bpElement : childElements) {
             flattenedBlueprint.add(bpElement);
 
             if (!bpElement.blueprintElements().isEmpty()) {
-                getFlatBlueprintHelper(flattenedBlueprint, bpElement.blueprintElements());
+                getFlatMapBlueprintHelper(flattenedBlueprint, bpElement.blueprintElements());
             }
         }
     }
