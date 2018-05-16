@@ -2678,8 +2678,7 @@
               "dependencies": [
                 {
                   "ifToolType": "Language",
-                  "ifToolCode": "ENU-Braille",
-                  "enabled": "false"
+                  "ifToolCode": "ENU-Braille"
                 }
               ]
             },
@@ -2689,8 +2688,7 @@
               "dependencies": [
                 {
                   "ifToolType": "Language",
-                  "ifToolCode": "ENU-Braille",
-                  "enabled": "false"
+                  "ifToolCode": "ENU-Braille"
                 }
               ]
             }
@@ -2852,8 +2850,7 @@
               "dependencies": [
                 {
                   "ifToolType": "Language",
-                  "ifToolCode": "ENU-Braille",
-                  "enabled": "false"
+                  "ifToolCode": "ENU-Braille"
                 }
               ]
             },
@@ -2863,8 +2860,7 @@
               "dependencies": [
                 {
                   "ifToolType": "Language",
-                  "ifToolCode": "ENU-Braille",
-                  "enabled": "false"
+                  "ifToolCode": "ENU-Braille"
                 }
               ]
             }
