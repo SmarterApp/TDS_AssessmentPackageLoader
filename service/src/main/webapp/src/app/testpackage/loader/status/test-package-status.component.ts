@@ -93,8 +93,7 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
 
   updateFilteredTestPackageStatuses() {
     this.filteredPackageStatuses = this._testPackageStatuses
-      .filter(x => x.name.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0
-        || x.jobId.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0);
+      .filter(x => x.name.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0);
   }
 
   /**
