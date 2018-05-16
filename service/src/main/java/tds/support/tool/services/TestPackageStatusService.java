@@ -1,7 +1,7 @@
 package tds.support.tool.services;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import java.util.List;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import tds.support.job.Job;
 import tds.support.job.TestPackageStatus;
@@ -20,26 +20,12 @@ public interface TestPackageStatusService {
     TestPackageStatus save(final Job job);
 
     /**
-     * Fetch a page of {@link tds.support.job.TestPackageStatus}es
+     * Fetch a list of {@link tds.support.job.TestPackageStatus}es
      *
-     * @param pageable The {@link org.springframework.data.domain.Pageable} containing the paging information for this
-     *                 request
-     * @return A {@link org.springframework.data.domain.Page} of {@link tds.support.job.TestPackageStatus} records
+     * @return A collection of all statuses
      */
     @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
-    Page<TestPackageStatus> getAll(final Pageable pageable);
-
-    /**
-     * Find all {@link tds.support.job.TestPackageStatus}es that match the provided test package name
-     *
-     * @param testPackageNameFragment The part of the test package name to search by
-     * @param pageable The {@link org.springframework.data.domain.Pageable} containing the paging information for this
-     *                 request
-     * @return A {@link org.springframework.data.domain.Page} of {@link tds.support.job.TestPackageStatus}es that have a
-     * name like the provided test package name fragment.
-     */
-    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
-    Page<TestPackageStatus> searchByName(final String testPackageNameFragment, final Pageable pageable);
+    List<TestPackageStatus> getAll();
 
     /**
      * Delete a {@link tds.support.job.TestPackageStatus} record for a {@link tds.testpackage.model.TestPackage} that is
