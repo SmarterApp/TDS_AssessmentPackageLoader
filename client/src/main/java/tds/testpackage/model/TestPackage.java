@@ -1,12 +1,14 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 
 import javax.xml.bind.annotation.*;
 import java.util.*;
@@ -107,6 +109,8 @@ public abstract class TestPackage {
         return getBlueprintElement(id, blueprints);
     }
 
+    @Transient
+    @JsonIgnore
     public Map<String, BlueprintElement> getBlueprintMap() {
         final List<BlueprintElement> flattenedBlueprintElements = new ArrayList<>();
         getFlatMapBlueprintHelper(flattenedBlueprintElements, this.getBlueprint());
