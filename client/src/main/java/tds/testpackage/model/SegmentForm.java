@@ -50,6 +50,9 @@ public abstract class SegmentForm {
         return this.segment;
     }
 
+    @JsonIgnore
+    public abstract Builder toBuilder();
+
     public static Builder builder() {
         return new AutoValue_SegmentForm.Builder();
     }

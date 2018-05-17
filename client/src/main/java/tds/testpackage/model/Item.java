@@ -157,6 +157,12 @@ public abstract class Item {
         }
     }
 
+    abstract Builder toBuilder();
+
+    public Item withPresentations(List<Presentation> presentations) {
+        return toBuilder().setPresentations(presentations).build();
+    }
+
     public static Builder builder() {
         return new AutoValue_Item.Builder();
     }
