@@ -94,6 +94,13 @@ public abstract class ItemGroup {
         return this.segment;
     }
 
+    @JsonIgnore
+    abstract Builder toBuilder();
+
+    public ItemGroup withItems(List<Item> items) {
+        return toBuilder().setItems(items).build();
+    }
+
     public static Builder builder() {
         return new AutoValue_ItemGroup.Builder();
     }
