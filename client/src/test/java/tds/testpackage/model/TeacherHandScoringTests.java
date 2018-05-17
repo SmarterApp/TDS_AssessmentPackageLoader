@@ -101,11 +101,8 @@ public class TeacherHandScoringTests {
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
 
         String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(testPackage);
-        System.out.println(json);
         TestPackage jsonTestPackage = objectMapper.readValue(json, TestPackage.class);
         String json2 = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonTestPackage);
-        System.out.println();
-        System.out.println(json2);
         assertJsonEquals(json, json2);
     }
 
