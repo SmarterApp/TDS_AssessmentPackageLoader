@@ -1,15 +1,19 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 
 import javax.xml.bind.annotation.*;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * The test package.
@@ -83,5 +87,46 @@ public abstract class TestPackage {
         public abstract Builder setAssessments(List<Assessment> newAssessments);
 
         public abstract TestPackage build();
+    }
+
+    public Optional<BlueprintElement> getBlueprintElement(final String id) {
+        return getBlueprintElement(id, new LinkedList<>(this.getBlueprint()));
+    }
+
+    private Optional<BlueprintElement> getBlueprintElement(final String id, final LinkedList<BlueprintElement> blueprints) {
+        if (blueprints.isEmpty()) {
+            return Optional.empty();
+        }
+
+        final BlueprintElement head = blueprints.pop();
+
+        if (head.getId().equalsIgnoreCase(id)) {
+            return Optional.of(head);
+        }
+
+        blueprints.addAll(head.blueprintElements());
+
+        return getBlueprintElement(id, blueprints);
+    }
+
+    @Transient
+    @JsonIgnore
+    public Map<String, BlueprintElement> getBlueprintMap() {
+        final List<BlueprintElement> flattenedBlueprintElements = new ArrayList<>();
+        getFlatMapBlueprintHelper(flattenedBlueprintElements, this.getBlueprint());
+
+        return flattenedBlueprintElements.stream()
+                .collect(Collectors.toMap(BlueprintElement::getId, Function.identity()));
+    }
+
+    private void getFlatMapBlueprintHelper(final List<BlueprintElement> flattenedBlueprint,
+                                           final List<BlueprintElement> childElements) {
+        for (BlueprintElement bpElement : childElements) {
+            flattenedBlueprint.add(bpElement);
+
+            if (!bpElement.blueprintElements().isEmpty()) {
+                getFlatMapBlueprintHelper(flattenedBlueprint, bpElement.blueprintElements());
+            }
+        }
     }
 }

@@ -6,9 +6,11 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
+import tds.testpackage.legacy.model.Identifier;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 @AutoValue
@@ -64,5 +66,13 @@ public abstract class Presentation {
             setCode(getCode().trim());
             return autoBuild();
         }
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Presentation that = (Presentation) o;
+        return Objects.equals(getCode(), that.getCode());
     }
 }

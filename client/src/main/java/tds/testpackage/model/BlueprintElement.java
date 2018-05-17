@@ -1,6 +1,7 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -8,9 +9,11 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.data.annotation.Transient;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +62,20 @@ public abstract class BlueprintElement {
     @XmlAttribute
     public abstract Optional<String> getDescription();
 
+    @Transient
+    @XmlTransient
+    private Optional<BlueprintElement> parentBlueprintElement;
+
+    public void setParentBlueprintElement(final BlueprintElement parentBlueprintElement) {
+        this.parentBlueprintElement = parentBlueprintElement != null
+                ? Optional.of(parentBlueprintElement)
+                : Optional.empty();
+    }
+
+    @JsonIgnore
+    public Optional<BlueprintElement> getParentBlueprintElement() {
+        return this.parentBlueprintElement;
+    }
 
     @XmlElement(name = "Scoring")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -66,6 +83,7 @@ public abstract class BlueprintElement {
 
     @Nullable
     protected abstract List<BlueprintElement> getBlueprintElements();
+
 
     @JsonProperty(value = "blueprintElements")
     @XmlElement(name = "BlueprintElement")

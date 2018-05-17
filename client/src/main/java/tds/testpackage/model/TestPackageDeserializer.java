@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
     public TestPackageDeserializer() {
@@ -60,6 +61,8 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
                 }
             }
         }
+        
+        setBlueprintElementParent(blueprint);
 
         final TestPackage testPackage = TestPackage.builder().
             setPublisher(publisher).
@@ -113,5 +116,17 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
         });
         itemGroup.getStimulus().ifPresent(
             stimulus -> stimulus.setTestPackage(testPackage));
+    }
+
+    private static void setBlueprintElementParent(final List<BlueprintElement> blueprintElements) {
+        setBlueprintElementParentHelper(blueprintElements, null);
+    }
+
+    private static void setBlueprintElementParentHelper(final List<BlueprintElement> childElements,
+                                                        final BlueprintElement parentElement) {
+        for (BlueprintElement childEl : childElements) {
+            childEl.setParentBlueprintElement(parentElement);
+            setBlueprintElementParentHelper(childEl.blueprintElements(), childEl);
+        }
     }
 }
