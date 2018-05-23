@@ -4,19 +4,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import tds.support.job.*;
+
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+
+import tds.support.job.Job;
+import tds.support.job.JobType;
+import tds.support.job.Status;
+import tds.support.job.Step;
+import tds.support.job.TargetSystem;
+import tds.support.job.TestPackageDeleteJob;
+import tds.support.job.TestPackageLoadJob;
+import tds.support.job.TestPackageRollbackJob;
 import tds.support.tool.handlers.loader.TestPackageFileHandler;
 import tds.support.tool.handlers.loader.TestPackageHandler;
 import tds.support.tool.repositories.JobRepository;
 import tds.support.tool.services.JobService;
 import tds.support.tool.services.TestPackageStatusService;
 import tds.support.tool.services.loader.MessagingService;
-
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
 
 @Service
 public class JobServiceImpl implements JobService {
@@ -58,18 +65,20 @@ public class JobServiceImpl implements JobService {
 
         // If we have errors from deserializing  or saving the XML, no need to trigger step execution
         if (step.getErrors().isEmpty()) {
+            // Update the job to indicate the test package XML file has been stored in the database, meaning the
+            // downstream systems can now be loaded
+            jobRepository.save(persistedJob);
+            testPackageStatusService.save(persistedJob);
             messagingService.sendJobStepExecute(job.getId());
         } else {
             persistedJob.getSteps().stream()
-                    .filter(incompleteSteps -> !incompleteSteps.isComplete())
-                    .forEach(incompleteSteps -> incompleteSteps.setStatus(Status.FAIL));
+                .filter(incompleteSteps -> !incompleteSteps.isComplete())
+                .forEach(incompleteSteps -> incompleteSteps.setStatus(Status.FAIL));
+            jobRepository.save(persistedJob);
+            // TDS-1567: remove the test package status entry if we skip step execution
+            testPackageStatusService.delete(packageName);
         }
-
-        testPackageStatusService.save(persistedJob);
-
-        // Update the job to indicate the test package XML file has been stored in the database, meaning the downstream
-        // systems can now be loaded
-        return jobRepository.save(persistedJob);
+        return persistedJob;
     }
 
     @Override
