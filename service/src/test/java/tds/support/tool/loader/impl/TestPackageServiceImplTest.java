@@ -76,6 +76,7 @@ public class TestPackageServiceImplTest {
         final long testPackageSize = 1337;
         final String location = "/path/to/testpackage";
         final TestPackage testPackage = TestPackage.builder()
+            .setId("TestPackageId")
             .setPublisher("publisher")
             .setPublishDate("date")
             .setSubject("subject")
@@ -94,6 +95,7 @@ public class TestPackageServiceImplTest {
             eq(testPackageSize))).thenReturn(location);
 
         TestPackage mockTestPackage = TestPackage.builder()
+                .setId("test-package-id")
                 .setAcademicYear("1234")
                 .setBankKey(123)
                 .setPublishDate("date")
@@ -104,7 +106,7 @@ public class TestPackageServiceImplTest {
                 .setBlueprint(new ArrayList<>())
                 .setAssessments(new ArrayList<>())
                 .build();
-        mockTestPackage.setId(testPackageId);
+        mockTestPackage.setMongoId(testPackageId);
 
         when(mockMongoTestPackageRepository.save(isA(TestPackage.class))).thenReturn(mockTestPackage);
         when(mockXmlObjectMapper.readValue(isA(ByteArrayInputStream.class), eq(TestPackage.class))).thenReturn(testPackage);

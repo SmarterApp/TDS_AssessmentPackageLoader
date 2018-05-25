@@ -1,8 +1,6 @@
 package tds.support.tool.repositories.loader.impl;
 
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +24,7 @@ public class MongoDataTest {
     @Autowired
     private MongoTestPackageRepository repository;
 
-    TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration;
+    private TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration;
 
     private XmlMapper xmlMapper;
 
@@ -40,7 +38,7 @@ public class MongoDataTest {
         InputStream inputStream = MongoDataTest.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
         repository.save(testPackage);
-        TestPackage testPackage2 = repository.findOne(testPackage.getId());
+        TestPackage testPackage2 = repository.findOne(testPackage.getMongoId());
         assertThat(testPackage2.getAssessments().size(), equalTo(testPackage.getAssessments().size()));
     }
 

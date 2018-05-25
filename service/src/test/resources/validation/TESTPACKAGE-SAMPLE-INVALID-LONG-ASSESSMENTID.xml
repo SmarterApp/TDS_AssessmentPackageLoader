@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TestPackage publisher="SBAC_PT" publishDate="2015-08-19T18:13:51.0" subject="MATH" type="summative" version="8185" bankKey="187" academicYear="2017-2018">
+<TestPackage id="SBAC-IRP-COMBINED-MATH-11" publisher="SBAC_PT" publishDate="2015-08-19T18:13:51.0" subject="MATH" type="summative" version="8185" bankKey="187" academicYear="2017-2018">
     <Blueprint>
         <BlueprintElement id="SBAC-IRP-COMBINED-MATH-11" type="package">
             <Scoring>
@@ -71,129 +71,129 @@
                 </Rules>
             </Scoring>
         </BlueprintElement>
-        <BlueprintElement id="1" type="strand">
-            <BlueprintElement id="1|A-REI" type="contentlevel">
-                <BlueprintElement id="1|A-REI|H" type="contentlevel">
-                    <BlueprintElement id="1|A-REI|H|m" type="contentlevel">
-                        <BlueprintElement id="1|A-REI|H|m|A-REI.2" type="contentlevel"/>
+        <BlueprintElement id="1" type="claim">
+            <BlueprintElement id="1|A-REI" type="target">
+                <BlueprintElement id="1|A-REI|H" type="target">
+                    <BlueprintElement id="1|A-REI|H|m" type="target">
+                        <BlueprintElement id="1|A-REI|H|m|A-REI.2" type="target"/>
                     </BlueprintElement>
                 </BlueprintElement>
-                <BlueprintElement id="1|A-REI|I" type="contentlevel">
-                    <BlueprintElement id="1|A-REI|I|m" type="contentlevel">
-                        <BlueprintElement id="1|A-REI|I|m|A-REI.4b" type="contentlevel"/>
-                    </BlueprintElement>
-                </BlueprintElement>
-            </BlueprintElement>
-            <BlueprintElement id="1|A-SSE" type="contentlevel">
-                <BlueprintElement id="1|A-SSE|D" type="contentlevel" >
-                    <BlueprintElement id="1|A-SSE|D|m" type="contentlevel">
-                        <BlueprintElement id="1|A-SSE|D|m|A-SSE.2" type="contentlevel"/>
-                    </BlueprintElement>
-                </BlueprintElement>
-                <BlueprintElement id="1|A-SSE|E" type="contentlevel">
-                    <BlueprintElement id="1|A-SSE|E|m" type="contentlevel">
-                        <BlueprintElement id="1|A-SSE|E|m|A-SSE.3b" type="contentlevel"/>
+                <BlueprintElement id="1|A-REI|I" type="target">
+                    <BlueprintElement id="1|A-REI|I|m" type="target">
+                        <BlueprintElement id="1|A-REI|I|m|A-REI.4b" type="target"/>
                     </BlueprintElement>
                 </BlueprintElement>
             </BlueprintElement>
-            <BlueprintElement id="1|F-IF" type="contentlevel">
-                <BlueprintElement id="1|F-IF|K" type="contentlevel">
-                    <BlueprintElement id="1|F-IF|K|m" type="contentlevel">
-                        <BlueprintElement id="1|F-IF|K|m|F-IF.1" type="contentlevel"/>
+            <BlueprintElement id="1|A-SSE" type="target">
+                <BlueprintElement id="1|A-SSE|D" type="target" >
+                    <BlueprintElement id="1|A-SSE|D|m" type="target">
+                        <BlueprintElement id="1|A-SSE|D|m|A-SSE.2" type="target"/>
                     </BlueprintElement>
                 </BlueprintElement>
-                <BlueprintElement id="1|F-IF|M" type="contentlevel">
-                    <BlueprintElement id="1|F-IF|M|m" type="contentlevel">
-                        <BlueprintElement id="1|F-IF|M|m|F-IF.7a" type="contentlevel"/>
-                    </BlueprintElement>
-                </BlueprintElement>
-            </BlueprintElement>
-            <BlueprintElement id="1|G-SRT" type="contentlevel">
-                <BlueprintElement id="1|G-SRT|P" type="contentlevel">
-                    <BlueprintElement id="1|G-SRT|P|m" type="contentlevel">
-                        <BlueprintElement id="1|G-SRT|P|m|G-SRT.8" type="contentlevel"/>
+                <BlueprintElement id="1|A-SSE|E" type="target">
+                    <BlueprintElement id="1|A-SSE|E|m" type="target">
+                        <BlueprintElement id="1|A-SSE|E|m|A-SSE.3b" type="target"/>
                     </BlueprintElement>
                 </BlueprintElement>
             </BlueprintElement>
-            <BlueprintElement id="1|N-Q" type="contentlevel">
-                <BlueprintElement id="1|N-Q|C" type="contentlevel">
-                    <BlueprintElement id="1|N-Q|C|m" type="contentlevel">
-                        <BlueprintElement id="1|N-Q|C|m|N-Q.1" type="contentlevel"/>
+            <BlueprintElement id="1|F-IF" type="target">
+                <BlueprintElement id="1|F-IF|K" type="target">
+                    <BlueprintElement id="1|F-IF|K|m" type="target">
+                        <BlueprintElement id="1|F-IF|K|m|F-IF.1" type="target"/>
+                    </BlueprintElement>
+                </BlueprintElement>
+                <BlueprintElement id="1|F-IF|M" type="target">
+                    <BlueprintElement id="1|F-IF|M|m" type="target">
+                        <BlueprintElement id="1|F-IF|M|m|F-IF.7a" type="target"/>
                     </BlueprintElement>
                 </BlueprintElement>
             </BlueprintElement>
-            <BlueprintElement id="1|N-RN" type="contentlevel">
-                <BlueprintElement id="1|N-RN|A" type="contentlevel">
-                    <BlueprintElement id="1|N-RN|A|a/s" type="contentlevel">
-                        <BlueprintElement id="1|N-RN|A|a/s|N-RN.2" type="contentlevel"/>
+            <BlueprintElement id="1|G-SRT" type="target">
+                <BlueprintElement id="1|G-SRT|P" type="target">
+                    <BlueprintElement id="1|G-SRT|P|m" type="target">
+                        <BlueprintElement id="1|G-SRT|P|m|G-SRT.8" type="target"/>
+                    </BlueprintElement>
+                </BlueprintElement>
+            </BlueprintElement>
+            <BlueprintElement id="1|N-Q" type="target">
+                <BlueprintElement id="1|N-Q|C" type="target">
+                    <BlueprintElement id="1|N-Q|C|m" type="target">
+                        <BlueprintElement id="1|N-Q|C|m|N-Q.1" type="target"/>
+                    </BlueprintElement>
+                </BlueprintElement>
+            </BlueprintElement>
+            <BlueprintElement id="1|N-RN" type="target">
+                <BlueprintElement id="1|N-RN|A" type="target">
+                    <BlueprintElement id="1|N-RN|A|a/s" type="target">
+                        <BlueprintElement id="1|N-RN|A|a/s|N-RN.2" type="target"/>
                     </BlueprintElement>
                 </BlueprintElement>
             </BlueprintElement>
         </BlueprintElement>
-        <BlueprintElement id="2" type="strand">
-            <BlueprintElement id="2|A-CED" type="contentlevel">
-                <BlueprintElement id="2|A-CED|A" type="contentlevel"/>
+        <BlueprintElement id="2" type="claim">
+            <BlueprintElement id="2|A-CED" type="target">
+                <BlueprintElement id="2|A-CED|A" type="target"/>
             </BlueprintElement>
-            <BlueprintElement id="2|F-IF" type="contentlevel">
-                <BlueprintElement id="2|F-IF|A" type="contentlevel"/>
+            <BlueprintElement id="2|F-IF" type="target">
+                <BlueprintElement id="2|F-IF|A" type="target"/>
             </BlueprintElement>
-            <BlueprintElement id="2|G-SRT" type="contentlevel">
-                <BlueprintElement id="2|G-SRT|D" type="contentlevel">
-                    <BlueprintElement id="2|G-SRT|D|NA" type="contentlevel">
-                        <BlueprintElement id="2|G-SRT|D|NA|NA" type="contentlevel"/>
+            <BlueprintElement id="2|G-SRT" type="target">
+                <BlueprintElement id="2|G-SRT|D" type="target">
+                    <BlueprintElement id="2|G-SRT|D|NA" type="target">
+                        <BlueprintElement id="2|G-SRT|D|NA|NA" type="target"/>
                     </BlueprintElement>
                 </BlueprintElement>
             </BlueprintElement>
-            <BlueprintElement id="2|S-CP" type="contentlevel">
-                <BlueprintElement id="2|S-CP|A" type="contentlevel"/>
+            <BlueprintElement id="2|S-CP" type="target">
+                <BlueprintElement id="2|S-CP|A" type="target"/>
             </BlueprintElement>
         </BlueprintElement>
-        <BlueprintElement id="3" type="strand">
+        <BlueprintElement id="3" type="claim">
             <Scoring>
                 <Rules>
                     <Rule name="RawScore" computationOrder="142"/>
                 </Rules>
             </Scoring>
-            <BlueprintElement id="3|A-REI" type="contentlevel">
-                <BlueprintElement id="3|A-REI|D" type="contentlevel">
-                    <BlueprintElement id="3|A-REI|D|NA" type="contentlevel">
-                        <BlueprintElement id="3|A-REI|D|NA|NA" type="contentlevel"/>
+            <BlueprintElement id="3|A-REI" type="target">
+                <BlueprintElement id="3|A-REI|D" type="target">
+                    <BlueprintElement id="3|A-REI|D|NA" type="target">
+                        <BlueprintElement id="3|A-REI|D|NA|NA" type="target"/>
                     </BlueprintElement>
                 </BlueprintElement>
-                <BlueprintElement id="3|A-REI|G" type="contentlevel">
-                    <BlueprintElement id="3|A-REI|G|NA" type="contentlevel">
-                        <BlueprintElement id="3|A-REI|G|NA|NA" type="contentlevel"/>
-                    </BlueprintElement>
-                </BlueprintElement>
-            </BlueprintElement>
-            <BlueprintElement id="3|F-IF" type="contentlevel">
-                <BlueprintElement id="3|F-IF|B" type="contentlevel"/>
-            </BlueprintElement>
-            <BlueprintElement id="3|G-SRT" type="contentlevel">
-                <BlueprintElement id="3|G-SRT|A" type="contentlevel">
-                    <BlueprintElement id="3|G-SRT|A|NA" type="contentlevel">
-                        <BlueprintElement id="3|G-SRT|A|NA|NA" type="contentlevel"/>
+                <BlueprintElement id="3|A-REI|G" type="target">
+                    <BlueprintElement id="3|A-REI|G|NA" type="target">
+                        <BlueprintElement id="3|A-REI|G|NA|NA" type="target"/>
                     </BlueprintElement>
                 </BlueprintElement>
             </BlueprintElement>
-            <BlueprintElement id="3|N-RN" type="contentlevel">
-                <BlueprintElement id="3|N-RN|E" type="contentlevel">
-                    <BlueprintElement id="3|N-RN|E|NA" type="contentlevel">
-                        <BlueprintElement id="3|N-RN|E|NA|NA" type="contentlevel"/>
+            <BlueprintElement id="3|F-IF" type="target">
+                <BlueprintElement id="3|F-IF|B" type="target"/>
+            </BlueprintElement>
+            <BlueprintElement id="3|G-SRT" type="target">
+                <BlueprintElement id="3|G-SRT|A" type="target">
+                    <BlueprintElement id="3|G-SRT|A|NA" type="target">
+                        <BlueprintElement id="3|G-SRT|A|NA|NA" type="target"/>
+                    </BlueprintElement>
+                </BlueprintElement>
+            </BlueprintElement>
+            <BlueprintElement id="3|N-RN" type="target">
+                <BlueprintElement id="3|N-RN|E" type="target">
+                    <BlueprintElement id="3|N-RN|E|NA" type="target">
+                        <BlueprintElement id="3|N-RN|E|NA|NA" type="target"/>
                     </BlueprintElement>
                 </BlueprintElement>
             </BlueprintElement>
         </BlueprintElement>
-        <BlueprintElement id="4" type="strand">
-            <BlueprintElement id="4|G-MG" type="contentlevel">
-                <BlueprintElement id="4|G-MG|A" type="contentlevel">
-                    <BlueprintElement id="4|G-MG|A|NA" type="contentlevel">
-                        <BlueprintElement id="4|G-MG|A|NA|NA" type="contentlevel"/>
+        <BlueprintElement id="4" type="claim">
+            <BlueprintElement id="4|G-MG" type="target">
+                <BlueprintElement id="4|G-MG|A" type="target">
+                    <BlueprintElement id="4|G-MG|A|NA" type="target">
+                        <BlueprintElement id="4|G-MG|A|NA|NA" type="target"/>
                     </BlueprintElement>
                 </BlueprintElement>
             </BlueprintElement>
-            <BlueprintElement id="4|S-ID" type="contentlevel">
-                <BlueprintElement id="4|S-ID|A" type="contentlevel"/>
+            <BlueprintElement id="4|S-ID" type="target">
+                <BlueprintElement id="4|S-ID|A" type="target"/>
             </BlueprintElement>
         </BlueprintElement>
     </Blueprint>
@@ -665,11 +665,13 @@
                                 <BlueprintReference idRef="G11Math_DOK2"/>
                                 <BlueprintReference idRef="1|N-RN|A|a/s|N-RN.2"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b" value="1.000000000000000e-015"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="b" value="1.000000000000000e-015"/>
+                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="1915">
@@ -681,11 +683,13 @@
                                 <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11-EXAMPLE"/>
                                 <BlueprintReference idRef="1|A-SSE|D|m|A-SSE.2"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b" value="1.000000000000000e-015"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="b" value="1.000000000000000e-015"/>
+                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="1916">
@@ -698,11 +702,13 @@
                                 <BlueprintReference idRef="G11Math_DOK2"/>
                                 <BlueprintReference idRef="1|A-SSE|E|m|A-SSE.3b"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.017200000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="b" value="2.545770000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="1.017200000000000e-001"/>
+                                    <ItemScoreParameter measurementParameter="b" value="2.545770000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="1926">
@@ -716,11 +722,13 @@
                                 <BlueprintReference idRef="G11Math_DOK2"/>
                                 <BlueprintReference idRef="1|A-REI|H|m|A-REI.2"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="3.377900000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="b" value="4.648680000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="3.377900000000000e-001"/>
+                                    <ItemScoreParameter measurementParameter="b" value="4.648680000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="1927">
@@ -734,12 +742,14 @@
                                 <BlueprintReference idRef="G11Math_DOK2"/>
                                 <BlueprintReference idRef="2|S-CP|A"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRTGPC" scorePoints="3" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b0" value="1.000000000000000e-015"/>
-                                <ItemScoreParameter measurementParameter="b1" value="1.000000000000000e-015"/>
-                                <ItemScoreParameter measurementParameter="b2" value="1.000000000000000e-015"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRTGPC" scorePoints="3" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="b0" value="1.000000000000000e-015"/>
+                                    <ItemScoreParameter measurementParameter="b1" value="1.000000000000000e-015"/>
+                                    <ItemScoreParameter measurementParameter="b2" value="1.000000000000000e-015"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="1929">
@@ -752,11 +762,13 @@
                                 <BlueprintReference idRef="G11Math_DOK2"/>
                                 <BlueprintReference idRef="1|A-REI|I|m|A-REI.4b"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="5.988900000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="b" value="-1.689660000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="5.988900000000000e-001"/>
+                                    <ItemScoreParameter measurementParameter="b" value="-1.689660000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="1930">
@@ -769,11 +781,13 @@
                                 <BlueprintReference idRef="G11Math_DOK2"/>
                                 <BlueprintReference idRef="1|G-SRT|P|m|G-SRT.8"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b" value="1.000000000000000e-015"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="b" value="1.000000000000000e-015"/>
+                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="1936">
@@ -785,11 +799,13 @@
                                 <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11-EXAMPLE"/>
                                 <BlueprintReference idRef="1|G-SRT|P|m|G-SRT.8"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b" value="-2.856000000000000e-002"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="b" value="-2.856000000000000e-002"/>
+                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="1948">
@@ -802,11 +818,13 @@
                                 <BlueprintReference idRef="G11Math_DOK2"/>
                                 <BlueprintReference idRef="1|F-IF|K|m|F-IF.1"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRTGPC" scorePoints="2" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b0" value="1.000000000000000e-015"/>
-                                <ItemScoreParameter measurementParameter="b1" value="1.000000000000000e-015"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRTGPC" scorePoints="2" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="b0" value="1.000000000000000e-015"/>
+                                    <ItemScoreParameter measurementParameter="b1" value="1.000000000000000e-015"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="1956">
@@ -819,11 +837,13 @@
                                 <BlueprintReference idRef="G11Math_Claim1_MC/MS"/>
                                 <BlueprintReference idRef="1|N-Q|C|m|N-Q.1"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b" value="1.000000000000000e-015"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="b" value="1.000000000000000e-015"/>
+                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="1969">
@@ -836,11 +856,13 @@
                                 <BlueprintReference idRef="G11Math_DOK2"/>
                                 <BlueprintReference idRef="1|F-IF|M|m|F-IF.7a"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b" value="1.000000000000000e-015"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="1.000000000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="b" value="1.000000000000000e-015"/>
+                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="1997">
@@ -854,11 +876,13 @@
                                 <BlueprintReference idRef="G11Math_DOK2"/>
                                 <BlueprintReference idRef="2|G-SRT|D|NA|NA"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="8.318500000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="b" value="7.261500000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="8.318500000000000e-001"/>
+                                    <ItemScoreParameter measurementParameter="b" value="7.261500000000000e-001"/>
+                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="1998">
@@ -870,11 +894,13 @@
                                 <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11-EXAMPLE"/>
                                 <BlueprintReference idRef="3|A-REI|G|NA|NA"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="7.411800000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="b" value="1.238580000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="7.411800000000000e-001"/>
+                                    <ItemScoreParameter measurementParameter="b" value="1.238580000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="1999">
@@ -887,11 +913,13 @@
                                 <BlueprintReference idRef="G11Math_DOK2"/>
                                 <BlueprintReference idRef="3|A-REI|D|NA|NA"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.140980000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b" value="2.103470000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="1.140980000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="b" value="2.103470000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="2005">
@@ -903,11 +931,13 @@
                                 <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11-EXAMPLE"/>
                                 <BlueprintReference idRef="3|N-RN|E|NA|NA"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="1.473450000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="b" value="-6.760500000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="1.473450000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="b" value="-6.760500000000000e-001"/>
+                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="2006">
@@ -920,11 +950,13 @@
                                 <BlueprintReference idRef="G11Math_Claim2/4"/>
                                 <BlueprintReference idRef="4"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="8.444500000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="b" value="3.013630000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="8.444500000000000e-001"/>
+                                    <ItemScoreParameter measurementParameter="b" value="3.013630000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="2029">
@@ -937,11 +969,13 @@
                                 <BlueprintReference idRef="G11Math_DOK2"/>
                                 <BlueprintReference idRef="3|G-SRT|A|NA|NA"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="5.327900000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="b" value="6.780300000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="5.327900000000000e-001"/>
+                                    <ItemScoreParameter measurementParameter="b" value="6.780300000000000e-001"/>
+                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                     <ItemGroup id="2032">
@@ -955,11 +989,13 @@
                                 <BlueprintReference idRef="G11Math_DOK2"/>
                                 <BlueprintReference idRef="4|G-MG|A|NA|NA"/>
                             </BlueprintReferences>
-                            <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                <ItemScoreParameter measurementParameter="a" value="7.263700000000000e-001"/>
-                                <ItemScoreParameter measurementParameter="b" value="-1.497860000000000e+000"/>
-                                <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
-                            </ItemScoreDimension>
+                            <ItemScoreDimensions>
+                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                    <ItemScoreParameter measurementParameter="a" value="7.263700000000000e-001"/>
+                                    <ItemScoreParameter measurementParameter="b" value="-1.497860000000000e+000"/>
+                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000"/>
+                                </ItemScoreDimension>
+                            </ItemScoreDimensions>
                         </Item>
                     </ItemGroup>
                 </Pool>
@@ -1021,11 +1057,13 @@
                                     <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11-EXAMPLE"/>
                                     <BlueprintReference idRef="2|F-IF|A"/>
                                 </BlueprintReferences>
-                                <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
-                                    <ItemScoreParameter measurementParameter="a" value="6.389300000000000e-001" />
-                                    <ItemScoreParameter measurementParameter="b" value="3.027330000000000e+000" />
-                                    <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000" />
-                                </ItemScoreDimension>
+                                <ItemScoreDimensions>
+                                    <ItemScoreDimension measurementModel="IRT3PLn" scorePoints="1" weight="1.000000000000000e+000">
+                                        <ItemScoreParameter measurementParameter="a" value="6.389300000000000e-001" />
+                                        <ItemScoreParameter measurementParameter="b" value="3.027330000000000e+000" />
+                                        <ItemScoreParameter measurementParameter="c" value="0.000000000000000e+000" />
+                                    </ItemScoreDimension>
+                                </ItemScoreDimensions>
                                 <!-- <TeacherHandScoring baseUrl="C:\\src\\tss\\Item-Manager\\OH_ Items" exemplar="G3_2703_TM.pdf" trainingGuide="G3_2703_SG.pdf" layout="WAI" description="Mandatory Financial Literacy Classes - SBAC_Field">
                                     <rubriclist>
                                         <rubric scorepoint="4">
@@ -1177,11 +1215,13 @@
                                     <BlueprintReference idRef="SBAC-IRP-CAT-MATH-11-EXAMPLE"/>
                                     <BlueprintReference idRef="3|F-IF|B"/>
                                 </BlueprintReferences>
-                                <ItemScoreDimension measurementModel="IRTGPC" scorePoints="2" weight="1.000000000000000e+000">
-                                    <ItemScoreParameter measurementParameter="a" value="7.479900000000000e-001" />
-                                    <ItemScoreParameter measurementParameter="b0" value="-4.015500000000000e-001" />
-                                    <ItemScoreParameter measurementParameter="b1" value="7.623700000000000e-001" />
-                                </ItemScoreDimension>
+                                <ItemScoreDimensions>
+                                    <ItemScoreDimension measurementModel="IRTGPC" scorePoints="2" weight="1.000000000000000e+000">
+                                        <ItemScoreParameter measurementParameter="a" value="7.479900000000000e-001" />
+                                        <ItemScoreParameter measurementParameter="b0" value="-4.015500000000000e-001" />
+                                        <ItemScoreParameter measurementParameter="b1" value="7.623700000000000e-001" />
+                                    </ItemScoreDimension>
+                                </ItemScoreDimensions>
                             </Item>
                         </ItemGroup>
                     </SegmentForm>

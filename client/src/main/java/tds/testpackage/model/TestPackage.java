@@ -2,13 +2,13 @@ package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.xml.bind.annotation.*;
 import java.util.*;
@@ -24,18 +24,20 @@ import java.util.stream.Collectors;
 @XmlRootElement(name = "TestPackage")
 @XmlType(propOrder={"blueprint", "assessments"})
 public abstract class TestPackage {
-    @Id
     @XmlTransient
-    private String id;
-
-    public String getId() {
-        return id;
+    @Id
+    private String mongoId;
+    public String getMongoId() {
+        return mongoId;
     }
 
-    public void setId(final String id) {
-        this.id = id;
+    public void setMongoId(final String mongoId) {
+        this.mongoId = mongoId;
     }
 
+    @XmlAttribute
+    @Field("id")
+    public abstract String getId();
     @XmlAttribute
     public abstract String getPublisher();
     @XmlAttribute
@@ -65,6 +67,8 @@ public abstract class TestPackage {
     @AutoValue.Builder
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     public abstract static class Builder {
+        public abstract Builder setId(String id);
+
         public abstract Builder setPublisher(String newPublisher);
 
         public abstract Builder setPublishDate(String newPublishDate);

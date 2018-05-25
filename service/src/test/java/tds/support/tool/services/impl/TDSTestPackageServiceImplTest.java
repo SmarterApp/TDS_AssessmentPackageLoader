@@ -41,6 +41,7 @@ public class TDSTestPackageServiceImplTest {
     public void setup() {
         service = new TDSTestPackageServiceImpl(restTemplate, supportToolProperties);
         mockTestPackage = TestPackage.builder()
+                .setId("TestPackageId")
                 .setAcademicYear("1234")
                 .setBankKey(123)
                 .setPublishDate("date")

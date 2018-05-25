@@ -46,6 +46,7 @@ public class ParseAndValidateHandlerTest {
     public void setup() {
         handler = new ParseAndValidateHandler(Collections.singletonList(mockValidator), mockTestPackageRepository, mockTestPackageMetadataRepository);
         mockTestPackage = TestPackage.builder()
+                .setId("TestPackageId")
                 .setAcademicYear("1234")
                 .setBankKey(123)
                 .setPublishDate("date")
