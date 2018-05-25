@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
   title = 'TDS Support Tool';
   footer = '© The Regents of the University of California – Smarter Balanced Assessment Consortium';
   user: User;
+  isAuthorized: boolean;
   errorOccurred = false;
 
   constructor(private router: Router,
@@ -20,12 +21,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.userService.getUser()
       .subscribe(user => {
-        const hasPermissions = (user.permissions || []).length > 0;
-        if (!hasPermissions) {
-          this.errorOccurred = true;
-          // Reroute to error page if user has no read/write permissions
-          this.router.navigateByUrl('/error')
-        }
+        this.isAuthorized = (user.permissions || []).length > 0;
+        this.errorOccurred = !this.isAuthorized;
         return this.user = user;
       });
 

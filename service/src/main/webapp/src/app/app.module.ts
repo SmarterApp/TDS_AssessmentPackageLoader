@@ -11,6 +11,7 @@ import {CommonModule} from "./shared/common.module";
 import { TestPackageStatusModule } from "./testpackage/loader/status/test-package-status.module";
 import {UserModule} from "./user/user.module";
 import {ErrorComponent} from "./error.component";
+import { AuthGuard } from './auth.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,7 @@ import {ErrorComponent} from "./error.component";
     BsDropdownModule.forRoot(),
     RouterModule.forRoot(routes)
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

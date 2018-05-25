@@ -3,6 +3,7 @@ import {TestPackageComponent} from "./testpackage/loader/test-package.component"
 import {UploadLoaderJobComponent} from "./testpackage/loader/jobs/upload/upload-loader-job.component";
 import {TestPackageStatusComponent} from "./testpackage/loader/status/test-package-status.component";
 import {ErrorComponent} from "./error.component";
+import {AuthGuard} from "./auth.component";
 
 export const routes: Routes = [
   {
@@ -27,6 +28,7 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'prefix',
+        canActivate: [AuthGuard],
         component: TestPackageComponent
       },
       {
@@ -46,12 +48,14 @@ export const routes: Routes = [
           {
             path: '',
             pathMatch: 'prefix',
+            canActivate: [AuthGuard],
             component: UploadLoaderJobComponent
           }
         ]
       }, {
         path: 'status',
         pathMatch: 'prefix',
+        canActivate: [AuthGuard],
         component: TestPackageStatusComponent,
         data: {
           breadcrumb: {
