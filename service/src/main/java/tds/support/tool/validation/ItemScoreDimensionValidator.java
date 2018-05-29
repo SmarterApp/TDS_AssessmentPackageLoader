@@ -32,13 +32,13 @@ public class ItemScoreDimensionValidator implements TestPackageValidator {
                                 return segment.segmentForms().stream()
                                         .flatMap(segmentForm -> segmentForm.itemGroups().stream()
                                                 .flatMap(itemGroup -> itemGroup.items().stream()
-                                                        .map(Item::getItemScoreDimension)
+                                                        .flatMap(item -> item.getItemScoreDimensions().stream())
                                                 )
                                         );
                             } else { // assume adaptive
                                 return segment.pool().stream()
                                         .flatMap(itemGroup -> itemGroup.items().stream()
-                                                .map(Item::getItemScoreDimension)
+                                                .flatMap(item -> item.getItemScoreDimensions().stream())
                                         );
                             }
                         }))

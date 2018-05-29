@@ -48,6 +48,7 @@ public class ARTLoaderStepHandlerTest {
     public void setup() {
         handler = new ARTLoaderStepHandler(mockService, mockTestPackageRepository, mockTestPackageMetadataRepository, mockProgmanClientService);
         mockTestPackage = TestPackage.builder()
+                .setId("TestPackageId")
                 .setAcademicYear("1234")
                 .setBankKey(123)
                 .setPublishDate("date")

@@ -44,6 +44,7 @@ public class TDSLoaderStepHandlerTest {
     public void setup() {
         handler = new TDSLoaderStepHandler(mockService, mockTestPackageMetadataRepository, mockTestPackageRepository);
         mockTestPackage = TestPackage.builder()
+                .setId("TestPackageId")
                 .setAcademicYear("1234")
                 .setBankKey(123)
                 .setPublishDate("date")

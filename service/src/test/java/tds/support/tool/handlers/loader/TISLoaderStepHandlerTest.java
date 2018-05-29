@@ -43,6 +43,7 @@ public class TISLoaderStepHandlerTest {
     public void setup() {
         handler = new TISLoaderStepHandler(mockService, mockTestPackageRepository, mockTestPackageMetadataRepository);
         mockTestPackage = TestPackage.builder()
+                .setId("TestPackageId")
                 .setAcademicYear("1234")
                 .setBankKey(123)
                 .setPublishDate("date")

@@ -43,6 +43,7 @@ public class TDSDeleteStepHandlerTest {
     public void setup() {
         handler = new TDSDeleteStepHandler(mockService, mockTestPackageRepository, mockTestPackageMetadataRepository, mockJobRepository);
         mockTestPackage = TestPackage.builder()
+                .setId("TestPackageId")
                 .setAcademicYear("1234")
                 .setBankKey(123)
                 .setPublishDate("date")

@@ -21,6 +21,7 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
     @Override
     public TestPackage deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         final ObjectMapper xmlMapper = (ObjectMapper) jp.getCodec();
+        String id = null;
         String publisher = null;
         String publishDate = null;
         String subject = null;
@@ -34,7 +35,9 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
         for (; jp.getCurrentToken() != JsonToken.END_OBJECT; jp.nextToken()) {
             final JsonToken token = jp.getCurrentToken();
             if (token == JsonToken.FIELD_NAME) {
-                if ("publisher".equals(jp.getCurrentName())) {
+                if ("id".equals(jp.getCurrentName())) {
+                    id = jp.nextTextValue();
+                } else if ("publisher".equals(jp.getCurrentName())) {
                     publisher = jp.nextTextValue();
                 } else if ("publishDate".equals(jp.getCurrentName())) {
                     publishDate = jp.nextTextValue();
@@ -65,6 +68,7 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
         setBlueprintElementParent(blueprint);
 
         final TestPackage testPackage = TestPackage.builder().
+            setId(id).
             setPublisher(publisher).
             setPublishDate(publishDate).
             setSubject(subject).

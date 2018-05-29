@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.springframework.data.annotation.Transient;
@@ -32,8 +33,9 @@ public abstract class Item {
     @XmlElement(name="BlueprintReference", type=BlueprintReference.class)
     public abstract List<BlueprintReference> getBlueprintReferences();
 
+    @XmlElementWrapper(name="ItemScoreDimensions")
     @XmlElement(name="ItemScoreDimension", type=ItemScoreDimension.class)
-    public abstract ItemScoreDimension getItemScoreDimension();
+    public abstract List<ItemScoreDimension> getItemScoreDimensions();
 
     protected abstract Optional<String> getFieldTest();
     @XmlAttribute
@@ -180,8 +182,8 @@ public abstract class Item {
         @JacksonXmlProperty(localName = "BlueprintReferences")
         public abstract Builder setBlueprintReferences(List<BlueprintReference> newBlueprintReferences);
 
-        @JacksonXmlProperty(localName = "ItemScoreDimension")
-        public abstract Builder setItemScoreDimension(ItemScoreDimension newItemScoreDimension);
+        @JacksonXmlProperty(localName = "ItemScoreDimensions")
+        public abstract Builder setItemScoreDimensions(List<ItemScoreDimension> newItemScoreDimensions);
 
         @JacksonXmlProperty(localName = "fieldTest")
         public abstract Builder setFieldTest(Optional<String> newFieldTest);

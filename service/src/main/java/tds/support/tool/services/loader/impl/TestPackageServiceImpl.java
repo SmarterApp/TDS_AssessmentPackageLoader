@@ -16,11 +16,7 @@ import tds.support.tool.services.loader.TestPackageService;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 import tds.testpackage.model.TestPackage;
 
-import javax.xml.XMLConstants;
-import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 @Service
@@ -63,7 +59,7 @@ public class TestPackageServiceImpl implements TestPackageService {
 
             final TestPackage testPackage = xmlMapper.readValue(bais, TestPackage.class);
             TestPackage savedTestPackage = mongoTestPackageRepository.save(testPackage);
-            TestPackageMetadata metadata = new TestPackageMetadata(location, jobId, savedTestPackage.getId());
+            TestPackageMetadata metadata = new TestPackageMetadata(location, jobId, savedTestPackage.getMongoId());
             return testPackageMetadataRepository.save(metadata);
         } catch (IOException e) {
             throw new RuntimeException(
