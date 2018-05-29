@@ -7,6 +7,7 @@ import {TestPackageJobService} from "./test-package-jobs.service";
 import {TestPackageJob, StepStatus} from "./model/test-package-job.model";
 import {TimerObservable} from "rxjs/observable/TimerObservable";
 import 'rxjs/add/operator/takeWhile';
+import {AuthGuard} from "../../../auth.component";
 
 @Component({
   selector: 'test-package-jobs',
@@ -33,7 +34,8 @@ export class TestPackageJobsComponent implements OnInit, OnDestroy {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private service: TestPackageJobService) {
+              private service: TestPackageJobService,
+              private authGuard: AuthGuard) {
     this.alive = true;
   }
 
@@ -73,8 +75,12 @@ export class TestPackageJobsComponent implements OnInit, OnDestroy {
     this.service
       .getTestPackageJobs()
       .subscribe(loaderJobs => {
-        this.testPackageJobs = loaderJobs;
-      });
+          this.testPackageJobs = loaderJobs;
+        },
+        error => {
+          console.log("test-package-jobs.component got error getting data - refreshing auth")
+          this.authGuard.updateUser();
+        });
   }
 
   onSearchChange() {

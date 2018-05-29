@@ -7,6 +7,7 @@ import 'rxjs/add/operator/debounceTime';
 import "rxjs/add/operator/distinctUntilChanged";
 import {TimerObservable} from "rxjs/observable/TimerObservable";
 import {Router} from "@angular/router";
+import {AuthGuard} from "../../../auth.component";
 
 /**
  * Controller for interacting with test package status data.
@@ -36,7 +37,8 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
   columns = [];
 
   constructor(private testPackageStatusService: TestPackageStatusService,
-              private router: Router) {
+              private router: Router,
+              private authGuard: AuthGuard) {
     this.alive = true;
   }
 
@@ -83,8 +85,12 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
     this.testPackageStatusService
       .getTestPackageStatusRows()
       .subscribe(rows => {
-        this.testPackageStatuses = rows;
-      });
+          this.testPackageStatuses = rows;
+        },
+        error => {
+          console.log("test-package-status.component got error getting data - refreshing auth");
+          this.authGuard.updateUser();
+        });
   }
 
   onSearchChange() {
