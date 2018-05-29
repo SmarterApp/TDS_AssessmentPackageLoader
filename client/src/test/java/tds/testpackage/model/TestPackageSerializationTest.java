@@ -27,7 +27,7 @@ public class TestPackageSerializationTest {
     private ObjectMapper objectMapper;
     private XmlMapper xmlMapper;
 
-    private String expectedJSON = "{\"publisher\":\"SBAC_PT\",\"publishDate\":\"2015-08-19T18:13:51.0\",\"subject\":\"MATH\",\"type\":\"summative\",\"version\":\"8185\",\"bankKey\":187,\"academicYear\":\"2017-2018\"," +
+    private String expectedJSON = "{\"publisher\":\"SBAC_PT\",\"id\":\"SBAC-IRP-COMBINED-MATH-11\",\"publishDate\":\"2015-08-19T18:13:51.0\",\"subject\":\"MATH\",\"type\":\"summative\",\"version\":\"8185\",\"bankKey\":187,\"academicYear\":\"2017-2018\"," +
         "\"blueprint\":[{\"id\":\"SBAC-IRP-COMBINED-MATH-11\",\"type\":\"combined\"," +
         "\"scoring\":{\"rules\":[{\"name\":\"rule-name\",\"computationOrder\":1," +
         "\"parameters\":[{\"id\":\"id\",\"name\":\"parameter-name\",\"type\":\"type\",\"position\":1,\"values\":[{\"value\":\"value\"}]," +
@@ -220,6 +220,7 @@ public class TestPackageSerializationTest {
             .build();
 
         TestPackage testPackage = TestPackage.builder()
+            .setId("SBAC-IRP-COMBINED-MATH-11")
             .setPublisher("SBAC_PT")
             .setPublishDate("2015-08-19T18:13:51.0")
             .setSubject("MATH")
@@ -404,6 +405,7 @@ public class TestPackageSerializationTest {
             .build();
 
         TestPackage testPackage = TestPackage.builder()
+            .setId("SBAC-IRP-COMBINED-MATH-11")
             .setPublisher("SBAC_PT")
             .setPublishDate("2015-08-19T18:13:51.0")
             .setSubject("MATH")
