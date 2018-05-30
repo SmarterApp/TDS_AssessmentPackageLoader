@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation}
 import {TestPackageStatusService} from "./service/test-package-status.service";
 import {TestPackageStatusRow} from "./model/test-package-status-row";
 import {StepStatus} from "../jobs/model/test-package-job.model";
-import {TargetSystem} from "./model/target-system.enum";
 import 'rxjs/add/operator/debounceTime';
 import "rxjs/add/operator/distinctUntilChanged";
 import {TimerObservable} from "rxjs/observable/TimerObservable";
@@ -110,43 +109,32 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Build a tooltip description message for the {TargetSystem}'s {StepStatus}
-   * <p>
-   *     This method cannot be static; Angular views cannot access static methods
-   * </p>
+   * Build a tooltip description message for the {StepStatus}
    *
-   * @param {StepStatus} status The target system's {StepStatus}
-   * @param {TargetSystem} system The {TargetSystem}
+   * @param {TestPackageStatusRow} row The row to evaluate.
+   * @param {string} value The StepStatus string.
    * @return {string} A message describing what the status icon means
    */
-  getStatusDescription(status: StepStatus, system: TargetSystem): string {
-    let statusMessage = `The test package was not loaded into ${ system }`;
-
-    switch (status) {
-      case StepStatus.Success:
-        statusMessage = `The test package was loaded into ${ system } successfully`;
-        break;
-      case StepStatus.Fail:
-        statusMessage = `The test package could not be loaded into ${ system }`;
-        break;
-      default:
-        break;
+  getStatusDescription(row: TestPackageStatusRow, value: string): string {
+    if(value == StepStatus.Success) {
+      return `The test package has been loaded into this system.`;
     }
-
-    return statusMessage;
+    return `The test package has not been loaded into this system.`;
+  }
+  /**
+   * Apply a CSS class to provide the image for the row/system status cell.
+   *
+   * @param {TestPackageStatusRow} row The row to evaluate.
+   * @param {string} value The StepStatus string.
+   * @return {string | string} A string space-separated CSS classes to provide the icon.
+   */
+  getStatusClass(row: TestPackageStatusRow, value: string): string {
+    if(value == StepStatus.Success) {
+      return "fa fa-check-circle load-success";
+    }
+    return "fa fa-minus load-not-applicable";
   }
 
-  /**
-   * Apply a CSS class to indicate a row represents a {TestPackage} that is in the process of being deleted
-   *
-   * @param {TestPackageStatusRow} rowData The row to evaluate
-   * @return {string | string} The name of the CSS class, or an empty string if no CSS needs to be added
-   */
-  rowClass = (rowData: TestPackageStatusRow) => {
-    return rowData.jobType == 'DELETE'
-      ? 'status-is-deleted'
-      : ''
-  };
 
   /**
    * Delete a test package from all the systems it has been loaded into.
@@ -157,9 +145,6 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
     const message = `Are you sure you want to delete the '${ name }' test package? The test package will be deleted from all systems it is currently loaded into.`;
     if (window.confirm(message)) {
       this.testPackageStatusService.deleteTestPackage(name);
-
-      alert("Test Package '" + name + "' is in the process of being deleted.  Once the test package has been deleted from all systems, the test package will no longer appear in this list.");
-
       this.updateResults();
     }
   }
