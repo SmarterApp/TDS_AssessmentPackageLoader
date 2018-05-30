@@ -45,7 +45,6 @@ public class TDSDeleteStepHandler implements TestPackageHandler {
             step.setStatus(Status.SUCCESS);
         } catch (HttpClientErrorException hcee) {
             if(404 == hcee.getRawStatusCode()) {
-                // Accept a 404 on delete as OK - it's not there - mission accomplished! But log it.
                 log.warn("Accepting a 404 as OK when deleting: step {}, job ID {}", step.getName(), job.getId());
                 step.setStatus(Status.SUCCESS);
                 step.addError(new Error(String.format(

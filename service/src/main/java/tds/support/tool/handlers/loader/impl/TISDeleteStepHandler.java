@@ -4,10 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import tds.support.job.Job;
-import tds.support.job.JobType;
-import tds.support.job.Status;
-import tds.support.job.Step;
+import org.springframework.web.client.HttpClientErrorException;
+
+import tds.support.job.Error;
+import tds.support.job.*;
 import tds.support.tool.handlers.loader.TestPackageHandler;
 import tds.support.tool.model.TestPackageMetadata;
 import tds.support.tool.repositories.JobRepository;
@@ -46,6 +46,17 @@ public class TISDeleteStepHandler implements TestPackageHandler {
             TestPackageDeserializer.setTestPackageParent(testPackage);
             tisTestPackageService.deleteTestPackage(testPackage);
             step.setStatus(Status.SUCCESS);
+        } catch (HttpClientErrorException hcee) {
+            if(404 == hcee.getRawStatusCode()) {
+                log.warn("Accepting a 404 as OK when deleting: step {}, job ID {}", step.getName(), job.getId());
+                step.setStatus(Status.SUCCESS);
+                step.addError(new Error(String.format(
+                    "Warning: Received a 404 NOT FOUND when deleting package from %s. " +
+                        "This is OK if the package is not actually on the system.", step.getJobStepTarget()),
+                    ErrorSeverity.WARN));
+            } else {
+                Step.handleException(job, step, hcee);
+            }
         } catch (Exception e) {
             Step.handleException(job, step, e);
         }
