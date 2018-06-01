@@ -27,6 +27,7 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
         String subject = null;
         String type = null;
         String version = null;
+        String subType = null;
         int bankKey = 0;
         String academicYear = null;
         List<BlueprintElement> blueprint = null;
@@ -45,6 +46,8 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
                     subject = jp.nextTextValue();
                 } else if ("type".equals(jp.getCurrentName())) {
                     type =  jp.nextTextValue();
+                } else if ("subType".equals(jp.getCurrentName())) {
+                    subType =  jp.nextTextValue();
                 } else if ("version".equals(jp.getCurrentName())) {
                     version = jp.nextTextValue();
                 } else if ("bankKey".equals(jp.getCurrentName())) {
@@ -73,6 +76,7 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
             setPublishDate(publishDate).
             setSubject(subject).
             setType(type).
+            setSubType(subType != null ? Optional.of(subType) : Optional.empty()).
             setVersion(version).
             setBankKey(bankKey).
             setAcademicYear(academicYear).

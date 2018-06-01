@@ -47,6 +47,9 @@ public abstract class TestPackage {
     @XmlAttribute
     public abstract String getType();
     @XmlAttribute
+    public abstract Optional<String> getSubType();
+
+    @XmlAttribute
     public abstract String getVersion();
     @XmlAttribute
     public abstract int getBankKey();
@@ -76,6 +79,8 @@ public abstract class TestPackage {
         public abstract Builder setSubject(String newSubject);
 
         public abstract Builder setType(String newType);
+
+        public abstract Builder setSubType(Optional<String> newSubType);
 
         public abstract Builder setVersion(String newVersion);
 
