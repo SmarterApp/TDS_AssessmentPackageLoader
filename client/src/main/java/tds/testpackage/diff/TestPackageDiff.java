@@ -15,7 +15,7 @@ import java.util.List;
 
 @AutoValue
 @XmlRootElement(name = "TestPackageDiff")
-@JsonDeserialize(using = TestPackageDeserializer.class,  builder = AutoValue_TestPackageDiff.Builder.class)
+@JsonDeserialize(builder = AutoValue_TestPackageDiff.Builder.class)
 @XmlType(propOrder={"assessments"})
 public abstract class TestPackageDiff {
     @XmlElement(name="Test", type=Assessment.class)

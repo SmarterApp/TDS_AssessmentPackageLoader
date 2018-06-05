@@ -57,6 +57,7 @@ public abstract class Segment {
      * @return
      */
     @JsonProperty(value = "items")
+    @XmlElementWrapper(name="Items")
     @XmlElement(name="Item", type=Item.class)
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     public List<Item> items() {
@@ -99,10 +100,10 @@ public abstract class Segment {
 
         public abstract Builder setLabel(Optional<String> newLabel);
 
+        @JacksonXmlProperty(localName = "Items")
+        public abstract Builder setItems(List<Item> newItems);
 
-        @JacksonXmlProperty(localName = "Item")
-        public abstract Builder setitems(List<Item> newItems);
-
+        @JacksonXmlProperty(localName = "Tools")
         public abstract Builder setTools(List<Tool> newTools);
 
         public abstract Segment build();
