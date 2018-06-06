@@ -527,7 +527,7 @@ The Dependency can be read as:
                             <xs:element minOccurs="0" name="PoolProperties">
                                 <xs:complexType>
                                     <xs:sequence>
-                                        <xs:element name="PoolProperty">
+                                        <xs:element maxOccurs="unbounded" name="PoolProperty">
                                             <xs:complexType>
                                                 <xs:attribute name="name" type="xs:token"
                                                   use="required"/>
