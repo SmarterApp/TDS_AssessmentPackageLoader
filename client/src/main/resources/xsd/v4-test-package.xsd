@@ -524,7 +524,7 @@ The Dependency can be read as:
                                 </xs:complexType>
                             </xs:element>
                             <xs:element ref="Presentations"/>
-                            <xs:element name="PoolProperties">
+                            <xs:element minOccurs="0" name="PoolProperties">
                                 <xs:complexType>
                                     <xs:sequence>
                                         <xs:element name="PoolProperty">
