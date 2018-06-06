@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified"
-           vc:minVersion="1.1">
+    xmlns:vc="http://www.w3.org/2007/XMLSchema-versioning" elementFormDefault="qualified"
+    vc:minVersion="1.1">
     <xs:element name="TestPackage">
         <xs:annotation>
             <xs:documentation><![CDATA[
@@ -137,10 +137,10 @@ The root element of the test package. The <TestPackage> element contains an opti
                                             </xs:annotation>
                                             <xs:complexType>
                                                 <xs:sequence>
-                                                    <xs:element maxOccurs="unbounded"
-                                                                name="SegmentBlueprintElement">
-                                                        <xs:annotation>
-                                                            <xs:documentation>BlueprintElement
+                                                  <xs:element maxOccurs="unbounded"
+                                                  name="SegmentBlueprintElement">
+                                                  <xs:annotation>
+                                                  <xs:documentation>BlueprintElement
 
                                                                 ATTRIBUTES:
                                                                 - refId: The id of the assessment-level blueprint
@@ -148,47 +148,44 @@ The root element of the test package. The <TestPackage> element contains an opti
                                                                 - minExamItems/maxExamItems: the minimum and maximum
                                                                 operational items to administer from this segment
                                                             </xs:documentation>
-                                                        </xs:annotation>
-                                                        <xs:complexType>
-                                                            <xs:sequence>
-                                                                <xs:element minOccurs="0" name="ItemSelection">
-                                                                    <xs:complexType>
-                                                                        <xs:sequence>
-                                                                            <xs:element maxOccurs="unbounded"
-                                                                                        minOccurs="1"
-                                                                                        name="Property">
-                                                                                <xs:complexType>
-                                                                                    <xs:attribute name="name"
-                                                                                                  type="xs:token"
-                                                                                                  use="required"/>
-                                                                                    <xs:attribute name="value"
-                                                                                                  type="xs:token"
-                                                                                                  use="required"/>
-                                                                                </xs:complexType>
-                                                                            </xs:element>
-                                                                        </xs:sequence>
-                                                                    </xs:complexType>
-                                                                </xs:element>
-                                                            </xs:sequence>
-                                                            <xs:attribute name="idRef" type="xs:token"
-                                                                          use="required"/>
-                                                            <xs:attribute name="minExamItems" type="xs:int"
-                                                                          use="required"/>
-                                                            <xs:attribute name="maxExamItems" type="xs:int"
-                                                                          use="required"/>
-                                                            <xs:attribute default="0" name="minFieldTestItems"
-                                                                          type="xs:int"/>
-                                                            <xs:attribute default="0" name="maxFieldTestItems"
-                                                                          type="xs:int"/>
-                                                        </xs:complexType>
-                                                    </xs:element>
+                                                  </xs:annotation>
+                                                  <xs:complexType>
+                                                  <xs:sequence>
+                                                  <xs:element minOccurs="0" name="ItemSelection">
+                                                  <xs:complexType>
+                                                  <xs:sequence>
+                                                  <xs:element maxOccurs="unbounded" minOccurs="1"
+                                                  name="Property">
+                                                  <xs:complexType>
+                                                  <xs:attribute name="name" type="xs:token"
+                                                  use="required"/>
+                                                  <xs:attribute name="value" type="xs:token"
+                                                  use="required"/>
+                                                  </xs:complexType>
+                                                  </xs:element>
+                                                  </xs:sequence>
+                                                  </xs:complexType>
+                                                  </xs:element>
+                                                  </xs:sequence>
+                                                  <xs:attribute name="idRef" type="xs:token"
+                                                  use="required"/>
+                                                  <xs:attribute name="minExamItems" type="xs:int"
+                                                  use="required"/>
+                                                  <xs:attribute name="maxExamItems" type="xs:int"
+                                                  use="required"/>
+                                                  <xs:attribute default="0" name="minFieldTestItems"
+                                                  type="xs:int"/>
+                                                  <xs:attribute default="0" name="maxFieldTestItems"
+                                                  type="xs:int"/>
+                                                  </xs:complexType>
+                                                  </xs:element>
                                                 </xs:sequence>
                                             </xs:complexType>
                                         </xs:element>
                                         <xs:choice>
                                             <xs:element name="Pool">
                                                 <xs:annotation>
-                                                    <xs:documentation>The Segment's Pool - A list of items/itemgroups
+                                                  <xs:documentation>The Segment's Pool - A list of items/itemgroups
                                                         that is specific for adaptive segments.
 
                                                         A pool containing items that can be selected for a segment,
@@ -198,25 +195,25 @@ The root element of the test package. The <TestPackage> element contains an opti
                                                     </xs:documentation>
                                                 </xs:annotation>
                                                 <xs:complexType>
-                                                    <xs:sequence>
-                                                        <xs:element maxOccurs="unbounded" ref="ItemGroup"
-                                                        />
-                                                    </xs:sequence>
+                                                  <xs:sequence>
+                                                  <xs:element maxOccurs="unbounded" ref="ItemGroup"
+                                                  />
+                                                  </xs:sequence>
                                                 </xs:complexType>
                                             </xs:element>
                                             <xs:element name="SegmentForms">
                                                 <xs:annotation>
-                                                    <xs:documentation>The forms available form selection for this
+                                                  <xs:documentation>The forms available form selection for this
                                                         assessment (typically based on subject and the form cohort), at
                                                         least one form is required per-segment, for fixed-form segments.
                                                     </xs:documentation>
                                                 </xs:annotation>
                                                 <xs:complexType>
-                                                    <xs:sequence>
-                                                        <xs:element maxOccurs="unbounded"
-                                                                    name="SegmentForm">
-                                                            <xs:annotation>
-                                                                <xs:documentation>Segment-level form definition. (Only
+                                                  <xs:sequence>
+                                                  <xs:element maxOccurs="unbounded"
+                                                  name="SegmentForm">
+                                                  <xs:annotation>
+                                                  <xs:documentation>Segment-level form definition. (Only
                                                                     required when segments use the 'fixed form' item
                                                                     selection algorithm)
 
@@ -264,24 +261,24 @@ The root element of the test package. The <TestPackage> element contains an opti
                                                                     one or more items and potentially a stimuli) that
                                                                     make up the items in the form
                                                                 </xs:documentation>
-                                                            </xs:annotation>
-                                                            <xs:complexType>
-                                                                <xs:sequence>
-                                                                    <xs:element ref="Presentations"/>
-                                                                    <xs:element maxOccurs="unbounded" ref="ItemGroup"
-                                                                    />
-                                                                </xs:sequence>
-                                                                <xs:attribute name="id" type="xs:token"
-                                                                              use="required"/>
-                                                                <xs:attribute default="Default" name="cohort"
-                                                                              type="xs:token" use="optional"/>
-                                                            </xs:complexType>
-                                                            <xs:unique name="UniqueItemGroupPositionInFormKey">
-                                                                <xs:selector xpath="./ItemGroup"/>
-                                                                <xs:field xpath="@position"/>
-                                                            </xs:unique>
-                                                        </xs:element>
-                                                    </xs:sequence>
+                                                  </xs:annotation>
+                                                  <xs:complexType>
+                                                  <xs:sequence>
+                                                  <xs:element ref="Presentations"/>
+                                                  <xs:element maxOccurs="unbounded" ref="ItemGroup"
+                                                  />
+                                                  </xs:sequence>
+                                                  <xs:attribute name="id" type="xs:token"
+                                                  use="required"/>
+                                                  <xs:attribute default="Default" name="cohort"
+                                                  type="xs:token" use="optional"/>
+                                                  </xs:complexType>
+                                                  <xs:unique name="UniqueItemGroupPositionInFormKey">
+                                                  <xs:selector xpath="./ItemGroup"/>
+                                                  <xs:field xpath="@position"/>
+                                                  </xs:unique>
+                                                  </xs:element>
+                                                  </xs:sequence>
                                                 </xs:complexType>
                                             </xs:element>
                                         </xs:choice>
@@ -289,16 +286,16 @@ The root element of the test package. The <TestPackage> element contains an opti
                                     </xs:sequence>
                                     <xs:attribute name="id" type="xs:token" use="required"/>
                                     <xs:attribute name="algorithmType" type="xs:token"
-                                                  use="required"/>
+                                        use="required"/>
                                     <xs:attribute name="algorithmImplementation" type="xs:token"
-                                                  use="required"/>
+                                        use="required"/>
                                     <xs:attribute name="position" type="xs:short" use="optional"
-                                                  default="1"/>
+                                        default="1"/>
                                     <xs:attribute name="label" type="xs:token"/>
                                     <xs:attribute default="false" name="entryApproval"
-                                                  type="xs:boolean"/>
+                                        type="xs:boolean"/>
                                     <xs:attribute default="false" name="exitApproval"
-                                                  type="xs:boolean"/>
+                                        type="xs:boolean"/>
                                 </xs:complexType>
                                 <xs:unique name="SegmentPositionUniqueKey">
                                     <xs:selector xpath=".//Segment"/>
@@ -380,20 +377,20 @@ The root element of the test package. The <TestPackage> element contains an opti
                                             </xs:annotation>
                                             <xs:complexType>
                                                 <xs:sequence>
-                                                    <xs:element name="Dependencies" minOccurs="0">
-                                                        <xs:annotation>
-                                                            <xs:documentation>(OPTIONAL) A list of one or more
+                                                  <xs:element name="Dependencies" minOccurs="0">
+                                                  <xs:annotation>
+                                                  <xs:documentation>(OPTIONAL) A list of one or more
                                                                 dependencies indicating whether an Option(s) should be
                                                                 enabled based on other Tool selections
                                                             </xs:documentation>
-                                                        </xs:annotation>
-                                                        <xs:complexType>
-                                                            <xs:sequence>
-                                                                <xs:element maxOccurs="unbounded"
-                                                                            name="Dependency">
-                                                                    <xs:annotation>
-                                                                        <xs:documentation/>
-                                                                        <xs:documentation><![CDATA[
+                                                  </xs:annotation>
+                                                  <xs:complexType>
+                                                  <xs:sequence>
+                                                  <xs:element maxOccurs="unbounded"
+                                                  name="Dependency">
+                                                  <xs:annotation>
+                                                  <xs:documentation/>
+                                                  <xs:documentation><![CDATA[
 A Dependency defines a rule for when a specific Tool Option should be enabled or available to an examinee.
 
 ATTRIBUTES:
@@ -406,26 +403,26 @@ The Dependency can be read as:
    if <ifToolType> is <ifToolCode>, then the option is enabled (or disabled)
    e.g., "IF <Language> IS <ENU>, THEN <'Emboss' option should be disabled>"
 ]]></xs:documentation>
-                                                                    </xs:annotation>
-                                                                    <xs:complexType>
-                                                                        <xs:attribute name="ifToolType" type="xs:token"
-                                                                                      use="required"/>
-                                                                        <xs:attribute name="ifToolCode" type="xs:token"
-                                                                                      use="required"/>
-                                                                        <xs:attribute default="false" name="default"
-                                                                                      type="xs:boolean"/>
-                                                                    </xs:complexType>
-                                                                </xs:element>
-                                                            </xs:sequence>
-                                                        </xs:complexType>
-                                                    </xs:element>
+                                                  </xs:annotation>
+                                                  <xs:complexType>
+                                                  <xs:attribute name="ifToolType" type="xs:token"
+                                                  use="required"/>
+                                                  <xs:attribute name="ifToolCode" type="xs:token"
+                                                  use="required"/>
+                                                  <xs:attribute default="false" name="default"
+                                                  type="xs:boolean"/>
+                                                  </xs:complexType>
+                                                  </xs:element>
+                                                  </xs:sequence>
+                                                  </xs:complexType>
+                                                  </xs:element>
                                                 </xs:sequence>
                                                 <xs:attribute name="code" type="xs:token"
-                                                              use="required"/>
+                                                  use="required"/>
                                                 <xs:attribute name="sortOrder" type="xs:int"
-                                                              use="required"/>
+                                                  use="required"/>
                                                 <xs:attribute default="false" name="default"
-                                                              type="xs:boolean"/>
+                                                  type="xs:boolean"/>
                                                 <xs:attribute name="label" type="xs:token"/>
                                             </xs:complexType>
                                         </xs:element>
@@ -520,13 +517,27 @@ The Dependency can be read as:
                                             </xs:annotation>
                                             <xs:complexType>
                                                 <xs:attribute name="idRef" type="xs:token"
-                                                              use="required"/>
+                                                  use="required"/>
                                             </xs:complexType>
                                         </xs:element>
                                     </xs:sequence>
                                 </xs:complexType>
                             </xs:element>
                             <xs:element ref="Presentations"/>
+                            <xs:element name="PoolProperties">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="PoolProperty">
+                                            <xs:complexType>
+                                                <xs:attribute name="name" type="xs:token"
+                                                  use="required"/>
+                                                <xs:attribute name="value" type="xs:token"
+                                                  use="required"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
                             <xs:element name="ItemScoreDimensions">
                                 <xs:complexType>
                                     <xs:sequence>
@@ -548,27 +559,27 @@ The Dependency can be read as:
                                             </xs:annotation>
                                             <xs:complexType>
                                                 <xs:sequence>
-                                                    <xs:element maxOccurs="unbounded"
-                                                                name="ItemScoreParameter" minOccurs="0">
-                                                        <xs:annotation>
-                                                            <xs:documentation>A parameter within a dimension. e.g. for
+                                                  <xs:element maxOccurs="unbounded"
+                                                  name="ItemScoreParameter" minOccurs="0">
+                                                  <xs:annotation>
+                                                  <xs:documentation>A parameter within a dimension. e.g. for
                                                                 IRT3pl there are 3 parameters, named a, b, and c.
                                                             </xs:documentation>
-                                                        </xs:annotation>
-                                                        <xs:complexType>
-                                                            <xs:attribute name="measurementParameter"
-                                                                          type="xs:token" use="required"/>
-                                                            <xs:attribute name="value" type="xs:float"
-                                                                          use="required"/>
-                                                        </xs:complexType>
-                                                    </xs:element>
+                                                  </xs:annotation>
+                                                  <xs:complexType>
+                                                  <xs:attribute name="measurementParameter"
+                                                  type="xs:token" use="required"/>
+                                                  <xs:attribute name="value" type="xs:float"
+                                                  use="required"/>
+                                                  </xs:complexType>
+                                                  </xs:element>
                                                 </xs:sequence>
                                                 <xs:attribute name="measurementModel"
-                                                              type="xs:token" use="required"/>
+                                                  type="xs:token" use="required"/>
                                                 <xs:attribute name="scorePoints" type="xs:int"
-                                                              use="required"/>
+                                                  use="required"/>
                                                 <xs:attribute name="weight" type="xs:float"
-                                                              use="required"/>
+                                                  use="required"/>
                                                 <xs:attribute name="dimension" type="xs:token"/>
                                             </xs:complexType>
                                         </xs:element>
@@ -665,11 +676,11 @@ The Dependency can be read as:
                                             </xs:annotation>
                                             <xs:complexType>
                                                 <xs:attribute name="pLevel" type="xs:int"
-                                                              use="required"/>
+                                                  use="required"/>
                                                 <xs:attribute name="scaledLo" type="xs:float"
-                                                              use="required"/>
+                                                  use="required"/>
                                                 <xs:attribute name="scaledHi" type="xs:float"
-                                                              use="required"/>
+                                                  use="required"/>
                                             </xs:complexType>
                                         </xs:element>
                                     </xs:sequence>
@@ -694,44 +705,44 @@ The Dependency can be read as:
                                             </xs:annotation>
                                             <xs:complexType>
                                                 <xs:sequence>
-                                                    <xs:element maxOccurs="unbounded" name="Parameter"
-                                                                minOccurs="0">
-                                                        <xs:annotation>
-                                                            <xs:documentation>A parameter for a computation rule
+                                                  <xs:element maxOccurs="unbounded" name="Parameter"
+                                                  minOccurs="0">
+                                                  <xs:annotation>
+                                                  <xs:documentation>A parameter for a computation rule
                                                             </xs:documentation>
-                                                        </xs:annotation>
-                                                        <xs:complexType>
-                                                            <xs:sequence>
-                                                                <xs:element maxOccurs="unbounded" name="Property"
-                                                                            minOccurs="0">
-                                                                    <xs:complexType>
-                                                                        <xs:attribute name="name" type="xs:token"
-                                                                                      use="required"/>
-                                                                        <xs:attribute name="value" type="xs:token"
-                                                                                      use="required"/>
-                                                                    </xs:complexType>
-                                                                </xs:element>
-                                                                <xs:element maxOccurs="unbounded" name="Value">
-                                                                    <xs:complexType>
-                                                                        <xs:attribute name="index" type="xs:token"/>
-                                                                        <xs:attribute name="value" type="xs:token"
-                                                                                      use="required"/>
-                                                                    </xs:complexType>
-                                                                </xs:element>
-                                                            </xs:sequence>
-                                                            <xs:attribute name="id" type="xs:token"
-                                                                          use="required"/>
-                                                            <xs:attribute name="type" type="xs:token"
-                                                                          use="required"/>
-                                                            <xs:attribute name="position" type="xs:int"
-                                                                          use="required"/>
-                                                            <xs:attribute name="name" type="xs:token"/>
-                                                        </xs:complexType>
-                                                    </xs:element>
+                                                  </xs:annotation>
+                                                  <xs:complexType>
+                                                  <xs:sequence>
+                                                  <xs:element maxOccurs="unbounded" name="Property"
+                                                  minOccurs="0">
+                                                  <xs:complexType>
+                                                  <xs:attribute name="name" type="xs:token"
+                                                  use="required"/>
+                                                  <xs:attribute name="value" type="xs:token"
+                                                  use="required"/>
+                                                  </xs:complexType>
+                                                  </xs:element>
+                                                  <xs:element maxOccurs="unbounded" name="Value">
+                                                  <xs:complexType>
+                                                  <xs:attribute name="index" type="xs:token"/>
+                                                  <xs:attribute name="value" type="xs:token"
+                                                  use="required"/>
+                                                  </xs:complexType>
+                                                  </xs:element>
+                                                  </xs:sequence>
+                                                  <xs:attribute name="id" type="xs:token"
+                                                  use="required"/>
+                                                  <xs:attribute name="type" type="xs:token"
+                                                  use="required"/>
+                                                  <xs:attribute name="position" type="xs:int"
+                                                  use="required"/>
+                                                  <xs:attribute name="name" type="xs:token"/>
+                                                  </xs:complexType>
+                                                  </xs:element>
                                                 </xs:sequence>
                                                 <xs:attribute name="computationOrder" type="xs:int"/>
                                                 <xs:attribute name="name" type="xs:token"
-                                                              use="required"/>
+                                                  use="required"/>
                                             </xs:complexType>
                                         </xs:element>
                                     </xs:sequence>

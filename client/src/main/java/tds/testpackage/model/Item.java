@@ -8,10 +8,12 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.data.annotation.Transient;
 import tds.teacherhandscoring.model.TeacherHandScoring;
 
 import javax.xml.bind.annotation.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +38,16 @@ public abstract class Item {
     @XmlElementWrapper(name="ItemScoreDimensions")
     @XmlElement(name="ItemScoreDimension", type=ItemScoreDimension.class)
     public abstract List<ItemScoreDimension> getItemScoreDimensions();
+
+    @Nullable
+    protected abstract List<PoolProperty> getPoolProperties();
+
+    @JsonProperty(value = "poolProperties")
+    @XmlElementWrapper(name="PoolProperties")
+    @XmlElement(name="PoolProperty", type=PoolProperty.class)
+    public List<PoolProperty> poolProperties() {
+        return Optional.ofNullable(getPoolProperties()).orElse(new ArrayList<>());
+    }
 
     protected abstract Optional<String> getFieldTest();
     @XmlAttribute
@@ -184,6 +196,9 @@ public abstract class Item {
 
         @JacksonXmlProperty(localName = "ItemScoreDimensions")
         public abstract Builder setItemScoreDimensions(List<ItemScoreDimension> newItemScoreDimensions);
+
+        @JacksonXmlProperty(localName = "PoolProperties")
+        public abstract Builder setPoolProperties(List<PoolProperty> newPoolProperties);
 
         @JacksonXmlProperty(localName = "fieldTest")
         public abstract Builder setFieldTest(Optional<String> newFieldTest);
