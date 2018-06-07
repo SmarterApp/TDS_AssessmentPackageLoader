@@ -110,17 +110,19 @@ public class THSSServiceImpl implements THSSService {
             UriComponentsBuilder.fromHttpUrl(String.format("%s/item/delete", thssUrl));
 
         final List<TeacherHandScoringConfiguration> teacherHandScoringConfigurationList = getThssConfiguration(testPackage);
-        final String items = teacherHandScoringConfigurationList.stream().map(TeacherHandScoringConfiguration::itemId).collect(Collectors.joining(","));
-        builder.queryParam("bankKey", testPackage.getBankKey());
-        builder.queryParam("items", items);
+        if (!teacherHandScoringConfigurationList.isEmpty()) {
+            final String items = teacherHandScoringConfigurationList.stream().map(TeacherHandScoringConfiguration::itemId).collect(Collectors.joining(","));
+            builder.queryParam("bankKey", testPackage.getBankKey());
+            builder.queryParam("items", items);
 
-        final ResponseEntity<TeacherHandScoringApiResultFile> responseEntity = restTemplate.exchange(builder.build().toUri(), HttpMethod.DELETE, null, TeacherHandScoringApiResultFile.class);
+            final ResponseEntity<TeacherHandScoringApiResultFile> responseEntity = restTemplate.exchange(builder.build().toUri(), HttpMethod.DELETE, null, TeacherHandScoringApiResultFile.class);
 
-        if (responseEntity.getBody() != null) {
-            final TeacherHandScoringApiResultFile body = responseEntity.getBody();
-            if (!body.getSuccess()) {
-                final String errorMessage = (body.getErrorMessage() != null) ? body.getErrorMessage() : "";
-                return Optional.of(new ValidationError("Error", errorMessage));
+            if (responseEntity.getBody() != null) {
+                final TeacherHandScoringApiResultFile body = responseEntity.getBody();
+                if (!body.getSuccess()) {
+                    final String errorMessage = (body.getErrorMessage() != null) ? body.getErrorMessage() : "";
+                    return Optional.of(new ValidationError("Error", errorMessage));
+                }
             }
         }
         return Optional.empty();
