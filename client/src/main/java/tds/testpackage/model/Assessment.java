@@ -31,7 +31,7 @@ import java.util.Optional;
  */
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Assessment.Builder.class)
-@XmlType(name = "Test")
+@XmlType(name = "Test", propOrder={"grades", "segments", "tools"})
 public abstract class Assessment {
     @XmlAttribute
     public abstract String getId();

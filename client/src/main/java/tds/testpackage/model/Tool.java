@@ -11,6 +11,8 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.data.annotation.Transient;
 
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -309,8 +311,9 @@ public abstract class Tool {
     public boolean allowMultipleOptions() {
         return parseBoolean(getAllowMultipleOptions(), getDefaultTool().flatMap(Tool::getAllowMultipleOptions), false);
     }
-
-    @JsonProperty()
+    @JsonProperty(value = "options")
+    @XmlElementWrapper(name="Options")
+    @XmlElement(name="Option", type=Option.class)
     public List<Option> options() {
         return Optional.ofNullable(getOptions()).orElse(new ArrayList<>());
     }

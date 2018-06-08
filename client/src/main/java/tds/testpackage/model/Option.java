@@ -7,6 +7,9 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,12 +23,17 @@ import static tds.testpackage.model.XmlUtil.parseBoolean;
 @AutoValue
 @JsonDeserialize(builder = AutoValue_Option.Builder.class)
 public abstract class Option {
+    @XmlAttribute
     public abstract String getCode();
+    @XmlAttribute
     public abstract int getSortOrder();
+    @XmlAttribute
     protected abstract Optional<String> getDefault();
+    @XmlAttribute
     public boolean defaultValue() {
         return parseBoolean(getDefault(), false);
     }
+    @XmlAttribute
     public abstract Optional<String> getLabel();
 
     /**
@@ -36,7 +44,10 @@ public abstract class Option {
      */
     @Nullable
     protected abstract List<Dependency> getDependencies();
+
     @JsonProperty(value = "dependencies")
+    @XmlElementWrapper(name="Dependencies")
+    @XmlElement(name="Dependency", type=Dependency.class)
     public List<Dependency> dependencies() {
         return Optional.ofNullable(getDependencies()).orElse(new ArrayList<>());
     }
