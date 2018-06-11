@@ -1,6 +1,7 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
@@ -25,6 +26,14 @@ import java.util.Optional;
 @JsonDeserialize(builder = AutoValue_Rule.Builder.class)
 public abstract class Rule {
     @XmlAttribute
+    protected abstract Optional<String> getMeasure();
+
+    @JsonIgnore
+    public String measure() {
+        return getMeasure().orElse(getName());
+    }
+
+    @XmlAttribute
     public abstract String getName();
     @XmlAttribute
     public abstract int getComputationOrder();
@@ -46,6 +55,7 @@ public abstract class Rule {
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     public abstract static class Builder {
         public abstract Builder setName(String newName);
+        public abstract Builder setMeasure(Optional<String> newMeasure);
 
         public abstract Builder setComputationOrder(int newComputationOrder);
 
