@@ -120,8 +120,7 @@ public class SupportToolServiceConfiguration {
                 new MappingJackson2HttpMessageConverter(objectMapper),
                 new MappingJackson2XmlHttpMessageConverter(xmlMapper),
                 new ResourceHttpMessageConverter()).
-            additionalInterceptors(new RestTemplateLoggingInterceptor(objectMapper, applicationContext.getId())).
-            additionalMessageConverters();
+            additionalInterceptors(new RestTemplateLoggingInterceptor(objectMapper, applicationContext.getId()));
     }
 
     @Bean(name = "integrationRestTemplate")

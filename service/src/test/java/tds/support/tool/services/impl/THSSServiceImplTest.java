@@ -1,5 +1,6 @@
 package tds.support.tool.services.impl;
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.github.paweladamski.httpclientmock.HttpClientMock;
@@ -8,13 +9,21 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
+import org.springframework.security.saml.userdetails.SAMLUserDetailsService;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
@@ -26,8 +35,15 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 import tds.common.ValidationError;
+import tds.support.tool.configuration.S3Properties;
 import tds.support.tool.configuration.SupportToolProperties;
+import tds.support.tool.configuration.SupportToolServiceConfiguration;
+import tds.support.tool.configuration.security.WebSecurityConfiguration;
+import tds.support.tool.repositories.loader.TestPackageRepository;
+import tds.support.tool.security.SamlUserDetailsServiceImpl;
+import tds.support.tool.security.permission.PermissionService;
 import tds.support.tool.services.THSSService;
+import tds.support.tool.services.loader.MessagingService;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 import tds.teacherhandscoring.model.TeacherHandScoringConfiguration;
 import tds.testpackage.model.TestPackage;
@@ -38,7 +54,19 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest()
+@ComponentScan(basePackages = {
+    "tds.support.tool.testpackage.configuration",
+    "tds.support.tool.handlers.loader",
+    "tds.support.tool.services.loader",
+    "tds.support.tool.handlers.loader.impl",
+    "tds.support.tool.services.impl",
+    "tds.support.tool.validation",
+    "tds.support.tool.configuration",
+    "tds.support.tool.repositories.loader",
+    "tds.support.tool.repositories.loader.impl",
+    "tds.support.tool.messaging"})
+@Import({SupportToolServiceConfiguration.class, SupportToolProperties.class})
+@DataMongoTest
 public class THSSServiceImplTest {
     @Autowired
     TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration;
@@ -52,6 +80,21 @@ public class THSSServiceImplTest {
     MockRestServiceServer mockServer;
     XmlMapper xmlMapper;
     ObjectMapper objectMapper;
+
+    @MockBean
+    AmazonS3 amazonS3;
+    @MockBean
+    TestPackageRepository testPackageRepository;
+    @MockBean
+    MessagingService messagingService;
+    @MockBean
+    RabbitTemplate rabbitTemplate;
+    @MockBean
+    PermissionService permissionService;
+    @MockBean
+    WebSecurityConfiguration webSecurityConfiguration;
+    @MockBean
+    ConnectionFactory connectionFactory;
 
     @TestConfiguration
     public static class THSSServiceConfiguration {
@@ -141,7 +184,6 @@ public class THSSServiceImplTest {
      * @throws Exception
      */
     @Test
-    @Ignore
     public void shouldLoadItemsIntoTHSSWithoutError() throws Exception {
         InputStream inputStream = THSSServiceImplTest.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
@@ -151,7 +193,6 @@ public class THSSServiceImplTest {
     }
 
     @Test
-    @Ignore
     public void shouldConvertTestPackageToThssConfig() throws Exception {
         InputStream inputStream = THSSServiceImplTest.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
@@ -163,7 +204,6 @@ public class THSSServiceImplTest {
     }
 
     @Test
-    @Ignore
     public void shouldConvertTestPackageToThssConfigAndHaveCorrectFields() throws Exception {
         InputStream inputStream = THSSServiceImplTest.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);

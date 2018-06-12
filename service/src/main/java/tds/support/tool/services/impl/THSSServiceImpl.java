@@ -1,18 +1,22 @@
 package tds.support.tool.services.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.common.io.ByteStreams;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -21,6 +25,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -28,6 +34,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import tds.common.ValidationError;
+import tds.itemrenderer.data.xml.itemrelease.Rubriclist;
 import tds.support.tool.configuration.SupportToolProperties;
 import tds.support.tool.services.THSSService;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
@@ -36,6 +43,7 @@ import tds.teacherhandscoring.model.TeacherHandScoring;
 import tds.teacherhandscoring.model.TeacherHandScoringApiResult;
 import tds.teacherhandscoring.model.TeacherHandScoringApiResultFile;
 import tds.teacherhandscoring.model.TeacherHandScoringConfiguration;
+import tds.teacherhandscoring.model.TeacherHandScoringDeleteApiResult;
 import tds.testpackage.model.Item;
 import tds.testpackage.model.ItemGroup;
 import tds.testpackage.model.Segment;
@@ -59,12 +67,15 @@ import tds.testpackage.model.TestPackageDeserializer;
  */
 @Service
 public class THSSServiceImpl implements THSSService {
+    final static private Logger logger = LoggerFactory.getLogger(THSSService.class);
     final private String itemContentFormat;
     final private String contentUrl;
     final private Supplier<CloseableHttpClient> httpClientSupplier;
     final private String thssUrl;
     final private ObjectMapper objectMapper;
+    final private XmlMapper xmlMapper;
     final private RestTemplate restTemplate;
+    final private RestTemplate xmlRestTemplate;
 
 
     @Autowired
@@ -79,6 +90,9 @@ public class THSSServiceImpl implements THSSService {
         this.restTemplate = integrationRestTemplate;
         this.httpClientSupplier = httpClientSupplier;
         this.objectMapper = testPackageObjectMapperConfiguration.getThssObjectMapper();
+        this.xmlMapper = testPackageObjectMapperConfiguration.getXmlMapper();
+        this.xmlRestTemplate = new RestTemplate();
+        xmlRestTemplate.setMessageConverters(Collections.singletonList(new MappingJackson2XmlHttpMessageConverter(xmlMapper)));
     }
 
     @Override
@@ -113,12 +127,12 @@ public class THSSServiceImpl implements THSSService {
         if (!teacherHandScoringConfigurationList.isEmpty()) {
             final String items = teacherHandScoringConfigurationList.stream().map(TeacherHandScoringConfiguration::itemId).collect(Collectors.joining(","));
             builder.queryParam("bankKey", testPackage.getBankKey());
-            builder.queryParam("items", items);
+            builder.queryParam("itemKeys", items);
 
-            final ResponseEntity<TeacherHandScoringApiResultFile> responseEntity = restTemplate.exchange(builder.build().toUri(), HttpMethod.DELETE, null, TeacherHandScoringApiResultFile.class);
+            final ResponseEntity<TeacherHandScoringDeleteApiResult> responseEntity = restTemplate.exchange(builder.build().toUri(), HttpMethod.DELETE, null, TeacherHandScoringDeleteApiResult.class);
 
             if (responseEntity.getBody() != null) {
-                final TeacherHandScoringApiResultFile body = responseEntity.getBody();
+                final TeacherHandScoringDeleteApiResult body = responseEntity.getBody();
                 if (!body.getSuccess()) {
                     final String errorMessage = (body.getErrorMessage() != null) ? body.getErrorMessage() : "";
                     return Optional.of(new ValidationError("Error", errorMessage));
@@ -137,7 +151,7 @@ public class THSSServiceImpl implements THSSService {
                 flatMap(THSSServiceImpl::getSegmentItems).
                 map(Item::getTeacherHandScoring).
                 filter(Optional::isPresent).map(Optional::get).
-                map(teacherHandScoring -> loadRubric(teacherHandScoring)).
+                map(this::loadRubric).
             collect(Collectors.toList());
 
         return teacherHandScoringList.stream().
@@ -151,11 +165,17 @@ public class THSSServiceImpl implements THSSService {
         final String itemPath = String.format(itemContentFormat, bankKey, itemKey);
         final UriComponentsBuilder builder =
             UriComponentsBuilder.fromHttpUrl(String.format("%s/rubric?itemPath=%s", contentUrl, itemPath));
+        final ResponseEntity<Optional<Rubriclist>> responseEntity = xmlRestTemplate.exchange(builder.build().toUri(), HttpMethod.GET, null, new ParameterizedTypeReference<Optional<Rubriclist>>(){});
+        final String rubricJSONString = responseEntity.getBody().map(rubric -> {
+            try {
+                final String rubricXML = xmlMapper.writeValueAsString(rubric);
+                return objectMapper.writeValueAsString(rubricXML);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).orElse("");
 
-        final ResponseEntity<Optional<RawValue>> responseEntity = restTemplate.exchange(builder.build().toUri(), HttpMethod.GET, null, new ParameterizedTypeReference<Optional<RawValue>>(){});
-
-        final RawValue rubricListXml = responseEntity.getBody().orElse(new RawValue(""));
-        return teacherHandScoring.withRubricList(rubricListXml.getValue());
+        return teacherHandScoring.withRubricList(rubricJSONString);
     }
 
     /**
@@ -163,6 +183,7 @@ public class THSSServiceImpl implements THSSService {
      * Given the THSS endpoint and JSON data
      */
     private TeacherHandScoringApiResult postTeacherHandScoringConfiguration(final URI uri, final String name, final String json) throws IOException {
+        logger.trace("PostTeacherHandScoringConfiguration: \nURI: {}\nPayload: {} ", uri, json);
         try (CloseableHttpClient httpclient = httpClientSupplier.get()) {
             final HttpPost httppost = new HttpPost(uri);
             final MultipartEntityBuilder builder = MultipartEntityBuilder.create();
