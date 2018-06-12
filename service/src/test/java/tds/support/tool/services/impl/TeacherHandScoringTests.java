@@ -1,5 +1,6 @@
-package tds.testpackage.model;
+package tds.support.tool.services.impl;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.common.io.Resources;
@@ -19,10 +20,13 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Optional;
 
+import tds.itemrenderer.data.xml.itemrelease.Rubriclist;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 import tds.teacherhandscoring.model.RawValue;
 import tds.teacherhandscoring.model.TeacherHandScoring;
 import tds.teacherhandscoring.model.TeacherHandScoringConfiguration;
+import tds.teacherhandscoring.model.TeacherHandScoringDeleteApiResult;
+import tds.testpackage.model.TestPackage;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static net.javacrumbs.jsonunit.JsonAssert.assertJsonEquals;
@@ -54,9 +58,9 @@ public class TeacherHandScoringTests {
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
         TeacherHandScoring teacherHandScoring = testPackage.getAssessments().get(0).
             getSegments().get(0).
-            getSegmentForms().get(0).
-            getItemGroups().get(0).
-            getItems().get(0).
+            segmentForms().get(0).
+            itemGroups().get(0).
+            items().get(0).
             getTeacherHandScoring().get();
         String json = objectMapper.writeValueAsString(teacherHandScoring);
     }
@@ -81,9 +85,9 @@ public class TeacherHandScoringTests {
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
         TeacherHandScoring teacherHandScoring = testPackage.getAssessments().get(0).
                 getSegments().get(0).
-                getSegmentForms().get(0).
-                getItemGroups().get(0).
-                getItems().get(0).
+                segmentForms().get(0).
+                itemGroups().get(0).
+                items().get(0).
                 getTeacherHandScoring().get();
         TeacherHandScoringConfiguration teacherHandScoringConfiguration = new TeacherHandScoringConfiguration(teacherHandScoring);
 
@@ -107,7 +111,6 @@ public class TeacherHandScoringTests {
     }
 
     @Test
-    @Ignore
     public void TeacherHandScoringShouldSerializeToJsonForTHSSIntegration() throws Exception {
         InputStream inputStream = TeacherHandScoringTests.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
         Path path = Paths.get(getClass().getResource("/thss-example-1.json").toURI());
@@ -116,16 +119,46 @@ public class TeacherHandScoringTests {
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
         TeacherHandScoring teacherHandScoring = testPackage.getAssessments().get(0).
             getSegments().get(0).
-            getSegmentForms().get(0).
-            getItemGroups().get(0).
-            getItems().get(0).
+            segmentForms().get(0).
+            itemGroups().get(0).
+            items().get(0).
             getTeacherHandScoring().get();
-        TeacherHandScoringConfiguration teacherHandScoringConfiguration = new TeacherHandScoringConfiguration(teacherHandScoring);
-        String json = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(Arrays.asList(teacherHandScoringConfiguration));
 
-        assertJsonEquals(expectedJSON, json,
-            JsonAssert.whenIgnoringPaths("[*].rubriclist")
+        TeacherHandScoringConfiguration teacherHandScoringConfiguration = new TeacherHandScoringConfiguration(teacherHandScoring.withRubricList("\"\""));
+        String actualJSON = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(Arrays.asList(teacherHandScoringConfiguration));
+
+        assertJsonEquals(expectedJSON, actualJSON,
+            JsonAssert.whenIgnoringPaths("[*].rubriclist", "[*].dimensions")
         );
+    }
+
+    @Test
+    public void shouldDeserializeRubricFromContentService() throws Exception {
+        String response1 = "<Optional><rubric><rubric><name>\n" +
+            "        Rubric 2</name><val>&lt;p style=\"\">The response:&lt;/p>&lt;p style=\"\">• provides an adequate ending to the narrative that provides a sense of closure&lt;/p>&lt;p style=\"\">• provides an adequate connection that follows from the events or experiences in the narrative&lt;/p></val><scorepoint>2</scorepoint></rubric><rubric><name>\n" +
+            "        Rubric 1</name><val>&lt;p style=\"\">The response:&lt;/p>&lt;p style=\"\">• provides an awkward or partial ending to the narrative that may provide a limited sense of closure&lt;/p>&lt;p style=\"\">• provides a limited and/or awkward connection that somewhat follows from the events or experiences in the narrative&lt;/p></val><scorepoint>1</scorepoint></rubric><rubric><name>\n" +
+            "        Rubric 0</name><val>&lt;p style=\"\">The response:&lt;/p>&lt;p style=\"\">• provides an unclear or incomplete ending to the narrative that provides little or no closure&lt;/p>&lt;p style=\"\">• provides a connection that does not follow from or contradicts the events or experiences in the narrative; or the ending relies on summary, repetition of details, or addition of extraneous details&lt;/p></val><scorepoint>0</scorepoint></rubric></rubric></Optional>";
+        Optional<Rubriclist> stringOptional = xmlMapper.readValue(response1, new TypeReference<Optional<Rubriclist>>(){});//
+        Assert.assertTrue(stringOptional.isPresent());
+    }
+
+    @Test
+    public void shouldSerializeRubricFromContentService() throws Exception {
+        String response1 = "<Optional><rubric><rubric><name>\n" +
+            "        Rubric 2</name><val>&lt;p style=\"\">The response:&lt;/p>&lt;p style=\"\">• provides an adequate ending to the narrative that provides a sense of closure&lt;/p>&lt;p style=\"\">• provides an adequate connection that follows from the events or experiences in the narrative&lt;/p></val><scorepoint>2</scorepoint></rubric><rubric><name>\n" +
+            "        Rubric 1</name><val>&lt;p style=\"\">The response:&lt;/p>&lt;p style=\"\">• provides an awkward or partial ending to the narrative that may provide a limited sense of closure&lt;/p>&lt;p style=\"\">• provides a limited and/or awkward connection that somewhat follows from the events or experiences in the narrative&lt;/p></val><scorepoint>1</scorepoint></rubric><rubric><name>\n" +
+            "        Rubric 0</name><val>&lt;p style=\"\">The response:&lt;/p>&lt;p style=\"\">• provides an unclear or incomplete ending to the narrative that provides little or no closure&lt;/p>&lt;p style=\"\">• provides a connection that does not follow from or contradicts the events or experiences in the narrative; or the ending relies on summary, repetition of details, or addition of extraneous details&lt;/p></val><scorepoint>0</scorepoint></rubric></rubric></Optional>";
+        Optional<Rubriclist> stringOptional = xmlMapper.readValue(response1, new TypeReference<Optional<Rubriclist>>(){});//
+        Assert.assertTrue(stringOptional.isPresent());
+        final String rubricString = stringOptional.map(rubric -> {
+            try {
+                return xmlMapper.writeValueAsString(rubric);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }).orElse("");
+        String json = objectMapper.writeValueAsString(rubricString);
+        System.out.println(json);
     }
 
     @Test
@@ -166,5 +199,17 @@ public class TeacherHandScoringTests {
 
         Assert.assertEquals(jsonMessage, objectMapper.writeValueAsString(message));
     }
+    @Test
+    public void shouldDeserializeThssDeleteApiResult() throws Exception {
+        String errorMessage = "Object reference not set to an instance of an object.";
+        String jsonValue = "{\n" +
+            "    \"BankKey\": 200,\n" +
+            "    \"ItemKeys\": null,\n" +
+            "    \"Success\": false,\n" +
+            "    \"ErrorMessage\": \"" + errorMessage + "\"\n" +
+            "}";
+        TeacherHandScoringDeleteApiResult result = objectMapper.readValue(jsonValue, TeacherHandScoringDeleteApiResult.class);
+        Assert.assertEquals(result.getErrorMessage(), errorMessage);
 
+    }
 }

@@ -119,6 +119,7 @@ abstract public class TeacherHandScoring {
     /**
      * @return dimensions provided by SmarterBalanced, generally constant
      */
+    @JsonProperty(value = "dimensions")
     public RawValue dimensions() {
         return getDimensions().orElse(new RawValue(DEFAULT_DIMENSIONS));
     }

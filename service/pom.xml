@@ -40,6 +40,10 @@
             <groupId>org.opentestsystem.shared</groupId>
             <artifactId>shared-spring</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.opentestsystem.delivery</groupId>
+            <artifactId>item-renderer</artifactId>
+        </dependency>
 
         <!-- Spring -->
         <dependency>
@@ -117,6 +121,23 @@
             <artifactId>HttpClientMock</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.javacrumbs.json-unit</groupId>
+            <artifactId>json-unit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.javacrumbs.json-unit</groupId>
+            <artifactId>json-unit-fluent</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.xmlunit</groupId>
+            <artifactId>xmlunit-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.xmlunit</groupId>
+            <artifactId>xmlunit-matchers</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.opensaml</groupId>
             <artifactId>opensaml</artifactId>

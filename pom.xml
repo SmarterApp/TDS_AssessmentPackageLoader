@@ -32,6 +32,7 @@
         <tds-common.version>5.0.3</tds-common.version>
         <tds-common-legacy.version>5.0.3</tds-common-legacy.version>
         <tds-shared-build.version>4.0.6.RELEASE</tds-shared-build.version>
+        <item-renderer.version>4.0.7.RELEASE</item-renderer.version>
         <jackson.version>2.9.2</jackson.version>
         <spring.saml.version>1.0.4.RELEASE</spring.saml.version>
 
@@ -57,6 +58,25 @@
                 <groupId>org.opentestsystem.shared</groupId>
                 <artifactId>shared-spring</artifactId>
                 <version>${tds-shared-build.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.opentestsystem.delivery</groupId>
+                <artifactId>item-renderer</artifactId>
+                <version>${item-renderer.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-context</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-mock</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.tomcat</groupId>
+                        <artifactId>el-api</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- Spring -->
