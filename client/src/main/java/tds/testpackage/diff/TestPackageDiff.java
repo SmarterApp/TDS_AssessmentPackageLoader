@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
+import java.util.Optional;
 
 @AutoValue
 @XmlRootElement(name = "TestPackageDiff")
@@ -28,7 +29,7 @@ public abstract class TestPackageDiff {
     public abstract String getAcademicYear();
 
     @XmlAttribute
-    public abstract String getSubType();
+    public abstract Optional<String> getSubType();
 
     public static Builder builder() {
         return new AutoValue_TestPackageDiff.Builder();
@@ -37,7 +38,7 @@ public abstract class TestPackageDiff {
     @AutoValue.Builder
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     public abstract static class Builder {
-        public abstract Builder setSubType(String newSubType);
+        public abstract Builder setSubType(Optional<String> newSubType);
 
         public abstract Builder setBankKey(int newBankKey);
 
