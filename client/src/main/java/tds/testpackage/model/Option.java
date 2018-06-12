@@ -29,7 +29,7 @@ public abstract class Option {
     public abstract int getSortOrder();
     @XmlAttribute
     protected abstract Optional<String> getDefault();
-    @XmlAttribute
+    @XmlAttribute(name="default")
     public boolean defaultValue() {
         return parseBoolean(getDefault(), false);
     }
