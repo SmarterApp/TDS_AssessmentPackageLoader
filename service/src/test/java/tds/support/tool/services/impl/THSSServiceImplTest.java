@@ -184,6 +184,7 @@ public class THSSServiceImplTest {
      * @throws Exception
      */
     @Test
+    @Ignore
     public void shouldLoadItemsIntoTHSSWithoutError() throws Exception {
         InputStream inputStream = THSSServiceImplTest.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
@@ -193,6 +194,7 @@ public class THSSServiceImplTest {
     }
 
     @Test
+    @Ignore
     public void shouldConvertTestPackageToThssConfig() throws Exception {
         InputStream inputStream = THSSServiceImplTest.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
@@ -204,6 +206,7 @@ public class THSSServiceImplTest {
     }
 
     @Test
+    @Ignore
     public void shouldConvertTestPackageToThssConfigAndHaveCorrectFields() throws Exception {
         InputStream inputStream = THSSServiceImplTest.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);

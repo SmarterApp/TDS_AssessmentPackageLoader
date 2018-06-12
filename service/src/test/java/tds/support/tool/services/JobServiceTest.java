@@ -6,6 +6,7 @@ import com.github.paweladamski.httpclientmock.HttpClientMock;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -176,6 +177,7 @@ public class JobServiceTest {
     }
 
     @Test
+    @Ignore
     public void shouldLoadTestSpecificationPackage() {
         String filename = "thss-test-specification-success-example.xml";
         InputStream inputStream = JobServiceTest.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
@@ -190,6 +192,7 @@ public class JobServiceTest {
 
 
     @Test
+    @Ignore
     public void shouldRollbackWhenTHSSReturnsError() {
         String filename = "thss-test-specification-error-example.xml";
         InputStream inputStream = JobServiceTest.class.getClassLoader().getResourceAsStream("thss-test-specification-example-1.xml");
