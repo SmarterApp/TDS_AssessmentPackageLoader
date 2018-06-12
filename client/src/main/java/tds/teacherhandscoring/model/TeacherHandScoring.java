@@ -15,6 +15,9 @@ import java.util.Optional;
 import tds.testpackage.model.Item;
 import tds.testpackage.model.TestPackage;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+
 /**
  * Teacher Hand Scoring System configuration stored as an element in the Test Package xml file.
  *
@@ -91,6 +94,7 @@ abstract public class TeacherHandScoring {
      *
      * @return filename of tech manual
      */
+    @XmlAttribute
     public abstract Optional<String> getExemplar();
 
     /**
@@ -98,6 +102,7 @@ abstract public class TeacherHandScoring {
      *
      * @return filename of scoring guide
      */
+    @XmlAttribute
     public abstract Optional<String> getTrainingGuide();
 
 
@@ -120,6 +125,7 @@ abstract public class TeacherHandScoring {
      * @return dimensions provided by SmarterBalanced, generally constant
      */
     @JsonProperty(value = "dimensions")
+    @XmlElement(name="Dimensions", type=RawValue.class)
     public RawValue dimensions() {
         return getDimensions().orElse(new RawValue(DEFAULT_DIMENSIONS));
     }
@@ -128,6 +134,7 @@ abstract public class TeacherHandScoring {
      * Item content xml path: itm_item_desc
      * @return description found in the item content XML
      */
+    @XmlAttribute
     public abstract String getDescription();
 
     /**
@@ -147,6 +154,7 @@ abstract public class TeacherHandScoring {
     protected abstract Optional<String> getLayout();
 
     @JsonProperty(value = "layout")
+    @XmlAttribute
     public String layout() {
         return getLayout().orElse("WAI");
     }
