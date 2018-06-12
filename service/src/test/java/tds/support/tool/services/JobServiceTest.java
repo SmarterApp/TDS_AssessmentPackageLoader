@@ -47,7 +47,6 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 @RunWith(SpringRunner.class)
-@Configuration
 @ComponentScan(basePackages = {
     "tds.support.tool.testpackage.configuration",
     "tds.support.tool.handlers.loader",
