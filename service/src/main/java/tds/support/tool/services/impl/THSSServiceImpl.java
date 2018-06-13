@@ -1,7 +1,6 @@
 package tds.support.tool.services.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.google.common.io.ByteStreams;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -16,7 +15,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -25,8 +23,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -34,11 +30,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import tds.common.ValidationError;
-import tds.itemrenderer.data.xml.itemrelease.Rubriclist;
 import tds.support.tool.configuration.SupportToolProperties;
 import tds.support.tool.services.THSSService;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
-import tds.teacherhandscoring.model.RawValue;
 import tds.teacherhandscoring.model.TeacherHandScoring;
 import tds.teacherhandscoring.model.TeacherHandScoringApiResult;
 import tds.teacherhandscoring.model.TeacherHandScoringApiResultFile;
@@ -73,10 +67,7 @@ public class THSSServiceImpl implements THSSService {
     final private Supplier<CloseableHttpClient> httpClientSupplier;
     final private String thssUrl;
     final private ObjectMapper objectMapper;
-    final private XmlMapper xmlMapper;
     final private RestTemplate restTemplate;
-    final private RestTemplate xmlRestTemplate;
-
 
     @Autowired
     public THSSServiceImpl(@Value("${tds.content.format:/tds/bank/items/Item-%1$s-%2$s/item-%1$s-%2$s.xml}") final String itemContentFormat,
@@ -90,9 +81,6 @@ public class THSSServiceImpl implements THSSService {
         this.restTemplate = integrationRestTemplate;
         this.httpClientSupplier = httpClientSupplier;
         this.objectMapper = testPackageObjectMapperConfiguration.getThssObjectMapper();
-        this.xmlMapper = testPackageObjectMapperConfiguration.getXmlMapper();
-        this.xmlRestTemplate = new RestTemplate();
-        xmlRestTemplate.setMessageConverters(Collections.singletonList(new MappingJackson2XmlHttpMessageConverter(xmlMapper)));
     }
 
     @Override
@@ -165,11 +153,10 @@ public class THSSServiceImpl implements THSSService {
         final String itemPath = String.format(itemContentFormat, bankKey, itemKey);
         final UriComponentsBuilder builder =
             UriComponentsBuilder.fromHttpUrl(String.format("%s/rubric?itemPath=%s", contentUrl, itemPath));
-        final ResponseEntity<Optional<Rubriclist>> responseEntity = xmlRestTemplate.exchange(builder.build().toUri(), HttpMethod.GET, null, new ParameterizedTypeReference<Optional<Rubriclist>>(){});
+        final ResponseEntity<Optional<String>> responseEntity = restTemplate.exchange(builder.build().toUri(), HttpMethod.GET, null, new ParameterizedTypeReference<Optional<String>>(){});
         final String rubricJSONString = responseEntity.getBody().map(rubric -> {
             try {
-                final String rubricXML = xmlMapper.writeValueAsString(rubric);
-                return objectMapper.writeValueAsString(rubricXML);
+                return objectMapper.writeValueAsString(rubric);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
