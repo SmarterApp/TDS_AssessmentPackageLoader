@@ -7,7 +7,6 @@ import com.google.common.io.Resources;
 import net.javacrumbs.jsonunit.JsonAssert;
 import org.hamcrest.MatcherAssert;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -20,7 +19,6 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Optional;
 
-import tds.itemrenderer.data.xml.itemrelease.Rubriclist;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 import tds.teacherhandscoring.model.RawValue;
 import tds.teacherhandscoring.model.TeacherHandScoring;
@@ -134,33 +132,19 @@ public class TeacherHandScoringTests {
 
     @Test
     public void shouldDeserializeRubricFromContentService() throws Exception {
-        String response1 = "<Optional><rubric><rubric><name>\n" +
-            "        Rubric 2</name><val>&lt;p style=\"\">The response:&lt;/p>&lt;p style=\"\">• provides an adequate ending to the narrative that provides a sense of closure&lt;/p>&lt;p style=\"\">• provides an adequate connection that follows from the events or experiences in the narrative&lt;/p></val><scorepoint>2</scorepoint></rubric><rubric><name>\n" +
-            "        Rubric 1</name><val>&lt;p style=\"\">The response:&lt;/p>&lt;p style=\"\">• provides an awkward or partial ending to the narrative that may provide a limited sense of closure&lt;/p>&lt;p style=\"\">• provides a limited and/or awkward connection that somewhat follows from the events or experiences in the narrative&lt;/p></val><scorepoint>1</scorepoint></rubric><rubric><name>\n" +
-            "        Rubric 0</name><val>&lt;p style=\"\">The response:&lt;/p>&lt;p style=\"\">• provides an unclear or incomplete ending to the narrative that provides little or no closure&lt;/p>&lt;p style=\"\">• provides a connection that does not follow from or contradicts the events or experiences in the narrative; or the ending relies on summary, repetition of details, or addition of extraneous details&lt;/p></val><scorepoint>0</scorepoint></rubric></rubric></Optional>";
-        Optional<Rubriclist> stringOptional = xmlMapper.readValue(response1, new TypeReference<Optional<Rubriclist>>(){});//
+        String response = "\"<rubriclist>\\r\\n    " +
+            "<rubric scorepoint=\\\"4\\\">\\r\\n        " +
+            "<name>\\r\\n            Rubric\\u00A04<\\/name>\\r\\n        " +
+            "<val><![CDATA[<p style=\\\"\\\">&#xA0;<\\/p><p><dl>text<\\/dl><\\/p>]]><\\/val>\\r\\n    <\\/rubric>\\r\\n    " +
+            "<samplelist maxval=\\\"4\\\" minval=\\\"4\\\">\\r\\n        " +
+            "<sample purpose=\\\"OtherExemplar\\\" scorepoint=\\\"4\\\">\\r\\n            " +
+            "<name>4-Point Other Official Sample Answers\\r\\n            <\\/name>\\r\\n            " +
+            "<annotation \\/>\\r\\n            " +
+            "<samplecontent><![CDATA[<p style=\\\"\\\">&#xA0;<\\/p>]]><\\/samplecontent>\\r\\n        <\\/sample>\\r\\n    <\\/samplelist>\\r\\n<\\/rubriclist>\\r\\n\"";
+        Optional<String> stringOptional = objectMapper.readValue(response, new TypeReference<Optional<String>>() {});
         Assert.assertTrue(stringOptional.isPresent());
     }
-
-    @Test
-    public void shouldSerializeRubricFromContentService() throws Exception {
-        String response1 = "<Optional><rubric><rubric><name>\n" +
-            "        Rubric 2</name><val>&lt;p style=\"\">The response:&lt;/p>&lt;p style=\"\">• provides an adequate ending to the narrative that provides a sense of closure&lt;/p>&lt;p style=\"\">• provides an adequate connection that follows from the events or experiences in the narrative&lt;/p></val><scorepoint>2</scorepoint></rubric><rubric><name>\n" +
-            "        Rubric 1</name><val>&lt;p style=\"\">The response:&lt;/p>&lt;p style=\"\">• provides an awkward or partial ending to the narrative that may provide a limited sense of closure&lt;/p>&lt;p style=\"\">• provides a limited and/or awkward connection that somewhat follows from the events or experiences in the narrative&lt;/p></val><scorepoint>1</scorepoint></rubric><rubric><name>\n" +
-            "        Rubric 0</name><val>&lt;p style=\"\">The response:&lt;/p>&lt;p style=\"\">• provides an unclear or incomplete ending to the narrative that provides little or no closure&lt;/p>&lt;p style=\"\">• provides a connection that does not follow from or contradicts the events or experiences in the narrative; or the ending relies on summary, repetition of details, or addition of extraneous details&lt;/p></val><scorepoint>0</scorepoint></rubric></rubric></Optional>";
-        Optional<Rubriclist> stringOptional = xmlMapper.readValue(response1, new TypeReference<Optional<Rubriclist>>(){});//
-        Assert.assertTrue(stringOptional.isPresent());
-        final String rubricString = stringOptional.map(rubric -> {
-            try {
-                return xmlMapper.writeValueAsString(rubric);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }).orElse("");
-        String json = objectMapper.writeValueAsString(rubricString);
-        System.out.println(json);
-    }
-
+    
     @Test
     public void givenStringSource_whenAbleToInput_thenCorrect() {
         String controlXml = "<struct><int>3</int><boolean>false</boolean></struct>";
