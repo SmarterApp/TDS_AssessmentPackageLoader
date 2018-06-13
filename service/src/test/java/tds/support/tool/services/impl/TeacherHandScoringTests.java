@@ -71,7 +71,7 @@ public class TeacherHandScoringTests {
             setDescription("Mandatory Financial Literacy Classes - SBAC_Field").
             setExemplar("G3_2703_TM.pdf").
             setTrainingGuide("G3_2703_SG.pdf").
-            setDimensions(Optional.of(new RawValue(dimensions))).
+            setDimensions(Optional.of(dimensions)).
             build();
 
         objectMapper.writeValueAsString(teacherHandScoring);
@@ -144,7 +144,7 @@ public class TeacherHandScoringTests {
         Optional<String> stringOptional = objectMapper.readValue(response, new TypeReference<Optional<String>>() {});
         Assert.assertTrue(stringOptional.isPresent());
     }
-    
+
     @Test
     public void givenStringSource_whenAbleToInput_thenCorrect() {
         String controlXml = "<struct><int>3</int><boolean>false</boolean></struct>";

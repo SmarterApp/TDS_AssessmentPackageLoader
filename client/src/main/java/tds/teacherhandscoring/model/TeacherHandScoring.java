@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
@@ -112,22 +113,21 @@ abstract public class TeacherHandScoring {
      * Populated from the item content retrieved from the content service
      * @return Rubric list found in the item content XML
      */
-    @JsonProperty(value = "rubriclist")
     @Nullable
     public abstract RawValue getRubricList();
 
     /**
      * @return dimensions provided by SmarterBalanced, generally constant
      */
-    protected abstract Optional<RawValue> getDimensions();
+    protected abstract Optional<String> getDimensions();
 
     /**
      * @return dimensions provided by SmarterBalanced, generally constant
      */
-    @JsonProperty(value = "dimensions")
-    @XmlElement(name="Dimensions", type=RawValue.class)
-    public RawValue dimensions() {
-        return getDimensions().orElse(new RawValue(DEFAULT_DIMENSIONS));
+    @XmlElement(name="Dimensions", type=String.class)
+    @JacksonXmlCData
+    public String dimensions() {
+        return getDimensions().orElse(DEFAULT_DIMENSIONS);
     }
 
     /**
@@ -142,18 +142,15 @@ abstract public class TeacherHandScoring {
      * @return passage identifier
      */
     @Nullable
-    @JsonInclude(JsonInclude.Include.ALWAYS)
-    @JsonProperty(value = "Passage")
+    @JsonIgnore
     public abstract String getPassage();
 
     @Nullable
-    @JsonInclude(JsonInclude.Include.ALWAYS)
-    @JsonProperty(value = "itemname")
+    @JsonIgnore
     public abstract String getItemName();
 
     protected abstract Optional<String> getLayout();
 
-    @JsonProperty(value = "layout")
     @XmlAttribute
     public String layout() {
         return getLayout().orElse("WAI");
@@ -213,9 +210,9 @@ abstract public class TeacherHandScoring {
         }
 
         @JacksonXmlProperty(localName = "Dimensions")
-        public abstract Builder setDimensions(Optional<RawValue> newDimensions);
+        public abstract Builder setDimensions(Optional<String> newDimensions);
 
-        public Builder setDimensions(RawValue newDimensions) {
+        public Builder setDimensions(String newDimensions) {
             return setDimensions(Optional.ofNullable(newDimensions));
         }
 
