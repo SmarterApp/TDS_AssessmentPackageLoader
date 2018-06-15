@@ -19,8 +19,30 @@ import java.util.Optional;
 @JsonDeserialize(builder = AutoValue_SegmentForm.Builder.class)
 @XmlType(propOrder={"presentations", "itemGroups"})
 public abstract class SegmentForm {
+    private static String getFormIdForLanguage(final String formId, final String languageCode) {
+        switch (languageCode) {
+            case "ESN":
+                return String.format("%s::%s", formId, "SPA");
+            case "ENU-Braille":
+                return String.format("%s::%s", formId, "BRL");
+            default:
+                return String.format("%s::%s", formId, languageCode);
+        }
+    }
+
     @XmlAttribute
     public abstract String getId();
+
+    @JsonIgnore
+    public String id(String language) {
+        return getFormIdForLanguage(getId(), language);
+    }
+
+    @JsonIgnore
+    public int key(String language) {
+        return id(language).hashCode();
+    }
+
     @XmlAttribute
     public abstract String getCohort();
 
