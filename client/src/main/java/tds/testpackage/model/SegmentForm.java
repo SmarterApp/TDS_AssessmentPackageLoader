@@ -19,6 +19,11 @@ import java.util.Optional;
 @JsonDeserialize(builder = AutoValue_SegmentForm.Builder.class)
 @XmlType(propOrder={"presentations", "itemGroups"})
 public abstract class SegmentForm {
+    // create integer form key based of the segment form id string
+    public static int generateFormKey(final String formId) {
+        return Math.abs(formId.hashCode());
+    }
+
     private static String getFormIdForLanguage(final String formId, final String languageCode) {
         switch (languageCode) {
             case "ESN":
@@ -40,7 +45,7 @@ public abstract class SegmentForm {
 
     @JsonIgnore
     public int key(String language) {
-        return id(language).hashCode();
+        return generateFormKey(id(language));
     }
 
     @XmlAttribute
