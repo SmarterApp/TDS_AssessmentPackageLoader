@@ -9,7 +9,7 @@
   </ng-container>
 
   <!-- Success view -->
-  <div *ngIf="selectedJob?.status === 'FINISHED'">
+  <div *ngIf="selectedJob?.status === 'FINISHED'" class="test-package-details-success">
     <h3>
       <i class="fa fa-check-circle"></i>
       The test results transmission package was successfully re-scored
@@ -17,7 +17,7 @@
   </div>
 
   <!-- Failure view -->
-  <div *ngIf="selectedJob?.steps.length > 0 && selectedJob?.status !== 'FINISHED'">
+  <div *ngIf="selectedJob?.steps.length > 0 && selectedJob?.status !== 'FINISHED'" class="test-package-details-failure">
     <div class="test-package-job-error-list-container">
       <p-dataTable [value]="selectedJob.steps"
                    dataKey="id"
