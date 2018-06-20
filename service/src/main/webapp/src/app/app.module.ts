@@ -12,6 +12,7 @@ import { TestPackageStatusModule } from "./testpackage/loader/status/test-packag
 import {UserModule} from "./user/user.module";
 import {ErrorComponent} from "./error.component";
 import { AuthGuard } from './auth.component';
+import {ScoringModule} from "./scoring/scoring.module";
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AuthGuard } from './auth.component';
     BrowserModule,
     CommonModule,
     TestPackageModule,
+    ScoringModule,
     TestPackageStatusModule,
     UserModule,
     BsDropdownModule.forRoot(),

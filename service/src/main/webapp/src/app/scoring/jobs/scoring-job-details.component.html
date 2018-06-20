@@ -1,0 +1,35 @@
+<div class="mb-md">
+  <!-- No selection -->
+  <div *ngIf="!selectedJob" class="test-package-none-selected">
+    <h3>Select a scoring job to view more details</h3>
+  </div>
+  <ng-container *ngIf="selectedJob">
+    <span class="h3 blue-dark">Job ID: {{selectedJob.id}}</span>
+    <label class="date-label">Date Created (UTC): {{ selectedJob?.createdAt.toUTCString() }}</label>
+  </ng-container>
+
+  <!-- Success view -->
+  <div *ngIf="selectedJob?.status === 'FINISHED'">
+    <h3>
+      <i class="fa fa-check-circle"></i>
+      The test results transmission package was successfully re-scored
+    </h3>
+  </div>
+
+  <!-- Failure view -->
+  <div *ngIf="selectedJob?.steps.length > 0 && selectedJob?.status !== 'FINISHED'">
+    <div class="test-package-job-error-list-container">
+      <p-dataTable [value]="selectedJob.steps"
+                   dataKey="id"
+                   tableStyleClass="table table-striped table-hover"
+                   [scrollable]="true"
+                   scrollHeight="230px">
+        <p-column field="status" header="Status" [sortable]="false" [style]="{width:'105px'}"></p-column>
+        <p-column field="system" header="System" [sortable]="false" [style]="{width:'100px'}"></p-column>
+        <p-column field="status" header="Status" [sortable]="false" [style]="{width:'105px'}"></p-column>
+        <p-column field="message" header="Message"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+
+</div>

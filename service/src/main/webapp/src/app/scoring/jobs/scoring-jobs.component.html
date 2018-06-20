@@ -1,0 +1,42 @@
+<div>
+  <!-- Test Package Jobs Table -->
+  <div class="form-group row">
+    <div class="flex-children pt-sm pr-sm pb-sm pl-sm test-package-jobs-search-form-container">
+      <label for="search" class="sr-only">Search by Job Id</label>
+      <div class="flex-child grow">
+        <input [(ngModel)]="searchTerm" class="flex-child search form-control" id="search" type="text" placeholder="Search by Job Id"
+             autocomplete="off" (ngModelChange)="onSearchChange()">
+      </div>
+      <!--<div class="flex-child"><button class="flex-child btn btn-default view-loaded-test-packages" (click)="statusClick()">View Loaded Test Packages</button></div>-->
+      <div class="flex-child"><button class="btn btn-primary upload-test-package" (click)="uploadClick()">Upload Test Results</button></div>
+    </div>
+  </div>
+  <div class="test-package-jobs-list-container">
+    <ngx-datatable
+      class="table table-striped table-hover overflow"
+      [rows]="filteredScoringJobs"
+      [rowClass]="rowClass"
+      [columnMode]="'force'"
+      [columns]="columns"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [rowHeight]="'auto'"
+      [limit]="10"
+      [selectionType]="'single'"
+      [reorderable]="false"
+      [selected]="selected"
+      (select)="onRowSelect($event)"
+      [sorts]="[
+        {prop: 'createdAt', dir: 'desc'}
+      ]"
+      [messages]="{
+        emptyMessage:'No scoring jobs found.',
+        totalMessage:'jobs'
+        }"
+    >
+    </ngx-datatable>
+    <ng-template #dateTmpl let-value="value">
+      {{ value.toLocaleString()}}
+    </ng-template>
+  </div>
+</div>

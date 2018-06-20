@@ -4,6 +4,8 @@ import {UploadLoaderJobComponent} from "./testpackage/loader/jobs/upload/upload-
 import {TestPackageStatusComponent} from "./testpackage/loader/status/test-package-status.component";
 import {ErrorComponent} from "./error.component";
 import {AuthGuard} from "./auth.component";
+import {ScoringComponent} from "./scoring/scoring.component";
+import {UploadScoringJobComponent} from "./scoring/jobs/upload/upload-scoring-job.component";
 
 export const routes: Routes = [
   {
@@ -62,6 +64,45 @@ export const routes: Routes = [
             label: "Loaded Test Packages"
           }
         }
+      }
+    ]
+  },
+  {
+    path: 'scoring',
+    pathMatch: 'prefix',
+    data: {
+      breadcrumb: {
+        label: "Scoring Validation Jobs"
+      }
+    },
+    children: [
+      {
+        path: '',
+        pathMatch: 'prefix',
+        canActivate: [AuthGuard],
+        component: ScoringComponent
+      },
+      {
+        path: 'error',
+        pathMatch: 'prefix',
+        component: ErrorComponent
+      },
+      {
+        path: 'upload',
+        pathMatch: 'prefix',
+        data: {
+          breadcrumb: {
+            label: "Test Results Upload"
+          }
+        },
+        children: [
+          {
+            path: '',
+            pathMatch: 'prefix',
+            canActivate: [AuthGuard],
+            component: UploadScoringJobComponent
+          }
+        ]
       }
     ]
   }
