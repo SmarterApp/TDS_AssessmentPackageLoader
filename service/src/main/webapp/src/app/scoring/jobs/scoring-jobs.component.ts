@@ -86,7 +86,11 @@ export class ScoringJobsComponent implements OnInit, OnDestroy {
   updateFilteredScoringJobs() {
     // Check if test package name or job id matches
     this.filteredScoringJobs = this.scoringJobs
-      .filter(x => x.id.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0);
+      .filter(x => x.id.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0
+        || x.assessmentId.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0
+        || x.studentName.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0
+        || x.examId.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0
+      );
   }
 
   onRowSelect(event) {
