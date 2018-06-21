@@ -1,0 +1,18 @@
+<div class ="test-package-jobs-container">
+  <h3 class="blue mb-md">Scoring Validation Jobs</h3>
+
+  <div class="well">
+    <!-- Scoring Jobs Search -->
+    <div>
+      <div class="well">
+        <scoring-jobs (selectedScoringJobChange)="selectedScoringJobChange($event)"></scoring-jobs>
+      </div>
+    </div>
+
+    <div>
+      <div class="test-package-jobs-details well gray-lightest">
+        <scoring-job-details [selectedJob]=selectedJob></scoring-job-details>
+      </div>
+    </div>
+  </div>
+</div>
