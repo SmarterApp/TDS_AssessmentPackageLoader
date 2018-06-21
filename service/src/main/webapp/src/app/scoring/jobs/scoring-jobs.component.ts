@@ -18,10 +18,7 @@ import {AuthGuard} from "../../auth.component";
 export class ScoringJobsComponent implements OnInit, OnDestroy {
 
   @ViewChild('dateTmpl') dateTmpl: TemplateRef<any>;
-  @ViewChild('validateTmpl') validateTmpl: TemplateRef<any>;
-  @ViewChild('systemTmpl') systemTmpl: TemplateRef<any>;
 
-  // query: LoaderJobsQuery;
   searchTerm: string = '';
   selectedJob: ScoringJob;
   private alive: boolean; // used to unsubscribe from the TimerObservable when OnDestroy is called.
@@ -84,7 +81,7 @@ export class ScoringJobsComponent implements OnInit, OnDestroy {
   }
 
   updateFilteredScoringJobs() {
-    // Check if test package name or job id matches
+    // Check if the job id, assessment id, exam id, or student name matches
     this.filteredScoringJobs = this.scoringJobs
       .filter(x => x.id.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0
         || x.assessmentId.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0
@@ -102,8 +99,6 @@ export class ScoringJobsComponent implements OnInit, OnDestroy {
     if (this.selectedJob && this.selectedJob.id === rowData.id) {
       return 'active';
     }
-
-    // return rowData.status = 'FAILED' ? 'failed' : '';
   };
 
   uploadClick() {

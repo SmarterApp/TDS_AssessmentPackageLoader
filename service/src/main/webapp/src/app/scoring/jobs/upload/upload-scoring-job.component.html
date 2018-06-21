@@ -1,9 +1,5 @@
 <h3 class="blue mb-md">Test Results Upload For Scoring Validation</h3>
 <div class="well">
-  <!--<div class="alert alert-warning">-->
-    <!--<strong class="mr-xs">WARNING</strong> Test packages in the uploaded file will replace existing test packages if they have the same Test Package ID and publisher.-->
-    <!--<p>All other test packages will not be deleted or changed.</p>-->
-  <!--</div>-->
   <form class="scoring-job-upload-form">
     <div ng2FileDrop
          *ngIf="!uploader.isUploading && !isReadOnly"
@@ -24,9 +20,6 @@
     <div hidden>
       <input #fileDialog type="file" ng2FileSelect [uploader]="uploader" multiple accept="application/xml"/>
     </div>
-    <!--<div hidden *ngIf="isMultiple === false">-->
-      <!--<input #fileDialog type="file" ng2FileSelect [uploader]="uploader"/>-->
-    <!--</div>-->
 
     <div class="mt-md mb-md">
       <div *ngIf="uploader.isUploading" class="progress">
@@ -61,19 +54,6 @@
       </table>
     </div>
     <div class="scoring-job-options">
-      <!--<fieldset>-->
-        <!--<span class="help-block">Advanced Options</span>-->
-        <!--<div class="checkbox">-->
-          <!--<label>-->
-            <!--<input type="checkbox" [checked]="skipArt" (change)="skipArt = !skipArt" />-->
-            <!--Skip loading test package into Administration and Registration Tools-->
-          <!--</label>-->
-          <!--<label class="checkbox">-->
-            <!--<input type="checkbox" [checked]="skipScoring" (change)="skipScoring = !skipScoring" />-->
-            <!--Skip loading test package into Test Integration System & Teacher Hand Scoring System-->
-          <!--</label>-->
-        <!--</div>-->
-      <!--</fieldset>-->
       <div class="button-group">
         <button type="button" class="cancel-button btn" (click)="onCancel()">Cancel</button>
         <button type="button" class="btn btn-primary" (click)="onSubmit()" [disabled]="uploader.queue.length === 0">
