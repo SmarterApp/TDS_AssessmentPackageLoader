@@ -3,6 +3,7 @@ package tds.support.tool.configuration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -34,6 +35,7 @@ public class SupportToolProperties {
     private String SsoPassword;
     private String SsoClientSecret;
     private String SsoClientId;
+    private List<String> subjects;
 
     /**
      * @return URL that points to the deployed instance of Administration and Registration Tools (ART) REST component.
@@ -200,5 +202,13 @@ public class SupportToolProperties {
 
     public void setPermissionsUrl(final String permissionsUrl) {
         this.permissionsUrl = permissionsUrl;
+    }
+
+    public List<String> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(final List<String> subjects) {
+        this.subjects = subjects;
     }
 }
