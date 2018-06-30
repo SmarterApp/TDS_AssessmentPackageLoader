@@ -29,9 +29,6 @@ saml:
 
 # URLs for dependent services
 support-tool:
-  subjects:
-    - ELA
-    - MATH
   art-rest-url: http://localhost:8080/rest
   assessment-url: http://localhost:32841
   content-url:  http://localhost:32848
