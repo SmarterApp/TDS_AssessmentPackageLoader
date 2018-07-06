@@ -38,6 +38,7 @@ public class JobMessagingConfiguration {
                                        @Qualifier("exchange") final TopicExchange exchange) {
         return BindingBuilder.bind(queue).to(exchange).with(TOPIC_TEST_PACKAGE_LOAD);
     }
+
     @Bean
     public SimpleMessageListenerContainer examReportedListenerContainer(final ConnectionFactory connectionFactory,
                                                                         final JobStepExecutionMessageListener listener) {

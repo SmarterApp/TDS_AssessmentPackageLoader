@@ -17,17 +17,16 @@
   </div>
 
   <!-- Failure view -->
-  <div *ngIf="selectedJob?.steps.length > 0 && selectedJob?.status !== 'FINISHED'" class="test-package-details-failure">
+  <div *ngIf="selectedJob?.steps.length > 0" class="test-package-details-failure">
     <div class="test-package-job-error-list-container">
       <p-dataTable [value]="selectedJob.steps"
                    dataKey="id"
                    tableStyleClass="table table-striped table-hover"
                    [scrollable]="true"
                    scrollHeight="230px">
+        <p-column field="jobStepTarget" header="System" [sortable]="false" [style]="{width:'100px'}"></p-column>
         <p-column field="status" header="Status" [sortable]="false" [style]="{width:'105px'}"></p-column>
-        <p-column field="system" header="System" [sortable]="false" [style]="{width:'100px'}"></p-column>
-        <p-column field="status" header="Status" [sortable]="false" [style]="{width:'105px'}"></p-column>
-        <p-column field="message" header="Message"></p-column>
+        <p-column field="description" header="Description"></p-column>
       </p-dataTable>
     </div>
   </div>

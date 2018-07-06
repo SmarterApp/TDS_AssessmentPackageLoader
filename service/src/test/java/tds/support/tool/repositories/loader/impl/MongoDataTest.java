@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.io.InputStream;
 
-import tds.support.tool.repositories.MongoTestPackageRepository;
+import tds.support.tool.repositories.loader.MongoTestPackageRepository;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 import tds.testpackage.model.TestPackage;
 

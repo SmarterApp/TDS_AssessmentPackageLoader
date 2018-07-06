@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Service handling the {@link tds.support.job.Job}
  */
-public interface JobService {
+public interface TestPackageJobService {
     /**
      * Starts the test package import job resulting in a job loaded into TDS, TIS, THSS, and ART
      *

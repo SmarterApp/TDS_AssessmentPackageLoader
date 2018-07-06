@@ -11,7 +11,7 @@ import tds.support.job.*;
 import tds.support.tool.handlers.loader.impl.TDSDeleteStepHandler;
 import tds.support.tool.model.TestPackageMetadata;
 import tds.support.tool.repositories.JobRepository;
-import tds.support.tool.repositories.MongoTestPackageRepository;
+import tds.support.tool.repositories.loader.MongoTestPackageRepository;
 import tds.support.tool.repositories.loader.TestPackageMetadataRepository;
 import tds.support.tool.services.TDSTestPackageService;
 import tds.testpackage.model.TestPackage;

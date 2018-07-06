@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import org.xml.sax.SAXException;
 import tds.support.tool.model.TestPackageMetadata;
-import tds.support.tool.repositories.MongoTestPackageRepository;
+import tds.support.tool.repositories.loader.MongoTestPackageRepository;
 import tds.support.tool.repositories.loader.TestPackageMetadataRepository;
 import tds.support.tool.repositories.loader.TestPackageRepository;
 import tds.support.tool.services.loader.TestPackageService;

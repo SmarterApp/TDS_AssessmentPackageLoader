@@ -3,6 +3,7 @@ package tds.support.job;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -18,6 +19,7 @@ public class Step {
     private String name;
     private TargetSystem target;
     private boolean complete;
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     /**
      * For frameworks/serialization
@@ -114,5 +116,16 @@ public class Step {
         step.setStatus(Status.FAIL);
         step.addError(new Error(String.format("Error occurred while communicating with %s: %s", step.target, e.getMessage()),
                 ErrorSeverity.CRITICAL));
+    }
+
+    /**
+     * @return The time and date that the {@link tds.support.job.Job} was created
+     */
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(final LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

@@ -5,7 +5,7 @@ package tds.support.tool.services.loader;
  */
 public interface MessagingService {
     /**
-     * Sends a message to begin the execution of a job step
+     * Sends a message to begin the execution of a job's steps
      *
      * @param jobId The job who's steps require execution
      */

@@ -16,7 +16,7 @@ import tds.support.job.Step;
 import tds.support.job.TestPackageLoadJob;
 import tds.support.tool.handlers.loader.impl.ARTLoaderStepHandler;
 import tds.support.tool.model.TestPackageMetadata;
-import tds.support.tool.repositories.MongoTestPackageRepository;
+import tds.support.tool.repositories.loader.MongoTestPackageRepository;
 import tds.support.tool.repositories.loader.TestPackageMetadataRepository;
 import tds.support.tool.services.ARTTestPackageService;
 import tds.support.tool.services.impl.ProgmanClientServiceImpl;
