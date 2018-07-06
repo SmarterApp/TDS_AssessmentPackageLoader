@@ -22,9 +22,16 @@
       <p-dataTable [value]="selectedJob.steps"
                    dataKey="id"
                    tableStyleClass="table table-striped table-hover"
+                   sortField="createdAt"
+                   sortOrder="-1"
                    [scrollable]="true"
                    scrollHeight="230px">
         <p-column field="jobStepTarget" header="System" [sortable]="false" [style]="{width:'100px'}"></p-column>
+        <p-column field="createdAt" header="Date" [sortable]="true"[style]="{width:'200px'}">
+          <ng-template let-job="rowData" pTemplate="body">
+            {{ job.createdAt.toLocaleString()}}
+          </ng-template>
+        </p-column>
         <p-column field="status" header="Status" [sortable]="false" [style]="{width:'105px'}"></p-column>
         <p-column field="description" header="Description"></p-column>
       </p-dataTable>
