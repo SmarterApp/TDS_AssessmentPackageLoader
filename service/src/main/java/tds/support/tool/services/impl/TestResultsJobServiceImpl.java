@@ -90,9 +90,7 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
                                     .forEach(nonValidationSteps -> nonValidationSteps.setStatus(Status.FAIL));
 
                             jobRepository.save(job);
-                            throw new RuntimeException("Error: The test package failed validation. Aborting test results scoring.");
-                        } else if (step.getName().equals(TestPackageLoadJob.TDS_UPLOAD) && step.getStatus() == Status.FAIL) {
-                            throw new RuntimeException("Error: Unable to load the test package into TDS - Aborting other load steps.");
+                            throw new RuntimeException("Error: The test results transmission file failed validation. Aborting test results scoring.");
                         }
 
                     } else {

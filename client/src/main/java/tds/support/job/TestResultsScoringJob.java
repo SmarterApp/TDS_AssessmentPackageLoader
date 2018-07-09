@@ -20,8 +20,8 @@ public class TestResultsScoringJob extends Job {
 
         //Create steps
         List<Step> steps = new ArrayList<>();
-        steps.add(new Step(FILE_UPLOAD, TargetSystem.Internal,"Uploading test results transmission file"));
-        steps.add(new Step(RESCORE, TargetSystem.TDS,"Sending the test results to ExamService to re-score"));
+        steps.add(new Step(FILE_UPLOAD, TargetSystem.Internal, "Uploading test results transmission file"));
+        steps.add(new Step(RESCORE, TargetSystem.TDS, "Sending the test results to ExamService to re-score"));
 
 
         this.setSteps(steps);
@@ -46,7 +46,7 @@ public class TestResultsScoringJob extends Job {
             return Status.NOT_STARTED;
         }
 
-        return  Status.SUCCESS;
+        return Status.SUCCESS;
     }
 
     private boolean hasStepWithStatus(Status status) {

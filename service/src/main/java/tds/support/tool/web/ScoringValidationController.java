@@ -6,10 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tds.support.job.Job;
-import tds.support.job.JobType;
-import tds.support.tool.services.TestPackageJobService;
 import tds.support.tool.services.TestResultsJobService;
-import tds.support.tool.services.scoring.TestResultsService;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,14 +22,14 @@ public class ScoringValidationController {
     }
 
     /**
-     * Starts the test package job
+     * Starts the scoring validation job
      *
-     * @param file the test package
+     * @param file the TRT file to rescore and validate
      * @return {@link org.springframework.http.ResponseEntity} containing the new {@link tds.support.job.Job}
      * @throws IOException thrown if there is an issue with accessing the file
      */
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Job> loadPackage(@RequestParam("file") final MultipartFile file) throws IOException {
+    public ResponseEntity<Job> loadTestResults(@RequestParam("file") final MultipartFile file) throws IOException {
         Job job = testResultsJobService.startTestResultsImport(file.getOriginalFilename(), file.getInputStream(), file.getSize());
         return ResponseEntity.ok(job);
     }

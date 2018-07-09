@@ -16,7 +16,10 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Validator;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 @Service
 public class TestResultsServiceImpl implements TestResultsService {
@@ -43,7 +46,7 @@ public class TestResultsServiceImpl implements TestResultsService {
             IOUtils.copy(testResultsInputStream, baos);
             byte[] bytes = baos.toByteArray();
             final ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-            // Validate the test package XML against the schema XSD
+            // Validate the TRT XML against the schema XSD
             final StreamSource xmlFile = new StreamSource(bais);
             schemaValidator.validate(xmlFile);
             // Reset the input stream so it can be read from again

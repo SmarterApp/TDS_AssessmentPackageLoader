@@ -19,7 +19,7 @@ public class Step {
     private String name;
     private TargetSystem target;
     private boolean complete;
-    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime createdAt;
 
     /**
      * For frameworks/serialization
@@ -37,6 +37,7 @@ public class Step {
         this.description = description;
         this.status = status;
         this.target = target;
+        this.createdAt = LocalDateTime.now();
     }
     /**
      * @return description for the step in the job
