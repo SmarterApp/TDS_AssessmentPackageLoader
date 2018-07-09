@@ -1,8 +1,13 @@
 package tds.support.tool.configuration;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -20,6 +25,9 @@ import java.util.Optional;
 @Component
 @ConfigurationProperties(prefix = "support-tool")
 public class SupportToolProperties {
+    private static final Logger logger = LoggerFactory.getLogger(SupportToolProperties.class);
+    private static final List<String> defaultSubjects = new ArrayList<>(Arrays.asList("ELA", "MATH"));
+
     private String artRestUrl;
     private String assessmentUrl;
     private String examUrl;
@@ -35,6 +43,7 @@ public class SupportToolProperties {
     private String SsoPassword;
     private String SsoClientSecret;
     private String SsoClientId;
+    private List<String> subjects = defaultSubjects;
 
     /**
      * @return URL that points to the deployed instance of Administration and Registration Tools (ART) REST component.
@@ -212,4 +221,22 @@ public class SupportToolProperties {
         this.permissionsUrl = permissionsUrl;
     }
 
+    /**
+     * Get the list of accepted assessment subjects.
+     * Defaults to ["ELA", "MATH"] if no values are provided in application.yml.
+     *
+     * @return A list of accepted assessment subjects, e.g.: ["ELA", "MATH"]
+     */
+    public List<String> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(final List<String> subjects) {
+        if(subjects != null && subjects.size() > 0) {
+           this.subjects = subjects;
+        } else {
+            logger.info("No test package subjects defined in application.yml - using default value ['ELA', 'MATH'].");
+            this.subjects = defaultSubjects;
+        }
+    }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<TestPackage id="SBAC-IRP-COMBINED-MATH-11" publisher="SBAC_PT" publishDate="Sep 29 2015 10:08PM" subject="MATH" type="summative" version="V8185" bankKey="187" academicYear="2017-2018">
+<TestPackage id="SBAC-IRP-COMBINED-MATH-11" publisher="SBAC_PT" publishDate="Sep 29 2015 10:08PM" subject="MATHEMATICS" type="summative" version="V8185" bankKey="187" academicYear="2017-2018">
     <Blueprint>
         <BlueprintElement id="SBAC-IRP-COMBINED-MATH-11" type="package">
             <Scoring>
