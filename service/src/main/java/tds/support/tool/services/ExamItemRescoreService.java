@@ -1,9 +1,8 @@
 package tds.support.tool.services;
 
 import tds.common.ValidationError;
-import tds.support.tool.model.TestResultsWrapper;
+import tds.support.job.TestResultsWrapper;
 
-import javax.xml.bind.JAXBException;
 import java.util.Optional;
 
 /**
@@ -17,5 +16,5 @@ public interface ExamItemRescoreService {
      * @param testResultsWrapper
      * @return
      */
-    Optional<ValidationError> rescoreItems(final String name, final TestResultsWrapper testResultsWrapper) throws JAXBException;
+    Optional<ValidationError> rescoreItems(final String name, final TestResultsWrapper testResultsWrapper);
 }

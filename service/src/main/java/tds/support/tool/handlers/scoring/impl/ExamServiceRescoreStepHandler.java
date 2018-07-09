@@ -9,7 +9,7 @@ import tds.support.job.Error;
 import tds.support.job.*;
 import tds.support.tool.handlers.scoring.TestResultsHandler;
 import tds.support.tool.model.TestResultsMetadata;
-import tds.support.tool.model.TestResultsWrapper;
+import tds.support.job.TestResultsWrapper;
 import tds.support.tool.repositories.scoring.MongoTestResultsRepository;
 import tds.support.tool.repositories.scoring.TestResultsMetadataRepository;
 import tds.support.tool.services.ExamItemRescoreService;

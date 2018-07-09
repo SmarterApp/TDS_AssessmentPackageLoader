@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import tds.common.ValidationError;
 import tds.common.web.resources.NoContentResponseResource;
 import tds.support.tool.configuration.SupportToolProperties;
-import tds.support.tool.model.TestResultsWrapper;
+import tds.support.job.TestResultsWrapper;
 import tds.support.tool.services.ExamItemRescoreService;
 import tds.trt.model.TDSReport;
 
@@ -43,7 +43,7 @@ public class ExamItemRescoreServiceImplTest {
     public void setup() {
         service = new ExamItemRescoreServiceImpl(restTemplate, supportToolProperties);
         TDSReport trt = new TDSReport();
-        mockTestResults = new TestResultsWrapper(trt);
+        mockTestResults = new TestResultsWrapper("jobId", trt);
     }
 
     @Test

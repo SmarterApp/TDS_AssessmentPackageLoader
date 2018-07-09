@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 import tds.support.job.TestResultsScoringJob;
 import tds.support.tool.model.TestResultsMetadata;
-import tds.support.tool.model.TestResultsWrapper;
+import tds.support.job.TestResultsWrapper;
 import tds.support.tool.repositories.scoring.MongoTestResultsRepository;
 import tds.support.tool.repositories.scoring.TestResultsMetadataRepository;
 import tds.support.tool.services.scoring.TestResultsService;
@@ -53,7 +53,7 @@ public class TestResultsServiceImpl implements TestResultsService {
             bais.reset();
 
             final TDSReport testResults = (TDSReport) trtUnmarshaller.unmarshal(bais);
-            final TestResultsWrapper savedTestResults = mongoTestResultsRepository.save(new TestResultsWrapper(testResults));
+            final TestResultsWrapper savedTestResults = mongoTestResultsRepository.save(new TestResultsWrapper(job.getId(), testResults));
             final TestResultsMetadata metadata = new TestResultsMetadata(job.getId(), savedTestResults.getMongoId());
 
             // Update TRT Load Job specific fields

@@ -9,11 +9,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 import tds.common.ValidationError;
 import tds.common.web.resources.NoContentResponseResource;
 import tds.support.tool.configuration.SupportToolProperties;
-import tds.support.tool.model.TestResultsWrapper;
+import tds.support.job.TestResultsWrapper;
 import tds.support.tool.services.ExamItemRescoreService;
 import tds.trt.model.TDSReport;
 
-import javax.xml.bind.JAXBException;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -30,16 +29,17 @@ public class ExamItemRescoreServiceImpl implements ExamItemRescoreService {
     }
 
     @Override
-    public Optional<ValidationError> rescoreItems(final String examId, final TestResultsWrapper testResultsWrapper) throws JAXBException {
+    public Optional<ValidationError> rescoreItems(final String examId, final TestResultsWrapper testResultsWrapper) {
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         final HttpEntity<TDSReport> entity = new HttpEntity<>(testResultsWrapper.getTestResults(), headers);
         final UriComponentsBuilder builder =
                 UriComponentsBuilder
-                        .fromHttpUrl(String.format("%s/exam/%s/scores/rescore",
+                        .fromHttpUrl(String.format("%s/exam/%s/scores/rescore/%s",
                                 properties.getExamUrl(),
-                                examId));
+                                examId,
+                                testResultsWrapper.getJobId()));
 
         final ResponseEntity<NoContentResponseResource> responseEntity =
                 restTemplate.exchange(builder.build().toUri(), HttpMethod.PUT, entity, NoContentResponseResource.class);

@@ -12,13 +12,12 @@ import tds.support.job.Step;
 import tds.support.job.TestResultsScoringJob;
 import tds.support.tool.handlers.scoring.TestResultsHandler;
 import tds.support.tool.model.TestResultsMetadata;
-import tds.support.tool.model.TestResultsWrapper;
+import tds.support.job.TestResultsWrapper;
 import tds.support.tool.repositories.scoring.MongoTestResultsRepository;
 import tds.support.tool.repositories.scoring.TestResultsMetadataRepository;
 import tds.support.tool.services.ExamItemRescoreService;
 import tds.trt.model.TDSReport;
 
-import javax.xml.bind.JAXBException;
 import java.util.Optional;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
@@ -43,11 +42,11 @@ public class ExamServiceRescoreStepHandlerTest {
     @Before
     public void setup() {
         handler = new ExamServiceRescoreStepHandler(mockService, mockTestResultsMetadataRepository, mockTestResultsRepository);
-        mockTestResults = new TestResultsWrapper(new TDSReport());
+        mockTestResults = new TestResultsWrapper("jobId", new TDSReport());
     }
 
     @Test
-    public void shouldHandleStepSuccessfully() throws JAXBException {
+    public void shouldHandleStepSuccessfully() {
         TestResultsScoringJob mockJob = random(TestResultsScoringJob.class);
         Step mockStep = random(Step.class);
         int errorsBefore = mockStep.getErrors().size();
@@ -70,7 +69,7 @@ public class ExamServiceRescoreStepHandlerTest {
 
 
     @Test
-    public void shouldHandleStepSuccessfullyWithWarns() throws JAXBException {
+    public void shouldHandleStepSuccessfullyWithWarns() {
         TestResultsScoringJob mockJob = random(TestResultsScoringJob.class);
         Step mockStep = random(Step.class);
         int errorsBefore = mockStep.getErrors().size();
@@ -93,7 +92,7 @@ public class ExamServiceRescoreStepHandlerTest {
     }
 
     @Test
-    public void shouldReturnErrorFromServiceCallAndFailStep() throws JAXBException {
+    public void shouldReturnErrorFromServiceCallAndFailStep() {
         TestResultsScoringJob mockJob = random(TestResultsScoringJob.class);
         Step mockStep = random(Step.class);
         int errorsBefore = mockStep.getErrors().size();
@@ -116,7 +115,7 @@ public class ExamServiceRescoreStepHandlerTest {
     }
 
     @Test
-    public void shouldCatchExceptionAndFailStep() throws JAXBException {
+    public void shouldCatchExceptionAndFailStep() {
         TestResultsScoringJob mockJob = random(TestResultsScoringJob.class);
         Step mockStep = random(Step.class);
         int errorsBefore = mockStep.getErrors().size();
