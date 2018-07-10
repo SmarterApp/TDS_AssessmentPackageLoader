@@ -47,10 +47,10 @@ public class ExamItemRescoreServiceImplTest {
     }
 
     @Test
-    public void shouldLoadTestPackageSuccessfully() throws URISyntaxException, JAXBException {
+    public void shouldLoadTestPackageSuccessfully() throws URISyntaxException {
         final String examId = "examId";
         when(supportToolProperties.getExamUrl()).thenReturn("http://localhost:8080");
-        when(restTemplate.exchange(eq(new URI("http://localhost:8080/exam/examId/scores/rescore")), eq(HttpMethod.PUT),
+        when(restTemplate.exchange(eq(new URI("http://localhost:8080/exam/examId/scores/rescore/jobId")), eq(HttpMethod.PUT),
                 isA(HttpEntity.class), eq(NoContentResponseResource.class)))
                 .thenReturn(new ResponseEntity<>(new NoContentResponseResource(null), HttpStatus.CREATED));
 
@@ -60,11 +60,11 @@ public class ExamItemRescoreServiceImplTest {
     }
 
     @Test
-    public void shouldReturnErrorsIfFoundInResponse() throws URISyntaxException, JAXBException {
+    public void shouldReturnErrorsIfFoundInResponse() throws URISyntaxException {
         final String examId = "examId";
 
         when(supportToolProperties.getExamUrl()).thenReturn("http://localhost:8080");
-        when(restTemplate.exchange(eq(new URI("http://localhost:8080/exam/examId/scores/rescore")), eq(HttpMethod.PUT),
+        when(restTemplate.exchange(eq(new URI("http://localhost:8080/exam/examId/scores/rescore/jobId")), eq(HttpMethod.PUT),
                 isA(HttpEntity.class), eq(NoContentResponseResource.class)))
                 .thenReturn(new ResponseEntity<>(new NoContentResponseResource(new ValidationError("Error", "An Error Occurred")),
                         HttpStatus.UNPROCESSABLE_ENTITY));
