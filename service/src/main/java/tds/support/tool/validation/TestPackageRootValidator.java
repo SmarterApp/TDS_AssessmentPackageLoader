@@ -22,7 +22,7 @@ public class TestPackageRootValidator implements TestPackageValidator {
 
     @Override
     public void validate(final TestPackage testPackage, final List<ValidationError> errors) {
-        if (!subjects.contains(testPackage.getSubject())) {
+        if (subjects.stream().noneMatch(testPackage.getSubject()::equalsIgnoreCase)) {
             errors.add(new ValidationError(ErrorSeverity.CRITICAL,
                 String.format("The test package subject '%s' must be one of: %s",
                     testPackage.getSubject(), subjects)));
