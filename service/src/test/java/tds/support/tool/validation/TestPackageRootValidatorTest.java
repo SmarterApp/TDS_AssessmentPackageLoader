@@ -1,6 +1,5 @@
 package tds.support.tool.validation;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -25,26 +24,36 @@ public class TestPackageRootValidatorTest extends TestPackageValidationBaseTest{
     @Mock
     private SupportToolProperties supportToolProperties;
 
-    @Before
-    public void setup() {
-        when(supportToolProperties.getSubjects()).thenReturn(
-            new ArrayList<String>(Arrays.asList(new String[] {"FOO", "BAZ", "MATH"})));
-        validator = new TestPackageRootValidator(supportToolProperties);
-    }
-
     @Test
     public void shouldPassValidation() {
         List<ValidationError> errors = new ArrayList<>();
+        when(supportToolProperties.getSubjects()).thenReturn(
+            new ArrayList<String>(Arrays.asList(new String[] {"MATH"})));
+        validator = new TestPackageRootValidator(supportToolProperties);
         validator.validate(validTestPackage, errors);
         assertThat(errors).isEmpty();
     }
 
     @Test
-    public void shouldFailValidationForBadPublisherDateFormat() throws IOException {
+    public void shouldPassValidationWithMismatchedCaseSubject() {
+        // This assessment has subject 'MATH' which would fail case sensitive validation.
+        List<ValidationError> errors = new ArrayList<>();
+        when(supportToolProperties.getSubjects()).thenReturn(
+            new ArrayList<String>(Arrays.asList(new String[] {"math"})));
+        validator = new TestPackageRootValidator(supportToolProperties);
+        validator.validate(validTestPackage, errors);
+        assertThat(errors).isEmpty();
+    }
+
+    @Test
+    public void shouldFailValidationForBadSubjectPublisherDateFormat() throws IOException {
         TestPackage invalidTestPackage = testPackageMapper.readValue(this.getClass().getResourceAsStream(
                 "/validation/TESTPACKAGE-SAMPLE-INVALID-PUBLISHERDATE-VERSION.xml")
                 , TestPackage.class);
         List<ValidationError> errors = new ArrayList<>();
+        when(supportToolProperties.getSubjects()).thenReturn(
+            new ArrayList<String>(Arrays.asList(new String[] {"foo", "baz", "math"})));
+        validator = new TestPackageRootValidator(supportToolProperties);
         validator.validate(invalidTestPackage, errors);
 
         assertThat(errors).hasSize(3);
@@ -52,7 +61,7 @@ public class TestPackageRootValidatorTest extends TestPackageValidationBaseTest{
         // TDS-1659 - some test suite files contained 'Mathematics' instead of 'MATH'.
         assertThat(errors.get(0).getSeverity()).isEqualTo(ErrorSeverity.CRITICAL);
         assertThat(errors.get(0).getMessage()).isEqualTo(
-            "The test package subject 'MATHEMATICS' must be one of: [FOO, BAZ, MATH]");
+            "The test package subject 'MATHEMATICS' must be one of: [foo, baz, math]");
 
         assertThat(errors.get(1).getSeverity()).isEqualTo(ErrorSeverity.CRITICAL);
         assertThat(errors.get(1).getMessage()).isEqualTo(
