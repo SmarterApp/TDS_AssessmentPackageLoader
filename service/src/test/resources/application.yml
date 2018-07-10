@@ -31,6 +31,7 @@ saml:
 support-tool:
   art-rest-url: http://localhost:8080/rest
   assessment-url: http://localhost:32841
+  exam-url: http://localhost:8081
   content-url:  http://localhost:32848
   thss-api-url: http://localhost:28039/api
   tis-api-url: http://localhost:53708/api

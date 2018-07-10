@@ -14,16 +14,19 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.ResourceHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
 import org.springframework.http.converter.xml.MappingJackson2XmlHttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
@@ -31,28 +34,22 @@ import org.springframework.security.oauth2.client.resource.OAuth2ProtectedResour
 import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordResourceDetails;
 import org.springframework.security.oauth2.common.AuthenticationScheme;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Supplier;
-
 import tds.common.configuration.JacksonObjectMapperConfiguration;
 import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
 import tds.common.web.interceptors.RestTemplateLoggingInterceptor;
 import tds.support.job.TestPackageDeleteJob;
 import tds.support.job.TestPackageLoadJob;
+import tds.support.job.TestResultsScoringJob;
 import tds.support.tool.handlers.loader.TestPackageHandler;
-import tds.support.tool.handlers.loader.impl.ARTDeleteStepHandler;
-import tds.support.tool.handlers.loader.impl.ARTLoaderStepHandler;
-import tds.support.tool.handlers.loader.impl.ParseAndValidateHandler;
-import tds.support.tool.handlers.loader.impl.TDSDeleteStepHandler;
-import tds.support.tool.handlers.loader.impl.TDSLoaderStepHandler;
-import tds.support.tool.handlers.loader.impl.THSSDeleteStepHandler;
-import tds.support.tool.handlers.loader.impl.THSSLoaderStepHandler;
-import tds.support.tool.handlers.loader.impl.TISDeleteStepHandler;
-import tds.support.tool.handlers.loader.impl.TISLoaderStepHandler;
+import tds.support.tool.handlers.loader.impl.*;
+import tds.support.tool.handlers.scoring.TestResultsHandler;
+import tds.support.tool.handlers.scoring.impl.ExamServiceRescoreStepHandler;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 @EnableAsync
 @Configuration
@@ -62,7 +59,6 @@ import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfigu
     JacksonObjectMapperConfiguration.class,
     MvcConfig.class
 })
-
 public class SupportToolServiceConfiguration {
     @Bean
     public AmazonS3 getAmazonS3(final S3Properties s3Properties) {
@@ -76,7 +72,7 @@ public class SupportToolServiceConfiguration {
     }
 
     @Bean(name = "testPackageLoaderStepHandlers")
-    public Map<String, TestPackageHandler> getTestPackageLoaderStepHandlers(
+    public Map<String, TestPackageHandler> testPackageLoaderStepHandlers(
         final ParseAndValidateHandler parseAndValidateHandler,
         final TDSLoaderStepHandler tdsLoaderStepHandler,
         final ARTLoaderStepHandler artLoaderStepHandler,
@@ -87,7 +83,6 @@ public class SupportToolServiceConfiguration {
         final TISDeleteStepHandler tisDeleteStepHandler,
         final THSSDeleteStepHandler thssDeleteStepHandler
     ) {
-
         final Map<String, TestPackageHandler> handlerMap = new HashMap<>();
         handlerMap.put(TestPackageLoadJob.VALIDATE, parseAndValidateHandler);
         handlerMap.put(TestPackageLoadJob.TDS_UPLOAD, tdsLoaderStepHandler);
@@ -102,6 +97,17 @@ public class SupportToolServiceConfiguration {
         return handlerMap;
     }
 
+    @Bean(name = "testResultsLoaderStepHandlers")
+    public Map<String, TestResultsHandler> testResultsLoaderStepHandlers(
+            final ExamServiceRescoreStepHandler examServiceRescoreStepHandler
+    ) {
+
+        final Map<String, TestResultsHandler> handlerMap = new HashMap<>();
+        handlerMap.put(TestResultsScoringJob.RESCORE, examServiceRescoreStepHandler);
+
+        return handlerMap;
+    }
+
     private ObjectMapper getIntegrationObjectMapper() {
         return new ObjectMapper()
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -111,7 +117,8 @@ public class SupportToolServiceConfiguration {
             .registerModule(new JavaTimeModule());
     }
 
-    @Bean
+    @Bean(name = "restTemplateBuilder")
+    @Primary
     public RestTemplateBuilder restTemplateBuilder(TestPackageObjectMapperConfiguration testPackageObjectMapperConfiguration, final ApplicationContext applicationContext) {
         final ObjectMapper objectMapper = getIntegrationObjectMapper();
         final XmlMapper xmlMapper = testPackageObjectMapperConfiguration.getLegacyTestSpecXmlMapper();
@@ -123,11 +130,28 @@ public class SupportToolServiceConfiguration {
             additionalInterceptors(new RestTemplateLoggingInterceptor(objectMapper, applicationContext.getId()));
     }
 
+    @Bean(name = "jaxbRestTemplateBuilder")
+    public RestTemplateBuilder jaxbRestTemplateBuilder(final ApplicationContext applicationContext) {
+        return new RestTemplateBuilder().
+                additionalMessageConverters(
+                        new Jaxb2RootElementHttpMessageConverter(),
+                        new MappingJackson2HttpMessageConverter(getIntegrationObjectMapper())).
+                additionalInterceptors(new RestTemplateLoggingInterceptor(getIntegrationObjectMapper(), applicationContext.getId()));
+    }
+
+    @Primary
     @Bean(name = "integrationRestTemplate")
     public RestTemplate integrationRestTemplate(final RestTemplateBuilder restTemplateBuilder) {
         return restTemplateBuilder.
             requestFactory(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory())).
             build();
+    }
+
+    @Bean(name = "jaxbRestTemplate")
+    public RestTemplate jaxbRestTemplate(final @Qualifier("jaxbRestTemplateBuilder") RestTemplateBuilder jaxbRestTemplateBuilder) {
+        return jaxbRestTemplateBuilder.
+                requestFactory(new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory())).
+                build();
     }
 
     @Bean

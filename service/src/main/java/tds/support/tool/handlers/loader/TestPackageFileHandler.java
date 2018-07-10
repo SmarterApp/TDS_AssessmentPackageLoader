@@ -25,7 +25,7 @@ public class TestPackageFileHandler {
      * @param testPackageService the {@link tds.support.tool.services.loader.TestPackageService} that handles loading the test package
      */
     @Autowired
-    TestPackageFileHandler(final TestPackageService testPackageService) {
+    public TestPackageFileHandler(final TestPackageService testPackageService) {
         this.testPackageService = testPackageService;
     }
 

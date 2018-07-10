@@ -10,24 +10,17 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-import tds.support.job.Job;
-import tds.support.job.JobType;
-import tds.support.job.Status;
-import tds.support.job.Step;
-import tds.support.job.TargetSystem;
-import tds.support.job.TestPackageDeleteJob;
-import tds.support.job.TestPackageLoadJob;
-import tds.support.job.TestPackageRollbackJob;
+import tds.support.job.*;
 import tds.support.tool.handlers.loader.TestPackageFileHandler;
 import tds.support.tool.handlers.loader.TestPackageHandler;
 import tds.support.tool.repositories.JobRepository;
-import tds.support.tool.services.JobService;
+import tds.support.tool.services.TestPackageJobService;
 import tds.support.tool.services.TestPackageStatusService;
 import tds.support.tool.services.loader.MessagingService;
 
 @Service
-public class JobServiceImpl implements JobService {
-    private static final Logger log = LoggerFactory.getLogger(JobServiceImpl.class);
+public class TestPackageJobServiceImpl implements TestPackageJobService {
+    private static final Logger log = LoggerFactory.getLogger(TestPackageJobServiceImpl.class);
     private final JobRepository jobRepository;
     private final TestPackageFileHandler testPackageFileHandler;
     private final Map<String, TestPackageHandler> testPackageLoaderStepHandlers;
@@ -35,11 +28,11 @@ public class JobServiceImpl implements JobService {
     private final TestPackageStatusService testPackageStatusService;
 
     @Autowired
-    public JobServiceImpl(final JobRepository jobRepository,
-                          final TestPackageFileHandler testPackageFileHandler,
-                          final MessagingService messagingService,
-                          final TestPackageStatusService testPackageStatusService,
-                          @Qualifier("testPackageLoaderStepHandlers") final Map<String, TestPackageHandler> testPackageLoaderStepHandlers) {
+    public TestPackageJobServiceImpl(final JobRepository jobRepository,
+                                     final TestPackageFileHandler testPackageFileHandler,
+                                     final MessagingService messagingService,
+                                     final TestPackageStatusService testPackageStatusService,
+                                     @Qualifier("testPackageLoaderStepHandlers") final Map<String, TestPackageHandler> testPackageLoaderStepHandlers) {
         this.jobRepository = jobRepository;
         this.testPackageFileHandler = testPackageFileHandler;
         this.testPackageLoaderStepHandlers = testPackageLoaderStepHandlers;
@@ -91,7 +84,6 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-//    @Async
     public void executeJobSteps(final String jobId) {
         final Job job = jobRepository.findOne(jobId);
 

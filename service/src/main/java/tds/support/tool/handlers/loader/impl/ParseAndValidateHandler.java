@@ -11,7 +11,7 @@ import tds.support.job.Status;
 import tds.support.job.Step;
 import tds.support.tool.handlers.loader.TestPackageHandler;
 import tds.support.tool.model.TestPackageMetadata;
-import tds.support.tool.repositories.MongoTestPackageRepository;
+import tds.support.tool.repositories.loader.MongoTestPackageRepository;
 import tds.support.tool.repositories.loader.TestPackageMetadataRepository;
 import tds.support.tool.validation.TestPackageValidator;
 import tds.support.tool.validation.ValidationError;
@@ -29,8 +29,8 @@ public class ParseAndValidateHandler implements TestPackageHandler {
 
     @Autowired
     public ParseAndValidateHandler(final List<TestPackageValidator> validators,
-                                 final MongoTestPackageRepository mongoTestPackageRepository,
-                                 final TestPackageMetadataRepository testPackageMetadataRepository) {
+                                   final MongoTestPackageRepository mongoTestPackageRepository,
+                                   final TestPackageMetadataRepository testPackageMetadataRepository) {
         this.validators = validators;
         this.mongoTestPackageRepository = mongoTestPackageRepository;
         this.testPackageMetadataRepository = testPackageMetadataRepository;

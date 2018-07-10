@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,16 +19,16 @@ import java.util.List;
 
 import tds.support.job.Job;
 import tds.support.job.JobType;
-import tds.support.tool.services.JobService;
+import tds.support.tool.services.TestPackageJobService;
 
 @RestController
 @RequestMapping("/api/load")
 public class TestPackageController {
-    private final JobService jobService;
+    private final TestPackageJobService testPackageJobService;
 
     @Autowired
-    public TestPackageController(final JobService jobService) {
-        this.jobService = jobService;
+    public TestPackageController(final TestPackageJobService testPackageJobService) {
+        this.testPackageJobService = testPackageJobService;
     }
 
     /**
@@ -43,7 +42,7 @@ public class TestPackageController {
     public ResponseEntity<Job> loadPackage(@RequestParam("file") MultipartFile file,
                                            @RequestParam("skipArt") final boolean skipArt,
                                            @RequestParam("skipScoring") final boolean skipScoring) throws IOException {
-        Job job = jobService.startPackageImport(file.getOriginalFilename(), file.getInputStream(), file.getSize(), skipArt, skipScoring);
+        Job job = testPackageJobService.startPackageImport(file.getOriginalFilename(), file.getInputStream(), file.getSize(), skipArt, skipScoring);
         return ResponseEntity.ok(job);
     }
 
@@ -56,7 +55,7 @@ public class TestPackageController {
      */
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Job>> getJobs(@RequestParam(value = "jobType", required = false) JobType... jobTypes) throws IOException {
-        return ResponseEntity.ok(jobService.findJobs(jobTypes));
+        return ResponseEntity.ok(testPackageJobService.findJobs(jobTypes));
     }
 
     /**
@@ -68,6 +67,6 @@ public class TestPackageController {
     @DeleteMapping("/{name}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTestPackage(@PathVariable final String name) {
-        jobService.startPackageDelete(name);
+        testPackageJobService.startPackageDelete(name);
     }
 }

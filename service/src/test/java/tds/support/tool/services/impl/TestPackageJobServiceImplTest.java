@@ -1,7 +1,6 @@
 package tds.support.tool.services.impl;
 
 import com.google.common.collect.ImmutableMap;
-import nu.xom.jaxen.util.SingletonList;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +33,7 @@ import tds.support.job.TestPackageTargetSystemStatus;
 import tds.support.tool.handlers.loader.TestPackageFileHandler;
 import tds.support.tool.handlers.loader.TestPackageHandler;
 import tds.support.tool.repositories.JobRepository;
+import tds.support.tool.services.TestPackageJobService;
 import tds.support.tool.services.TestPackageStatusService;
 import tds.support.tool.services.loader.MessagingService;
 
@@ -49,7 +49,7 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class JobServiceImplTest {
+public class TestPackageJobServiceImplTest {
 
     @Mock
     private TestPackageFileHandler mockTestPackageFileHandler;
@@ -66,11 +66,11 @@ public class JobServiceImplTest {
     @Mock
     private TestPackageStatusService mockTestPackageStatusService;
 
-    private JobServiceImpl jobService;
+    private TestPackageJobService jobService;
 
     @Before
     public void setUp() {
-        jobService = new JobServiceImpl(mockJobRepository,
+        jobService = new TestPackageJobServiceImpl(mockJobRepository,
             mockTestPackageFileHandler,
             mockMessagingService,
             mockTestPackageStatusService,

@@ -18,11 +18,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.client.ExpectedCount;
 import org.springframework.test.web.client.MockRestServiceServer;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -42,20 +40,22 @@ import static org.springframework.test.web.client.match.MockRestRequestMatchers.
 import static org.springframework.test.web.client.response.MockRestResponseCreators.withSuccess;
 
 @ComponentScan(basePackages = {
-    "tds.support.tool.testpackage.configuration",
-    "tds.support.tool.handlers.loader",
-    "tds.support.tool.services.loader",
-    "tds.support.tool.handlers.loader.impl",
-    "tds.support.tool.services.impl",
-    "tds.support.tool.validation",
-    "tds.support.tool.configuration",
-    "tds.support.tool.repositories.loader",
-    "tds.support.tool.repositories.loader.impl",
-    "tds.support.tool.messaging"})
+        "tds.support.tool.testpackage.configuration",
+        "tds.support.tool.handlers.loader",
+        "tds.support.tool.services.loader",
+        "tds.support.tool.handlers.loader.impl",
+        "tds.support.tool.handlers.scoring",
+        "tds.support.tool.services.impl",
+        "tds.support.tool.services.scoring",
+        "tds.support.tool.validation",
+        "tds.support.tool.configuration",
+        "tds.support.tool.repositories.loader",
+        "tds.support.tool.repositories.loader.impl",
+        "tds.support.tool.messaging"})
 @Import({SupportToolServiceConfiguration.class, SupportToolProperties.class})
 @DataMongoTest
 @TestConfiguration
-@EnableAutoConfiguration(exclude = { SecurityAutoConfiguration.class })
+@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})
 public class SupportToolTestConfiguration {
     @MockBean
     AmazonS3 amazonS3;
@@ -78,23 +78,23 @@ public class SupportToolTestConfiguration {
     RestTemplate integrationRestTemplate;
 
     static String RUBRIC_LIST =
-        "<rubriclist>\n" +
-            "   <rubric scorepoint=\"4\">\n"  +
-            "       <name>        Rubric 4</name>\n"  +
-            "       <val>\n"  +
-            "           <![CDATA[<p style=\"\">&#xA0;</p><p><dl><dt style=\"float: left; margin-top: 1px; margin-bottom: -1em;\">a)</dt><dd style=\"float: top;padding-left:1.5000em; padding-left:1.5000em; \"><p style=\"font-style:normal; font-weight:normal; \">Inference here.</p></dd><dt style=\"float: left; margin-top: 1px; margin-bottom: -1em;\">b)</dt><dd style=\"float: top;padding-left:1.5000em; padding-left:1.5000em; \"><p style=\"font-style:normal; font-weight:normal; \">Text-supported example: “....” (paragraph reference)</p></dd><dt style=\"float: left; margin-top: 1px; margin-bottom: -1em;\">c)</dt><dd style=\"float: top;padding-left:1.5000em; padding-left:1.5000em; \"><p style=\"font-style:normal; font-weight:normal; \">Inference here.</p></dd><dt style=\"float: left; margin-top: 1px; margin-bottom: -1em;\">d)</dt><dd style=\"float: top;padding-left:1.5000em; padding-left:1.5000em; \"><p style=\"font-style:normal; font-weight:normal; \">Text-supported example: “....” (paragraph reference)</p></dd></dl></p>]]>\n"  +
-            "       </val>\n"  +
-            "   </rubric>\n"  +
-            "   <samplelist maxval=\"4\" minval=\"4\">\n"  +
-            "       <sample purpose=\"OtherExemplar\" scorepoint=\"4\">\n"  +
-            "           <name>4-Point Other Official Sample Answers      </name>\n"  +
-            "           <annotation />\n"  +
-            "           <samplecontent>\n"  +
-            "               <![CDATA[<p style=\"\">&#xA0;</p>]]>\n"  +
-            "           </samplecontent>\n"  +
-            "       </sample>\n"  +
-            "   </samplelist>\n" +
-            "</rubriclist>";
+            "<rubriclist>\n" +
+                    "   <rubric scorepoint=\"4\">\n" +
+                    "       <name>        Rubric 4</name>\n" +
+                    "       <val>\n" +
+                    "           <![CDATA[<p style=\"\">&#xA0;</p><p><dl><dt style=\"float: left; margin-top: 1px; margin-bottom: -1em;\">a)</dt><dd style=\"float: top;padding-left:1.5000em; padding-left:1.5000em; \"><p style=\"font-style:normal; font-weight:normal; \">Inference here.</p></dd><dt style=\"float: left; margin-top: 1px; margin-bottom: -1em;\">b)</dt><dd style=\"float: top;padding-left:1.5000em; padding-left:1.5000em; \"><p style=\"font-style:normal; font-weight:normal; \">Text-supported example: “....” (paragraph reference)</p></dd><dt style=\"float: left; margin-top: 1px; margin-bottom: -1em;\">c)</dt><dd style=\"float: top;padding-left:1.5000em; padding-left:1.5000em; \"><p style=\"font-style:normal; font-weight:normal; \">Inference here.</p></dd><dt style=\"float: left; margin-top: 1px; margin-bottom: -1em;\">d)</dt><dd style=\"float: top;padding-left:1.5000em; padding-left:1.5000em; \"><p style=\"font-style:normal; font-weight:normal; \">Text-supported example: “....” (paragraph reference)</p></dd></dl></p>]]>\n" +
+                    "       </val>\n" +
+                    "   </rubric>\n" +
+                    "   <samplelist maxval=\"4\" minval=\"4\">\n" +
+                    "       <sample purpose=\"OtherExemplar\" scorepoint=\"4\">\n" +
+                    "           <name>4-Point Other Official Sample Answers      </name>\n" +
+                    "           <annotation />\n" +
+                    "           <samplecontent>\n" +
+                    "               <![CDATA[<p style=\"\">&#xA0;</p>]]>\n" +
+                    "           </samplecontent>\n" +
+                    "       </sample>\n" +
+                    "   </samplelist>\n" +
+                    "</rubriclist>";
 
     public MockRestServiceServer setUpMockServer() throws Exception {
         integrationRestTemplate.setInterceptors(Collections.emptyList());
@@ -123,28 +123,28 @@ public class SupportToolTestConfiguration {
         Supplier<CloseableHttpClient> httpClientSupplier = () -> {
             HttpClientMock httpClientMock = new HttpClientMock();
             httpClientMock.onPost("http://localhost:28039/api/item/submit").
-                withBody(containsString("success")).
-                doReturnJSON("{\n" +
-                    "    \"Files\": [\n" +
-                    "        {\n" +
-                    "            \"FileName\": \"thss-example.json\",\n" +
-                    "            \"Success\": true,\n" +
-                    "            \"ErrorMessage\": null\n" +
-                    "        }\n" +
-                    "    ]\n" +
-                    "}");
+                    withBody(containsString("success")).
+                    doReturnJSON("{\n" +
+                            "    \"Files\": [\n" +
+                            "        {\n" +
+                            "            \"FileName\": \"thss-example.json\",\n" +
+                            "            \"Success\": true,\n" +
+                            "            \"ErrorMessage\": null\n" +
+                            "        }\n" +
+                            "    ]\n" +
+                            "}");
 
             httpClientMock.onPost("http://localhost:28039/api/item/submit").
-                withBody(containsString("error")).
-                doReturnJSON("{\n" +
-                    "    \"Files\": [\n" +
-                    "        {\n" +
-                    "            \"FileName\": \"thss-example.json\",\n" +
-                    "            \"Success\": false,\n" +
-                    "            \"ErrorMessage\": \"Mock Error Message\"\n" +
-                    "        }\n" +
-                    "    ]\n" +
-                    "}");
+                    withBody(containsString("error")).
+                    doReturnJSON("{\n" +
+                            "    \"Files\": [\n" +
+                            "        {\n" +
+                            "            \"FileName\": \"thss-example.json\",\n" +
+                            "            \"Success\": false,\n" +
+                            "            \"ErrorMessage\": \"Mock Error Message\"\n" +
+                            "        }\n" +
+                            "    ]\n" +
+                            "}");
 
 
             return httpClientMock;

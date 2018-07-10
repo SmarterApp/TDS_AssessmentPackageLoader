@@ -30,6 +30,7 @@ public class SupportToolProperties {
 
     private String artRestUrl;
     private String assessmentUrl;
+    private String examUrl;
     private String contentUrl;
     private String thssApiUrl;
     private String tisApiUrl;
@@ -65,6 +66,15 @@ public class SupportToolProperties {
     public void setAssessmentUrl(final String assessmentUrl) {
         if (assessmentUrl == null) throw new IllegalArgumentException("asssessmentUrl cannot be null");
         this.assessmentUrl = removeTrailingSlash(assessmentUrl);
+    }
+
+    public String getExamUrl() {
+        return examUrl;
+    }
+
+    public void setExamUrl(final String examUrl) {
+        if (examUrl == null) throw new IllegalArgumentException("examUrl cannot be null");
+        this.examUrl = removeTrailingSlash(examUrl);
     }
 
     /**
