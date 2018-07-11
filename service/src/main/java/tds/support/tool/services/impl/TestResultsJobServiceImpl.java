@@ -103,4 +103,17 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
     public List<Job> findJobs() {
         return jobRepository.findByTypeIn(JobType.SCORING);
     }
+
+    @Override
+    public void updateJob(final String jobId, final JobUpdateRequest request) {
+        final Job job = jobRepository.findOne(jobId);
+
+        if (job == null) {
+            throw new RuntimeException(String.format("Error: Could not locate the job with id %s. Unable to update the status of the requested job.", jobId));
+        }
+
+        final Step newStep = new Step(request.getName(), request.getTargetSystem(), request.getDescription(), request.getStatus());
+        job.addStep(newStep);
+        jobRepository.save(job);
+    }
 }

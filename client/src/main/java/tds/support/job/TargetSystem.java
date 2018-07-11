@@ -25,7 +25,13 @@ public enum TargetSystem {
     THSS,
 
     /**
+     * Exam Results Transmitter
+     */
+    ERT,
+
+    /**
      * Internal (support tool) Specific
      */
     Internal
+
 }

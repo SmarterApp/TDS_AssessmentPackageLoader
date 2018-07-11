@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import tds.support.job.*;
@@ -39,6 +40,9 @@ public class TestResultsJobServiceImplTest {
     private TestResultsHandler mockTestResultsHandler;
 
     private TestResultsJobServiceImpl jobService;
+
+    @Captor
+    private ArgumentCaptor<Job> jobArgumentCaptor;
 
     @Before
     public void setUp() {
@@ -120,6 +124,36 @@ public class TestResultsJobServiceImplTest {
 
         List<Job> savedJobs = jobArgumentCaptor.getAllValues();
         assertThat(savedJobs).hasSize(2);
+    }
+
+    @Test
+    public void shouldUpdateJobStatus() {
+        final String jobId = "jobId";
+        final JobUpdateRequest request = new JobUpdateRequest("test", TargetSystem.ERT, Status.SUCCESS, "description");
+        final Job mockJob = new TestResultsScoringJob("test");
+        when(mockJobRepository.findOne(jobId)).thenReturn(mockJob);
+
+        jobService.updateJob(jobId, request);
+
+        verify(mockJobRepository).findOne(jobId);
+        verify(mockJobRepository).save(jobArgumentCaptor.capture());
+
+        Job job = jobArgumentCaptor.getValue();
+        assertThat(job).isNotNull();
+        assertThat(job.getSteps()).hasSize(3);
+        assertThat(job.getSteps().get(2).getStatus()).isEqualTo(Status.SUCCESS);
+        assertThat(job.getSteps().get(2).getJobStepTarget()).isEqualTo(TargetSystem.ERT);
+        assertThat(job.getSteps().get(2).getDescription()).isEqualTo("description");
+        assertThat(job.getSteps().get(2).getName()).isEqualTo("test");
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void shouldThrowForNoJobFoundUpdateJobStatus() {
+        final String jobId = "jobId";
+        final JobUpdateRequest request = new JobUpdateRequest("test", TargetSystem.ERT, Status.SUCCESS, "description");
+        when(mockJobRepository.findOne(jobId)).thenReturn(null);
+
+        jobService.updateJob(jobId, request);
     }
 
 }

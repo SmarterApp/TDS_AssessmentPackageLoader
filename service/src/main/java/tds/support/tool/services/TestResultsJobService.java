@@ -2,6 +2,7 @@ package tds.support.tool.services;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import tds.support.job.Job;
+import tds.support.job.JobUpdateRequest;
 
 import java.io.InputStream;
 import java.util.List;
@@ -19,7 +20,18 @@ public interface TestResultsJobService {
     @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
     Job startTestResultsImport(final String packageName, final InputStream testPackage, final long testPackageSize);
 
+    /**
+     * Executes all registered job steps for the specified job
+     *
+     * @param jobId The id of the job to execute
+     */
     void executeJobSteps(final String jobId);
 
+    /**
+     * Returns all scoring validation jobs
+     * @return A list of all scoring validation {@link Job}s
+     */
     List<Job> findJobs();
+
+    void updateJob(final String jobId, final JobUpdateRequest request);
 }
