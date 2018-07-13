@@ -5,7 +5,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import tds.common.web.resources.NoContentResponseResource;
 import tds.support.job.Job;
+import tds.support.job.JobUpdateRequest;
 import tds.support.tool.services.TestResultsJobService;
 
 import java.io.IOException;
@@ -43,5 +45,18 @@ public class ScoringValidationController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Job>> getJobs() {
         return ResponseEntity.ok(testResultsJobService.findJobs());
+    }
+
+    /**
+     * Updates a scoring validation job's status
+     *
+     * @return {@link org.springframework.http.ResponseEntity} containing the new {@link tds.support.job.Job}
+     * @throws IOException thrown if there is an issue with accessing the file
+     */
+    @PutMapping(value = "/{jobId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<NoContentResponseResource> updateJob(@PathVariable final String jobId,
+                                                               @RequestBody final JobUpdateRequest request) {
+        testResultsJobService.updateJob(jobId, request);
+        return ResponseEntity.ok(new NoContentResponseResource());
     }
 }
