@@ -3,13 +3,23 @@ package tds.support.job;
 import org.springframework.data.annotation.Id;
 import tds.trt.model.TDSReport;
 
+import javax.xml.bind.annotation.*;
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "TestResults")
 public class TestResultsWrapper {
     @Id
     private String mongoId;
 
+    @XmlAttribute
     private String jobId;
 
+    @XmlElement(name = "TDSReport")
     private TDSReport testResults;
+
+    private TestResultsWrapper() {
+
+    }
 
     public TestResultsWrapper(final String jobId, final TDSReport testResults) {
         this.jobId = jobId;
