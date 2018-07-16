@@ -35,14 +35,19 @@ public class TestPackageRootValidatorTest extends TestPackageValidationBaseTest{
     }
 
     @Test
-    public void shouldPassValidationWithMismatchedCaseSubject() {
-        // This assessment has subject 'MATH' which would fail case sensitive validation.
+    public void shouldFailValidationWithMismatchedCaseSubject() {
+        // This assessment has subject 'MATH' which we want to fail due to case sensitivity.
         List<ValidationError> errors = new ArrayList<>();
         when(supportToolProperties.getSubjects()).thenReturn(
             new ArrayList<String>(Arrays.asList(new String[] {"math"})));
         validator = new TestPackageRootValidator(supportToolProperties);
         validator.validate(validTestPackage, errors);
-        assertThat(errors).isEmpty();
+        assertThat(errors).hasSize(1);
+
+        // TDS-1678 - some test suite files contained 'Math' instead of 'MATH'.
+        assertThat(errors.get(0).getSeverity()).isEqualTo(ErrorSeverity.CRITICAL);
+        assertThat(errors.get(0).getMessage()).isEqualTo(
+            "The test package subject 'MATH' must be one of: [math]");
     }
 
     @Test
