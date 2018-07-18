@@ -1,10 +1,12 @@
 package tds.support.job;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import tds.trt.model.TDSReport;
 
 import javax.xml.bind.annotation.*;
 
+@Document(collection = "testResults")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "TestResults")
 public class TestResultsWrapper {
@@ -16,6 +18,10 @@ public class TestResultsWrapper {
 
     @XmlElement(name = "TDSReport")
     private TDSReport testResults;
+
+    private TDSReport rescoredTestResults;
+
+    private ScoringValidationReport scoringValidationReport;
 
     private TestResultsWrapper() {
 
@@ -36,5 +42,21 @@ public class TestResultsWrapper {
 
     public String getJobId() {
         return jobId;
+    }
+
+    public TDSReport getRescoredTestResults() {
+        return rescoredTestResults;
+    }
+
+    public void setRescoredTestResults(final TDSReport rescoredTestResults) {
+        this.rescoredTestResults = rescoredTestResults;
+    }
+
+    public ScoringValidationReport getScoringValidationReport() {
+        return scoringValidationReport;
+    }
+
+    public void setScoringValidationReport(final ScoringValidationReport scoringValidationReport) {
+        this.scoringValidationReport = scoringValidationReport;
     }
 }

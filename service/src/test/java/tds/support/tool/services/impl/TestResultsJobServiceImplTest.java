@@ -12,11 +12,14 @@ import tds.support.job.*;
 import tds.support.tool.handlers.scoring.TestResultsFileHandler;
 import tds.support.tool.handlers.scoring.TestResultsHandler;
 import tds.support.tool.repositories.JobRepository;
+import tds.support.tool.repositories.scoring.MongoTestResultsRepository;
 import tds.support.tool.services.loader.MessagingService;
+import tds.trt.model.TDSReport;
 
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,6 +37,9 @@ public class TestResultsJobServiceImplTest {
     private JobRepository mockJobRepository;
 
     @Mock
+    private MongoTestResultsRepository mockTestResultsRepository;
+
+    @Mock
     private MessagingService mockMessagingService;
 
     @Mock
@@ -47,7 +53,7 @@ public class TestResultsJobServiceImplTest {
     @Before
     public void setUp() {
         jobService = new TestResultsJobServiceImpl(mockJobRepository,
-                mockTestResults,
+                mockTestResultsRepository, mockTestResults,
                 mockMessagingService,
                 ImmutableMap.of(TestResultsScoringJob.RESCORE, mockTestResultsHandler));
     }
@@ -154,6 +160,95 @@ public class TestResultsJobServiceImplTest {
         when(mockJobRepository.findOne(jobId)).thenReturn(null);
 
         jobService.updateJob(jobId, request);
+        verify(mockJobRepository).findOne(jobId);
     }
 
+    @Test
+    public void shouldFindSingleJob() {
+        final String jobId = "jobId";
+        final Job mockJob = new TestResultsScoringJob("something");
+        when(mockJobRepository.findOne(jobId)).thenReturn(mockJob);
+
+        Optional<Job> fetchedJob = jobService.findJob(jobId);
+        assertThat(fetchedJob).isNotNull();
+        assertThat(fetchedJob).isPresent();
+        assertThat(fetchedJob.get().getName()).isEqualTo(mockJob.getName());
+    }
+
+    @Test
+    public void shouldThrowForNoJobFound() {
+        final String jobId = "jobId";
+        when(mockJobRepository.findOne(jobId)).thenReturn(null);
+
+        Optional<Job> fetchedJob = jobService.findJob(jobId);
+        assertThat(fetchedJob).isNotPresent();
+    }
+
+    @Test
+    public void shouldFindOriginalTrt() {
+        final String jobId = "jobId";
+        TDSReport report = new TDSReport();
+        TestResultsWrapper wrapper = new TestResultsWrapper(jobId, report);
+        when(mockTestResultsRepository.findByJobId(jobId)).thenReturn(wrapper);
+
+        Optional<TDSReport> fetchedReport = jobService.findOriginalTrt(jobId);
+        assertThat(fetchedReport).isNotNull();
+        assertThat(fetchedReport).isPresent();
+        assertThat(fetchedReport.get()).isEqualTo(report);
+    }
+
+    @Test
+    public void shouldReturnEmptyOptionalForNoTrtPresent() {
+        final String jobId = "jobId";
+        when(mockTestResultsRepository.findByJobId(jobId)).thenReturn(null);
+
+        Optional<TDSReport> fetchedReport = jobService.findOriginalTrt(jobId);
+        assertThat(fetchedReport).isNotPresent();
+    }
+
+    @Test
+    public void shouldFindRescoredTrt() {
+        final String jobId = "jobId";
+        TDSReport report = new TDSReport();
+        TestResultsWrapper wrapper = new TestResultsWrapper(jobId, report);
+        wrapper.setRescoredTestResults(report);
+        when(mockTestResultsRepository.findByJobId(jobId)).thenReturn(wrapper);
+
+        Optional<TDSReport> fetchedReport = jobService.findRescoredTrt(jobId);
+        assertThat(fetchedReport).isNotNull();
+        assertThat(fetchedReport).isPresent();
+        assertThat(fetchedReport.get()).isEqualTo(report);
+    }
+
+    @Test
+    public void shouldReturnEmptyOptionalForNoRescoredTrtPresent() {
+        final String jobId = "jobId";
+        when(mockTestResultsRepository.findByJobId(jobId)).thenReturn(null);
+
+        Optional<TDSReport> fetchedReport = jobService.findRescoredTrt(jobId);
+        assertThat(fetchedReport).isNotPresent();
+    }
+
+    @Test
+    public void shouldFindScoringValidationReport() {
+        final String jobId = "jobId";
+        ScoringValidationReport report = new ScoringValidationReport();
+        TestResultsWrapper wrapper = new TestResultsWrapper(jobId, new TDSReport());
+        wrapper.setScoringValidationReport(report);
+        when(mockTestResultsRepository.findByJobId(jobId)).thenReturn(wrapper);
+
+        Optional<ScoringValidationReport> fetchedReport = jobService.findScoringValidationReport(jobId);
+        assertThat(fetchedReport).isNotNull();
+        assertThat(fetchedReport).isPresent();
+        assertThat(fetchedReport.get()).isEqualTo(report);
+    }
+
+    @Test
+    public void shouldReturnEmptyOptionalForNoScoringValidationReportPresent() {
+        final String jobId = "jobId";
+        when(mockTestResultsRepository.findByJobId(jobId)).thenReturn(null);
+
+        Optional<ScoringValidationReport> fetchedReport = jobService.findScoringValidationReport(jobId);
+        assertThat(fetchedReport).isNotPresent();
+    }
 }
