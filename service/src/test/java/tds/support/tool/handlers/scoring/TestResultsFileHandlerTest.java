@@ -32,7 +32,8 @@ public class TestResultsFileHandlerTest {
 
     @Test
     public void shouldSaveTestRestResults() {
-        TestResultsScoringJob job = new TestResultsScoringJob("trt-filename");
+        final String username = "user1";
+        TestResultsScoringJob job = new TestResultsScoringJob("trt-filename", username);
         Step stepToUpdate = new Step("update step", TargetSystem.Internal, "Update step description");
         Step step = fileHandler.handleTestResults(stepToUpdate, job, "packageName", mockTestPackageStream, 100L);
 
@@ -44,7 +45,8 @@ public class TestResultsFileHandlerTest {
 
     @Test
     public void shouldReturnErrorsInStepDuringException() {
-        TestResultsScoringJob job = new TestResultsScoringJob("trt-filename");
+        final String username = "user1";
+        TestResultsScoringJob job = new TestResultsScoringJob("trt-filename", username);
         Step stepToUpdate = new Step("update step", TargetSystem.Internal, "Update step description");
         when(mockTestResultsService.saveTestResults(job, "packageName", mockTestPackageStream, 100L))
                 .thenThrow(new RuntimeException("Failed to upload file"));

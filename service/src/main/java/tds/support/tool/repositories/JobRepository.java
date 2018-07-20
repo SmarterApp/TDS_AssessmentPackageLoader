@@ -17,7 +17,15 @@ public interface JobRepository extends MongoRepository<Job, String> {
      * @param type The type of jobs to fetch
      * @return a collection of jobs corresponding to the specified job type
      */
-    List<Job> findByTypeIn(JobType... type);
+    List<Job> findByUserNameAndTypeIn(final String userName, final JobType... type);
+
+    /**
+     * Finds all jobs based on the provided {@link tds.support.job.JobType} (or all jobs if the jobType is null)
+     *
+     * @param type The type of jobs to fetch
+     * @return a collection of jobs corresponding to the specified job type
+     */
+    List<Job> findByTypeIn(final JobType... type);
 
     /**
      * Find the most recent {@link tds.support.job.Job} for the specified name and {@link tds.support.job.JobType}.
