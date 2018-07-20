@@ -9,27 +9,33 @@ import tds.support.job.*;
 import tds.support.tool.handlers.scoring.TestResultsFileHandler;
 import tds.support.tool.handlers.scoring.TestResultsHandler;
 import tds.support.tool.repositories.JobRepository;
+import tds.support.tool.repositories.scoring.MongoTestResultsRepository;
 import tds.support.tool.services.TestResultsJobService;
 import tds.support.tool.services.loader.MessagingService;
+import tds.trt.model.TDSReport;
 
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class TestResultsJobServiceImpl implements TestResultsJobService {
     private static final Logger log = LoggerFactory.getLogger(TestResultsJobServiceImpl.class);
     private final JobRepository jobRepository;
+    private final MongoTestResultsRepository testResultsRepository;
     private final TestResultsFileHandler testResultsFileHandler;
     private final Map<String, TestResultsHandler> testResultsLoaderStepHandlers;
     private final MessagingService messagingService;
 
     @Autowired
     public TestResultsJobServiceImpl(final JobRepository jobRepository,
+                                     final MongoTestResultsRepository testResultsRepository,
                                      final TestResultsFileHandler testResultsFileHandler,
                                      final MessagingService messagingService,
                                      @Qualifier("testResultsLoaderStepHandlers") final Map<String, TestResultsHandler> testResultsLoaderStepHandlers) {
         this.jobRepository = jobRepository;
+        this.testResultsRepository = testResultsRepository;
         this.testResultsFileHandler = testResultsFileHandler;
         this.testResultsLoaderStepHandlers = testResultsLoaderStepHandlers;
         this.messagingService = messagingService;
@@ -115,5 +121,43 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
         final Step newStep = new Step(request.getName(), request.getTargetSystem(), request.getDescription(), request.getStatus());
         job.addStep(newStep);
         jobRepository.save(job);
+    }
+
+    @Override
+    public Optional<Job> findJob(final String jobId) {
+        return Optional.ofNullable(jobRepository.findOne(jobId));
+    }
+
+    @Override
+    public Optional<TDSReport> findOriginalTrt(final String jobId) {
+        final TestResultsWrapper wrapper = testResultsRepository.findByJobId(jobId);
+
+        if (wrapper == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(wrapper.getTestResults());
+    }
+
+    @Override
+    public Optional<TDSReport> findRescoredTrt(final String jobId) {
+        final TestResultsWrapper wrapper = testResultsRepository.findByJobId(jobId);
+
+        if (wrapper == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(wrapper.getRescoredTestResults());
+    }
+
+    @Override
+    public Optional<ScoringValidationReport> findScoringValidationReport(final String jobId) {
+        final TestResultsWrapper wrapper = testResultsRepository.findByJobId(jobId);
+
+        if (wrapper == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(wrapper.getScoringValidationReport());
     }
 }
