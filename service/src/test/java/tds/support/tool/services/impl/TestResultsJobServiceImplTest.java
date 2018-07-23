@@ -111,7 +111,7 @@ public class TestResultsJobServiceImplTest {
         final String username = "user1";
         Job mockLoaderJob = new TestResultsScoringJob("FileName", username);
         mockLoaderJob.setType(JobType.SCORING);
-        when(mockJobRepository.findByTypeIn(JobType.SCORING)).thenReturn(Collections.singletonList(mockLoaderJob));
+        when(mockJobRepository.findByUserNameAndTypeIn(username, JobType.SCORING)).thenReturn(Collections.singletonList(mockLoaderJob));
         List<Job> retJobs = jobService.findJobs(username);
         assertThat(retJobs).hasSize(1);
     }
