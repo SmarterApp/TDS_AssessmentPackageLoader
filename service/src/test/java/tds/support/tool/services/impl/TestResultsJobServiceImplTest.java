@@ -63,7 +63,8 @@ public class TestResultsJobServiceImplTest {
         InputStream testPackageStream = mock(InputStream.class);
         ArgumentCaptor<Job> jobArgumentCaptor = ArgumentCaptor.forClass(Job.class);
         final String packageName = "packageName";
-        Job job = new TestResultsScoringJob(packageName);
+        final String username = "user1";
+        Job job = new TestResultsScoringJob(packageName, username);
         job.setId(UUID.randomUUID().toString());
         job.setType(JobType.LOAD);
 
@@ -76,7 +77,7 @@ public class TestResultsJobServiceImplTest {
         step.setStatus(Status.IN_PROGRESS);
         when(mockJobRepository.save(isA(Job.class))).thenReturn(job);
 
-        jobService.startTestResultsImport("packageName", testPackageStream, 100L);
+        jobService.startTestResultsImport("packageName", username, testPackageStream, 100L);
 
         verify(mockJobRepository, times(2)).save(jobArgumentCaptor.capture());
 
@@ -107,16 +108,18 @@ public class TestResultsJobServiceImplTest {
 
     @Test
     public void shouldFindAllScoringJobs() {
-        Job mockLoaderJob = new TestResultsScoringJob("FileName");
+        final String username = "user1";
+        Job mockLoaderJob = new TestResultsScoringJob("FileName", username);
         mockLoaderJob.setType(JobType.SCORING);
         when(mockJobRepository.findByTypeIn(JobType.SCORING)).thenReturn(Collections.singletonList(mockLoaderJob));
-        List<Job> retJobs = jobService.findJobs();
+        List<Job> retJobs = jobService.findJobs(username);
         assertThat(retJobs).hasSize(1);
     }
 
     @Test
     public void shouldExecuteAllStepsSuccessfullyLoaderJob() {
-        final Job loaderJob = new TestResultsScoringJob("TestPackageName");
+        final String username = "user1";
+        final Job loaderJob = new TestResultsScoringJob("TestPackageName", username);
         loaderJob.setId("myId");
 
         ArgumentCaptor<Job> jobArgumentCaptor = ArgumentCaptor.forClass(Job.class);
@@ -135,8 +138,9 @@ public class TestResultsJobServiceImplTest {
     @Test
     public void shouldUpdateJobStatus() {
         final String jobId = "jobId";
+        final String username = "user1";
         final JobUpdateRequest request = new JobUpdateRequest("test", TargetSystem.ERT, Status.SUCCESS, "description");
-        final Job mockJob = new TestResultsScoringJob("test");
+        final Job mockJob = new TestResultsScoringJob("test", username);
         when(mockJobRepository.findOne(jobId)).thenReturn(mockJob);
 
         jobService.updateJob(jobId, request);
@@ -166,7 +170,8 @@ public class TestResultsJobServiceImplTest {
     @Test
     public void shouldFindSingleJob() {
         final String jobId = "jobId";
-        final Job mockJob = new TestResultsScoringJob("something");
+        final String username = "user1";
+        final Job mockJob = new TestResultsScoringJob("something", username);
         when(mockJobRepository.findOne(jobId)).thenReturn(mockJob);
 
         Optional<Job> fetchedJob = jobService.findJob(jobId);

@@ -48,7 +48,8 @@ public class JobStepExecutionMessageListenerTest {
     @Test
     public void shouldHandleScoringJobMessage() {
         final String jobId = "JobA";
-        final Job job = new TestResultsScoringJob(jobId);
+        final String username = "user1";
+        final Job job = new TestResultsScoringJob(jobId, username);
 
         when(mockJobRepository.findOne(jobId)).thenReturn(job);
         listener.handleMessage(jobId);

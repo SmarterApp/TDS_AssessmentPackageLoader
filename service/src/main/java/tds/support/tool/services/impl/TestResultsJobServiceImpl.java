@@ -42,8 +42,9 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
     }
 
     @Override
-    public Job startTestResultsImport(final String packageName, final InputStream testResults, final long testResultsSize) {
-        final Job job = new TestResultsScoringJob(packageName);
+    public Job startTestResultsImport(final String packageName, final String username, final InputStream testResults,
+                                      final long testResultsSize) {
+        final Job job = new TestResultsScoringJob(packageName, username);
 
         final Step step = job.getSteps().stream()
                 .filter(potentialStep -> TestResultsScoringJob.FILE_UPLOAD.equals(potentialStep.getName()))
@@ -106,8 +107,8 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
     }
 
     @Override
-    public List<Job> findJobs() {
-        return jobRepository.findByTypeIn(JobType.SCORING);
+    public List<Job> findJobs(final String username) {
+        return jobRepository.findByUserNameAndTypeIn(username, JobType.SCORING);
     }
 
     @Override

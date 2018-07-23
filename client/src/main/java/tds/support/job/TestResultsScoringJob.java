@@ -14,7 +14,7 @@ public class TestResultsScoringJob extends Job {
     private String assessmentId;
     private String studentName;
 
-    public TestResultsScoringJob(final String name) {
+    public TestResultsScoringJob(final String name, final String userName) {
         // Spring Data requires us to persist these variables
         this.setName(FilenameUtils.removeExtension(name));
 
@@ -23,7 +23,7 @@ public class TestResultsScoringJob extends Job {
         steps.add(new Step(FILE_UPLOAD, TargetSystem.Internal, "Uploading test results transmission file"));
         steps.add(new Step(RESCORE, TargetSystem.TDS, "Sending the test results to ExamService to re-score"));
 
-
+        this.setUserName(userName);
         this.setSteps(steps);
         this.setType(JobType.SCORING);
     }
@@ -79,4 +79,6 @@ public class TestResultsScoringJob extends Job {
     public void setStudentName(final String studentName) {
         this.studentName = studentName;
     }
+
+
 }

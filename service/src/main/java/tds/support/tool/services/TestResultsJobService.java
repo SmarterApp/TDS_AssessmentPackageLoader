@@ -16,12 +16,13 @@ public interface TestResultsJobService {
      * Starts the scoring/TRT import job resulting in a job loaded into TDS, TIS, THSS, and ART
      *
      * @param packageName     the test package name
+     * @param username        the name of the user who uploaded the test results and initiated the scoring job
      * @param testPackage     the {@link java.io.InputStream} containing the test package
      * @param testPackageSize the size of the test package
      * @return the {@link tds.support.job.Job} created
      */
     @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
-    Job startTestResultsImport(final String packageName, final InputStream testPackage, final long testPackageSize);
+    Job startTestResultsImport(final String packageName, final String username, final InputStream testPackage, final long testPackageSize);
 
     /**
      * Executes all registered job steps for the specified job
@@ -33,9 +34,10 @@ public interface TestResultsJobService {
     /**
      * Returns all scoring validation jobs
      *
+     * @param username The username of the user who's jobs to fetch
      * @return A list of all scoring validation {@link Job}s
      */
-    List<Job> findJobs();
+    List<Job> findJobs(final String username);
 
     /**
      * Updates the status of a test package job
