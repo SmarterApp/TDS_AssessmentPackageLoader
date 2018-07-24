@@ -61,7 +61,7 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
 
         testResultsFileHandler.handleTestResults(step, persistedJob, packageName, testResults, testResultsSize);
 
-        // If we have errors from deserializing  or saving the XML, no need to trigger step execution
+        // If we have errors from de-serializing  or saving the XML, no need to trigger step execution
         if (step.getErrors().isEmpty()) {
             // Update the job to indicate the test results XML file has been stored in the database, meaning the
             // results can be sent to ExamService
@@ -167,7 +167,16 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
     }
 
     @Override
-    public void saveRescoredTrt(String jobId, String rescoredTrtString) {
+    public void saveRescoredTrt(final String jobId, final String rescoredTrtString) {
         testResultsService.saveRescoredTestResults(jobId, rescoredTrtString);
+
+        // Add a completed step to the job to show that re-scoring has been done
+        final Job job = jobRepository.findOne(jobId);
+        if (!(job instanceof TestResultsScoringJob)) {
+            log.warn("Could not update job " + jobId + " with save validation step");
+        } else {
+            ((TestResultsScoringJob)job).addOrUpdateValidationReportStep();
+            jobRepository.save(job);
+        }
     }
 }

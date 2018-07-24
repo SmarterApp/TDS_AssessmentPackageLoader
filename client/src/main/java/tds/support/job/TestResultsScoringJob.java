@@ -4,6 +4,7 @@ import org.apache.commons.io.FilenameUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TestResultsScoringJob extends Job {
     private static final String TEST_PACKAGE_PREFIX = "test-results";
@@ -54,18 +55,26 @@ public class TestResultsScoringJob extends Job {
         return Status.SUCCESS;
     }
 
-    public Step addValidationReportStep() {
-        Step step = new Step(SAVE_VALIDATION, TargetSystem.TDS,
-                "Receive and save re-scored validation results");
-        addStep(step);
+    public Step addOrUpdateValidationReportStep() {
+        Optional<Step> opt = getStepByName(SAVE_VALIDATION);
+        Step step;
+
+        if (opt.isPresent()) {
+            step = opt.get();
+        } else {
+            step = new Step(SAVE_VALIDATION, TargetSystem.TDS,
+                    "Receiving re-scored validation results");
+            addStep(step);
+        }
+        step.setStatus(Status.SUCCESS);
+        step.setComplete(true);
+
         return step;
     }
 
     private boolean hasStepWithStatus(Status status) {
         return this.getSteps().stream()
-                .filter(step -> step.getStatus() == status)
-                .findFirst()
-                .isPresent();
+                .anyMatch(step -> step.getStatus() == status);
     }
 
     public String getExamId() {
