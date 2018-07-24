@@ -9,4 +9,6 @@ export class ScoringJob {
   createdAt: Date;
   steps: ScoringJobSteps[];
   status: string;
+  complete = false;
+  originalTrtSaved = false;
 }

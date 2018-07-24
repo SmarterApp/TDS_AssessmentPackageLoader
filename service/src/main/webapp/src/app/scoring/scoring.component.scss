@@ -180,7 +180,7 @@ datatable-body-row.failed {
   background-color: #fee;
 }
 
-.test-package-jobs-list-container {
+.scoring-jobs-list-container {
   .ui-datatable-odd td,
   .ui-datatable-even td{
     cursor: pointer;
@@ -196,6 +196,25 @@ datatable-body-row.failed {
 
     .fa-refresh {
       -webkit-animation: spin 4s infinite linear;
+    }
+  }
+}
+
+.scoring-job-details {
+  .scoring-action-buttons {
+    margin-top: 10px;
+    border: 1px solid #CCCCCC;
+    padding: 10px;
+    text-align: right;
+
+    label {
+      float: left;
+      line-height: 35px;
+      font-size: 18px;
+    }
+
+    button {
+      margin-right: 10px;
     }
   }
 }

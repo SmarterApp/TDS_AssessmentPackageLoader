@@ -17,7 +17,7 @@
   </div>
 
   <!-- Failure view -->
-  <div *ngIf="selectedJob?.steps.length > 0" class="test-package-details-failure">
+  <div *ngIf="selectedJob?.steps.length > 0" class="scoring-job-details">
     <div class="test-package-job-error-list-container">
       <p-dataTable [value]="selectedJob.steps"
                    dataKey="id"
@@ -32,9 +32,30 @@
             {{ job.createdAt.toLocaleString()}}
           </ng-template>
         </p-column>
-        <p-column field="status" header="Status" [sortable]="false" [style]="{width:'105px'}"></p-column>
+        <p-column field="status" header="Status" [sortable]="false" [style]="{width:'105px'}">
+          <ng-template let-job="rowData" pTemplate="body">
+            <span *ngIf="job.status === 'SUCCESS'" class="green">{{ job.status}}</span>
+            <span *ngIf="job.status === 'FAIL'" class="red">{{ job.status}}</span>
+            <span *ngIf="job.status !== 'SUCCESS' && job.status !== 'FAIL'">{{ job.status}}</span>
+          </ng-template>
+        </p-column>
         <p-column field="description" header="Description"></p-column>
       </p-dataTable>
+      <div class="scoring-action-buttons">
+        <label>Overall Status: {{ selectedJob?.status }}</label>
+        <button class="btn btn-default" [attr.disabled]="!selectedJob?.originalTrtSaved ? '' : null"
+                (click)="downloadOriginalTrt(selectedJob?.id)">
+          <i class="fa fa-download"></i> Original TRT
+        </button>
+        <button class="btn btn-default" [attr.disabled]="!selectedJob?.complete ? '' : null"
+                (click)="downloadRescoredTrt(selectedJob?.id)">
+          <i class="fa fa-download"></i> Re-scored TRT
+        </button>
+        <button class="btn btn-default" [attr.disabled]="!selectedJob?.complete ? '' : null"
+                (click)="downloadScoringValidationReport(selectedJob?.id)">
+          <i class="fa fa-download"></i> Scoring Validation Report
+        </button>
+      </div>
     </div>
   </div>
 

@@ -50,7 +50,7 @@ export class ScoringJobsComponent implements OnInit, OnDestroy {
       {prop: 'examId', name: 'Exam ID', width: 70},
       {prop: 'assessmentId', name: 'Test ID', width: 70},
       {prop: 'studentName', name: 'Student', width: 40},
-      {prop: 'createdAt', name: 'Date Created', cellTemplate: this.dateTmpl, width: 35},
+      {prop: 'createdAt', name: 'Date Created', cellTemplate: this.dateTmpl, width: 45},
       {prop: 'status', name: 'Scoring Status', width: 30},
     ];
     TimerObservable.create(0, 5000)
