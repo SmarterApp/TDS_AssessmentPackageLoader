@@ -226,7 +226,7 @@ public class ScoringValidationControllerIntegrationTests {
         final String username = "user1";
         Job mockJob = new TestResultsScoringJob("name", username);
         when(mockTestResultsJobService.findScoringValidationReport("jobId"))
-                .thenReturn(Optional.of(new ScoringValidationReport()));
+                .thenReturn(Optional.of(new ScoringValidationReport("jobId",null)));
         when(mockTestResultsJobService.findJob("jobId")).thenReturn(Optional.of(mockJob));
 
         http.perform(MockMvcRequestBuilders.get(new URI("/api/scoring/jobId/report"))

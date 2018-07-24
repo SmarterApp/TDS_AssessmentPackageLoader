@@ -3,11 +3,13 @@ package tds.support.tool.services.scoring.impl;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
+import tds.support.job.ScoringValidationReport;
 import tds.support.job.TestResultsScoringJob;
 import tds.support.tool.model.TestResultsMetadata;
 import tds.support.job.TestResultsWrapper;
 import tds.support.tool.repositories.scoring.MongoTestResultsRepository;
 import tds.support.tool.repositories.scoring.TestResultsMetadataRepository;
+import tds.support.tool.services.scoring.ScoringValidationService;
 import tds.support.tool.services.scoring.TestResultsService;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 import tds.trt.model.TDSReport;
@@ -25,16 +27,20 @@ import java.io.InputStream;
 public class TestResultsServiceImpl implements TestResultsService {
     private final TestResultsMetadataRepository testResultsMetadataRepository;
     private final MongoTestResultsRepository mongoTestResultsRepository;
+    private final ScoringValidationService scoringValidationService;
     private final Unmarshaller trtUnmarshaller;
     private final Validator schemaValidator;
 
     public TestResultsServiceImpl(final TestResultsMetadataRepository testResultsMetadataRepository,
                                   final MongoTestResultsRepository mongoTestResultsRepository,
-                                  final TestPackageObjectMapperConfiguration configuration) throws SAXException, JAXBException {
+                                  final TestPackageObjectMapperConfiguration configuration,
+                                  final ScoringValidationService scoringValidationService)
+            throws SAXException, JAXBException {
         this.testResultsMetadataRepository = testResultsMetadataRepository;
         this.mongoTestResultsRepository = mongoTestResultsRepository;
         this.trtUnmarshaller = configuration.getTestResultsUnmarshaller();
         this.schemaValidator = configuration.getTestResultsSchemaValidator();
+        this.scoringValidationService = scoringValidationService;
     }
 
     @Override
@@ -57,19 +63,22 @@ public class TestResultsServiceImpl implements TestResultsService {
     public void saveRescoredTestResults(String jobId, String rescoredTrtString) {
         final TestResultsWrapper testResults = mongoTestResultsRepository.findByJobId(jobId);
 
-        if (testResults == null) {
+        if (testResults == null || testResults.getTestResults() == null) {
             throw new RuntimeException("No stored test results for job id " + jobId);
         }
+
+        TDSReport originalTrt = testResults.getTestResults();
 
         final InputStream inputStream = new ByteArrayInputStream(rescoredTrtString.getBytes());
         TDSReport rescoredTrt = createTdsReport(inputStream, jobId, "Re-score results");
 
-        testResults.setRescoredTestResults(rescoredTrt);
+        ScoringValidationReport scoringValidationReport =
+                scoringValidationService.validateScoring(jobId, originalTrt, rescoredTrt);
 
-        // TODO: produce difference report and save it as well.
+        testResults.setRescoredTestResults(rescoredTrt);
+        testResults.setScoringValidationReport(scoringValidationReport);
 
         mongoTestResultsRepository.save(testResults);
-
     }
 
     private TDSReport createTdsReport(InputStream testResultsInputStream, String jobId, String testResultsName) {
