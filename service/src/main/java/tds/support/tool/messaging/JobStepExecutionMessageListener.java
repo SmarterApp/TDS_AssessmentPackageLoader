@@ -32,7 +32,7 @@ public class JobStepExecutionMessageListener {
         try {
             final Job job = jobRepository.findOne(jobId);
 
-            if (job.getType().equals(JobType.SCORING)) {
+            if (job.getType() == JobType.SCORING) {
                 testResultsJobService.executeJobSteps(jobId);
             } else {
                 testPackageJobService.executeJobSteps(jobId);

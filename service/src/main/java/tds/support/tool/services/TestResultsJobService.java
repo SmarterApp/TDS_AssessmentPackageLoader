@@ -78,4 +78,11 @@ public interface TestResultsJobService {
      * @return The scoring validation report
      */
     Optional<ScoringValidationReport> findScoringValidationReport(String jobId);
+
+    /**
+     * Saves the score validation report (result of the re-score process)
+     * @param jobId the id of the test results scoring job
+     * @param rescoredTrtString the re-scored TRT as an XML string
+     */
+    void saveRescoredTrt(String jobId, String rescoredTrtString);
 }

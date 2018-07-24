@@ -12,6 +12,7 @@ import tds.support.tool.repositories.JobRepository;
 import tds.support.tool.repositories.scoring.MongoTestResultsRepository;
 import tds.support.tool.services.TestResultsJobService;
 import tds.support.tool.services.loader.MessagingService;
+import tds.support.tool.services.scoring.TestResultsService;
 import tds.trt.model.TDSReport;
 
 import java.io.InputStream;
@@ -24,6 +25,7 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
     private static final Logger log = LoggerFactory.getLogger(TestResultsJobServiceImpl.class);
     private final JobRepository jobRepository;
     private final MongoTestResultsRepository testResultsRepository;
+    private final TestResultsService testResultsService;
     private final TestResultsFileHandler testResultsFileHandler;
     private final Map<String, TestResultsHandler> testResultsLoaderStepHandlers;
     private final MessagingService messagingService;
@@ -31,11 +33,13 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
     @Autowired
     public TestResultsJobServiceImpl(final JobRepository jobRepository,
                                      final MongoTestResultsRepository testResultsRepository,
+                                     final TestResultsService testResultsService,
                                      final TestResultsFileHandler testResultsFileHandler,
                                      final MessagingService messagingService,
                                      @Qualifier("testResultsLoaderStepHandlers") final Map<String, TestResultsHandler> testResultsLoaderStepHandlers) {
         this.jobRepository = jobRepository;
         this.testResultsRepository = testResultsRepository;
+        this.testResultsService = testResultsService;
         this.testResultsFileHandler = testResultsFileHandler;
         this.testResultsLoaderStepHandlers = testResultsLoaderStepHandlers;
         this.messagingService = messagingService;
@@ -160,5 +164,10 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
         }
 
         return Optional.of(wrapper.getScoringValidationReport());
+    }
+
+    @Override
+    public void saveRescoredTrt(String jobId, String rescoredTrtString) {
+        testResultsService.saveRescoredTestResults(jobId, rescoredTrtString);
     }
 }

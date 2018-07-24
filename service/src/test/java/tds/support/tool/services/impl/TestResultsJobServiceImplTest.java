@@ -14,6 +14,7 @@ import tds.support.tool.handlers.scoring.TestResultsHandler;
 import tds.support.tool.repositories.JobRepository;
 import tds.support.tool.repositories.scoring.MongoTestResultsRepository;
 import tds.support.tool.services.loader.MessagingService;
+import tds.support.tool.services.scoring.TestResultsService;
 import tds.trt.model.TDSReport;
 
 import java.io.InputStream;
@@ -40,6 +41,9 @@ public class TestResultsJobServiceImplTest {
     private MongoTestResultsRepository mockTestResultsRepository;
 
     @Mock
+    private TestResultsService mockTestResultsService;
+
+    @Mock
     private MessagingService mockMessagingService;
 
     @Mock
@@ -52,9 +56,8 @@ public class TestResultsJobServiceImplTest {
 
     @Before
     public void setUp() {
-        jobService = new TestResultsJobServiceImpl(mockJobRepository,
-                mockTestResultsRepository, mockTestResults,
-                mockMessagingService,
+        jobService = new TestResultsJobServiceImpl(mockJobRepository, mockTestResultsRepository,
+                mockTestResultsService, mockTestResults, mockMessagingService,
                 ImmutableMap.of(TestResultsScoringJob.RESCORE, mockTestResultsHandler));
     }
 

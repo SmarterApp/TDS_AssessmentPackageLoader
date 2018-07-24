@@ -27,15 +27,13 @@ import java.util.Optional;
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static io.github.benas.randombeans.api.EnhancedRandom.randomListOf;
 import static org.hamcrest.CoreMatchers.is;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.isA;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ScoringValidationController.class)
@@ -270,4 +268,15 @@ public class ScoringValidationControllerIntegrationTests {
         verify(mockTestResultsJobService).findJob("jobId");
     }
 
+    @Test
+    public void shouldBeAbleToHandleRescoredTrt() throws Exception {
+        final String jobId = "12345678";
+
+        http.perform(post(new URI("/api/scoring/validation/" + jobId))
+                .contentType(MediaType.APPLICATION_XML)
+                .content("<TDSReport />".getBytes()))
+                .andExpect(status().isOk());
+
+        verify(mockTestResultsJobService).saveRescoredTrt(eq(jobId), anyString());
+    }
 }
