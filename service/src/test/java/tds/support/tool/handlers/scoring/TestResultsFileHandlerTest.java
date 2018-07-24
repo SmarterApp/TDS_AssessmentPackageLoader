@@ -11,7 +11,10 @@ import tds.support.tool.services.scoring.TestResultsService;
 
 import java.io.InputStream;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -39,8 +42,8 @@ public class TestResultsFileHandlerTest {
 
         verify(mockTestResultsService).saveTestResults(job, "packageName", mockTestPackageStream, 100L);
 
-        assertThat(step.getStatus()).isEqualTo(Status.SUCCESS);
-        assertThat(step.getErrors()).isEmpty();
+        assertThat(step.getStatus(), is(Status.SUCCESS));
+        assertThat(step.getErrors(), empty());
     }
 
     @Test
@@ -55,11 +58,11 @@ public class TestResultsFileHandlerTest {
 
         verify(mockTestResultsService).saveTestResults(job, "packageName", mockTestPackageStream, 100L);
 
-        assertThat(step.getStatus()).isEqualTo(Status.FAIL);
-        assertThat(step.getErrors()).hasSize(1);
+        assertThat(step.getStatus(), is(Status.FAIL));
+        assertThat(step.getErrors(), hasSize(1));
 
         Error error = step.getErrors().get(0);
-        assertThat(error.getMessage()).isEqualTo("Failed to upload file");
-        assertThat(error.getSeverity()).isEqualTo(ErrorSeverity.CRITICAL);
+        assertThat(error.getMessage(), is("Failed to upload file"));
+        assertThat(error.getSeverity(), is(ErrorSeverity.CRITICAL));
     }
 }

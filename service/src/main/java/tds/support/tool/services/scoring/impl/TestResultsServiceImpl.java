@@ -40,38 +40,64 @@ public class TestResultsServiceImpl implements TestResultsService {
     @Override
     public TestResultsMetadata saveTestResults(final TestResultsScoringJob job, final String testResultsName,
                                                final InputStream testResultsInputStream, final long testResultsSize) {
+        final TDSReport testResults = createTdsReport(testResultsInputStream, job.getId(), testResultsName);
+
+        final TestResultsWrapper savedTestResults = mongoTestResultsRepository.save(new TestResultsWrapper(job.getId(), testResults));
+        final TestResultsMetadata metadata = new TestResultsMetadata(job.getId(), savedTestResults.getMongoId());
+
+        // Update TRT Load Job specific fields
+        job.setExamId(testResults.getOpportunity().getKey());
+        job.setAssessmentId(testResults.getTest().getTestId());
+        job.setStudentName(getFullName(testResults.getExaminee()));
+
+        return testResultsMetadataRepository.save(metadata);
+    }
+
+    @Override
+    public void saveRescoredTestResults(String jobId, String rescoredTrtString) {
+        final TestResultsWrapper testResults = mongoTestResultsRepository.findByJobId(jobId);
+
+        if (testResults == null) {
+            throw new RuntimeException("No stored test results for job id " + jobId);
+        }
+
+        final InputStream inputStream = new ByteArrayInputStream(rescoredTrtString.getBytes());
+        TDSReport rescoredTrt = createTdsReport(inputStream, jobId, "Re-score results");
+
+        testResults.setRescoredTestResults(rescoredTrt);
+
+        // TODO: produce difference report and save it as well.
+
+        mongoTestResultsRepository.save(testResults);
+
+    }
+
+    private TDSReport createTdsReport(InputStream testResultsInputStream, String jobId, String testResultsName) {
         try {
-            // Create a copy of the input stream (since it can only be read from once, and we need it twice (for persistence and deserialization)
-            final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            IOUtils.copy(testResultsInputStream, baos);
-            byte[] bytes = baos.toByteArray();
-            final ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+            // Create a copy of the input stream (since it can only be read from once, and we
+            // need it twice (for persistence and deserialization)
+            final ByteArrayOutputStream os = new ByteArrayOutputStream();
+            IOUtils.copy(testResultsInputStream, os);
+            byte[] bytes = os.toByteArray();
+            final ByteArrayInputStream is = new ByteArrayInputStream(bytes);
             // Validate the TRT XML against the schema XSD
-            final StreamSource xmlFile = new StreamSource(bais);
+            final StreamSource xmlFile = new StreamSource(is);
             schemaValidator.validate(xmlFile);
             // Reset the input stream so it can be read from again
-            bais.reset();
+            is.reset();
 
-            final TDSReport testResults = (TDSReport) trtUnmarshaller.unmarshal(bais);
-            final TestResultsWrapper savedTestResults = mongoTestResultsRepository.save(new TestResultsWrapper(job.getId(), testResults));
-            final TestResultsMetadata metadata = new TestResultsMetadata(job.getId(), savedTestResults.getMongoId());
-
-            // Update TRT Load Job specific fields
-            job.setExamId(testResults.getOpportunity().getKey());
-            job.setAssessmentId(testResults.getTest().getTestId());
-            job.setStudentName(getFullName(testResults.getExaminee()));
-
-            return testResultsMetadataRepository.save(metadata);
+            return (TDSReport) trtUnmarshaller.unmarshal(is);
         } catch (IOException e) {
             throw new RuntimeException(
-                    String.format("Exception occurred while deserializing test results transmission file. JobID: %s, " +
-                            "Package Name: %s", job.getId(), testResultsName), e);
+                    String.format("Exception occurred while de-serializing test results transmission file. JobID: %s, " +
+                            "Package Name: %s", jobId, testResultsName), e);
         } catch (SAXException | JAXBException e) {
             throw new RuntimeException(
                     String.format("Exception occurred while validating the test results transmission file. JobID: %s, " +
-                            "Package Name: %s, Validation Error: %s", job.getId(), testResultsName, e.getMessage()), e);
+                            "Package Name: %s, Validation Error: %s", jobId, testResultsName, e.getMessage()), e);
         }
     }
+
 
     private String getFullName(final TDSReport.Examinee examinee) {
         final String firstName = examinee.getExamineeAttributeOrExamineeRelationship().stream()

@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tds.common.web.resources.NoContentResponseResource;
@@ -46,6 +44,23 @@ public class ScoringValidationController {
         final Principal principal = request.getUserPrincipal();
         final Job job = testResultsJobService.startTestResultsImport(file.getOriginalFilename(), principal.getName(), file.getInputStream(), file.getSize());
         return ResponseEntity.ok(job);
+    }
+
+    // TODO: this may need to move to a different controller to allow it to be accessible to non-browser clients
+    /**
+     * Handles and stores the re-scored TRT for the given job id.
+     * @param jobId the job id for the original TRT
+     * @param rescoredTrt the re-scored TRT for storage
+     * @return {@link org.springframework.http.ResponseEntity} containing the job ID}
+     */
+    @PostMapping(path = "validation/{jobId}",
+            consumes = MediaType.APPLICATION_XML_VALUE)
+    public ResponseEntity<String> handleRescoreReport(
+            @PathVariable("jobId") final String jobId,
+            @RequestBody final String rescoredTrt)
+    {
+        testResultsJobService.saveRescoredTrt(jobId, rescoredTrt);
+        return ResponseEntity.ok("OK");
     }
 
     /**

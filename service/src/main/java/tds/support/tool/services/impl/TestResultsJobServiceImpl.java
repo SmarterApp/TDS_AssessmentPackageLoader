@@ -12,6 +12,7 @@ import tds.support.tool.repositories.JobRepository;
 import tds.support.tool.repositories.scoring.MongoTestResultsRepository;
 import tds.support.tool.services.TestResultsJobService;
 import tds.support.tool.services.loader.MessagingService;
+import tds.support.tool.services.scoring.TestResultsService;
 import tds.trt.model.TDSReport;
 
 import java.io.InputStream;
@@ -24,6 +25,7 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
     private static final Logger log = LoggerFactory.getLogger(TestResultsJobServiceImpl.class);
     private final JobRepository jobRepository;
     private final MongoTestResultsRepository testResultsRepository;
+    private final TestResultsService testResultsService;
     private final TestResultsFileHandler testResultsFileHandler;
     private final Map<String, TestResultsHandler> testResultsLoaderStepHandlers;
     private final MessagingService messagingService;
@@ -31,11 +33,13 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
     @Autowired
     public TestResultsJobServiceImpl(final JobRepository jobRepository,
                                      final MongoTestResultsRepository testResultsRepository,
+                                     final TestResultsService testResultsService,
                                      final TestResultsFileHandler testResultsFileHandler,
                                      final MessagingService messagingService,
                                      @Qualifier("testResultsLoaderStepHandlers") final Map<String, TestResultsHandler> testResultsLoaderStepHandlers) {
         this.jobRepository = jobRepository;
         this.testResultsRepository = testResultsRepository;
+        this.testResultsService = testResultsService;
         this.testResultsFileHandler = testResultsFileHandler;
         this.testResultsLoaderStepHandlers = testResultsLoaderStepHandlers;
         this.messagingService = messagingService;
@@ -57,7 +61,7 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
 
         testResultsFileHandler.handleTestResults(step, persistedJob, packageName, testResults, testResultsSize);
 
-        // If we have errors from deserializing  or saving the XML, no need to trigger step execution
+        // If we have errors from de-serializing  or saving the XML, no need to trigger step execution
         if (step.getErrors().isEmpty()) {
             // Update the job to indicate the test results XML file has been stored in the database, meaning the
             // results can be sent to ExamService
@@ -160,5 +164,19 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
         }
 
         return Optional.of(wrapper.getScoringValidationReport());
+    }
+
+    @Override
+    public void saveRescoredTrt(final String jobId, final String rescoredTrtString) {
+        testResultsService.saveRescoredTestResults(jobId, rescoredTrtString);
+
+        // Add a completed step to the job to show that re-scoring has been done
+        final Job job = jobRepository.findOne(jobId);
+        if (!(job instanceof TestResultsScoringJob)) {
+            log.warn("Could not update job " + jobId + " with save validation step");
+        } else {
+            ((TestResultsScoringJob)job).addOrUpdateValidationReportStep();
+            jobRepository.save(job);
+        }
     }
 }
