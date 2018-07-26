@@ -1,12 +1,9 @@
 package tds.support.tool.services.scoring.impl;
 
-import com.mongodb.Mongo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 import tds.support.job.ScoringValidationReport;
-import tds.support.job.TestResultsWrapper;
-import tds.support.tool.repositories.scoring.MongoTestResultsRepository;
 import tds.support.tool.services.scoring.ScoringValidationService;
 import tds.support.tool.utils.ListClassifier;
 import tds.trt.model.TDSReport;
@@ -88,26 +85,30 @@ public class ScoringValidationServiceImpl implements ScoringValidationService {
                 original, rescored, ScoringValidationServiceImpl::match);
 
         for (Score score : scoreListClassifier.getLeftOnly()) {
-            scoreDiffs.add(getDiffs(score, null));
+            scoreDiffs.add(getDiffs("removed", score, new Score()));
         }
 
         for (Score score : scoreListClassifier.getRightOnly()) {
-            scoreDiffs.add(getDiffs(null, score));
+            scoreDiffs.add(getDiffs("added", new Score(), score));
         }
 
         for (Pair<Score, Score> scorePair : scoreListClassifier.getIntersections()) {
             if (changed(scorePair.getLeft(), scorePair.getRight())) {
-                scoreDiffs.add(getDiffs(scorePair.getLeft(), scorePair.getRight()));
+                scoreDiffs.add(getDiffs("modified", scorePair.getLeft(), scorePair.getRight()));
             }
         }
 
         return scoreDiffs;
     }
 
-    private Map<String,Object> getDiffs(Score original, Score rescore) {
+    private Map<String,Object> getDiffs(
+            @NotNull final String status, @NotNull final Score original, @NotNull final Score rescore)
+    {
         Map<String, Object> diffs = new LinkedHashMap<>();
+        diffs.put("status", status);
 
-        Score basis = (original == null) ? rescore : original;
+        // The basis for the identifier fields is the original unless this is an added Score.
+        Score basis = status.equals("added") ? rescore : original;
 
         // Fields we matched on
         Map<String,Object> identifiers = new HashMap<>();
@@ -116,30 +117,10 @@ public class ScoringValidationServiceImpl implements ScoringValidationService {
         identifiers.put("measureOf", basis.getMeasureOf());
         identifiers.put("measureLabel", basis.getMeasureLabel());
 
+
         // Fields we checked for changes
-        Map<String,Object> valueDiffs;
-
-        if (original == null || rescore == null) {
-            Map<String,Object> addedOrRemoved = new HashMap<>();
-            addedOrRemoved.put("value", basis.getValue());
-            addedOrRemoved.put("standardError", basis.getStandardError());
-
-            if (original == null) {
-                // item is added
-                valueDiffs = getDiffMap(null, addedOrRemoved);
-            } else {
-                // item is removed
-                valueDiffs = getDiffMap(addedOrRemoved, null);
-            }
-        } else {
-            // item is changed
-            valueDiffs = new HashMap<>();
-            valueDiffs.put("value", getDiffs(original.getValue(), rescore.getValue()));
-            valueDiffs.put("standardError", getDiffs(
-                    original.getStandardError(), rescore.getStandardError()));
-        }
-
-        diffs.put("values", valueDiffs);
+        diffs.put("value", getDiffs(original.getValue(), rescore.getValue()));
+        diffs.put("standardError", getDiffs(original.getStandardError(), rescore.getStandardError()));
 
         return diffs;
     }
@@ -162,58 +143,42 @@ public class ScoringValidationServiceImpl implements ScoringValidationService {
                 original, rescored, ScoringValidationServiceImpl::match);
 
         for (Item item : itemListClassifier.getLeftOnly()) {
-            itemDiffs.add(getDiffs(item, null));
+            itemDiffs.add(getDiffs("removed", item, new Item()));
         }
 
         for (Item item : itemListClassifier.getRightOnly()) {
-            itemDiffs.add(getDiffs(null, item));
+            itemDiffs.add(getDiffs("added", new Item(), item));
         }
 
         for (Pair<Item, Item> itemPair : itemListClassifier.getIntersections()) {
             if (changed(itemPair.getLeft(), itemPair.getRight())) {
-                itemDiffs.add(getDiffs(itemPair.getLeft(), itemPair.getRight()));
+                itemDiffs.add(getDiffs("modified", itemPair.getLeft(), itemPair.getRight()));
             }
         }
 
         return itemDiffs;
     }
 
-    private Map<String,Object> getDiffs(@NotNull Item original, @NotNull Item rescore) {
+    private Map<String,Object> getDiffs(
+            @NotNull final String status, @NotNull final Item original, @NotNull final Item rescore)
+    {
         Map<String, Object> diffs = new LinkedHashMap<>();
+        diffs.put("status", status);
 
-        Item basis = (original != null) ? original : rescore;
+        // The basis for the identifier fields is the original unless this is an added Item.
+        Item basis = status.equals("added") ? rescore : original;
 
         // Fields we matched on
         Map<String,Object> identifiers = new HashMap<>();
-        diffs.put("identifier", identifiers);
-
         identifiers.put("position", basis.getPosition());
         identifiers.put("key", basis.getKey());
         identifiers.put("bankKey", basis.getBankKey());
 
+        diffs.put("identifier", identifiers);
+
         // Fields we checked for changes
-        Map<String,Object> valueDiffs;
-
-        if (original == null || rescore == null) {
-            Map<String,Object> addedOrRemoved = new HashMap<>();
-            addedOrRemoved.put("score", basis.getScore());
-            addedOrRemoved.put("scoreStatus", basis.getScoreStatus());
-
-            if (original == null) {
-                // item is added
-                valueDiffs = getDiffMap(null, addedOrRemoved);
-            } else {
-                // item is removed
-                valueDiffs = getDiffMap(addedOrRemoved, null);
-            }
-        } else {
-            // item is changed
-            valueDiffs = new HashMap<>();
-            valueDiffs.put("score", getDiffs(original.getScore(), rescore.getScore()));
-            valueDiffs.put("scoreStatus", getDiffs(original.getScoreStatus(), rescore.getScoreStatus()));
-        }
-
-        diffs.put("values", valueDiffs);
+        diffs.put("score", getDiffs(original.getScore(), rescore.getScore()));
+        diffs.put("scoreStatus", getDiffs(original.getScoreStatus(), rescore.getScoreStatus()));
 
         return diffs;
     }

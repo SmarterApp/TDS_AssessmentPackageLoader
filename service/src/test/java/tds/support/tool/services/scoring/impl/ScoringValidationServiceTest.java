@@ -219,14 +219,16 @@ public class ScoringValidationServiceTest {
 
         assertFalse(report.getDifferenceReport().isEmpty());
 
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::values::score::from"),
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::status"),
+                is("modified"));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::score::from"),
                 is(item1.getScore()));
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::values::score::to"),
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::score::to"),
                 is(item2.getScore()));
 
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::values::scoreStatus::from"),
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::scoreStatus::from"),
                 is(item1.getScoreStatus()));
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::values::scoreStatus::to"),
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::scoreStatus::to"),
                 is(item2.getScoreStatus()));
     }
 
@@ -259,9 +261,16 @@ public class ScoringValidationServiceTest {
 
         assertFalse(report.getDifferenceReport().isEmpty());
 
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::values::from"), is(nullValue()));
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::values::to::score"), is(itemAdded.getScore()));
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::values::to::scoreStatus"), is(itemAdded.getScoreStatus()));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::status"),
+                is("added"));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::score::from"),
+                is(nullValue()));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::score::to"),
+                is(itemAdded.getScore()));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::scoreStatus::from"),
+                is(nullValue()));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::scoreStatus::to"),
+                is(itemAdded.getScoreStatus()));
     }
 
     @Test
@@ -280,7 +289,6 @@ public class ScoringValidationServiceTest {
         right.setOpportunity(new Opportunity());
         right.getOpportunity().setKey("123");
 
-
         Item itemRemoved = new Item();
         itemRemoved.setPosition(1);
         itemRemoved.setKey(123);
@@ -293,9 +301,16 @@ public class ScoringValidationServiceTest {
 
         assertFalse(report.getDifferenceReport().isEmpty());
 
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::values::from::score"), is(itemRemoved.getScore()));
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::values::from::scoreStatus"), is(itemRemoved.getScoreStatus()));
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::values::to"), is(nullValue()));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::status"),
+                is("removed"));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::score::from"),
+                is(itemRemoved.getScore()));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::score::to"),
+                is(nullValue()));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::scoreStatus::from"),
+                is(itemRemoved.getScoreStatus()));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::items::1::scoreStatus::to"),
+                is(nullValue()));
     }
 
     @Test
@@ -367,14 +382,15 @@ public class ScoringValidationServiceTest {
 
         assertFalse(report.getDifferenceReport().isEmpty());
 
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::values::value::from"),
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::status"),
+                is("modified"));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::value::from"),
                 is(original.getValue()));
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::values::value::to"),
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::value::to"),
                 is(rescore.getValue()));
-
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::values::standardError::from"),
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::standardError::from"),
                 is(original.getStandardError()));
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::values::standardError::to"),
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::standardError::to"),
                 is(rescore.getStandardError()));
     }
 
@@ -405,9 +421,16 @@ public class ScoringValidationServiceTest {
 
         assertFalse(report.getDifferenceReport().isEmpty());
 
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::values::from"), is(nullValue()));
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::values::to::value"), is(rescore.getValue()));
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::values::to::standardError"), is(rescore.getStandardError()));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::status"),
+                is("added"));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::value::from"),
+                is(nullValue()));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::value::to"),
+                is(rescore.getValue()));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::standardError::from"),
+                is(nullValue()));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::standardError::to"),
+                is(rescore.getStandardError()));
     }
 
     @Test
@@ -437,9 +460,16 @@ public class ScoringValidationServiceTest {
 
         assertFalse(report.getDifferenceReport().isEmpty());
 
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::values::from::value"), is(original.getValue()));
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::values::from::standardError"), is(original.getStandardError()));
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::values::to"), is(nullValue()));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::status"),
+                is("removed"));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::value::from"),
+                is(original.getValue()));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::value::to"),
+                is(nullValue()));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::standardError::from"),
+                is(original.getStandardError()));
+        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::scores::ABC::standardError::to"),
+                is(nullValue()));
     }
 
     private static Object getFromMap(Map<String, Object> map, String path) {
