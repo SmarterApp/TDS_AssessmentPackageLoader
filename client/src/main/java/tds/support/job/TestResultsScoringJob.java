@@ -4,11 +4,13 @@ import org.apache.commons.io.FilenameUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TestResultsScoringJob extends Job {
     private static final String TEST_PACKAGE_PREFIX = "test-results";
     public static final String FILE_UPLOAD = TEST_PACKAGE_PREFIX + "-file-upload";
     public static final String RESCORE = TEST_PACKAGE_PREFIX + "-rescore";
+    public static final String SAVE_VALIDATION = TEST_PACKAGE_PREFIX + "-save-validation-report";
 
     private String examId;
     private String assessmentId;
@@ -34,6 +36,10 @@ public class TestResultsScoringJob extends Job {
             return Status.FAIL;
         }
 
+        if (!getStepByName(SAVE_VALIDATION).isPresent()) {
+            return Status.IN_PROGRESS;
+        }
+
         if (hasStepWithStatus(Status.IN_PROGRESS)) {
             return Status.IN_PROGRESS;
         }
@@ -49,11 +55,26 @@ public class TestResultsScoringJob extends Job {
         return Status.SUCCESS;
     }
 
+    public Step addOrUpdateValidationReportStep() {
+        Optional<Step> opt = getStepByName(SAVE_VALIDATION);
+        Step step;
+
+        if (opt.isPresent()) {
+            step = opt.get();
+        } else {
+            step = new Step(SAVE_VALIDATION, TargetSystem.TDS,
+                    "Receiving re-scored validation results");
+            addStep(step);
+        }
+        step.setStatus(Status.SUCCESS);
+        step.setComplete(true);
+
+        return step;
+    }
+
     private boolean hasStepWithStatus(Status status) {
         return this.getSteps().stream()
-                .filter(step -> step.getStatus() == status)
-                .findFirst()
-                .isPresent();
+                .anyMatch(step -> step.getStatus() == status);
     }
 
     public String getExamId() {

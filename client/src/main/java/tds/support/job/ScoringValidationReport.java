@@ -1,18 +1,29 @@
 package tds.support.job;
 
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * A class to hold the difference between original test results and rescored one.
+ */
 public class ScoringValidationReport {
-    //TODO: Remove this property - only added because Spring REST cannot serialize blank classes
-    private String removeThis;
+    private final String jobId;
+    private final Map<String, Object> differenceReport;
 
     public ScoringValidationReport() {
+        this(null, new HashMap<>());
     }
 
-
-    public String getRemoveThis() {
-        return removeThis;
+    public ScoringValidationReport(final String jobId, final Map<String, Object> differenceReport) {
+        this.jobId = jobId;
+        this.differenceReport = differenceReport;
     }
 
-    public void setRemoveThis(final String removeThis) {
-        this.removeThis = removeThis;
+    public String getJobId() {
+        return jobId;
+    }
+
+    public Map<String, Object> getDifferenceReport() {
+        return differenceReport;
     }
 }

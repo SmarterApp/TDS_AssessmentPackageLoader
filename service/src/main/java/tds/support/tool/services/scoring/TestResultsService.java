@@ -16,4 +16,11 @@ public interface TestResultsService {
      */
     TestResultsMetadata saveTestResults(final TestResultsScoringJob job, final String testResultsName, final InputStream testResultsInputStream,
                                         final long testResultsSize);
+
+    /**
+     * Saves the re-scored TRT with the original one.
+     * @param jobId the job id of the original TRT
+     * @param rescoredTrtString the re-scored TRT as an XML string.
+     */
+    void saveRescoredTestResults(String jobId, String rescoredTrtString);
 }

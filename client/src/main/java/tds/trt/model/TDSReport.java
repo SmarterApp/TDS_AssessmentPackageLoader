@@ -700,6 +700,7 @@ public class TDSReport {
         @XmlAttribute(name = "key")
         protected Long key;
         @XmlAttribute(name = "isDemo")
+        @XmlJavaTypeAdapter(ZeroOneBooleanAdapter.class)
         protected Boolean isDemo;
 
         /**
