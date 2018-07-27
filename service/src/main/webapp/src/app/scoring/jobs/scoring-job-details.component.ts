@@ -1,16 +1,20 @@
-import {Component, Input} from "@angular/core";
+import {Component, Input, TemplateRef} from "@angular/core";
 import {ScoringJob} from "./model/scoring-job.model";
 import {ScoringJobService} from "./scoring-jobs.service";
+import {BsModalRef, BsModalService} from "ngx-bootstrap";
 
 @Component({
   selector: 'scoring-job-details',
   templateUrl: './scoring-job-details.component.html'
 })
 export class ScoringJobDetailsComponent {
+  modalRef: BsModalRef;
   @Input()
   selectedJob: ScoringJob;
+  scoringReport: any;
 
-  constructor(private service: ScoringJobService) {
+  constructor(private service: ScoringJobService,
+              private modalService: BsModalService) {
   }
 
   downloadOriginalTrt(jobId: string) {
@@ -28,7 +32,7 @@ export class ScoringJobDetailsComponent {
   }
 
   downloadScoringValidationReport(jobId: string) {
-    this.service.getScoringValidationReport(jobId)
+    this.service.getScoringValidationReportRaw(jobId)
       .subscribe(data => this.downloadFile(jobId, data, 'scoring-report'),
         error => console.log("Error downloading the scoring validation report file."),
         () => console.log('Completed download of scoring validation report'));
@@ -40,5 +44,11 @@ export class ScoringJobDetailsComponent {
     link.href = 'data:text/xml,' + encodeURIComponent(data);
     link.download = `${fileNamePrefix}-${jobId}.xml`;
     link.click();
+  }
+
+  openScoringValidationModal(template: TemplateRef<any>) {
+    this.service.getScoringValidationReport(this.selectedJob.id)
+      .subscribe(report => this.scoringReport = report);
+    this.modalRef = this.modalService.show(template);
   }
 }

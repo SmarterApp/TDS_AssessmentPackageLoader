@@ -3,6 +3,7 @@ import {Observable} from "rxjs/Observable";
 import {DataService} from "../../shared/data/data.service";
 import 'rxjs/add/observable/of';
 import {ScoringJob} from "./model/scoring-job.model";
+import {ScoringValidationReport} from "./model/scoring-validation-report.model";
 
 @Injectable()
 export class ScoringJobService {
@@ -26,9 +27,343 @@ export class ScoringJobService {
       .get(`/scoring/${jobId}/rescored`, { responseType: 'text'});
   }
 
-  getScoringValidationReport(jobId: string): Observable<string> {
+  getScoringValidationReportRaw(jobId: string): Observable<string> {
     return this.dataService
       .get(`/scoring/${jobId}/report`, { responseType: 'text'});
+  }
+
+  getScoringValidationReport(jobId: string): Observable<any> {
+    let report = {
+      "jobId": "5b5679ce35f6ce5667346c53",
+      "differenceReport": {
+        "opportunity": {
+          "scores": [{
+            "status": "removed",
+            "identifier": {
+              "measureLabel": "ScaleScore",
+              "measureOf": "Overall"
+            },
+            "value": {
+              "from": "245.174914080214"
+            },
+            "standardError": {
+              "from": "19.3617008392283"
+            }
+          }, {
+            "status": "added",
+            "identifier": {
+              "measureLabel": "ScaleScore",
+              "measureOf": "OverallXYZ"
+            },
+            "value": {
+              "to": "245.174914080214"
+            },
+            "standardError": {
+              "to": "19.3617008392283"
+            }
+          }, {
+            "status": "modified",
+            "identifier": {
+              "measureLabel": "PerformanceLevel",
+              "measureOf": "Reading"
+            },
+            "value": {
+              "from": "2",
+              "to": "25000"
+            }
+          }],
+          "items": [{
+            "status": "removed",
+            "identifier": {
+              "position": 1,
+              "bankKey": 200,
+              "key": 15558
+            },
+            "score": {
+              "from": "0"
+            },
+            "scoreStatus": {
+              "from": "SCORED"
+            }
+          }, {
+            "status": "added",
+            "identifier": {
+              "position": 1,
+              "bankKey": 200,
+              "key": 99999
+            },
+            "score": {
+              "to": "0"
+            },
+            "scoreStatus": {
+              "to": "SCORED"
+            }
+          }, {
+            "status": "modified",
+            "identifier": {
+              "position": 5,
+              "bankKey": 200,
+              "key": 15560
+            },
+            "score": {
+              "from": "-1",
+              "to": "10"
+            },
+            "scoreStatus": {
+              "from": "NOTSCORED",
+              "to": "SCORED"
+            }
+          },{
+            "status": "removed",
+            "identifier": {
+              "position": 1,
+              "bankKey": 200,
+              "key": 15558
+            },
+            "score": {
+              "from": "0"
+            },
+            "scoreStatus": {
+              "from": "SCORED"
+            }
+          }, {
+            "status": "added",
+            "identifier": {
+              "position": 1,
+              "bankKey": 200,
+              "key": 99999
+            },
+            "score": {
+              "to": "0"
+            },
+            "scoreStatus": {
+              "to": "SCORED"
+            }
+          }, {
+            "status": "modified",
+            "identifier": {
+              "position": 5,
+              "bankKey": 200,
+              "key": 15560
+            },
+            "score": {
+              "from": "-1",
+              "to": "10"
+            },
+            "scoreStatus": {
+              "from": "NOTSCORED",
+              "to": "SCORED"
+            }
+          },{
+            "status": "removed",
+            "identifier": {
+              "position": 1,
+              "bankKey": 200,
+              "key": 15558
+            },
+            "score": {
+              "from": "0"
+            },
+            "scoreStatus": {
+              "from": "SCORED"
+            }
+          }, {
+            "status": "added",
+            "identifier": {
+              "position": 1,
+              "bankKey": 200,
+              "key": 99999
+            },
+            "score": {
+              "to": "0"
+            },
+            "scoreStatus": {
+              "to": "SCORED"
+            }
+          }, {
+            "status": "modified",
+            "identifier": {
+              "position": 5,
+              "bankKey": 200,
+              "key": 15560
+            },
+            "score": {
+              "from": "-1",
+              "to": "10"
+            },
+            "scoreStatus": {
+              "from": "NOTSCORED",
+              "to": "SCORED"
+            }
+          },{
+            "status": "removed",
+            "identifier": {
+              "position": 1,
+              "bankKey": 200,
+              "key": 15558
+            },
+            "score": {
+              "from": "0"
+            },
+            "scoreStatus": {
+              "from": "SCORED"
+            }
+          }, {
+            "status": "added",
+            "identifier": {
+              "position": 1,
+              "bankKey": 200,
+              "key": 99999
+            },
+            "score": {
+              "to": "0"
+            },
+            "scoreStatus": {
+              "to": "SCORED"
+            }
+          }, {
+            "status": "modified",
+            "identifier": {
+              "position": 5,
+              "bankKey": 200,
+              "key": 15560
+            },
+            "score": {
+              "from": "-1",
+              "to": "10"
+            },
+            "scoreStatus": {
+              "from": "NOTSCORED",
+              "to": "SCORED"
+            }
+          },{
+            "status": "removed",
+            "identifier": {
+              "position": 1,
+              "bankKey": 200,
+              "key": 15558
+            },
+            "score": {
+              "from": "0"
+            },
+            "scoreStatus": {
+              "from": "SCORED"
+            }
+          }, {
+            "status": "added",
+            "identifier": {
+              "position": 1,
+              "bankKey": 200,
+              "key": 99999
+            },
+            "score": {
+              "to": "0"
+            },
+            "scoreStatus": {
+              "to": "SCORED"
+            }
+          }, {
+            "status": "modified",
+            "identifier": {
+              "position": 5,
+              "bankKey": 200,
+              "key": 15560
+            },
+            "score": {
+              "from": "-1",
+              "to": "10"
+            },
+            "scoreStatus": {
+              "from": "NOTSCORED",
+              "to": "SCORED"
+            }
+          },{
+            "status": "removed",
+            "identifier": {
+              "position": 1,
+              "bankKey": 200,
+              "key": 15558
+            },
+            "score": {
+              "from": "0"
+            },
+            "scoreStatus": {
+              "from": "SCORED"
+            }
+          }, {
+            "status": "added",
+            "identifier": {
+              "position": 1,
+              "bankKey": 200,
+              "key": 99999
+            },
+            "score": {
+              "to": "0"
+            },
+            "scoreStatus": {
+              "to": "SCORED"
+            }
+          }, {
+            "status": "modified",
+            "identifier": {
+              "position": 5,
+              "bankKey": 200,
+              "key": 15560
+            },
+            "score": {
+              "from": "-1",
+              "to": "10"
+            },
+            "scoreStatus": {
+              "from": "NOTSCORED",
+              "to": "SCORED"
+            }
+          },{
+            "status": "removed",
+            "identifier": {
+              "position": 1,
+              "bankKey": 200,
+              "key": 15558
+            },
+            "score": {
+              "from": "0"
+            },
+            "scoreStatus": {
+              "from": "SCORED"
+            }
+          }, {
+            "status": "added",
+            "identifier": {
+              "position": 1,
+              "bankKey": 200,
+              "key": 99999
+            },
+            "score": {
+              "to": "0"
+            },
+            "scoreStatus": {
+              "to": "SCORED"
+            }
+          }, {
+            "status": "modified",
+            "identifier": {
+              "position": 5,
+              "bankKey": 200,
+              "key": 15560
+            },
+            "score": {
+              "from": "-1",
+              "to": "10"
+            },
+            "scoreStatus": {
+              "from": "NOTSCORED",
+              "to": "SCORED"
+            }
+          }]
+        }
+      }
+    };
+    return Observable.of(report);
   }
 
   private mockCompletelJob(): Observable<any[]> {
@@ -82,7 +417,7 @@ export class ScoringJobService {
         assessmentId:"SBAC-MATH-5",
         studentName:"HAPPY, JAMES5",
         status:"SUCCESS",
-        complete: false,
+        complete: true,
         originalTrtSaved: true
       }]);
   }

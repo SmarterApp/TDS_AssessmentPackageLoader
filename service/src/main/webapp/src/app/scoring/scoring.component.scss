@@ -219,6 +219,39 @@ datatable-body-row.failed {
   }
 }
 
+.modal-dialog {
+  width: 1000px;
+
+  .modal-body {
+    min-height: 600px;
+
+    .general {
+      margin-top: 10px;
+      margin-left: 10px;
+    }
+
+    .diff-container {
+      margin: 10px;
+      font-size: 14px;
+
+      .header {
+        font-weight: bold;
+      }
+
+      label {
+        margin-top: 30px;
+        font-size: 18px;
+        color: #8f020e;
+      }
+    }
+
+    .even {
+      background-color: #f3f3f3;
+    }
+
+  }
+}
+
 @-moz-keyframes spin {
   from { -moz-transform: rotate(0deg); }
   to { -moz-transform: rotate(360deg); }
