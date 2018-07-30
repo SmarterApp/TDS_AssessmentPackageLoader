@@ -33,7 +33,7 @@
     "lodash": "^4.17.4",
     "ng2-accordion": "0.0.15",
     "ng2-file-upload": "^1.2.1",
-    "ngx-bootstrap": "^2.0.3",
+    "ngx-bootstrap": "^2.0.5",
     "primeng": "^5.0.0",
     "rxjs": "^5.4.2",
     "sbac-ui-kit": "git+https://github.com/SmarterApp/SBAC-Global-UI-Kit.git#v0.0.12",

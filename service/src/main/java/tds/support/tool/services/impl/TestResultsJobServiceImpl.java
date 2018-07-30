@@ -148,7 +148,7 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
     public Optional<TDSReport> findRescoredTrt(final String jobId) {
         final TestResultsWrapper wrapper = testResultsRepository.findByJobId(jobId);
 
-        if (wrapper == null) {
+        if (wrapper == null || wrapper.getRescoredTestResults() == null) {
             return Optional.empty();
         }
 
@@ -159,7 +159,7 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
     public Optional<ScoringValidationReport> findScoringValidationReport(final String jobId) {
         final TestResultsWrapper wrapper = testResultsRepository.findByJobId(jobId);
 
-        if (wrapper == null) {
+        if (wrapper == null || wrapper.getScoringValidationReport() == null) {
             return Optional.empty();
         }
 
