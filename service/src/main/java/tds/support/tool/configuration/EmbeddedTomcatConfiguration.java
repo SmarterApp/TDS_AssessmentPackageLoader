@@ -9,10 +9,14 @@ import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletCon
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+/**
+ * Configures embedded Tomcat server to listen on an additional port in order to enable internal rest endpoints
+ * that do not need to be secured.
+ *
+ * Adapted from https://tech.asimio.net/2016/12/15/Configuring-Tomcat-to-Listen-on-Multiple-ports-using-Spring-Boot.html
+ */
 @Configuration
 public class EmbeddedTomcatConfiguration {
 
@@ -22,8 +26,8 @@ public class EmbeddedTomcatConfiguration {
 	@Value("${management.port:${server.port}}")
 	private String managementPort;
 
-	@Value("${server.additionalPorts:null}")
-	private String additionalPorts;
+	@Value("${internalClientPort:null}")
+	private String internalClientPort;
 
 	@Bean
 	public EmbeddedServletContainerFactory servletContainer() {
@@ -36,11 +40,13 @@ public class EmbeddedTomcatConfiguration {
 	}
 
 	private Connector[] additionalConnector() {
-		if (StringUtils.isBlank(this.additionalPorts)) {
+		if (StringUtils.isBlank(internalClientPort) || internalClientPort.equals("null")) {
 			return null;
 		}
+
 		Set<String> defaultPorts = Sets.newHashSet(this.serverPort, this.managementPort);
-		String[] ports = this.additionalPorts.split(",");
+		List<String> ports = Collections.singletonList(internalClientPort);
+
 		List<Connector> result = new ArrayList<>();
 		for (String port : ports) {
 			if (!defaultPorts.contains(port)) {

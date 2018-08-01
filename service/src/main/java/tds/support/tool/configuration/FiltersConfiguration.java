@@ -12,23 +12,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Restricts calls to internal endpoints to be on the internal client port.
+ *
+ * Adapted from https://tech.asimio.net/2016/12/15/Configuring-Tomcat-to-Listen-on-Multiple-ports-using-Spring-Boot.html
+ */
 public class FiltersConfiguration {
 
 	@Value("${internalClientPort:${server.port}}")
 	private Integer internalClientPort;
 
-	@Value("${internalClientPortOnly:true}")
-	private Boolean internalClientPortOnly;
-
 	@Bean(name = "internalClientRestrictingFilter")
-	public FilterRegistrationBean internalClientRestrictingFilter(FilterRegistrationBean internalClientFilter) {
+	public FilterRegistrationBean internalClientRestrictingFilter() {
 		Filter filter = new OncePerRequestFilter() {
 
 			@Override
 			protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                             FilterChain filterChain) throws ServletException, IOException {
 
-				if (!internalClientPortOnly || request.getLocalPort() == internalClientPort) {
+				if (request.getLocalPort() == internalClientPort) {
 					filterChain.doFilter(request, response);
 				} else {
 					response.sendError(404);
@@ -39,7 +41,7 @@ public class FiltersConfiguration {
 		filterRegistrationBean.setFilter(filter);
 		filterRegistrationBean.setOrder(-100);
 		filterRegistrationBean.setName("internalClientPortRestriction");
-		filterRegistrationBean.addUrlPatterns(internalClientFilter.getInitParameters().get("internal-client-path"));
+		filterRegistrationBean.addUrlPatterns("/internal/*");
 		return filterRegistrationBean;
 	}
 }

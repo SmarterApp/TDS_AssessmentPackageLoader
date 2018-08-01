@@ -15,7 +15,8 @@ import java.security.Principal;
 import java.util.List;
 
 /**
- * Created by Greg Charles on 8/1/18.
+ * Endpoints that will be consumed by other TDS modules. They will be unsecured, but served on
+ * a different port, which will be firewalled off from public access.
  */
 @RestController
 @RequestMapping(value = "/internal")
@@ -44,7 +45,7 @@ public class InternalController {
      * @param rescoredTrt the re-scored TRT for storage
      * @return {@link org.springframework.http.ResponseEntity} containing the job ID}
      */
-    @PostMapping(path = "validation/{jobId}",
+    @PostMapping(path = "scoring/validation/{jobId}",
             consumes = MediaType.APPLICATION_XML_VALUE)
     public ResponseEntity<String> handleRescoreReport(
             @PathVariable("jobId") final String jobId,
@@ -60,7 +61,7 @@ public class InternalController {
      * @return {@link org.springframework.http.ResponseEntity} containing the new {@link tds.support.job.Job}
      * @throws IOException thrown if there is an issue with accessing the file
      */
-    @PutMapping(value = "/{jobId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "scoring/{jobId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<NoContentResponseResource> updateJob(@PathVariable final String jobId,
                                                                @RequestBody final JobUpdateRequest request) {
         testResultsJobService.updateJob(jobId, request);
