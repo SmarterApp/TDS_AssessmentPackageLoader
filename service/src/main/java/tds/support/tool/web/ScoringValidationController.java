@@ -46,7 +46,6 @@ public class ScoringValidationController {
         return ResponseEntity.ok(job);
     }
 
-    // TODO: this may need to move to a different controller to allow it to be accessible to non-browser clients
     /**
      * Handles and stores the re-scored TRT for the given job id.
      * @param jobId the job id for the original TRT

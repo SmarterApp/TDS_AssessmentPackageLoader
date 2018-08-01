@@ -494,6 +494,11 @@ public abstract class SamlWebSecurityConfiguration extends WebSecurityConfigurer
 
         http
                 .authorizeRequests()
+                .antMatchers("/internal/**")
+                .permitAll();
+
+        http
+                .authorizeRequests()
                 .antMatchers("/**").authenticated()
                 .anyRequest().authenticated();
         http
