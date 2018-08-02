@@ -4,15 +4,18 @@ import com.google.common.io.ByteStreams;
 import org.apache.http.entity.ContentType;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import tds.support.tool.configuration.EmbeddedTomcatConfiguration;
+import tds.support.tool.configuration.FiltersConfiguration;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 
 @SpringBootApplication
+@Import({ EmbeddedTomcatConfiguration.class, FiltersConfiguration.class })
 @RestController
 public class TdsSupportToolApplication {
 

@@ -487,9 +487,10 @@ public abstract class SamlWebSecurityConfiguration extends WebSecurityConfigurer
             http.authorizeRequests().antMatchers("/" + endpoint.getId() + "/**").permitAll();
         }
 
+        // Internal endpoints will not be secured so must run on a separate port.
         http
                 .authorizeRequests()
-                .antMatchers("/api/convert/**")
+                .antMatchers("/internal/**")
                 .permitAll();
 
         http

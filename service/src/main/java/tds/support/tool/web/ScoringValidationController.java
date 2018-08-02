@@ -46,23 +46,6 @@ public class ScoringValidationController {
         return ResponseEntity.ok(job);
     }
 
-    // TODO: this may need to move to a different controller to allow it to be accessible to non-browser clients
-    /**
-     * Handles and stores the re-scored TRT for the given job id.
-     * @param jobId the job id for the original TRT
-     * @param rescoredTrt the re-scored TRT for storage
-     * @return {@link org.springframework.http.ResponseEntity} containing the job ID}
-     */
-    @PostMapping(path = "validation/{jobId}",
-            consumes = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<String> handleRescoreReport(
-            @PathVariable("jobId") final String jobId,
-            @RequestBody final String rescoredTrt)
-    {
-        testResultsJobService.saveRescoredTrt(jobId, rescoredTrt);
-        return ResponseEntity.ok("OK");
-    }
-
     /**
      * Gets the scoring jobs
      *
@@ -182,18 +165,5 @@ public class ScoringValidationController {
         }
 
         return ResponseEntity.ok(maybeReport.get());
-    }
-
-    /**
-     * Updates a scoring validation job's status
-     *
-     * @return {@link org.springframework.http.ResponseEntity} containing the new {@link tds.support.job.Job}
-     * @throws IOException thrown if there is an issue with accessing the file
-     */
-    @PutMapping(value = "/{jobId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<NoContentResponseResource> updateJob(@PathVariable final String jobId,
-                                                               @RequestBody final JobUpdateRequest request) {
-        testResultsJobService.updateJob(jobId, request);
-        return ResponseEntity.ok(new NoContentResponseResource());
     }
 }
