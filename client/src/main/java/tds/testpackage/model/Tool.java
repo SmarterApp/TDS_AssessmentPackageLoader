@@ -243,6 +243,7 @@ public abstract class Tool {
 
     @XmlAttribute
     public abstract String getName();
+    public abstract Optional<String> getType();
     public abstract Optional<String> getStudentPackageFieldName();
     public abstract Optional<String> getAllowChange();
     public abstract Optional<String> getRequired();
@@ -331,6 +332,12 @@ public abstract class Tool {
 
         public Builder setStudentPackageFieldName(String newStudentPackageFieldName) {
             return setStudentPackageFieldName(Optional.ofNullable(newStudentPackageFieldName));
+        }
+
+        public abstract Builder setType(Optional<String> newType);
+
+        public Builder setType(String newType) {
+            return setType(Optional.ofNullable(newType));
         }
 
         protected abstract Builder setSelectable(Optional<String> newSelectable);
