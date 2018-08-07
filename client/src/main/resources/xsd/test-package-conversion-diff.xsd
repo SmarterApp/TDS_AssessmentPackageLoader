@@ -61,7 +61,9 @@ The root element of the test package. The <TestPackage> element contains an opti
                                                   <xs:element minOccurs="0"
                                                   name="TeacherHandScoring">
                                                   <xs:annotation>
-                                                  <xs:documentation>Teacher Hand Scoring System configuration. Reference https://github.com/SmarterApp/TDS_TeacherHandScoringSystem</xs:documentation>
+                                                  <xs:documentation>Teacher Hand Scoring System
+                                                      tds.support.tool.configuration. Reference
+                                                      https://github.com/SmarterApp/TDS_TeacherHandScoringSystem</xs:documentation>
                                                   </xs:annotation>
                                                   <xs:complexType>
                                                   <xs:sequence minOccurs="0">

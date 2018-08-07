@@ -1,4 +1,4 @@
-package tds.support.tool.services.impl;
+package tds.support.tool.loader.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

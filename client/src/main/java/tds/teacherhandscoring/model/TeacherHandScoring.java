@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 /**
- * Teacher Hand Scoring System configuration stored as an element in the Test Package xml file.
+ * Teacher Hand Scoring System tds.support.tool.configuration stored as an element in the Test Package xml file.
  *
  * Deserialize as XML and serialized as JSON to be sent to the THSS server.
  *

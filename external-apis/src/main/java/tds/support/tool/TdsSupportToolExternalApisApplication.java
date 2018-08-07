@@ -12,7 +12,6 @@ import tds.support.tool.configuration.FiltersConfiguration;
 public class TdsSupportToolExternalApisApplication {
 
     public static void main(String[] args) {
-        System.out.println("Version 3");
         SpringApplication.run(TdsSupportToolExternalApisApplication.class, args);
     }
 }

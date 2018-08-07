@@ -32,7 +32,7 @@ public class ExternalController {
      * @return {@link ResponseEntity} containing the new {@link tds.support.job.Job}
      * @throws IOException thrown if there is an issue with accessing the file
      */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path="jobs", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Job>> getJobs(final HttpServletRequest request) {
         final Principal principal = request.getUserPrincipal();
         return ResponseEntity.ok(testResultsJobService.findJobs(principal.getName()));
@@ -54,15 +54,4 @@ public class ExternalController {
         final Job job = testResultsJobService.startTestResultsImport(fileName, principal.getName(), uploadedTRT);
         return ResponseEntity.ok(job);
     }
-
-    @PostMapping(path = "scoring/validation/{jobId}",
-            consumes = MediaType.APPLICATION_XML_VALUE)
-    public ResponseEntity<String> handleRescoreReport(
-            @PathVariable("jobId") final String jobId,
-            @RequestBody final String rescoredTrt)
-    {
-        testResultsJobService.saveRescoredTrt(jobId, rescoredTrt);
-        return ResponseEntity.ok("OK");
-    }
-
 }
