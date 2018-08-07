@@ -37,6 +37,11 @@ public class PermissionWebServiceClient {
         this.endpoint = checkNotNull(properties.getPermissionsUrl());
     }
 
+    public PermissionWebServiceClient(@NotNull final RestTemplate restTemplate, @NotNull final String endpoint) {
+        this.oAuthRestTemplate = checkNotNull(restTemplate);
+        this.endpoint = checkNotNull(endpoint);
+    }
+
     /**
      * Gets the role and the components and permissions associated with that role for the given component name
      *

@@ -1,4 +1,4 @@
-package tds.support.tool.security;
+package tds.support.tool.configuration.security;
 
 
 import com.google.common.collect.ImmutableSet;
@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.saml.SAMLCredential;
 import org.springframework.security.saml.userdetails.SAMLUserDetailsService;
 import org.springframework.stereotype.Service;
+import tds.support.tool.security.Authorities;
 import tds.support.tool.security.model.Grant;
 import tds.support.tool.security.model.User;
 import tds.support.tool.security.permission.PermissionService;

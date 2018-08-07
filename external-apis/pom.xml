@@ -2,17 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>tds-support-tool-service</artifactId>
-    <version>4.1.17-SNAPSHOT</version>
+    <artifactId>tds-support-tool-external</artifactId>
+    <version>4.1.16-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>tds-support-tool-service</name>
-    <description>TDS Support Tool Service</description>
+    <name>tds-support-tool-external</name>
+    <description>TDS Support Tool External APIs</description>
 
     <parent>
         <groupId>org.opentestsystem.delivery</groupId>
         <artifactId>tds-support-tool</artifactId>
-        <version>4.1.17-SNAPSHOT</version>
+        <version>4.1.16-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -63,10 +63,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security.extensions</groupId>
-            <artifactId>spring-security-saml2-core</artifactId>
         </dependency>
 
         <!-- Jackson -->
@@ -141,12 +137,6 @@
             <groupId>org.xmlunit</groupId>
             <artifactId>xmlunit-matchers</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.opensaml</groupId>
-            <artifactId>opensaml</artifactId>
-            <version>2.6.1</version>
-        </dependency>
         <dependency>
             <groupId>ca.juliusdavies</groupId>
             <artifactId>not-yet-commons-ssl</artifactId>
@@ -210,56 +200,7 @@
                     </resources>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.github.eirslett</groupId>
-                <artifactId>frontend-maven-plugin</artifactId>
-                <version>1.6</version>
-                <configuration>
-                    <workingDirectory>src/main/webapp</workingDirectory>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>install node and npm</id>
-                        <goals>
-                            <goal>install-node-and-npm</goal>
-                        </goals>
-                        <configuration>
-                            <nodeVersion>v8.9.0</nodeVersion>
-                            <npmVersion>5.5.1</npmVersion>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>npm install</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>install</arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>angular-cli install</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>install --no-optional -g angular-cli</arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>npm run-script prod</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>run-script prod</arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
-
 
 </project>

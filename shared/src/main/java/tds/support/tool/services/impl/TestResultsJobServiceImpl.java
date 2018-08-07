@@ -15,6 +15,7 @@ import tds.support.tool.services.loader.MessagingService;
 import tds.support.tool.services.scoring.TestResultsService;
 import tds.trt.model.TDSReport;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +75,14 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
             jobRepository.save(persistedJob);
         }
         return persistedJob;
+    }
+
+    @Override
+    public Job startTestResultsImport(final String packageName, final String username, final String importedTRT) {
+        final InputStream testResults = new ByteArrayInputStream(importedTRT.getBytes());
+        final long testResultsSize = importedTRT.length();
+
+        return startTestResultsImport(packageName, username, testResults, testResultsSize);
     }
 
     @Override

@@ -17,6 +17,8 @@ import tds.support.tool.repositories.loader.TestPackageMetadataRepository;
 import tds.support.tool.services.THSSService;
 import tds.testpackage.model.TestPackage;
 
+import java.util.Optional;
+
 @Component
 public class THSSLoaderStepHandler implements TestPackageHandler {
     private static final Logger log = LoggerFactory.getLogger(THSSLoaderStepHandler.class);

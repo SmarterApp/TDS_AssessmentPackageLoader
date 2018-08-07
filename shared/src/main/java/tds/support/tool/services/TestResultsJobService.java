@@ -25,6 +25,17 @@ public interface TestResultsJobService {
     Job startTestResultsImport(final String packageName, final String username, final InputStream testPackage, final long testPackageSize);
 
     /**
+     * Starts the scoring/TRT import job resulting in a job loaded into TDS, TIS, THSS, and ART
+     *
+     * @param packageName     the test package name
+     * @param username        the name of the user who uploaded the test results and initiated the scoring job
+     * @param importedTRT     the test package to import
+     * @return the {@link tds.support.job.Job} created
+     */
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
+    Job startTestResultsImport(String packageName, String username, String importedTRT);
+
+    /**
      * Executes all registered job steps for the specified job
      *
      * @param jobId The id of the job to execute
@@ -85,4 +96,5 @@ public interface TestResultsJobService {
      * @param rescoredTrtString the re-scored TRT as an XML string
      */
     void saveRescoredTrt(String jobId, String rescoredTrtString);
+
 }
