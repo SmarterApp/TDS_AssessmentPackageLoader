@@ -62,18 +62,6 @@ public class ScoringValidationControllerIntegrationTests {
     }
 
     @Test
-    public void shouldUpdateScoringJob() throws Exception {
-        JobUpdateRequest request = random(JobUpdateRequest.class);
-
-        http.perform(MockMvcRequestBuilders.put(new URI("/api/scoring/jobId"))
-                .content(objectMapper.writer().writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        verify(mockTestResultsJobService).updateJob(eq("jobId"), isA(JobUpdateRequest.class));
-    }
-
-    @Test
     public void shouldGetScoringJob() throws Exception {
         final String username = "user1";
         Job mockJob = new TestResultsScoringJob("name", username);
@@ -266,17 +254,5 @@ public class ScoringValidationControllerIntegrationTests {
                 .andExpect(status().isUnauthorized());
 
         verify(mockTestResultsJobService).findJob("jobId");
-    }
-
-    @Test
-    public void shouldBeAbleToHandleRescoredTrt() throws Exception {
-        final String jobId = "12345678";
-
-        http.perform(post(new URI("/api/scoring/validation/" + jobId))
-                .contentType(MediaType.APPLICATION_XML)
-                .content("<TDSReport />".getBytes()))
-                .andExpect(status().isOk());
-
-        verify(mockTestResultsJobService).saveRescoredTrt(eq(jobId), anyString());
     }
 }
