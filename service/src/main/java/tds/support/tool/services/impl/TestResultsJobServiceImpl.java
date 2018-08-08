@@ -5,6 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+
+import java.io.InputStream;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import tds.support.job.*;
 import tds.support.tool.handlers.scoring.TestResultsFileHandler;
 import tds.support.tool.handlers.scoring.TestResultsHandler;
@@ -14,11 +20,6 @@ import tds.support.tool.services.TestResultsJobService;
 import tds.support.tool.services.loader.MessagingService;
 import tds.support.tool.services.scoring.TestResultsService;
 import tds.trt.model.TDSReport;
-
-import java.io.InputStream;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 public class TestResultsJobServiceImpl implements TestResultsJobService {
@@ -168,14 +169,20 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
 
     @Override
     public void saveRescoredTrt(final String jobId, final String rescoredTrtString) {
-        testResultsService.saveRescoredTestResults(jobId, rescoredTrtString);
-
         // Add a completed step to the job to show that re-scoring has been done
         final Job job = jobRepository.findOne(jobId);
         if (!(job instanceof TestResultsScoringJob)) {
-            log.warn("Could not update job " + jobId + " with save validation step");
-        } else {
+            log.error("Could not update job " + jobId + " with save validation step");
+            return;
+        }
+
+        try {
+            testResultsService.saveRescoredTestResults(jobId, rescoredTrtString);
             ((TestResultsScoringJob)job).addOrUpdateValidationReportStep();
+        } catch(Exception e) {
+            log.error("Could not update job " + jobId + " with save validation step", e);
+            ((TestResultsScoringJob)job).addOrUpdateValidationReportStep(Status.FAIL, Optional.of(e.getMessage()));
+        } finally {
             jobRepository.save(job);
         }
     }
