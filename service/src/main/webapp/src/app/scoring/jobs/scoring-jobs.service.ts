@@ -11,10 +11,10 @@ export class ScoringJobService {
   }
 
   getScoringJobs(): Observable<ScoringJob[]> {
-    // return this.dataService
-    //   .get("/scoring")
-    //   .map(jobs => jobs.map(this.mapScoringJobsFromApi));
-    return this.mockCompletelJob();
+    return this.dataService
+      .get("/scoring")
+      .map(jobs => jobs.map(this.mapScoringJobsFromApi));
+    // return this.mockCompletelJob();
   }
 
   getOriginalTrt(jobId: string): Observable<string> {
