@@ -45,8 +45,8 @@ class DefaultAuthorityService implements AuthorityService {
     @Autowired
     public DefaultAuthorityService(final PermissionService permissionService,
                                    final OrganizationRepository organizationRepository,
-                                   final @Value("${reporting.client:}") String client,
-                                   final @Value("${reporting.state.code}") String state) {
+                                   final @Value("${support-tool.client:}") String client,
+                                   final @Value("${support-tool.progman-tenant:CA}") String state) {
         this.permissionService = permissionService;
         this.organizationRepository = organizationRepository;
         this.client = client;

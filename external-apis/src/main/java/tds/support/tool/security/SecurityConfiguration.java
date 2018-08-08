@@ -31,7 +31,7 @@ class SecurityConfiguration {
 
     @Bean
     public PermissionWebServiceClient permissionWebServiceClient(
-            @Value("${security.permission-service.endpoint}") final String endpoint) {
+            @Value("${support-tool.permissions-url}") final String endpoint) {
         return new PermissionWebServiceClient(new RestTemplate(), endpoint);
     }
 }

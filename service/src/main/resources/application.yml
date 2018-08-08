@@ -1,3 +1,6 @@
+# NOTE: The config files for service and external-apis should remain identical for easier maintenance, even
+#       though some settings are specific to one or the other.
+#
 # this app is expected to run inside the security perimeter so disable security for actuator end-points and,
 # since those are the only end-points, switch to a less standard port using the main server.port config
 management:
@@ -9,13 +12,6 @@ management:
       enabled: false
     rabbit:
       enabled: false
-
-security:
-  basic:
-    enabled: false
-  user:
-    name: user
-    password: password
 
 server:
   port: 8080
@@ -43,6 +39,11 @@ data:
     bucket-name: tds-resources
     test-package-prefix: support-content/dev/test-packages
 
+# OAuth2
+security:
+  oauth2:
+    token-info-url: ${support-tool.token-info-url}
+
 #SAML
 saml:
   key-store-file: ${tds.java.keystore.file}
@@ -51,7 +52,7 @@ saml:
   private-key-entry-password: ${tds.java.private.key.password}
   idp-metadata-url: ${tds.idp.metadata.url}
   sp-entity-id: ${tds.sp.entityid}
-  
+
 # URLs for dependent services
 support-tool:
   art-rest-url: http://localhost:8080/rest
@@ -70,6 +71,5 @@ support-tool:
   sso-client-secret: ${support-tool.sso-client-secret}
   sso-password: ${support-tool.sso-password}
   sso-url: https://sso-deployment.sbtds.org/auth/oauth2/access_token?realm=/sbac
+  token-info-url: https://sso-deployment.sbtds.org:443/auth/oauth2/tokeninfo?access_token={access_token}
   sso-username: ${support-tool.sso-username}
-
-
