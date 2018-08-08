@@ -56,17 +56,25 @@ public class TestResultsScoringJob extends Job {
     }
 
     public Step addOrUpdateValidationReportStep() {
+        return addOrUpdateValidationReportStep(Status.SUCCESS, Optional.empty());
+    }
+
+    public Step addOrUpdateValidationReportStep(final Status status, final Optional<String> message) {
         Optional<Step> opt = getStepByName(SAVE_VALIDATION);
         Step step;
 
         if (opt.isPresent()) {
             step = opt.get();
         } else {
-            step = new Step(SAVE_VALIDATION, TargetSystem.TDS,
-                    "Receiving re-scored validation results");
+            step = new Step(SAVE_VALIDATION, TargetSystem.TDS, "");
             addStep(step);
         }
-        step.setStatus(Status.SUCCESS);
+        if (message.isPresent()) {
+            step.setDescription(String.format("Receiving re-scored validation results failed: '%s'", message.get()));
+        } else {
+            step.setDescription("Receiving re-scored validation results");
+        }
+        step.setStatus(status);
         step.setComplete(true);
 
         return step;

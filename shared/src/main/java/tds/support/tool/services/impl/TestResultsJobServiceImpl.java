@@ -177,14 +177,20 @@ public class TestResultsJobServiceImpl implements TestResultsJobService {
 
     @Override
     public void saveRescoredTrt(final String jobId, final String rescoredTrtString) {
-        testResultsService.saveRescoredTestResults(jobId, rescoredTrtString);
-
         // Add a completed step to the job to show that re-scoring has been done
         final Job job = jobRepository.findOne(jobId);
         if (!(job instanceof TestResultsScoringJob)) {
-            log.warn("Could not update job " + jobId + " with save validation step");
-        } else {
+            log.error("Could not update job " + jobId + " with save validation step");
+            return;
+        }
+
+        try {
+            testResultsService.saveRescoredTestResults(jobId, rescoredTrtString);
             ((TestResultsScoringJob)job).addOrUpdateValidationReportStep();
+        } catch(Exception e) {
+            log.error("Could not update job " + jobId + " with save validation step", e);
+            ((TestResultsScoringJob)job).addOrUpdateValidationReportStep(Status.FAIL, Optional.of(e.getMessage()));
+        } finally {
             jobRepository.save(job);
         }
     }
