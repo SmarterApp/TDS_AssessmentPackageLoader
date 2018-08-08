@@ -10,18 +10,13 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import tds.common.configuration.SecurityConfiguration;
 import tds.common.web.advice.ExceptionAdvice;
-import tds.support.job.Job;
-import tds.support.job.ScoringValidationReport;
 import tds.support.job.TestResultsScoringJob;
 import tds.support.tool.services.TestResultsJobService;
-import tds.trt.model.TDSReport;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.randomListOf;
 import static org.mockito.Mockito.verify;
@@ -71,103 +66,4 @@ public class ExternalControllerIntegrationTests {
 
         verify(mockTestResultsJobService).startTestResultsImport(fileName, username, content);
      }
-
-    @Test
-    public void shouldGetRescoredTrt() throws Exception {
-        final String username = "user1";
-        Job mockJob = new TestResultsScoringJob("name", username);
-        TDSReport rescoredTrt = new TDSReport();
-        TDSReport.Opportunity opportunity = new TDSReport.Opportunity();
-        opportunity.setClientName("SBAC");
-        opportunity.setKey("A key");
-        rescoredTrt.setOpportunity(opportunity);
-
-        when(mockTestResultsJobService.findRescoredTrt("jobId")).thenReturn(Optional.of(rescoredTrt));
-        when(mockTestResultsJobService.findJob("jobId")).thenReturn(Optional.of(mockJob));
-
-        http.perform(MockMvcRequestBuilders.get(new URI("/api/scoring/jobId/rescored"))
-                .with(user(username))
-                .contentType(MediaType.APPLICATION_XML))
-                .andExpect(status().isOk());
-
-        verify(mockTestResultsJobService).findRescoredTrt("jobId");
-        verify(mockTestResultsJobService).findJob("jobId");
-    }
-
-    @Test
-    public void shouldGet404ForNoRescoredTrtFound() throws Exception {
-        final String username = "user1";
-        Job mockJob = new TestResultsScoringJob("name", username);
-        when(mockTestResultsJobService.findRescoredTrt("jobId")).thenReturn(Optional.empty());
-        when(mockTestResultsJobService.findJob("jobId")).thenReturn(Optional.of(mockJob));
-
-        http.perform(MockMvcRequestBuilders.get(new URI("/api/scoring/jobId/rescored"))
-                .with(user(username))
-                .contentType(MediaType.APPLICATION_XML))
-                .andExpect(status().isNotFound());
-
-        verify(mockTestResultsJobService).findRescoredTrt("jobId");
-        verify(mockTestResultsJobService).findJob("jobId");
-    }
-
-    @Test
-    public void shouldGet401ForDifferentUserRescoredTrt() throws Exception {
-        final String username = "user1";
-        Job mockJob = new TestResultsScoringJob("name", "another username");
-        when(mockTestResultsJobService.findJob("jobId")).thenReturn(Optional.of(mockJob));
-
-        http.perform(MockMvcRequestBuilders.get(new URI("/api/scoring/jobId/rescored"))
-                .with(user(username))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());
-
-        verify(mockTestResultsJobService).findJob("jobId");
-    }
-
-    @Test
-    public void shouldGetScoringValidationReport() throws Exception {
-        final String username = "user1";
-        Job mockJob = new TestResultsScoringJob("name", username);
-        when(mockTestResultsJobService.findScoringValidationReport("jobId"))
-                .thenReturn(Optional.of(new ScoringValidationReport("jobId",null)));
-        when(mockTestResultsJobService.findJob("jobId")).thenReturn(Optional.of(mockJob));
-
-        http.perform(MockMvcRequestBuilders.get(new URI("/api/scoring/jobId/report"))
-                .with(user(username))
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
-
-        verify(mockTestResultsJobService).findScoringValidationReport("jobId");
-    }
-
-    @Test
-    public void shouldGet404ForNoScoringValidationReportFound() throws Exception {
-        final String username = "user1";
-        Job mockJob = new TestResultsScoringJob("name", username);
-        when(mockTestResultsJobService.findScoringValidationReport("jobId")).thenReturn(Optional.empty());
-        when(mockTestResultsJobService.findJob("jobId")).thenReturn(Optional.of(mockJob));
-
-        http.perform(MockMvcRequestBuilders.get(new URI("/api/scoring/jobId/report"))
-                .with(user(username))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-
-        verify(mockTestResultsJobService).findScoringValidationReport("jobId");
-        verify(mockTestResultsJobService).findJob("jobId");
-    }
-
-    @Test
-    public void shouldGet401ForDifferentUserReport() throws Exception {
-        final String username = "user1";
-        Job mockJob = new TestResultsScoringJob("name", "another username");
-        when(mockTestResultsJobService.findJob("jobId")).thenReturn(Optional.of(mockJob));
-
-        http.perform(MockMvcRequestBuilders.get(new URI("/api/scoring/jobId/report"))
-                .with(user(username))
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());
-
-        verify(mockTestResultsJobService).findJob("jobId");
-    }
 }

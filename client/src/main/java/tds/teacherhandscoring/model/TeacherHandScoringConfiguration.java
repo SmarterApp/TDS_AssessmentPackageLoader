@@ -14,7 +14,7 @@ import tds.testpackage.model.Item;
 import tds.testpackage.model.TestPackage;
 
 /**
- * Teacher hand scoring tds.support.tool.configuration data to be serialized as JSON and
+ * Teacher hand scoring configuration data to be serialized as JSON and
  * sent to the THSS .NET server application endpoint.
  * The JSON file is POSTed to the endpoint as a file attachment.
  * http://host:28039/api/item/submit

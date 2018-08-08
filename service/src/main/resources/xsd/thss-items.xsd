@@ -4,7 +4,7 @@
            vc:minVersion="1.1">
     <xs:element name="TeacherHandScoring">
         <xs:annotation>
-            <xs:documentation><![CDATA[Teacher Hand Scoring System tds.support.tool.configuration. Reference https://github.com/SmarterApp/TDS_TeacherHandScoringSystem]]></xs:documentation>
+            <xs:documentation><![CDATA[Teacher Hand Scoring System configuration. Reference https://github.com/SmarterApp/TDS_TeacherHandScoringSystem]]></xs:documentation>
         </xs:annotation>
         <xs:complexType>
             <xs:attribute name="baseUrl" type="xs:anyURI" />

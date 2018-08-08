@@ -588,8 +588,7 @@ The Dependency can be read as:
                             </xs:element>
                             <xs:element name="TeacherHandScoring" minOccurs="0">
                                 <xs:annotation>
-                                    <xs:documentation>Teacher Hand Scoring System tds.support.tool.configuration.
-                                        Reference
+                                    <xs:documentation>Teacher Hand Scoring System configuration. Reference
                                         https://github.com/SmarterApp/TDS_TeacherHandScoringSystem
                                     </xs:documentation>
                                 </xs:annotation>

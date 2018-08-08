@@ -525,7 +525,7 @@
                 <![CDATA[
           A complete collection of items, passages, and enemies on a test
           regarding testitem* (implying 0 or more items): It is, of course, impossible to administer a test with no items,
-          however, it may be useful to simulate an itempool for the purposes of adaptive algorithm design or blueprint tds.support.tool.configuration.
+          however, it may be useful to simulate an itempool for the purposes of adaptive algorithm design or blueprint configuration.
           In this special case, the <itempool> element is empty.
         ]]>
             </xs:documentation>
