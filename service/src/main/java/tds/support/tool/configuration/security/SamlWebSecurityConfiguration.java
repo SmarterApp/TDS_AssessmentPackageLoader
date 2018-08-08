@@ -81,7 +81,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.ForwardedHeaderFilter;
-import tds.support.tool.security.SamlUserDetailsServiceImpl;
 
 import javax.servlet.ServletException;
 import java.util.ArrayList;

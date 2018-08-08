@@ -12,6 +12,8 @@
 
     <modules>
         <module>client</module>
+        <module>shared</module>
+        <module>external-apis</module>
         <module>service</module>
     </modules>
 
