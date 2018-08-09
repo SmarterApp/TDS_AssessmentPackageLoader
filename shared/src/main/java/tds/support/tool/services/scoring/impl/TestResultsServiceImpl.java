@@ -3,25 +3,23 @@ package tds.support.tool.services.scoring.impl;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
+
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Validator;
+import java.io.*;
+
 import tds.support.job.ScoringValidationReport;
 import tds.support.job.TestResultsScoringJob;
-import tds.support.tool.model.TestResultsMetadata;
 import tds.support.job.TestResultsWrapper;
+import tds.support.tool.model.TestResultsMetadata;
 import tds.support.tool.repositories.scoring.MongoTestResultsRepository;
 import tds.support.tool.repositories.scoring.TestResultsMetadataRepository;
 import tds.support.tool.services.scoring.ScoringValidationService;
 import tds.support.tool.services.scoring.TestResultsService;
 import tds.support.tool.testpackage.configuration.TestPackageObjectMapperConfiguration;
 import tds.trt.model.TDSReport;
-
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Validator;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 @Service
 public class TestResultsServiceImpl implements TestResultsService {
@@ -67,18 +65,22 @@ public class TestResultsServiceImpl implements TestResultsService {
             throw new RuntimeException("No stored test results for job id " + jobId);
         }
 
-        TDSReport originalTrt = testResults.getTestResults();
+        try {
+            TDSReport rescoredTrt = createTdsReport(
+                new ByteArrayInputStream(rescoredTrtString.getBytes("UTF-16")), // TIS (C# on Windows) sends UTF-16
+                jobId,
+                "Re-score results");
 
-        final InputStream inputStream = new ByteArrayInputStream(rescoredTrtString.getBytes());
-        TDSReport rescoredTrt = createTdsReport(inputStream, jobId, "Re-score results");
+            ScoringValidationReport scoringValidationReport =
+                    scoringValidationService.validateScoring(jobId, testResults.getTestResults(), rescoredTrt);
 
-        ScoringValidationReport scoringValidationReport =
-                scoringValidationService.validateScoring(jobId, originalTrt, rescoredTrt);
+            testResults.setRescoredTestResults(rescoredTrt);
+            testResults.setScoringValidationReport(scoringValidationReport);
 
-        testResults.setRescoredTestResults(rescoredTrt);
-        testResults.setScoringValidationReport(scoringValidationReport);
-
-        mongoTestResultsRepository.save(testResults);
+            mongoTestResultsRepository.save(testResults);
+        } catch (UnsupportedEncodingException uee) {
+            throw new RuntimeException("UTF-16 is somehow not supported on this platform.");
+        }
     }
 
     private TDSReport createTdsReport(InputStream testResultsInputStream, String jobId, String testResultsName) {
