@@ -13,7 +13,7 @@ import tds.trt.model.TDSReport.Opportunity.Score;
 import javax.validation.constraints.NotNull;
 import java.util.*;
 
-import static org.apache.commons.lang3.math.NumberUtils.createDouble;
+import static org.apache.commons.lang3.StringUtils.trimToNull;
 import static tds.trt.model.TDSReport.*;
 
 /**
@@ -272,6 +272,10 @@ public class ScoringValidationServiceImpl implements ScoringValidationService {
         if (differences != null && !differences.isEmpty()) {
             map.put(key, differences);
         }
+    }
+
+    private static Double createDouble(String s) {
+        return org.apache.commons.lang3.math.NumberUtils.createDouble(trimToNull(s));
     }
 }
 

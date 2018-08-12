@@ -21,6 +21,10 @@ public class TestResultsWrapper {
 
     private TDSReport rescoredTestResults;
 
+    private String errorMessage;
+
+    private String invalidRescoredTestResults;
+
     private ScoringValidationReport scoringValidationReport;
 
     private TestResultsWrapper() {
@@ -50,6 +54,27 @@ public class TestResultsWrapper {
 
     public void setRescoredTestResults(final TDSReport rescoredTestResults) {
         this.rescoredTestResults = rescoredTestResults;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
+    }
+
+    public String getInvalidRescoredTestResults() {
+        return invalidRescoredTestResults;
+    }
+
+    public void setInvalidRescoredTestResults(String invalidRescoredTestResults) {
+        this.invalidRescoredTestResults = invalidRescoredTestResults;
+    }
+
+    public void clearErrors() {
+        setErrorMessage(null);
+        setInvalidRescoredTestResults(null);
     }
 
     public ScoringValidationReport getScoringValidationReport() {

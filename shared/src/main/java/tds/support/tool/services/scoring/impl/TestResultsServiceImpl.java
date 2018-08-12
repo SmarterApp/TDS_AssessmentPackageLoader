@@ -1,6 +1,8 @@
 package tds.support.tool.services.scoring.impl;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
@@ -28,6 +30,8 @@ public class TestResultsServiceImpl implements TestResultsService {
     private final ScoringValidationService scoringValidationService;
     private final Unmarshaller trtUnmarshaller;
     private final Validator schemaValidator;
+
+    private static final Logger log = LoggerFactory.getLogger(TestResultsServiceImpl.class);
 
     public TestResultsServiceImpl(final TestResultsMetadataRepository testResultsMetadataRepository,
                                   final MongoTestResultsRepository mongoTestResultsRepository,
@@ -76,10 +80,20 @@ public class TestResultsServiceImpl implements TestResultsService {
 
             testResults.setRescoredTestResults(rescoredTrt);
             testResults.setScoringValidationReport(scoringValidationReport);
+            testResults.clearErrors();
 
-            mongoTestResultsRepository.save(testResults);
         } catch (UnsupportedEncodingException uee) {
-            throw new RuntimeException("UTF-16 is somehow not supported on this platform.");
+            testResults.setErrorMessage("UTF-16 is somehow not supported on this platform.");
+            testResults.setInvalidRescoredTestResults(rescoredTrtString);
+            testResults.setRescoredTestResults(null);
+            log.error("Unsupported code used in report: " +  uee.getMessage());
+        } catch (Exception e) {
+            log.error("Could not parse report: " +  e.getMessage());
+            testResults.setErrorMessage(e.getMessage());
+            testResults.setInvalidRescoredTestResults(rescoredTrtString);
+            testResults.setRescoredTestResults(null);
+        } finally {
+            mongoTestResultsRepository.save(testResults);
         }
     }
 
