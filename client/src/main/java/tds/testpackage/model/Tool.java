@@ -243,17 +243,25 @@ public abstract class Tool {
 
     @XmlAttribute
     public abstract String getName();
+    @XmlAttribute
     public abstract Optional<String> getType();
+    @XmlAttribute
     public abstract Optional<String> getStudentPackageFieldName();
+    @XmlAttribute
     public abstract Optional<String> getAllowChange();
+    @XmlAttribute
     public abstract Optional<String> getRequired();
+    @XmlAttribute
     public abstract Optional<String> getSelectable();
+    @XmlAttribute
     public abstract Optional<String> getVisible();
+    @XmlAttribute
     public abstract Optional<String> getStudentControl();
+    @XmlAttribute(name = "allowMultiple")
     public abstract Optional<String> getAllowMultipleOptions();
-
-
+    @XmlAttribute
     public abstract Optional<Integer> getSortOrder();
+    @XmlAttribute
     public abstract Optional<String> getDisableOnGuest();
 
     protected abstract List<Option> getOptions();
