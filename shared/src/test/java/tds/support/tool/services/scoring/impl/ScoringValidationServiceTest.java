@@ -368,7 +368,7 @@ public class ScoringValidationServiceTest {
         original.setMeasureOf("Of ABC");
         original.setMeasureLabel("ABC");
         original.setValue("4.0");
-        original.setStandardError("0.8");
+        original.setStandardError("");
         left.getOpportunity().getScore().add(original);
 
         Score rescore  = new Score();

@@ -139,12 +139,14 @@
                                 <xs:attribute name="scoreStatus">
                                     <xs:simpleType>
                                         <xs:restriction base="xs:token">
-                                            <xs:enumeration value="NOTSCORED"/>
-                                            <xs:enumeration value="SCORED"/>
-                                            <xs:enumeration value="WAITINGFORMACHINESCORE"/>
-                                            <xs:enumeration value="SCORINGERROR"/>
+                                            <!-- Must match (ignoring case) one of:
+                                            NOTSCORED, SCORED, WAITINGFORMACHINESCORE, SCORINGERROR, APPEALED -->
+                                            <xs:pattern value="[Nn][Oo][Tt][Ss][Cc][Oo][Rr][Ee][Dd]"/>
+                                            <xs:pattern value="[Ss][Cc][Oo][Rr][Ee][Dd]"/>
+                                            <xs:pattern value="[Ww][Aa][Ii][Tt][Ii][Nn][Gg][Ff][Oo][Rr][Mm][Aa][Cc][Hh][Ii][Nn][Ee][Ss][Cc][Oo][Rr][Ee]"/>
+                                            <xs:pattern value="[Ss][Cc][Oo][Rr][Ii][Nn][Gg][Ee][Rr][Rr][Oo][Rr]"/>
                                             <!-- future -->
-                                            <xs:enumeration value="APPEALED"/>
+                                            <xs:pattern value="[Aa][Pp][Pp][Ee][Aa][Ll][Ee][Dd]"/>
                                         </xs:restriction>
                                     </xs:simpleType>
                                 </xs:attribute>
@@ -311,10 +313,14 @@
     <xs:attribute name="scoreStatus" use="required">
         <xs:simpleType>
             <xs:restriction base="xs:token">
-                <xs:enumeration value="Scored"/>
-                <xs:enumeration value="NotScored"/>
-                <xs:enumeration value="WaitingForMachineScore"/>
-                <xs:enumeration value="ScoringError"/>
+                <!-- Must match (ignoring case) one of:
+                NOTSCORED, SCORED, WAITINGFORMACHINESCORE, SCORINGERROR -->
+                <xs:pattern value="[Nn][Oo][Tt][Ss][Cc][Oo][Rr][Ee][Dd]"/>
+                <xs:pattern value="[Ss][Cc][Oo][Rr][Ee][Dd]"/>
+                <xs:pattern value="[Ww][Aa][Ii][Tt][Ii][Nn][Gg][Ff][Oo][Rr][Mm][Aa][Cc][Hh][Ii][Nn][Ee][Ss][Cc][Oo][Rr][Ee]"/>
+                <xs:pattern value="[Ss][Cc][Oo][Rr][Ii][Nn][Gg][Ee][Rr][Rr][Oo][Rr]"/>
+                <!-- future -->
+                <xs:pattern value="[Aa][Pp][Pp][Ee][Aa][Ll][Ee][Dd]"/>
             </xs:restriction>
         </xs:simpleType>
     </xs:attribute>
