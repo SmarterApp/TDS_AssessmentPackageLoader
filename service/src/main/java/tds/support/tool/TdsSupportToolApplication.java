@@ -8,8 +8,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import tds.support.tool.configuration.EmbeddedTomcatConfiguration;
-import tds.support.tool.configuration.FiltersConfiguration;
+import tds.support.tool.configuration.internal.EmbeddedTomcatConfiguration;
+import tds.support.tool.configuration.internal.FiltersConfiguration;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
