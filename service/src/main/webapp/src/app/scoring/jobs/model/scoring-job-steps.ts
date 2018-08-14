@@ -1,6 +1,6 @@
 export class ScoringJobSteps {
   status: string;
-  system: string;
+  jobStepTarget: string;
   message: string;
   createdAt: Date;
   updatedAt: Date;
