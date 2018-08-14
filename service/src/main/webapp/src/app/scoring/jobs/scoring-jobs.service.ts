@@ -32,7 +32,12 @@ export class ScoringJobService {
       .get(`/scoring/${jobId}/report`, { responseType: 'text'});
   }
 
-  getScoringValidationReport(jobId: string): Observable<any> {
+  getScoringValidationReport(jobId: string): Observable<ScoringValidationReport> {
+    return this.dataService
+      .get(`/scoring/${jobId}/report`);
+  }
+
+  private mockScoringValidationReport(): Observable<any> {
     let report = {
       "jobId": "5b5679ce35f6ce5667346c53",
       "differenceReport": {
