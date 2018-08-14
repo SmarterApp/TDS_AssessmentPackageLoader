@@ -437,7 +437,6 @@ export class ScoringJobService {
     // If the job has received a successful status update from TIS, then it is considered complete
     for (let i = 0; i < job.steps.length; i++) {
       if (job.steps[i].jobStepTarget === 'Internal' && job.steps[i].status === 'SUCCESS') {
-        console.log("trt saved");
         job.originalTrtSaved = true;
       }
     }
