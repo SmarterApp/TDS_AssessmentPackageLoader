@@ -1,4 +1,4 @@
-package tds.support.tool.configuration;
+package tds.support.tool.configuration.internal;
 
 import com.google.common.collect.Sets;
 import org.apache.catalina.connector.Connector;

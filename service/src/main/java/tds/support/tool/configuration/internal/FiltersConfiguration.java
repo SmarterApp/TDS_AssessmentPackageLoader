@@ -1,4 +1,4 @@
-package tds.support.tool.configuration;
+package tds.support.tool.configuration.internal;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
