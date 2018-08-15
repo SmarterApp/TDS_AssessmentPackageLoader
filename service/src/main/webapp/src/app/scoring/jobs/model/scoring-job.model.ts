@@ -27,7 +27,7 @@ export class ScoringJob {
   }
 
   isExpired(): boolean {
-    // Check if 2 minutes have elapsed
+    // Check if 5 minutes have elapsed
     return this.createdAt.getTime() < new Date().getTime() - (1000 * 60 * 5);
   }
 }
