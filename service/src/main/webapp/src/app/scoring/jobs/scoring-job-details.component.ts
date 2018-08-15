@@ -51,4 +51,8 @@ export class ScoringJobDetailsComponent {
       .subscribe(report => this.scoringReport = report);
     this.modalRef = this.modalService.show(template);
   }
+
+  formatDate(val: string): string {
+    return new Date(val).toLocaleString();
+  }
 }
