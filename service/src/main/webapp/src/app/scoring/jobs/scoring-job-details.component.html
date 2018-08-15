@@ -1,4 +1,4 @@
-<div class="mb-md">
+<div>
   <!-- No selection -->
   <div *ngIf="!selectedJob" class="test-package-none-selected">
     <h3>Select a scoring job to view more details</h3>
@@ -8,15 +8,6 @@
     <label class="date-label">Date Created (UTC): {{ selectedJob?.createdAt.toUTCString() }}</label>
   </ng-container>
 
-  <!-- Success view -->
-  <div *ngIf="selectedJob?.status === 'FINISHED'" class="test-package-details-success">
-    <h3>
-      <i class="fa fa-check-circle"></i>
-      The test results transmission package was successfully re-scored
-    </h3>
-  </div>
-
-  <!-- Failure view -->
   <div *ngIf="selectedJob?.steps.length > 0" class="scoring-job-details">
     <div class="test-package-job-error-list-container">
       <p-dataTable [value]="selectedJob.steps"
@@ -28,15 +19,15 @@
                    scrollHeight="230px">
         <p-column field="jobStepTarget" header="System" [sortable]="false" [style]="{width:'100px'}"></p-column>
         <p-column field="createdAt" header="Date" [sortable]="true"[style]="{width:'200px'}">
-          <ng-template let-job="rowData" pTemplate="body">
-            {{ job.createdAt.toLocaleString()}}
+          <ng-template let-step="rowData" pTemplate="body">
+            {{ formatDate(step.createdAt)}}
           </ng-template>
         </p-column>
         <p-column field="status" header="Status" [sortable]="false" [style]="{width:'105px'}">
-          <ng-template let-job="rowData" pTemplate="body">
-            <span *ngIf="job.status === 'SUCCESS'" class="green">{{ job.status}}</span>
-            <span *ngIf="job.status === 'FAIL'" class="red">{{ job.status}}</span>
-            <span *ngIf="job.status !== 'SUCCESS' && job.status !== 'FAIL'">{{ job.status}}</span>
+          <ng-template let-step="rowData" pTemplate="body">
+            <span *ngIf="step.status === 'SUCCESS'" class="green">{{ step.status}}</span>
+            <span *ngIf="step.status === 'FAIL'" class="red">{{ step.status}}</span>
+            <span *ngIf="step.status !== 'SUCCESS' && step.status !== 'FAIL'">{{ step.status}}</span>
           </ng-template>
         </p-column>
         <p-column field="description" header="Description"></p-column>
