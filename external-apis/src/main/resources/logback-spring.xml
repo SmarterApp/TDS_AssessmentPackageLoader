@@ -1,4 +1,4 @@
-c<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
 Root logger is set to INFO and logs are sent to CONSOLE and logstash via tcp.
 
