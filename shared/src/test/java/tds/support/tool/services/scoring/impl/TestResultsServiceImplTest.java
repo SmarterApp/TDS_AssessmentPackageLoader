@@ -18,6 +18,7 @@ import javax.xml.validation.Validator;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
@@ -88,7 +89,12 @@ public class TestResultsServiceImplTest {
     public void shouldReportErrorsForInvalidRescoredTestResults() throws IOException, SAXException {
         doThrow(new SAXException()).when(schemaValidator).validate(any());
 
-        testResultsService.saveRescoredTestResults(JOB_ID, REPORT_XML);
+        try {
+            testResultsService.saveRescoredTestResults(JOB_ID, REPORT_XML);
+            fail("Expect thrown exception");
+        } catch (Exception e) {
+
+        }
         verify(testResults).setInvalidRescoredTestResults(REPORT_XML);
         verify(testResults).setInvalidRescoredTestResults(anyString());
         verify(mongoTestResultsRepository).save(testResults);

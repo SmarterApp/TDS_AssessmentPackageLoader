@@ -70,28 +70,29 @@ public class TestResultsServiceImpl implements TestResultsService {
         }
 
         try {
-            TDSReport rescoredTrt = createTdsReport(
-                new ByteArrayInputStream(rescoredTrtString.getBytes("UTF-16")), // TIS (C# on Windows) sends UTF-16
-                jobId,
-                "Re-score results");
+            TDSReport rescoredTrt;
+
+            try {
+                rescoredTrt = createTdsReport(
+                        new ByteArrayInputStream(rescoredTrtString.getBytes("UTF-16")), // TIS (C# on Windows) sends UTF-16
+                        jobId,
+                        "Re-score results");
+                testResults.setRescoredTestResults(rescoredTrt);
+                testResults.clearErrors();
+            } catch (Exception e) {
+                log.error("Could not parse report: " + e.getMessage());
+                testResults.setErrorMessage(e.getMessage());
+                testResults.setInvalidRescoredTestResults(rescoredTrtString);
+                testResults.setRescoredTestResults(null);
+
+                throw new RuntimeException(e);
+            }
 
             ScoringValidationReport scoringValidationReport =
                     scoringValidationService.validateScoring(jobId, testResults.getTestResults(), rescoredTrt);
 
-            testResults.setRescoredTestResults(rescoredTrt);
             testResults.setScoringValidationReport(scoringValidationReport);
-            testResults.clearErrors();
 
-        } catch (UnsupportedEncodingException uee) {
-            testResults.setErrorMessage("UTF-16 is somehow not supported on this platform.");
-            testResults.setInvalidRescoredTestResults(rescoredTrtString);
-            testResults.setRescoredTestResults(null);
-            log.error("Unsupported code used in report: " +  uee.getMessage());
-        } catch (Exception e) {
-            log.error("Could not parse report: " +  e.getMessage());
-            testResults.setErrorMessage(e.getMessage());
-            testResults.setInvalidRescoredTestResults(rescoredTrtString);
-            testResults.setRescoredTestResults(null);
         } finally {
             mongoTestResultsRepository.save(testResults);
         }

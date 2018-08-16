@@ -131,7 +131,7 @@ public class ScoringValidationServiceImpl implements ScoringValidationService {
     }
 
     private static boolean changed(Score a, Score b) {
-        return !equivalent(createDouble(a.getValue()), createDouble(b.getValue())) ||
+        return !equivalent(a.getValue(), b.getValue()) ||
                 !equivalent(createDouble(a.getStandardError()), createDouble(b.getStandardError()));
     }
 
