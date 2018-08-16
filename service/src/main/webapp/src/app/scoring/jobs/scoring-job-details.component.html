@@ -113,7 +113,7 @@
             </div>
           </div>
         </ng-container>
-        <ng-container *ngIf="scoringReport?.differenceReport.opportunity?.items || scoringReport?.differenceReport.opportunity?.scores.length === 0">
+        <ng-container *ngIf="!scoringReport?.differenceReport.opportunity?.items || scoringReport?.differenceReport.opportunity?.scores.length === 0">
           No differences found for the Exam/Opportunity Scores
         </ng-container>
 
@@ -151,7 +151,7 @@
             </div>
           </div>
         </ng-container>
-        <ng-container *ngIf="scoringReport?.differenceReport.opportunity?.items || scoringReport?.differenceReport.opportunity?.items.length === 0">
+        <ng-container *ngIf="!scoringReport?.differenceReport.opportunity?.items || scoringReport?.differenceReport.opportunity?.items.length === 0">
           No differences found for the Item Scores
         </ng-container>
       </div>
