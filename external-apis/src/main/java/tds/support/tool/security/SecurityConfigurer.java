@@ -1,5 +1,6 @@
 package tds.support.tool.security;
 
+import org.springframework.boot.actuate.endpoint.AbstractEndpoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -8,6 +9,8 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfiguration;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+
+import java.util.Set;
 
 /**
  * Security configuration uses oauth2.
@@ -25,21 +28,11 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 @EnableResourceServer
 public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
-//    @Autowired
-//    private ResourceServerTokenServices tokenServices;
-//
-//    @Override
-//    public AuthenticationManager authenticationManagerBean() {
-//        final OAuth2AuthenticationManager manager = new OAuth2AuthenticationManager();
-//        manager.setTokenServices(tokenServices);
-//        return manager;
-//    }
-//
-//    @Bean
-//    public AuthenticationManager authenticationManager(final AuthenticationManagerBuilder auth) {
-//        // this disables spring boot's auto-configuration of the default authentication manager
-//        return auth.getOrBuild();
-//    }
+    private Set<AbstractEndpoint> actuatorEndpoints;
+
+    public SecurityConfigurer(Set<AbstractEndpoint> actuatorEndpoints) {
+        this.actuatorEndpoints = actuatorEndpoints;
+    }
 
     /**
      * This configurer will be wired into {@link ResourceServerConfiguration} to override which
@@ -61,8 +54,13 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
             @Override
             public void configure(final HttpSecurity http) throws Exception {
+                for (final AbstractEndpoint endpoint : actuatorEndpoints) {
+                    http.authorizeRequests()
+                            .antMatchers("/" + endpoint.getId() + "/**")
+                            .permitAll();
+                }
+
                 http.authorizeRequests()
-                        // we allow any authenticated user to trigger a resubmit and get their user info
                         .antMatchers("/api/**").authenticated()
                         .anyRequest().denyAll();
             }
