@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
@@ -350,45 +351,44 @@ public abstract class Tool {
             return setType(Optional.ofNullable(newType));
         }
 
+        @JacksonXmlProperty(localName = "selectable")
         protected abstract Builder setSelectable(Optional<String> newSelectable);
 
-        @JacksonXmlProperty(localName = "selectable")
         public Builder setSelectable(boolean newSelectable) {
             return setSelectable(Optional.of(String.valueOf(newSelectable)));
         }
 
+        @JacksonXmlProperty(localName = "visible")
         protected abstract Builder setVisible(Optional<String> newVisible);
 
-        @JacksonXmlProperty(localName = "visible")
         public Builder setVisible(boolean newVisible) {
             return setVisible(Optional.of(String.valueOf(newVisible)));
         }
 
+        @JacksonXmlProperty(localName = "studentControl")
         protected abstract Builder setStudentControl(Optional<String> newStudentControl);
 
-        @JacksonXmlProperty(localName = "studentControl")
         public Builder setStudentControl(boolean newStudentControl) {
             return setStudentControl(Optional.of(String.valueOf(newStudentControl)));
         }
 
+        @JacksonXmlProperty(localName = "allowChange")
         protected abstract Builder setAllowChange(Optional<String> newAllowChange);
 
-
-        @JacksonXmlProperty(localName = "allowChange")
         public Builder setAllowChange(boolean newAllowChange) {
             return setAllowChange(Optional.of(String.valueOf(newAllowChange)));
         }
 
+        @JacksonXmlProperty(localName = "required")
         protected abstract Builder setRequired(Optional<String> newRequired);
 
-        @JacksonXmlProperty(localName = "required")
         public Builder setRequired(boolean newRequired) {
             return setRequired(Optional.of(String.valueOf(newRequired)));
         }
 
+        @JacksonXmlProperty(localName = "disableOnGuest")
         protected abstract Builder setDisableOnGuest(Optional<String> newDisableOnGuest);
 
-        @JacksonXmlProperty(localName = "disableOnGuest")
         public Builder setDisableOnGuest(boolean newDisableOnGuest) {
             return setDisableOnGuest(Optional.of(String.valueOf(newDisableOnGuest)));
         }
@@ -400,9 +400,9 @@ public abstract class Tool {
             return setSortOrder(Optional.of(newSortOrder));
         }
 
+        @JacksonXmlProperty(localName = "allowMultiple")
         protected abstract Builder setAllowMultipleOptions(Optional<String> newAllowMultipleOptions);
 
-        @JacksonXmlProperty(localName = "allowMultiple")
         public Builder setAllowMultipleOptions(boolean newAllowMultipleOptions) {
             return setAllowMultipleOptions(Optional.of(String.valueOf(newAllowMultipleOptions)));
         }
@@ -414,9 +414,9 @@ public abstract class Tool {
             return setDependsOnToolType(Optional.ofNullable(newDependsOnToolType));
         }
 
+        @JacksonXmlProperty(localName = "functional")
         protected abstract Builder setFunctional(Optional<Boolean> newFunctional);
 
-        @JacksonXmlProperty(localName = "functional")
         public Builder setFunctional(boolean newFunctional) {
             return setFunctional(Optional.of(newFunctional));
         }
