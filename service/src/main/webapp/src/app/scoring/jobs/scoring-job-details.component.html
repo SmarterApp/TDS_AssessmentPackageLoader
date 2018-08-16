@@ -18,7 +18,7 @@
                    [scrollable]="true"
                    scrollHeight="230px">
         <p-column field="jobStepTarget" header="System" [sortable]="false" [style]="{width:'100px'}"></p-column>
-        <p-column field="createdAt" header="Date" [sortable]="true"[style]="{width:'200px'}">
+        <p-column field="createdAt" header="Date" [sortable]="true" [style]="{width:'200px'}">
           <ng-template let-step="rowData" pTemplate="body">
             {{ formatDate(step.createdAt)}}
           </ng-template>
@@ -75,71 +75,85 @@
     </div>
 
     <div class="diff-container">
-      <div *ngIf="!scoringReport.differenceReport">
+      <!-- Exam Scores --> 
+      <div *ngIf="!scoringReport?.differenceReport">
         No differences found between the original test results and re-scored test results.
       </div>
-      <div *ngIf="scoringReport.differenceReport">
-        <label>Exam Score Differences:</label>
-        <div class="row header">
-          <div class="col-md-2">Measure Of</div>
-          <div class="col-md-2">Measure Label</div>
-          <div class="col-md-2">Original Value</div>
-          <div class="col-md-2">Original Standard Error</div>
-          <div class="col-md-2">New Value</div>
-          <div class="col-md-2">New Standard Error</div>
-        </div>
-        <div class="row" *ngFor="let score of scoringReport.differenceReport.opportunity?.scores; let index=index; let odd=odd; let even=even;"
-             [ngClass]="{ odd: odd, even: even }">
-          <div class="col-md-2"> {{ score.identifier.measureOf }}</div>
-          <div class="col-md-2"> {{ score.identifier.measureLabel }}</div>
-          <div class="col-md-2">
-            <span *ngIf="score.value?.from">{{ score.value?.from }}</span>
-            <span *ngIf="!score.value?.from">-</span>
+      <div *ngIf="scoringReport?.differenceReport">
+        <ng-container *ngIf="scoringReport?.differenceReport.opportunity?.scores.length > 0">
+          <label>Exam Score Differences:</label>
+          <div class="row header">
+            <div class="col-md-2">Measure Of</div>
+            <div class="col-md-2">Measure Label</div>
+            <div class="col-md-2">Original Value</div>
+            <div class="col-md-2">Original Standard Error</div>
+            <div class="col-md-2">New Value</div>
+            <div class="col-md-2">New Standard Error</div>
           </div>
-          <div class="col-md-2">
-            <span *ngIf="score.standardError?.from">{{ score.standardError?.from }}</span>
-            <span *ngIf="!score.standardError?.from">-</span>
+          <div class="row"
+               *ngFor="let score of scoringReport?.differenceReport.opportunity?.scores; let index=index; let odd=odd; let even=even;"
+               [ngClass]="{ odd: odd, even: even }">
+            <div class="col-md-2"> {{ score.identifier.measureOf }}</div>
+            <div class="col-md-2"> {{ score.identifier.measureLabel }}</div>
+            <div class="col-md-2">
+              <span *ngIf="score.value?.from">{{ score.value?.from }}</span>
+              <span *ngIf="!score.value?.from">-</span>
+            </div>
+            <div class="col-md-2">
+              <span *ngIf="score.standardError?.from">{{ score.standardError?.from }}</span>
+              <span *ngIf="!score.standardError?.from">-</span>
+            </div>
+            <div class="col-md-2">
+              <span *ngIf="score.value?.to">{{ score.value?.to }}</span>
+              <span *ngIf="!score.value?.to">-</span>
+            </div>
+            <div class="col-md-2">
+              <span *ngIf="score.standardError?.to">{{ score.standardError?.to }}</span>
+              <span *ngIf="!score.standardError?.to">-</span>
+            </div>
           </div>
-          <div class="col-md-2">
-            <span *ngIf="score.value?.to">{{ score.value?.to }}</span>
-            <span *ngIf="!score.value?.to">-</span>
-          </div>
-          <div class="col-md-2">
-            <span *ngIf="score.standardError?.to">{{ score.standardError?.to }}</span>
-            <span *ngIf="!score.standardError?.to">-</span>
-          </div>
-        </div>
+        </ng-container>
+        <ng-container *ngIf="scoringReport?.differenceReport.opportunity?.scores.length === 0">
+          No differences found for the Exam/Opportunity Scores
+        </ng-container>
 
-        <label>Item Score Differences:</label>
-        <div class="row header">
-          <div class="col-md-2">Item Key</div>
-          <div class="col-md-2">Position</div>
-          <div class="col-md-2">Original Score</div>
-          <div class="col-md-2">Original Score Status</div>
-          <div class="col-md-2">New Score</div>
-          <div class="col-md-2">New Score Status</div>
-        </div>
-        <div class="row" *ngFor="let item of scoringReport.differenceReport.opportunity?.items; let index=index; let odd=odd; let even=even;"
-             [ngClass]="{ odd: odd, even: even }">
-          <div class="col-md-2"> {{ item.identifier.bankKey }}-{{ item.identifier.key}}</div>
-          <div class="col-md-2"> {{ item.identifier.position }}</div>
-          <div class="col-md-2">
-            <span *ngIf="item.score?.from">{{ item.score?.from }}</span>
-            <span *ngIf="!item.score?.from">-</span>
+        <!-- Item Scores -->
+        <ng-container *ngIf="scoringReport?.differenceReport.opportunity?.items.length > 0">
+          <label>Item Score Differences:</label>
+          <div class="row header">
+            <div class="col-md-2">Item Key</div>
+            <div class="col-md-2">Position</div>
+            <div class="col-md-2">Original Score</div>
+            <div class="col-md-2">Original Score Status</div>
+            <div class="col-md-2">New Score</div>
+            <div class="col-md-2">New Score Status</div>
           </div>
-          <div class="col-md-2">
-            <span *ngIf="item.scoreStatus?.from">{{ item.scoreStatus?.from }}</span>
-            <span *ngIf="!item.scoreStatus?.from">-</span>
+          <div class="row"
+               *ngFor="let item of scoringReport?.differenceReport.opportunity?.items; let index=index; let odd=odd; let even=even;"
+               [ngClass]="{ odd: odd, even: even }">
+            <div class="col-md-2"> {{ item.identifier.bankKey }}-{{ item.identifier.key}}</div>
+            <div class="col-md-2"> {{ item.identifier.position }}</div>
+            <div class="col-md-2">
+              <span *ngIf="item.score?.from">{{ item.score?.from }}</span>
+              <span *ngIf="!item.score?.from">-</span>
+            </div>
+            <div class="col-md-2">
+              <span *ngIf="item.scoreStatus?.from">{{ item.scoreStatus?.from }}</span>
+              <span *ngIf="!item.scoreStatus?.from">-</span>
+            </div>
+            <div class="col-md-2">
+              <span *ngIf="item.score?.to">{{ item.score?.to }}</span>
+              <span *ngIf="!item.score?.to">-</span>
+            </div>
+            <div class="col-md-2">
+              <span *ngIf="item.scoreStatus?.to">{{ item.scoreStatus?.to }}</span>
+              <span *ngIf="!item.scoreStatus?.to">-</span>
+            </div>
           </div>
-          <div class="col-md-2">
-            <span *ngIf="item.score?.to">{{ item.score?.to }}</span>
-            <span *ngIf="!item.score?.to">-</span>
-          </div>
-          <div class="col-md-2">
-            <span *ngIf="item.scoreStatus?.to">{{ item.scoreStatus?.to }}</span>
-            <span *ngIf="!item.scoreStatus?.to">-</span>
-          </div>
-        </div>
+        </ng-container>
+        <ng-container *ngIf="scoringReport?.differenceReport.opportunity?.items.length === 0">
+          No differences found for the Item Scores
+        </ng-container>
       </div>
     </div>
   </div>
