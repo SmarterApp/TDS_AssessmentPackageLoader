@@ -21,7 +21,7 @@ public interface TestResultsJobService {
      * @param testPackageSize the size of the test package
      * @return the {@link tds.support.job.Job} created
      */
-    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION') or hasAuthority('PERM_SCORING_VALIDATOR')")
     Job startTestResultsImport(final String packageName, final String username, final InputStream testPackage, final long testPackageSize);
 
     /**
@@ -32,7 +32,7 @@ public interface TestResultsJobService {
      * @param importedTRT     the test package to import
      * @return the {@link tds.support.job.Job} created
      */
-    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION') or hasAuthority('PERM_SCORING_VALIDATOR')")
     Job startTestResultsImport(String packageName, String username, String importedTRT);
 
     /**
@@ -48,6 +48,7 @@ public interface TestResultsJobService {
      * @param username The username of the user who's jobs to fetch
      * @return A list of all scoring validation {@link Job}s
      */
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION') or hasAuthority('PERM_SCORING_VALIDATOR')")
     List<Job> findJobs(final String username);
 
     /**
@@ -64,6 +65,7 @@ public interface TestResultsJobService {
      * @param jobId The id of the job to fetch
      * @return The job with the specified jobId, if it exists
      */
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION') or hasAuthority('PERM_SCORING_VALIDATOR')")
     Optional<Job> findJob(final String jobId);
 
     /**
@@ -72,6 +74,7 @@ public interface TestResultsJobService {
      * @param jobId The job id of the TRT
      * @return The TRT
      */
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION') or hasAuthority('PERM_SCORING_VALIDATOR')")
     Optional<TDSReport> findOriginalTrt(final String jobId);
 
     /**
@@ -80,6 +83,7 @@ public interface TestResultsJobService {
      * @param jobId The job id of the TRT
      * @return The TRT
      */
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION') or hasAuthority('PERM_SCORING_VALIDATOR')")
     Optional<TDSReport> findRescoredTrt(final String jobId);
 
     /**
@@ -88,6 +92,7 @@ public interface TestResultsJobService {
      * @param jobId The id of the job the report was generated for
      * @return The scoring validation report
      */
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION') or hasAuthority('PERM_SCORING_VALIDATOR')")
     Optional<ScoringValidationReport> findScoringValidationReport(String jobId);
 
     /**

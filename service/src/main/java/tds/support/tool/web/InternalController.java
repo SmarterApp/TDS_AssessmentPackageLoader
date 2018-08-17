@@ -29,17 +29,6 @@ public class InternalController {
     }
 
     /**
-     * Gets the scoring jobs
-     *
-     * @return {@link org.springframework.http.ResponseEntity} containing the new {@link tds.support.job.Job}
-     * @throws IOException thrown if there is an issue with accessing the file
-     */
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Job>> getJobs(final HttpServletRequest request) {
-        return ResponseEntity.ok(testResultsJobService.findJobs("ca.admin@example.com"));
-    }
-
-    /**
      * Handles and stores the re-scored TRT for the given job id.
      * @param jobId the job id for the original TRT
      * @param rescoredTrt the re-scored TRT for storage
