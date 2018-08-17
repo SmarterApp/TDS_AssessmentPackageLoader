@@ -5,12 +5,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.data.annotation.Transient;
 import tds.teacherhandscoring.model.TeacherHandScoring;
 
 import javax.xml.bind.annotation.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +35,19 @@ public abstract class Item {
     @XmlElement(name="BlueprintReference", type=BlueprintReference.class)
     public abstract List<BlueprintReference> getBlueprintReferences();
 
+    @XmlElementWrapper(name="ItemScoreDimensions")
     @XmlElement(name="ItemScoreDimension", type=ItemScoreDimension.class)
-    public abstract ItemScoreDimension getItemScoreDimension();
+    public abstract List<ItemScoreDimension> getItemScoreDimensions();
+
+    @Nullable
+    protected abstract List<PoolProperty> getPoolProperties();
+
+    @JsonProperty(value = "poolProperties")
+    @XmlElementWrapper(name="PoolProperties")
+    @XmlElement(name="PoolProperty", type=PoolProperty.class)
+    public List<PoolProperty> poolProperties() {
+        return Optional.ofNullable(getPoolProperties()).orElse(new ArrayList<>());
+    }
 
     protected abstract Optional<String> getFieldTest();
     @XmlAttribute
@@ -157,6 +171,12 @@ public abstract class Item {
         }
     }
 
+    abstract Builder toBuilder();
+
+    public Item withPresentations(List<Presentation> presentations) {
+        return toBuilder().setPresentations(presentations).build();
+    }
+
     public static Builder builder() {
         return new AutoValue_Item.Builder();
     }
@@ -174,8 +194,11 @@ public abstract class Item {
         @JacksonXmlProperty(localName = "BlueprintReferences")
         public abstract Builder setBlueprintReferences(List<BlueprintReference> newBlueprintReferences);
 
-        @JacksonXmlProperty(localName = "ItemScoreDimension")
-        public abstract Builder setItemScoreDimension(ItemScoreDimension newItemScoreDimension);
+        @JacksonXmlProperty(localName = "ItemScoreDimensions")
+        public abstract Builder setItemScoreDimensions(List<ItemScoreDimension> newItemScoreDimensions);
+
+        @JacksonXmlProperty(localName = "PoolProperties")
+        public abstract Builder setPoolProperties(List<PoolProperty> newPoolProperties);
 
         @JacksonXmlProperty(localName = "fieldTest")
         public abstract Builder setFieldTest(Optional<String> newFieldTest);

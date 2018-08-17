@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
     public TestPackageDeserializer() {
@@ -20,11 +21,13 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
     @Override
     public TestPackage deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         final ObjectMapper xmlMapper = (ObjectMapper) jp.getCodec();
+        String id = null;
         String publisher = null;
         String publishDate = null;
         String subject = null;
         String type = null;
         String version = null;
+        String subType = null;
         int bankKey = 0;
         String academicYear = null;
         List<BlueprintElement> blueprint = null;
@@ -33,7 +36,9 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
         for (; jp.getCurrentToken() != JsonToken.END_OBJECT; jp.nextToken()) {
             final JsonToken token = jp.getCurrentToken();
             if (token == JsonToken.FIELD_NAME) {
-                if ("publisher".equals(jp.getCurrentName())) {
+                if ("id".equals(jp.getCurrentName())) {
+                    id = jp.nextTextValue();
+                } else if ("publisher".equals(jp.getCurrentName())) {
                     publisher = jp.nextTextValue();
                 } else if ("publishDate".equals(jp.getCurrentName())) {
                     publishDate = jp.nextTextValue();
@@ -41,6 +46,8 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
                     subject = jp.nextTextValue();
                 } else if ("type".equals(jp.getCurrentName())) {
                     type =  jp.nextTextValue();
+                } else if ("subType".equals(jp.getCurrentName())) {
+                    subType =  jp.nextTextValue();
                 } else if ("version".equals(jp.getCurrentName())) {
                     version = jp.nextTextValue();
                 } else if ("bankKey".equals(jp.getCurrentName())) {
@@ -60,12 +67,16 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
                 }
             }
         }
+        
+        setBlueprintElementParent(blueprint);
 
         final TestPackage testPackage = TestPackage.builder().
+            setId(id).
             setPublisher(publisher).
             setPublishDate(publishDate).
             setSubject(subject).
             setType(type).
+            setSubType(subType != null ? Optional.of(subType) : Optional.empty()).
             setVersion(version).
             setBankKey(bankKey).
             setAcademicYear(academicYear).
@@ -113,5 +124,17 @@ public class TestPackageDeserializer extends StdDeserializer<TestPackage> {
         });
         itemGroup.getStimulus().ifPresent(
             stimulus -> stimulus.setTestPackage(testPackage));
+    }
+
+    private static void setBlueprintElementParent(final List<BlueprintElement> blueprintElements) {
+        setBlueprintElementParentHelper(blueprintElements, null);
+    }
+
+    private static void setBlueprintElementParentHelper(final List<BlueprintElement> childElements,
+                                                        final BlueprintElement parentElement) {
+        for (BlueprintElement childEl : childElements) {
+            childEl.setParentBlueprintElement(parentElement);
+            setBlueprintElementParentHelper(childEl.blueprintElements(), childEl);
+        }
     }
 }

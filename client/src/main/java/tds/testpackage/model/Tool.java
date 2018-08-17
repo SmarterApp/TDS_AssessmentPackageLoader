@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
@@ -11,6 +12,8 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.data.annotation.Transient;
 
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +61,6 @@ public abstract class Tool {
             .put("Calculator",
                     Tool.builder().setName("Calculator")
                             .setStudentPackageFieldName("TDSAcc-Calculator")
-                            .setDependsOnToolType("Language")
                             .build())
             .put("Closed Captioning",
                     Tool.builder().setName("Closed Captioning")
@@ -203,7 +205,6 @@ public abstract class Tool {
             .put("Thesaurus",
                     Tool.builder().setName("Thesaurus")
                             .setStudentPackageFieldName("TDSAcc-Thesaurus")
-                            .setDependsOnToolType("Language")
                             .build())
             .put("TTS",
                     Tool.builder().setName("TTS")
@@ -243,16 +244,25 @@ public abstract class Tool {
 
     @XmlAttribute
     public abstract String getName();
+    @XmlAttribute
+    public abstract Optional<String> getType();
+    @XmlAttribute
     public abstract Optional<String> getStudentPackageFieldName();
+    @XmlAttribute
     public abstract Optional<String> getAllowChange();
+    @XmlAttribute
     public abstract Optional<String> getRequired();
+    @XmlAttribute
     public abstract Optional<String> getSelectable();
+    @XmlAttribute
     public abstract Optional<String> getVisible();
+    @XmlAttribute
     public abstract Optional<String> getStudentControl();
+    @XmlAttribute(name = "allowMultiple")
     public abstract Optional<String> getAllowMultipleOptions();
-
-
+    @XmlAttribute
     public abstract Optional<Integer> getSortOrder();
+    @XmlAttribute
     public abstract Optional<String> getDisableOnGuest();
 
     protected abstract List<Option> getOptions();
@@ -311,8 +321,9 @@ public abstract class Tool {
     public boolean allowMultipleOptions() {
         return parseBoolean(getAllowMultipleOptions(), getDefaultTool().flatMap(Tool::getAllowMultipleOptions), false);
     }
-
-    @JsonProperty()
+    @JsonProperty(value = "options")
+    @XmlElementWrapper(name="Options")
+    @XmlElement(name="Option", type=Option.class)
     public List<Option> options() {
         return Optional.ofNullable(getOptions()).orElse(new ArrayList<>());
     }
@@ -328,40 +339,54 @@ public abstract class Tool {
 
         public abstract Builder setStudentPackageFieldName(Optional<String> newStudentPackageFieldName);
 
+        @JacksonXmlProperty(localName = "studentPackageFieldName")
         public Builder setStudentPackageFieldName(String newStudentPackageFieldName) {
             return setStudentPackageFieldName(Optional.ofNullable(newStudentPackageFieldName));
         }
 
+        public abstract Builder setType(Optional<String> newType);
+
+        @JacksonXmlProperty(localName = "type")
+        public Builder setType(String newType) {
+            return setType(Optional.ofNullable(newType));
+        }
+
+        @JacksonXmlProperty(localName = "selectable")
         protected abstract Builder setSelectable(Optional<String> newSelectable);
 
         public Builder setSelectable(boolean newSelectable) {
             return setSelectable(Optional.of(String.valueOf(newSelectable)));
         }
 
+        @JacksonXmlProperty(localName = "visible")
         protected abstract Builder setVisible(Optional<String> newVisible);
 
         public Builder setVisible(boolean newVisible) {
             return setVisible(Optional.of(String.valueOf(newVisible)));
         }
 
+        @JacksonXmlProperty(localName = "studentControl")
         protected abstract Builder setStudentControl(Optional<String> newStudentControl);
 
         public Builder setStudentControl(boolean newStudentControl) {
             return setStudentControl(Optional.of(String.valueOf(newStudentControl)));
         }
 
+        @JacksonXmlProperty(localName = "allowChange")
         protected abstract Builder setAllowChange(Optional<String> newAllowChange);
 
         public Builder setAllowChange(boolean newAllowChange) {
             return setAllowChange(Optional.of(String.valueOf(newAllowChange)));
         }
 
+        @JacksonXmlProperty(localName = "required")
         protected abstract Builder setRequired(Optional<String> newRequired);
 
         public Builder setRequired(boolean newRequired) {
             return setRequired(Optional.of(String.valueOf(newRequired)));
         }
 
+        @JacksonXmlProperty(localName = "disableOnGuest")
         protected abstract Builder setDisableOnGuest(Optional<String> newDisableOnGuest);
 
         public Builder setDisableOnGuest(boolean newDisableOnGuest) {
@@ -370,10 +395,12 @@ public abstract class Tool {
 
         protected abstract Builder setSortOrder(Optional<Integer> newSortOrder);
 
+        @JacksonXmlProperty(localName = "sortOrder")
         public Builder setSortOrder(int newSortOrder) {
             return setSortOrder(Optional.of(newSortOrder));
         }
 
+        @JacksonXmlProperty(localName = "allowMultiple")
         protected abstract Builder setAllowMultipleOptions(Optional<String> newAllowMultipleOptions);
 
         public Builder setAllowMultipleOptions(boolean newAllowMultipleOptions) {
@@ -382,10 +409,12 @@ public abstract class Tool {
 
         protected abstract Builder setDependsOnToolType(Optional<String> newDependsOnToolType);
 
+        @JacksonXmlProperty(localName = "dependsOnToolType")
         public Builder setDependsOnToolType(String newDependsOnToolType) {
             return setDependsOnToolType(Optional.ofNullable(newDependsOnToolType));
         }
 
+        @JacksonXmlProperty(localName = "functional")
         protected abstract Builder setFunctional(Optional<Boolean> newFunctional);
 
         public Builder setFunctional(boolean newFunctional) {

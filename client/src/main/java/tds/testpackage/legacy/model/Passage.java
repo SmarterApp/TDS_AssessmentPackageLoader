@@ -3,6 +3,7 @@ package tds.testpackage.legacy.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -128,4 +129,18 @@ public class Passage {
         this.filename = value;
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Passage passage = (Passage) o;
+        return Objects.equals(identifier, passage.identifier) &&
+                Objects.equals(filename, passage.filename);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(identifier, filename);
+    }
 }

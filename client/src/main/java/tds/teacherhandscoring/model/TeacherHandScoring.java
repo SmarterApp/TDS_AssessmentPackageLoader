@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlCData;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.jetbrains.annotations.Nullable;
@@ -14,6 +15,9 @@ import java.util.Optional;
 
 import tds.testpackage.model.Item;
 import tds.testpackage.model.TestPackage;
+
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 
 /**
  * Teacher Hand Scoring System configuration stored as an element in the Test Package xml file.
@@ -91,6 +95,7 @@ abstract public class TeacherHandScoring {
      *
      * @return filename of tech manual
      */
+    @XmlAttribute
     public abstract Optional<String> getExemplar();
 
     /**
@@ -98,6 +103,7 @@ abstract public class TeacherHandScoring {
      *
      * @return filename of scoring guide
      */
+    @XmlAttribute
     public abstract Optional<String> getTrainingGuide();
 
 
@@ -107,26 +113,28 @@ abstract public class TeacherHandScoring {
      * Populated from the item content retrieved from the content service
      * @return Rubric list found in the item content XML
      */
-    @JsonProperty(value = "rubriclist")
     @Nullable
     public abstract RawValue getRubricList();
 
     /**
      * @return dimensions provided by SmarterBalanced, generally constant
      */
-    protected abstract Optional<RawValue> getDimensions();
+    protected abstract Optional<String> getDimensions();
 
     /**
      * @return dimensions provided by SmarterBalanced, generally constant
      */
-    public RawValue dimensions() {
-        return getDimensions().orElse(new RawValue(DEFAULT_DIMENSIONS));
+    @XmlElement(name="Dimensions", type=String.class)
+    @JacksonXmlCData
+    public String dimensions() {
+        return getDimensions().orElse(DEFAULT_DIMENSIONS);
     }
 
     /**
      * Item content xml path: itm_item_desc
      * @return description found in the item content XML
      */
+    @XmlAttribute
     public abstract String getDescription();
 
     /**
@@ -134,18 +142,16 @@ abstract public class TeacherHandScoring {
      * @return passage identifier
      */
     @Nullable
-    @JsonInclude(JsonInclude.Include.ALWAYS)
-    @JsonProperty(value = "Passage")
+    @JsonIgnore
     public abstract String getPassage();
 
     @Nullable
-    @JsonInclude(JsonInclude.Include.ALWAYS)
-    @JsonProperty(value = "itemname")
+    @JsonIgnore
     public abstract String getItemName();
 
     protected abstract Optional<String> getLayout();
 
-    @JsonProperty(value = "layout")
+    @XmlAttribute
     public String layout() {
         return getLayout().orElse("WAI");
     }
@@ -204,9 +210,9 @@ abstract public class TeacherHandScoring {
         }
 
         @JacksonXmlProperty(localName = "Dimensions")
-        public abstract Builder setDimensions(Optional<RawValue> newDimensions);
+        public abstract Builder setDimensions(Optional<String> newDimensions);
 
-        public Builder setDimensions(RawValue newDimensions) {
+        public Builder setDimensions(String newDimensions) {
             return setDimensions(Optional.ofNullable(newDimensions));
         }
 

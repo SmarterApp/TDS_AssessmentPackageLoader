@@ -214,6 +214,7 @@ public abstract class Segment {
         @JacksonXmlProperty(localName = "SegmentForms")
         public abstract Builder setSegmentForms(List<SegmentForm> newSegmentForm);
 
+        @JacksonXmlProperty(localName = "Tools")
         public abstract Builder setTools(List<Tool> newTools);
 
         public abstract Segment build();

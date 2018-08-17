@@ -1,4 +1,5 @@
 {
+  "id": "SBAC-IRP-COMBINED-MATH-11",
   "publisher": "SBAC_PT",
   "publishDate": "2015-08-19T18:13:51.0",
   "subject": "MATH",
@@ -1871,7 +1872,7 @@
                       "idRef": "1|N-RN|A|a/s|N-RN.2"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRT3PLn",
                     "scorePoints": 1,
                     "weight": 1.0,
@@ -1889,7 +1890,7 @@
                         "value": 0.0
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -1913,7 +1914,7 @@
                       "idRef": "1|A-SSE|D|m|A-SSE.2"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRT3PLn",
                     "scorePoints": 1,
                     "weight": 1.0,
@@ -1931,7 +1932,7 @@
                         "value": 0.0
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -1958,7 +1959,7 @@
                       "idRef": "1|A-SSE|E|m|A-SSE.3b"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRT3PLn",
                     "scorePoints": 1,
                     "weight": 1.0,
@@ -1976,7 +1977,7 @@
                         "value": 0.0
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -2006,7 +2007,7 @@
                       "idRef": "1|A-REI|H|m|A-REI.2"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRT3PLn",
                     "scorePoints": 1,
                     "weight": 1.0,
@@ -2024,7 +2025,7 @@
                         "value": 0.0
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -2054,7 +2055,7 @@
                       "idRef": "2|S-CP|A"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRTGPC",
                     "scorePoints": 3,
                     "weight": 1.0,
@@ -2076,7 +2077,7 @@
                         "value": 1.0E-15
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -2103,7 +2104,7 @@
                       "idRef": "1|A-REI|I|m|A-REI.4b"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRT3PLn",
                     "scorePoints": 1,
                     "weight": 1.0,
@@ -2121,7 +2122,7 @@
                         "value": 0.0
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -2148,7 +2149,7 @@
                       "idRef": "1|G-SRT|P|m|G-SRT.8"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRT3PLn",
                     "scorePoints": 1,
                     "weight": 1.0,
@@ -2166,7 +2167,7 @@
                         "value": 0.0
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -2190,7 +2191,7 @@
                       "idRef": "1|G-SRT|P|m|G-SRT.8"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRT3PLn",
                     "scorePoints": 1,
                     "weight": 1.0,
@@ -2208,7 +2209,7 @@
                         "value": 0.0
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -2235,7 +2236,7 @@
                       "idRef": "1|F-IF|K|m|F-IF.1"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRTGPC",
                     "scorePoints": 2,
                     "weight": 1.0,
@@ -2253,7 +2254,7 @@
                         "value": 1.0E-15
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -2280,7 +2281,7 @@
                       "idRef": "1|N-Q|C|m|N-Q.1"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRT3PLn",
                     "scorePoints": 1,
                     "weight": 1.0,
@@ -2298,7 +2299,7 @@
                         "value": 0.0
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -2325,7 +2326,7 @@
                       "idRef": "1|F-IF|M|m|F-IF.7a"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRT3PLn",
                     "scorePoints": 1,
                     "weight": 1.0,
@@ -2343,7 +2344,7 @@
                         "value": 0.0
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -2373,7 +2374,7 @@
                       "idRef": "2|G-SRT|D|NA|NA"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRT3PLn",
                     "scorePoints": 1,
                     "weight": 1.0,
@@ -2391,7 +2392,7 @@
                         "value": 0.0
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -2415,7 +2416,7 @@
                       "idRef": "3|A-REI|G|NA|NA"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRT3PLn",
                     "scorePoints": 1,
                     "weight": 1.0,
@@ -2433,7 +2434,7 @@
                         "value": 0.0
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -2460,7 +2461,7 @@
                       "idRef": "3|A-REI|D|NA|NA"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRT3PLn",
                     "scorePoints": 1,
                     "weight": 1.0,
@@ -2478,7 +2479,7 @@
                         "value": 0.0
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -2502,7 +2503,7 @@
                       "idRef": "3|N-RN|E|NA|NA"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRT3PLn",
                     "scorePoints": 1,
                     "weight": 1.0,
@@ -2520,7 +2521,7 @@
                         "value": 0.0
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -2547,7 +2548,7 @@
                       "idRef": "4"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRT3PLn",
                     "scorePoints": 1,
                     "weight": 1.0,
@@ -2565,7 +2566,7 @@
                         "value": 0.0
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -2592,7 +2593,7 @@
                       "idRef": "3|G-SRT|A|NA|NA"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRT3PLn",
                     "scorePoints": 1,
                     "weight": 1.0,
@@ -2610,7 +2611,7 @@
                         "value": 0.0
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -2640,7 +2641,7 @@
                       "idRef": "4|G-MG|A|NA|NA"
                     }
                   ],
-                  "itemScoreDimension": {
+                  "itemScoreDimensions": [{
                     "measurementModel": "IRT3PLn",
                     "scorePoints": 1,
                     "weight": 1.0,
@@ -2658,7 +2659,7 @@
                         "value": 0.0
                       }
                     ]
-                  },
+                  }],
                   "position": 1
                 }
               ]
@@ -2678,8 +2679,7 @@
               "dependencies": [
                 {
                   "ifToolType": "Language",
-                  "ifToolCode": "ENU-Braille",
-                  "enabled": "false"
+                  "ifToolCode": "ENU-Braille"
                 }
               ]
             },
@@ -2689,8 +2689,7 @@
               "dependencies": [
                 {
                   "ifToolType": "Language",
-                  "ifToolCode": "ENU-Braille",
-                  "enabled": "false"
+                  "ifToolCode": "ENU-Braille"
                 }
               ]
             }
@@ -2775,7 +2774,7 @@
                           "idRef": "2|F-IF|A"
                         }
                       ],
-                      "itemScoreDimension": {
+                      "itemScoreDimensions": [{
                         "measurementModel": "IRT3PLn",
                         "scorePoints": 1,
                         "weight": 1.0,
@@ -2793,7 +2792,7 @@
                             "value": 0.0
                           }
                         ]
-                      },
+                      }],
                       "position": 1
                     },
                     {
@@ -2812,7 +2811,7 @@
                           "idRef": "3|F-IF|B"
                         }
                       ],
-                      "itemScoreDimension": {
+                      "itemScoreDimensions": [{
                         "measurementModel": "IRTGPC",
                         "scorePoints": 2,
                         "weight": 1.0,
@@ -2830,7 +2829,7 @@
                             "value": 0.76237
                           }
                         ]
-                      },
+                      }],
                       "position": 2
                     }
                   ]
@@ -2852,8 +2851,7 @@
               "dependencies": [
                 {
                   "ifToolType": "Language",
-                  "ifToolCode": "ENU-Braille",
-                  "enabled": "false"
+                  "ifToolCode": "ENU-Braille"
                 }
               ]
             },
@@ -2863,8 +2861,7 @@
               "dependencies": [
                 {
                   "ifToolType": "Language",
-                  "ifToolCode": "ENU-Braille",
-                  "enabled": "false"
+                  "ifToolCode": "ENU-Braille"
                 }
               ]
             }

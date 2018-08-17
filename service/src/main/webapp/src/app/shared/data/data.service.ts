@@ -1,5 +1,4 @@
 import { Observable } from "rxjs/Observable";
-// import {Http, RequestOptionsArgs} from "@angular/http"; //TODO: Deprecated in Angular 4+, switch to angular/common/http
 import { Injectable } from "@angular/core";
 import "rxjs/add/operator/map";
 import { HttpClient } from '@angular/common/http';

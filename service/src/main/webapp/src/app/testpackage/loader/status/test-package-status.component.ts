@@ -1,15 +1,12 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { TestPackageStatusService } from "./service/test-package-status.service";
-import { TestPackageStatusRow } from "./model/test-package-status-row";
-import { StepStatus } from "../jobs/model/test-package-job.model";
-import { TargetSystem } from "./model/target-system.enum";
-import { SortDirection } from "../../../shared/data/sort-direction.enum";
-import { PageResponse } from "../../../shared/data/page-response";
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
+import {TestPackageStatusService} from "./service/test-package-status.service";
+import {TestPackageStatusRow} from "./model/test-package-status-row";
+import {StepStatus} from "../jobs/model/test-package-job.model";
 import 'rxjs/add/operator/debounceTime';
 import "rxjs/add/operator/distinctUntilChanged";
-import { PageRequest } from "../../../shared/data/page-request";
-import { TimerObservable } from "rxjs/observable/TimerObservable";
-import { Router } from "@angular/router";
+import {TimerObservable} from "rxjs/observable/TimerObservable";
+import {Router} from "@angular/router";
+import {AuthGuard} from "../../../auth.component";
 
 /**
  * Controller for interacting with test package status data.
@@ -19,161 +16,89 @@ import { Router } from "@angular/router";
  * https://github.com/angular/angular/issues/7845
  */
 @Component({
+  selector: 'test-package-status',
   templateUrl: './test-package-status.component.html',
   styleUrls: ['./test-package-status.component.scss', '../../test-package.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
 export class TestPackageStatusComponent implements OnInit, OnDestroy {
-  // Initialize the models to a default value
-  private _testPackageStatusPage: PageResponse<TestPackageStatusRow> = {
-    content: [],
-    numberOfElements: 0,
-    first: false,
-    last: false,
-    totalPages: 0,
-    totalElements: 0,
-    size: 0,
-    number: 0,
-    sort: []
-  };
 
-  private sortPreference = {
-    sort: "uploadedAt",
-    sortDir: SortDirection.Descending
-  };
+  @ViewChild('deleteTmpl') deleteTmpl: TemplateRef<any>;
+  @ViewChild('dateTmpl') dateTmpl: TemplateRef<any>;
+  @ViewChild('systemTmpl') systemTmpl: TemplateRef<any>;
 
-  private _searchTermText = '';
+  StepStatuses = StepStatus; // Need to include the enum as a property to access it in template
+  searchTerm: string = '';
+  private alive: boolean; // used to unsubscribe from the TimerObservable when OnDestroy is called.
 
-  private isAlive: boolean = false; // used to unsubscribe from the TimerObservable when OnDestroy is called.
+  filteredPackageStatuses: TestPackageStatusRow[];
+  private _testPackageStatuses: TestPackageStatusRow[];
+  columns = [];
 
   constructor(private testPackageStatusService: TestPackageStatusService,
-              private router: Router) {
-    this.isAlive = true;
+              private router: Router,
+              private authGuard: AuthGuard) {
+    this.alive = true;
   }
 
   /**
    * @return {TestPackageStatusRow[]} A collection of {TestPackageStatusRow}s that represent the state of each test
    * package managed by the Support Tool.
    */
-  get testPackageStatusPage(): PageResponse<TestPackageStatusRow> {
-    return this._testPackageStatusPage;
+  get testPackageStatuses(): TestPackageStatusRow[] {
+    console.log("returning statuses", this._testPackageStatuses);
+    return this._testPackageStatuses;
   }
 
-  set testPackageStatusPage(value: PageResponse<TestPackageStatusRow>) {
-    this._testPackageStatusPage = value;
-  }
-
-  /**
-   * @return {string} The search term entered into the search input box
-   */
-  get searchTermText(): string {
-    return this._searchTermText;
-  }
-
-  set searchTermText(value: string) {
-    this._searchTermText = value;
+  set testPackageStatuses(value: TestPackageStatusRow[]) {
+    this._testPackageStatuses = value;
+    this.updateFilteredTestPackageStatuses();
   }
 
   /**
    * Get the first page of {TestPackageStatusRow}s for display, sorted by "Last Uploaded At" in Descending order.
    */
   ngOnInit() {
-    // Create an event to fetch the first page of records.
-    const initPaginatorEvent = {
-      page: 0,
-      size: 10,
-      sort: this.sortPreference.sort,
-      sortDir: this.sortPreference.sortDir
-    };
+    this.columns = [
+      {prop: 'name', name: 'Test Package Name', width: 480},
+      {prop: 'uploadedAt', name: 'Last Uploaded At', cellTemplate: this.dateTmpl, width: 100},
+      {prop: 'tdsStatus', name: 'TDS', headerClass: "text-align-center", cellTemplate: this.systemTmpl, width: 20},
+      {prop: 'artStatus', name: 'ART', headerClass: "text-align-center", cellTemplate: this.systemTmpl, width: 20},
+      {prop: 'tisStatus', name: 'TIS', headerClass: "text-align-center", cellTemplate: this.systemTmpl, width: 20},
+      {prop: 'thssStatus', name: 'THSS', headerClass: "text-align-center", cellTemplate: this.systemTmpl, width: 20},
+      {name: 'Delete', headerClass: "text-align-center", cellTemplate: this.deleteTmpl, width: 20},
+    ];
 
-    this.getData(this._searchTermText, initPaginatorEvent);
-
-    TimerObservable.create(5000, 5000)
-      .takeWhile(() => this.isAlive)
+    TimerObservable.create(0, 5000)
+      .takeWhile(() => this.alive)
       .subscribe(() => {
-        this.getData(this._searchTermText, {
-          page: this.testPackageStatusPage.number,
-          size: this.testPackageStatusPage.size,
-          sort: this.sortPreference.sort,
-          sortDir: this.sortPreference.sortDir
-        });
+        this.updateResults();
       });
   }
 
-  /**
-   * Unsubscribe from the timer when this component is destroyed.
-   */
   ngOnDestroy() {
-    this.isAlive = false;
+    this.alive = false;
   }
 
-  /**
-   * Get the next page of records.
-   *
-   * @param {event} event The event fired by the {Paginator#onPageChange} method
-   */
-  getNextPage(event) {
-    const nextPage = {
-      page: event.page,
-      size: event.rows,
-      sort: this.sortPreference.sort,
-      sortDir: this.sortPreference.sortDir
-    };
-
-    this.getData(this._searchTermText, nextPage);
+  updateResults() {
+    this.testPackageStatusService
+      .getTestPackageStatusRows()
+      .subscribe(rows => {
+          this.testPackageStatuses = rows;
+        },
+        error => {
+          console.log("test-package-status.component got error getting data - refreshing auth");
+          this.authGuard.updateUser();
+        });
   }
 
-  /**
-   * Set the sorting preference and update the page.
-   *
-   * @param {event} event The sorting event from the {Paginator}'s sort method
-   */
-  setSortPreference(event) {
-    this.sortPreference = {
-      sort: event.field,
-      sortDir: event.order == 1 ? SortDirection.Ascending : SortDirection.Descending
-    };
-
-    const pageRequest = {
-      page: 0,
-      size: this.testPackageStatusPage.size,
-      sort: this.sortPreference.sort,
-      sortDir: this.sortPreference.sortDir
-    };
-
-    this.getData(this._searchTermText, pageRequest);
+  onSearchChange() {
+    this.updateFilteredTestPackageStatuses();
   }
 
-  /**
-   * Search for {TestPackageStatus}es by name.
-   *
-   * @param {string} term Part of the name of the {TestPackageStatus}es to search for.
-   */
-  search(term: string) {
-    const pageRequest = {
-      page: this.testPackageStatusPage.number,
-      size: this.testPackageStatusPage.size,
-      sort: this.sortPreference.sort,
-      sortDir: this.sortPreference.sortDir
-    };
-
-    this.getData(term, pageRequest);
-  }
-
-  /**
-   * Fetch a page of {TestPackageStatusRow}s from the server based on the paging, sorting and search criteria.
-   *
-   * @param {string} searchTerm The part of the test name being
-   * @param {PageRequest} page information for the request
-   */
-  private getData(searchTerm: string, page: PageRequest) {
-    if (searchTerm !== '') {
-      this.testPackageStatusService.searchByName(searchTerm, page)
-        .subscribe(response => this.testPackageStatusPage = response);
-    } else {
-      this.testPackageStatusService.getAll(page)
-        .subscribe(response => this.testPackageStatusPage = response);
-    }
+  updateFilteredTestPackageStatuses() {
+    this.filteredPackageStatuses = this._testPackageStatuses
+      .filter(x => x.name.toUpperCase().indexOf(this.searchTerm.toUpperCase()) >= 0);
   }
 
   /**
@@ -184,56 +109,32 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Get the appropriate CSS class for the specified {StepStatus}
-   * <p>
-   *     This method cannot be static; Angular views cannot access static methods
-   * </p>
+   * Build a tooltip description message for the {StepStatus}
    *
-   * @param {StepStatus} status The {StepStatus} to evaluate
-   * @return {string} The CSS class that represents the specified {StepStatus}
-   */
-  getStatusIconCss(status: StepStatus): string {
-    return TestPackageStatusRow.getStatusIconClass(status);
-  }
-
-  /**
-   * Build a tooltip description message for the {TargetSystem}'s {StepStatus}
-   * <p>
-   *     This method cannot be static; Angular views cannot access static methods
-   * </p>
-   *
-   * @param {StepStatus} status The target system's {StepStatus}
-   * @param {TargetSystem} system The {TargetSystem}
+   * @param {TestPackageStatusRow} row The row to evaluate.
+   * @param {string} value The StepStatus string.
    * @return {string} A message describing what the status icon means
    */
-  getStatusDescription(status: StepStatus, system: TargetSystem): string {
-    let statusMessage = `The test package was not loaded into ${ system }`;
-
-    switch (status) {
-      case StepStatus.Success:
-        statusMessage = `The test package was loaded into ${ system } successfully`;
-        break;
-      case StepStatus.Fail:
-        statusMessage = `The test package could not be loaded into ${ system }`;
-        break;
-      default:
-        break;
+  getStatusDescription(row: TestPackageStatusRow, value: string): string {
+    if(value == StepStatus.Success) {
+      return `The test package has been loaded into this system.`;
     }
-
-    return statusMessage;
+    return `The test package has not been loaded into this system.`;
   }
-
   /**
-   * Apply a CSS class to indicate a row represents a {TestPackage} that is in the process of being deleted
+   * Apply a CSS class to provide the image for the row/system status cell.
    *
-   * @param {TestPackageStatusRow} rowData The row to evaluate
-   * @return {string | string} The name of the CSS class, or an empty string if no CSS needs to be added
+   * @param {TestPackageStatusRow} row The row to evaluate.
+   * @param {string} value The StepStatus string.
+   * @return {string | string} A string space-separated CSS classes to provide the icon.
    */
-  getRowCss(rowData: TestPackageStatusRow) {
-    return rowData.jobType == 'DELETE'
-    ? 'status-is-deleted'
-      : ''
+  getStatusClass(row: TestPackageStatusRow, value: string): string {
+    if(value == StepStatus.Success) {
+      return "fa fa-check-circle load-success";
+    }
+    return "fa fa-minus load-not-applicable";
   }
+
 
   /**
    * Delete a test package from all the systems it has been loaded into.
@@ -244,15 +145,7 @@ export class TestPackageStatusComponent implements OnInit, OnDestroy {
     const message = `Are you sure you want to delete the '${ name }' test package? The test package will be deleted from all systems it is currently loaded into.`;
     if (window.confirm(message)) {
       this.testPackageStatusService.deleteTestPackage(name);
-
-      alert("Test Package '" + name + "' is in the process of being deleted.  Once the test package has been deleted from all systems, the test package will no longer appear in this list.");
-
-      this.getData(this._searchTermText, {
-        page: 0,
-        size: this.testPackageStatusPage.size,
-        sort: this.sortPreference.sort,
-        sortDir: this.sortPreference.sortDir
-      });
+      this.updateResults();
     }
   }
 }

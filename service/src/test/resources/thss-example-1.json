@@ -1,0 +1,76 @@
+[
+  {
+    "itemId": "2703",
+    "bankKey": "187",
+    "Passage": null,
+    "HandScored": "1",
+    "itemType": "WER",
+    "subject": "ELA",
+    "grade": "11",
+    "description": "Mandatory Financial Literacy Classes - SBAC_Field",
+    "exemplar": "G3_2703_TM.pdf",
+    "trainingGuide": "G3_2703_SG.pdf",
+    "rubriclist": "<rubriclist>\n        <rubric scorepoint=\"4\">\n          <name>\n        Rubric 4<\/name>\n          <val><![CDATA[<p style=\"\">&#xA0;<\/p><p><dl><dt style=\"float: left; margin-top: 1px; margin-bottom: -1em;\">a)<\/dt><dd style=\"float: top;padding-left:1.5000em; padding-left:1.5000em; \"><p style=\"font-style:normal; font-weight:normal; \">Inference here.<\/p><\/dd><dt style=\"float: left; margin-top: 1px; margin-bottom: -1em;\">b)<\/dt><dd style=\"float: top;padding-left:1.5000em; padding-left:1.5000em; \"><p style=\"font-style:normal; font-weight:normal; \">Text-supported example: “....” (paragraph reference)<\/p><\/dd><dt style=\"float: left; margin-top: 1px; margin-bottom: -1em;\">c)<\/dt><dd style=\"float: top;padding-left:1.5000em; padding-left:1.5000em; \"><p style=\"font-style:normal; font-weight:normal; \">Inference here.<\/p><\/dd><dt style=\"float: left; margin-top: 1px; margin-bottom: -1em;\">d)<\/dt><dd style=\"float: top;padding-left:1.5000em; padding-left:1.5000em; \"><p style=\"font-style:normal; font-weight:normal; \">Text-supported example: “....” (paragraph reference)<\/p><\/dd><\/dl><\/p>]]><\/val>\n        <\/rubric>\n        <samplelist maxval=\"4\" minval=\"4\">\n          <sample purpose=\"OtherExemplar\" scorepoint=\"4\">\n            <name>4-Point Other Official Sample Answers\n      <\/name>\n            <annotation \/>\n            <samplecontent><![CDATA[<p style=\"\">&#xA0;<\/p>]]><\/samplecontent>\n          <\/sample>\n        <\/samplelist>\n        <rubric scorepoint=\"3\">\n          <name>\n        Rubric 3<\/name>\n          <val><![CDATA[<p style=\"\">&#xA0;<\/p>]]><\/val>\n        <\/rubric>\n        <samplelist maxval=\"3\" minval=\"3\">\n          <sample purpose=\"Exemplar\" scorepoint=\"3\">\n            <name>3-Point Official Sample Answer\n      <\/name>\n            <annotation \/>\n            <samplecontent><![CDATA[<p style=\"\">&#xA0;<\/p>]]><\/samplecontent>\n          <\/sample>\n        <\/samplelist>\n        <rubric scorepoint=\"2\">\n          <name>\n        Rubric 2<\/name>\n          <val><![CDATA[<p style=\"\">&#xA0;<\/p>]]><\/val>\n        <\/rubric>\n        <samplelist maxval=\"2\" minval=\"2\">\n          <sample purpose=\"Exemplar\" scorepoint=\"2\">\n            <name>2-Point Official Sample Answer\n      <\/name>\n            <annotation \/>\n            <samplecontent><![CDATA[<p style=\"\">&#xA0;<\/p>]]><\/samplecontent>\n          <\/sample>\n        <\/samplelist>\n        <rubric scorepoint=\"1\">\n          <name>\n        Rubric 1<\/name>\n          <val><![CDATA[<p style=\"\">&#xA0;<\/p>]]><\/val>\n        <\/rubric>\n        <samplelist maxval=\"1\" minval=\"1\">\n          <sample purpose=\"Exemplar\" scorepoint=\"1\">\n            <name>1-Point Official Sample Answer\n      <\/name>\n            <annotation \/>\n            <samplecontent><![CDATA[<p style=\"\">&#xA0;<\/p>]]><\/samplecontent>\n          <\/sample>\n        <\/samplelist>\n        <rubric scorepoint=\"0\">\n          <name>\n        Rubric 0<\/name>\n          <val><![CDATA[<p style=\"\">&#xA0;<\/p>]]><\/val>\n        <\/rubric>\n        <samplelist maxval=\"0\" minval=\"0\">\n          <sample purpose=\"Exemplar\" scorepoint=\"0\">\n            <name>0-Point Official Sample Answer\n      <\/name>\n            <annotation \/>\n            <samplecontent><![CDATA[<p style=\"\">&#xA0;<\/p>]]><\/samplecontent>\n          <\/sample>\n        <\/samplelist>\n      <\/rubriclist>",
+    "dimensions": [
+      {
+        "conditions": [
+          {
+            "code": "B",
+            "description": "Blank"
+          },
+          {
+            "code": "I",
+            "description": "Insufficient"
+          },
+          {
+            "code": "L",
+            "description": "Non-Scorable Language"
+          }
+        ],
+        "description": "CONVENTIONS",
+        "maxPoints": "2",
+        "minPoints": "0"
+      },
+      {
+        "conditions": [
+          {
+            "code": "B",
+            "description": "Blank"
+          },
+          {
+            "code": "I",
+            "description": "Insufficient"
+          },
+          {
+            "code": "L",
+            "description": "Non-Scorable Language"
+          }
+        ],
+        "description": "ELABORATION",
+        "maxPoints": "3",
+        "minPoints": "0"
+      },
+      {
+        "conditions": [
+          {
+            "code": "B",
+            "description": "Blank"
+          },
+          {
+            "code": "I",
+            "description": "Insufficient"
+          },
+          {
+            "code": "L",
+            "description": "Non-Scorable Language"
+          }
+        ],
+        "description": "ORGANIZATION",
+        "maxPoints": "3",
+        "minPoints": "0"
+      }
+    ],
+    "layout": "WAI",
+    "itemname": null
+  }
+]

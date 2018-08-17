@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>tds-support-tool-service</artifactId>
-    <version>4.1.0.RELEASE</version>
+    <version>4.2.0.RELEASE</version>
     <packaging>jar</packaging>
 
     <name>tds-support-tool-service</name>
@@ -12,7 +12,7 @@
     <parent>
         <groupId>org.opentestsystem.delivery</groupId>
         <artifactId>tds-support-tool</artifactId>
-        <version>4.1.0.RELEASE</version>
+        <version>4.2.0.RELEASE</version>
     </parent>
 
     <properties>
@@ -34,6 +34,11 @@
         <dependency>
             <groupId>org.opentestsystem.delivery</groupId>
             <artifactId>tds-support-tool-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.opentestsystem.delivery</groupId>
+            <artifactId>tds-support-tool-shared</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -90,7 +95,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
@@ -117,6 +125,23 @@
             <artifactId>HttpClientMock</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.javacrumbs.json-unit</groupId>
+            <artifactId>json-unit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.javacrumbs.json-unit</groupId>
+            <artifactId>json-unit-fluent</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.xmlunit</groupId>
+            <artifactId>xmlunit-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.xmlunit</groupId>
+            <artifactId>xmlunit-matchers</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.opensaml</groupId>
             <artifactId>opensaml</artifactId>
