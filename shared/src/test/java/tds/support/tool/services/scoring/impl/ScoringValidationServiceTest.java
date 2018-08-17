@@ -122,28 +122,27 @@ public class ScoringValidationServiceTest {
     }
 
     @Test
-    public void testMismatchingOpportunities() {
+    public void testEquivalentOpportunities() {
+        // Test that changing opportunity oppid and/or key doesn't appear in diff report.
         TDSReport left = new TDSReport();
         left.setTest(new TDSReport.Test());
         left.getTest().setTestId("abc");
         left.getTest().setName("Name ABC");
         left.setOpportunity(new Opportunity());
-        left.getOpportunity().setKey("123");
+        left.getOpportunity().setOppId("123");
+        left.getOpportunity().setKey("ABC");
 
         TDSReport right = new TDSReport();
         right.setTest(new TDSReport.Test());
         right.getTest().setTestId("abc");
         right.getTest().setName("Name ABC");
         right.setOpportunity(new Opportunity());
-        right.getOpportunity().setKey("789");
+        right.getOpportunity().setOppId("789");
+        left.getOpportunity().setKey("DEF");
 
         ScoringValidationReport report = scoringValidationService.validateScoring("jobId", left, right);
 
-        assertFalse(report.getDifferenceReport().isEmpty());
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::key::from"),
-                is(left.getOpportunity().getKey()));
-        assertThat(getFromMap(report.getDifferenceReport(), "opportunity::key::to"),
-                is(right.getOpportunity().getKey()));
+        assertTrue(report.getDifferenceReport().isEmpty());
     }
 
     @Test
