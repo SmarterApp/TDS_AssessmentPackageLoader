@@ -1,15 +1,19 @@
 package tds.testpackage.model;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.google.auto.value.AutoValue;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.xml.bind.annotation.*;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * The test package.
@@ -20,18 +24,20 @@ import java.util.List;
 @XmlRootElement(name = "TestPackage")
 @XmlType(propOrder={"blueprint", "assessments"})
 public abstract class TestPackage {
-    @Id
     @XmlTransient
-    private String id;
-
-    public String getId() {
-        return id;
+    @Id
+    private String mongoId;
+    public String getMongoId() {
+        return mongoId;
     }
 
-    public void setId(final String id) {
-        this.id = id;
+    public void setMongoId(final String mongoId) {
+        this.mongoId = mongoId;
     }
 
+    @XmlAttribute
+    @Field("id")
+    public abstract String getId();
     @XmlAttribute
     public abstract String getPublisher();
     @XmlAttribute
@@ -40,6 +46,9 @@ public abstract class TestPackage {
     public abstract String getSubject();
     @XmlAttribute
     public abstract String getType();
+    @XmlAttribute
+    public abstract Optional<String> getSubType();
+
     @XmlAttribute
     public abstract String getVersion();
     @XmlAttribute
@@ -61,6 +70,8 @@ public abstract class TestPackage {
     @AutoValue.Builder
     @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
     public abstract static class Builder {
+        public abstract Builder setId(String id);
+
         public abstract Builder setPublisher(String newPublisher);
 
         public abstract Builder setPublishDate(String newPublishDate);
@@ -68,6 +79,8 @@ public abstract class TestPackage {
         public abstract Builder setSubject(String newSubject);
 
         public abstract Builder setType(String newType);
+
+        public abstract Builder setSubType(Optional<String> newSubType);
 
         public abstract Builder setVersion(String newVersion);
 
@@ -83,5 +96,46 @@ public abstract class TestPackage {
         public abstract Builder setAssessments(List<Assessment> newAssessments);
 
         public abstract TestPackage build();
+    }
+
+    public Optional<BlueprintElement> getBlueprintElement(final String id) {
+        return getBlueprintElement(id, new LinkedList<>(this.getBlueprint()));
+    }
+
+    private Optional<BlueprintElement> getBlueprintElement(final String id, final LinkedList<BlueprintElement> blueprints) {
+        if (blueprints.isEmpty()) {
+            return Optional.empty();
+        }
+
+        final BlueprintElement head = blueprints.pop();
+
+        if (head.getId().equalsIgnoreCase(id)) {
+            return Optional.of(head);
+        }
+
+        blueprints.addAll(head.blueprintElements());
+
+        return getBlueprintElement(id, blueprints);
+    }
+
+    @Transient
+    @JsonIgnore
+    public Map<String, BlueprintElement> getBlueprintMap() {
+        final List<BlueprintElement> flattenedBlueprintElements = new ArrayList<>();
+        getFlatMapBlueprintHelper(flattenedBlueprintElements, this.getBlueprint());
+
+        return flattenedBlueprintElements.stream()
+                .collect(Collectors.toMap(BlueprintElement::getId, Function.identity()));
+    }
+
+    private void getFlatMapBlueprintHelper(final List<BlueprintElement> flattenedBlueprint,
+                                           final List<BlueprintElement> childElements) {
+        for (BlueprintElement bpElement : childElements) {
+            flattenedBlueprint.add(bpElement);
+
+            if (!bpElement.blueprintElements().isEmpty()) {
+                getFlatMapBlueprintHelper(flattenedBlueprint, bpElement.blueprintElements());
+            }
+        }
     }
 }

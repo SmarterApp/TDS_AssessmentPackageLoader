@@ -41,6 +41,6 @@ public class ToolsValidatorTest extends TestPackageValidationBaseTest {
         assertThat(errors.get(1).getMessage()).isEqualTo("The tool 'Expandable Passages' contained an unrecognized ART field name 'Optional[TDSAcc-ExpandablePassagesFoo]'");
 
         assertThat(errors.get(2).getSeverity()).isEqualTo(ErrorSeverity.WARN);
-        assertThat(errors.get(2).getMessage()).isEqualTo("An tool with an unrecognized ISAAP code was detected: TDS_ExpandablePassages2");
+        assertThat(errors.get(2).getMessage()).isEqualTo("A tool with an unrecognized ISAAP code was detected: TDS_ExpandablePassages2");
     }
 }

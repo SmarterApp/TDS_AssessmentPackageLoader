@@ -11,8 +11,13 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationModule;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
+import tds.trt.model.TDSReport;
 
 import javax.xml.XMLConstants;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
@@ -22,6 +27,7 @@ import javax.xml.validation.Validator;
 @Component
 public class TestPackageObjectMapperConfiguration {
     private static final String TEST_PACKAGE_SCHEMA_PATH = "/xsd/v4-test-package.xsd";
+    private static final String TEST_RESULTS_SCHEMA_PATH = "/xsd/test-results-transmission.xsd";
 
     public XmlMapper getXmlMapper() {
         final XmlMapper xmlMapper = new XmlMapper();
@@ -52,8 +58,25 @@ public class TestPackageObjectMapperConfiguration {
         return objectMapper;
     }
 
+    public Unmarshaller getTestResultsUnmarshaller() throws JAXBException {
+        final JAXBContext context = JAXBContext.newInstance(TDSReport.class);
+        return context.createUnmarshaller();
+    }
+
+    public Marshaller getTestResultsMarshaller() throws JAXBException {
+        final JAXBContext context = JAXBContext.newInstance(TDSReport.class);
+        return context.createMarshaller();
+    }
+
     public Validator getTestPackageSchemaValidator() throws SAXException {
         Source schemaSource = new StreamSource(this.getClass().getResourceAsStream(TEST_PACKAGE_SCHEMA_PATH));
+        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema = factory.newSchema(schemaSource);
+        return schema.newValidator();
+    }
+
+    public Validator getTestResultsSchemaValidator() throws SAXException {
+        Source schemaSource = new StreamSource(this.getClass().getResourceAsStream(TEST_RESULTS_SCHEMA_PATH));
         SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
         Schema schema = factory.newSchema(schemaSource);
         return schema.newValidator();

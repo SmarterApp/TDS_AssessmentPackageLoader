@@ -17,6 +17,7 @@ public abstract class Job {
     private LocalDateTime createdAt = LocalDateTime.now();
     private JobType type;
     private List<Step> steps = new ArrayList<>();
+    private String userName;
 
     /**
      * @return The identifier of the {@link tds.support.job.Job}
@@ -90,5 +91,13 @@ public abstract class Job {
      */
     public Optional<Step> getStepByName(final String stepName) {
         return steps.stream().filter(step -> stepName.equals(step.getName())).findFirst();
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(final String userName) {
+        this.userName = userName;
     }
 }

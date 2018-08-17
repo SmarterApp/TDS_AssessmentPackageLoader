@@ -3,16 +3,22 @@ import {TestPackageComponent} from "./testpackage/loader/test-package.component"
 import {UploadLoaderJobComponent} from "./testpackage/loader/jobs/upload/upload-loader-job.component";
 import {TestPackageStatusComponent} from "./testpackage/loader/status/test-package-status.component";
 import {ErrorComponent} from "./error.component";
+import {HomeAuthGuard, LoaderAuthGuard, ValidatorAuthGuard} from "./auth.component";
+import {ScoringComponent} from "./scoring/scoring.component";
+import {UploadScoringJobComponent} from "./scoring/jobs/upload/upload-scoring-job.component";
+import {AppComponent} from "./app.component";
 
 export const routes: Routes = [
   {
     path: 'home',
-    redirectTo: '',
+    canActivate: [HomeAuthGuard],
+    component: AppComponent,
     pathMatch: 'full'
   },
   {
     path: '',
-    redirectTo: 'loader',
+    canActivate: [HomeAuthGuard],
+    component: AppComponent,
     pathMatch: 'full',
   },
   {
@@ -20,13 +26,14 @@ export const routes: Routes = [
     pathMatch: 'prefix',
     data: {
       breadcrumb: {
-        label: "Load Test Package Jobs"
+        label: "Test Package Jobs"
       }
     },
     children: [
       {
         path: '',
         pathMatch: 'prefix',
+        canActivate: [LoaderAuthGuard],
         component: TestPackageComponent
       },
       {
@@ -39,25 +46,66 @@ export const routes: Routes = [
         pathMatch: 'prefix',
         data: {
           breadcrumb: {
-            label: "Create Test Package Loader Jobs"
+            label: "Test Package Upload"
           }
         },
         children: [
           {
             path: '',
             pathMatch: 'prefix',
+            canActivate: [LoaderAuthGuard],
             component: UploadLoaderJobComponent
           }
         ]
       }, {
         path: 'status',
         pathMatch: 'prefix',
+        canActivate: [LoaderAuthGuard],
         component: TestPackageStatusComponent,
         data: {
           breadcrumb: {
             label: "Loaded Test Packages"
           }
         }
+      }
+    ]
+  },
+  {
+    path: 'scoring',
+    pathMatch: 'prefix',
+    data: {
+      breadcrumb: {
+        label: "Scoring Validation Jobs"
+      }
+    },
+    children: [
+      {
+        path: '',
+        pathMatch: 'prefix',
+        canActivate: [ValidatorAuthGuard],
+        component: ScoringComponent
+      },
+      {
+        path: 'error',
+        pathMatch: 'prefix',
+        component: ErrorComponent
+      },
+      {
+        path: 'upload',
+        pathMatch: 'prefix',
+        data: {
+          breadcrumb: {
+            label: "Test Results Upload"
+          }
+        },
+        children: [
+          {
+            path: '',
+            pathMatch: 'prefix',
+            canActivate: [ValidatorAuthGuard],
+            component: UploadScoringJobComponent
+          }
+        ]
       }
     ]
   }

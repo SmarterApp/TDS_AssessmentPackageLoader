@@ -4,7 +4,7 @@
 
     <groupId>org.opentestsystem.delivery</groupId>
     <artifactId>tds-support-tool</artifactId>
-    <version>4.1.0.RELEASE</version>
+    <version>4.2.0.RELEASE</version>
     <packaging>pom</packaging>
 
     <name>tds-support-tool</name>
@@ -12,8 +12,9 @@
 
     <modules>
         <module>client</module>
+        <module>shared</module>
+        <module>external-apis</module>
         <module>service</module>
-        <module>loader</module>
     </modules>
 
     <parent>
@@ -58,7 +59,7 @@
                 <artifactId>shared-spring</artifactId>
                 <version>${tds-shared-build.version}</version>
             </dependency>
-
+            
             <!-- Spring -->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -76,6 +77,12 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-security</artifactId>
                 <version>1.5.8.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-test</artifactId>
+                <version>5.0.5.RELEASE</version>                
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.springframework.security.extensions</groupId>
@@ -198,7 +205,7 @@
         <connection>scm:git:https://github.com/SmarterApp/TDS_SupportTool.git</connection>
         <developerConnection>scm:git:git://github.com/SmarterApp/TDS_SupportTool.git</developerConnection>
         <url>https://github.com/SmarterApp/TDS_SupportTool</url>
-        <tag>4.1.0.RELEASE</tag>
+        <tag>4.2.0.RELEASE</tag>
     </scm>
 
     <build>

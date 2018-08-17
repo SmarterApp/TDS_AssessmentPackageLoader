@@ -84,29 +84,6 @@ export class TestPackageStatusRow {
   get thssStatus(): StepStatus {
     return this._thssStatus;
   }
-
-  /**
-   * Determine which ic on should be displayed based on the {StepStatus} value
-   *
-   * @param {StepStatus} status the {StepStatus} to evaluate
-   * @return {string} The CSS class to display the appropriate icon
-   */
-  static getStatusIconClass(status: StepStatus): string {
-    let cssClass = "fa fa-minus load-not-applicable";
-
-    switch (status) {
-      case StepStatus.Success:
-        cssClass = "fa fa-check-circle load-success";
-        break;
-      case StepStatus.Fail:
-        cssClass = "fa fa-exclamation-circle load-failure";
-        break;
-      default:
-        break;
-    }
-
-    return "load-status-icon " + cssClass;
-  }
 }
 
 /**

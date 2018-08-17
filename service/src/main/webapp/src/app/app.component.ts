@@ -1,33 +1,31 @@
-import {Component, OnInit} from "@angular/core";
-import {Router} from "@angular/router";
+import {Component} from "@angular/core";
+import {AuthGuard} from "./auth.component";
 import {User} from "./user/user";
-import {UserService} from "./user/user.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'TDS Support Tool';
   footer = '© The Regents of the University of California – Smarter Balanced Assessment Consortium';
-  user: User;
-  errorOccurred = false;
 
-  constructor(private router: Router,
-              private userService: UserService) {
+  constructor(private authGuard: AuthGuard) {
   }
 
-  ngOnInit() {
-    this.userService.getUser()
-      .subscribe(user => {
-        const hasPermissions = (user.permissions || []).length > 0;
-        if (!hasPermissions) {
-          this.errorOccurred = true;
-          // Reroute to error page if user has no read/write permissions
-          this.router.navigateByUrl('/error')
-        }
-        return this.user = user;
-      });
+  get adminAuthorized():boolean {
+    return this.authGuard.isAdminAuthorized;
+  }
 
+  get validatorAuthorized():boolean {
+    return this.authGuard.isValidatorAuthorized;
+  }
+
+  get loaderAuthorized():boolean {
+    return this.authGuard.isLoaderAuthorized;
+  }
+
+  get user():User {
+    return this.authGuard.user;
   }
 }

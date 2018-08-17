@@ -46,7 +46,7 @@ public abstract class Dependency {
         return parseBoolean(getEnabled(), true);
     }
 
-    @XmlAttribute
+    @XmlAttribute(name = "default")
     public boolean defaultValue() {
         return parseBoolean(getDefault(), false);
     }

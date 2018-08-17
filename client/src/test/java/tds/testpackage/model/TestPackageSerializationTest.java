@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class TestPackageSerializationTest {
     private ObjectMapper objectMapper;
     private XmlMapper xmlMapper;
 
-    private String expectedJSON = "{\"publisher\":\"SBAC_PT\",\"publishDate\":\"2015-08-19T18:13:51.0\",\"subject\":\"MATH\",\"type\":\"summative\",\"version\":\"8185\",\"bankKey\":187,\"academicYear\":\"2017-2018\"," +
+    private String expectedJSON = "{\"publisher\":\"SBAC_PT\",\"id\":\"SBAC-IRP-COMBINED-MATH-11\",\"publishDate\":\"2015-08-19T18:13:51.0\",\"subject\":\"MATH\",\"type\":\"summative\",\"version\":\"8185\",\"bankKey\":187,\"academicYear\":\"2017-2018\"," +
         "\"blueprint\":[{\"id\":\"SBAC-IRP-COMBINED-MATH-11\",\"type\":\"combined\"," +
         "\"scoring\":{\"rules\":[{\"name\":\"rule-name\",\"computationOrder\":1," +
         "\"parameters\":[{\"id\":\"id\",\"name\":\"parameter-name\",\"type\":\"type\",\"position\":1,\"values\":[{\"value\":\"value\"}]," +
@@ -37,12 +38,12 @@ public class TestPackageSerializationTest {
         "\"segments\":[{\"id\":\"SBAC-IRP-Perf-MATH-11\",\"algorithmType\":\"fixedform\",\"algorithmImplementation\":\"FAIRWAY ROUNDROBIN\",\"position\":1," +
         "\"pool\":[{\"id\":\"id\",\"items\":[{\"id\":\"id\",\"type\":\"type\",\"presentations\":[{\"code\":\"ENU\", \"label\":\"English\"}]," +
         "\"blueprintReferences\":[{\"idRef\":\"SBAC-IRP-CAT-MATH-11\"},{\"idRef\":\"G11Math_DOK2\"}]," +
-        "\"itemScoreDimension\":{\"measurementModel\":\"IRT3PLn\",\"scorePoints\":1,\"weight\":1.0," +
-        "\"itemScoreParameters\":[{\"measurementParameter\":\"a\",\"value\":6.3}]}}]}]," +
+        "\"itemScoreDimensions\":[{\"measurementModel\":\"IRT3PLn\",\"scorePoints\":1,\"weight\":1.0," +
+        "\"itemScoreParameters\":[{\"measurementParameter\":\"a\",\"value\":6.3}]}]}]}]," +
         "\"segmentForms\":[{\"id\":\"id\",\"cohort\":\"Cohort\",\"presentations\":[{\"code\":\"ENU\", \"label\":\"English\"}]," +
         "\"itemGroups\":[{\"id\":\"item-group-id2\",\"items\":[{\"id\":\"item-id2\",\"type\":\"type\",\"presentations\":[{\"code\":\"ENU\", \"label\":\"English\"}]," +
         "\"blueprintReferences\":[{\"idRef\":\"blueprintReference3\"}]," +
-        "\"itemScoreDimension\":{\"measurementModel\":\"model2\",\"scorePoints\":1,\"weight\":0.0}}]}]}]}]," +
+        "\"itemScoreDimensions\":[{\"measurementModel\":\"model2\",\"scorePoints\":1,\"weight\":0.0}]}]}]}]}]," +
         "\"tools\":[{\"name\":\"tool\",\"studentPackageFieldName\":\"TDSAcc\"," +
         "\"options\":[{\"code\":\"TDS_Other\",\"sortOrder\":0,\"dependencies\":[{\"ifToolType\":\"ifToolType\",\"ifToolCode\":\"ifToolCode\"}]}]}]}]}";
 
@@ -156,7 +157,7 @@ public class TestPackageSerializationTest {
             .setBlueprintReferences(Arrays.asList(blueprintReference1, blueprintReference2))
             .setId("id")
             .setType("type")
-            .setItemScoreDimension(itemScoreDimension)
+            .setItemScoreDimensions(Collections.singletonList(itemScoreDimension))
             .build();
 
         ItemGroup itemGroup = ItemGroup.builder()
@@ -169,7 +170,7 @@ public class TestPackageSerializationTest {
             .setBlueprintReferences(Arrays.asList(blueprintReference3))
             .setId("item-id2")
             .setType("type")
-            .setItemScoreDimension(itemScoreDimension2)
+            .setItemScoreDimensions(Collections.singletonList(itemScoreDimension2))
             .build();
 
         ItemGroup itemGroup2 = ItemGroup.builder()
@@ -219,6 +220,7 @@ public class TestPackageSerializationTest {
             .build();
 
         TestPackage testPackage = TestPackage.builder()
+            .setId("SBAC-IRP-COMBINED-MATH-11")
             .setPublisher("SBAC_PT")
             .setPublishDate("2015-08-19T18:13:51.0")
             .setSubject("MATH")
@@ -340,7 +342,7 @@ public class TestPackageSerializationTest {
             .setBlueprintReferences(Arrays.asList(blueprintReference1, blueprintReference2))
             .setId("id")
             .setType("type")
-            .setItemScoreDimension(itemScoreDimension)
+            .setItemScoreDimensions(Collections.singletonList(itemScoreDimension))
             .build();
 
         ItemGroup itemGroup = ItemGroup.builder()
@@ -353,7 +355,7 @@ public class TestPackageSerializationTest {
             .setBlueprintReferences(Arrays.asList(blueprintReference3))
             .setId("item-id2")
             .setType("type")
-            .setItemScoreDimension(itemScoreDimension2)
+            .setItemScoreDimensions(Collections.singletonList(itemScoreDimension2))
             .build();
 
         ItemGroup itemGroup2 = ItemGroup.builder()
@@ -403,6 +405,7 @@ public class TestPackageSerializationTest {
             .build();
 
         TestPackage testPackage = TestPackage.builder()
+            .setId("SBAC-IRP-COMBINED-MATH-11")
             .setPublisher("SBAC_PT")
             .setPublishDate("2015-08-19T18:13:51.0")
             .setSubject("MATH")
@@ -484,7 +487,7 @@ public class TestPackageSerializationTest {
         TestPackage testPackage = xmlMapper.readValue(inputStream, TestPackage.class);
         String dimension = testPackage.getAssessments().get(0).getSegments().get(0).
             getSegmentForms().get(0).getItemGroups().get(0).getItems().get(0).
-            getItemScoreDimension().getDimension().get();
+            getItemScoreDimensions().get(0).getDimension().get();
         assertThat(dimension).isEqualTo("test-dimension");
     }
 
