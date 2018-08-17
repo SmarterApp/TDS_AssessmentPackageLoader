@@ -80,7 +80,7 @@
         No differences found between the original test results and re-scored test results.
       </div>
       <div *ngIf="scoringReport?.differenceReport">
-        <ng-container *ngIf="scoringReport?.differenceReport.opportunity?.items && scoringReport?.differenceReport.opportunity?.scores.length > 0">
+        <ng-container *ngIf="scoringReport?.differenceReport.opportunity?.scores && scoringReport?.differenceReport.opportunity?.scores.length > 0">
           <label>Exam Score Differences:</label>
           <div class="row header">
             <div class="col-md-2">Measure Of</div>
@@ -113,7 +113,7 @@
             </div>
           </div>
         </ng-container>
-        <ng-container *ngIf="scoringReport?.differenceReport.opportunity?.items && scoringReport?.differenceReport.opportunity?.scores.length === 0">
+        <ng-container *ngIf="scoringReport?.differenceReport.opportunity?.scores && scoringReport?.differenceReport.opportunity?.scores.length === 0">
           <div>No differences found for the Exam/Opportunity Scores</div>
         </ng-container>
 

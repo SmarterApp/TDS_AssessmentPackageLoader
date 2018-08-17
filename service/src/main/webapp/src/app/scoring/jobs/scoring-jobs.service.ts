@@ -447,11 +447,9 @@ export class ScoringJobService {
     }
 
     if (job.status === 'SUCCESS') {
-      console.log("Setting job.complete to true");
       job.complete = true;
     }
 
-    console.log("Value of job.complete = " + job.complete);
     return job;
   }
 }
