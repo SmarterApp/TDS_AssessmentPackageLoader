@@ -24,7 +24,7 @@ public interface TestPackageStatusService {
      *
      * @return A collection of all statuses
      */
-    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION') or hasAuthority('PERM_TEST_PACKAGE_LOADER')")
     List<TestPackageStatus> getAll();
 
     /**

@@ -13,8 +13,16 @@ export class AppComponent {
   constructor(private authGuard: AuthGuard) {
   }
 
-  get authorized():boolean {
-    return this.authGuard.isAuthorized;
+  get adminAuthorized():boolean {
+    return this.authGuard.isAdminAuthorized;
+  }
+
+  get validatorAuthorized():boolean {
+    return this.authGuard.isValidatorAuthorized;
+  }
+
+  get loaderAuthorized():boolean {
+    return this.authGuard.isLoaderAuthorized;
   }
 
   get user():User {

@@ -22,7 +22,7 @@ public interface TestPackageJobService {
      * @return the {@link tds.support.job.Job} created
      */
 
-    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION') or hasAuthority('PERM_TEST_PACKAGE_LOADER')")
     Job startPackageImport(final String packageName, final InputStream testPackage, long testPackageSize,
                            final boolean skipArt, final boolean skipScoring);
 
@@ -32,7 +32,7 @@ public interface TestPackageJobService {
      * @param jobTypes The type of jobs to fetch
      * @return A collection of all jobs matching
      */
-    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION')")
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION') or hasAuthority('PERM_TEST_PACKAGE_LOADER')")
     List<Job> findJobs(final JobType... jobTypes);
 
     /**
@@ -48,5 +48,6 @@ public interface TestPackageJobService {
      *
      * @param testPackageName The name of the {@link tds.testpackage.model.TestPackage}.
      */
+    @PreAuthorize("hasAuthority('PERM_SUPPORT_TOOL_ADMINISTRATION') or hasAuthority('PERM_TEST_PACKAGE_LOADER')")
     void startPackageDelete(final String testPackageName);
 }
