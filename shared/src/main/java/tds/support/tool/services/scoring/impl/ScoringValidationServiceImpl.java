@@ -70,8 +70,6 @@ public class ScoringValidationServiceImpl implements ScoringValidationService {
 
         Map<String, Object> diffs = new LinkedHashMap<>();
 
-        addDifferences("oppId", getDiffs(original.getOppId(), rescored.getOppId()), diffs);
-        addDifferences("key", getDiffs(original.getKey(), rescored.getKey()), diffs);
         addDifferences("scores", getScoreDiffs(original.getScore(), rescored.getScore()), diffs);
         addDifferences("items", getItemDiffs(original.getItem(), rescored.getItem()), diffs);
 
