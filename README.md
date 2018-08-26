@@ -2,10 +2,12 @@
 ## Overview
 `TDS_SupportTool` provides a web interface for various support tools, with features such as assessment loading, test package validation,
 
-The `TDS_SupportTool` consists of two modules:
+The `TDS_SupportTool` consists of four modules:
 
 * **client:** Contains the POJOs/classes needed for a consumer to interact with the Assessment Package Loader
 * **service:** Contains the spring application code and the angular web application
+* **external-apis** Contains the spring application code for the external endpoints
+* **shared** Contains code shared by the web application and external endpoints 
 
 ## General Usage
 
@@ -54,6 +56,17 @@ read "FAIL".
 - If a scoring validation job is successful (meaning it was successfully processed by TDS and TIS scoring engines and sent back to the Support Tool),
 the job status will read "SUCCESS"
 
+## External APIs
+Several endpoints are enabled for external REST clients. These are authenticated via OAuth2 tokens obtained from Smarter Balanced
+at https://sso-deployment.sbtds.org/auth/oauth2/access_token?realm=/sbac, as opposed to the web application, which
+is authenticated via Single Sign-on (SSO) tokens managed in the user's browser. The endpoints are:
+
+-- Post a TRT to rescore: causes a new job to be created, just as if the TRT was uploaded through the web app
+-- Get all jobs for user: returns a list of all jobs created by currently authenticated user. 
+-- Get specific job by job ID: returns info for the requested job if it exists and was created by the current user
+-- Get rescored TRT by job ID: returns the rescored TRT
+-- Get validation report by job ID: returns the difference report between the original TRT and the rescored TRT
+ 
 ## Setup
 The following tools will be needed to build the project:
 
@@ -78,22 +91,44 @@ To build the **client**:
 
 * `mvn clean install -f /path/to/client/pom.xml`
 
+To build the **shared**:
+
+* `mvn clean install -f /path/to/shared/pom.xml`
+
 To build the **service**:
 
 * `mvn clean install -f /path/to/service/pom.xml`
 
-To build the service and run integration tests:
+To build the **external-apis**:
+
+* `mvn clean install -f /path/to/external-apis/pom.xml`
+
+To build all modules and run the integration tests:
   
-* `mvn clean install -Dintegration-tests.skip=false -f /path/to/service/pom.xml`
+* `mvn clean install -Dintegration-tests.skip=false -f /path/to/parent/pom.xm`
+
+To build a specific module (client, shared, service, or external-apis) and run its integration tests:
+  
+* `mvn clean install -Dintegration-tests.skip=false -f /path/to/module/pom.xml`
 
 ### Docker Support
-The Assessment Package Loader provides a `Dockerfile` for building a Docker image and a `docker-compose.yml` for running a Docker container that hosts the service `.jar`.  For the following command to work, the Docker Engine must be installed on the target build machine.  Resources for downloading and installing the Docker Engine on various operating systems can be found [here](https://docs.docker.com/engine/installation/).  For details on what Docker is and how it works, refer to [this page](https://www.docker.com/what-docker).
+The Support Tool provides one `Dockerfile` for building a Docker image for the web app and a second for the
+external APIs app. 
 
-To build the service and its associated Docker image:
+For the following commands to work, the Docker Engine must be installed on the target build machine.  
+Resources for downloading and installing the Docker Engine on various operating systems can be found 
+[here](https://docs.docker.com/engine/installation/).  For details on what Docker is and how it works, refer to 
+[this page](https://www.docker.com/what-docker).
+
+To build the web app service and its associated Docker image:
 
 * `mvn clean install docker:build -f /path/to/service/pom.xml`
 
-### Run .JAR
+To build the external api app and its associated Docker image:
+
+* `mvn clean install docker:build -f /path/to/external-apis/pom.xml`
+
+### Run web app .JAR
 To run the compiled jar built by one of the build commands above, use the following:
 
 ```
@@ -101,6 +136,15 @@ java -Xms256m -Xmx512m \
     -jar /path/to/target/tds-support-tool-service-0.0.1-SNAPSHOT.jar \
     --server-port="8080"
 ```
+(substitute the current build version for 0.0.1-SNAPSHOT)
+
+### Run external APIs .JAR
+```
+java -Xms256m -Xmx512m \
+    -jar /path/to/target/tds-support-tool-external-service-0.0.1-SNAPSHOT.jar \
+    --server-port="8080"
+```
+(substitute the current build version for 0.0.1-SNAPSHOT)
 
 #### Additional Details for Interacting With Docker
 The `Dockerfile` included in this repository is intended for use with [Spotify's Docker Maven plugin](https://github.com/spotify/docker-maven-plugin).  As such, the `docker build` command will fail because it cannot find the compiled `.jar`.
@@ -118,9 +162,11 @@ To see the list of running Docker containers, use the following command:
 * Output will appear as follows:
  
 ```
-CONTAINER ID        IMAGE                        COMMAND                CREATED             STATUS              PORTS                     NAMES
-de37db84cb30        fwsbac/tds-support-tool-service   "/docker-startup.sh"   2 hours ago         Up 2 hours          0.0.0.0:23489->8080/tcp   docker_support-tool_1
+CONTAINER ID        IMAGE                                     COMMAND                CREATED             STATUS              PORTS                     NAMES
+de37db84cb30        fwsbac/tds-support-tool-service           "/docker-startup.sh"   2 hours ago         Up 2 hours          0.0.0.0:23489->8080/tcp   docker_support-tool_1
+3f139113485c        fwsbac/tds-support-tool--external service "/docker-startup.sh"   2 hours ago         Up 2 hours          0.0.0.0:23490->8080/tcp   docker_support-tool-external_1
 ```
+
 To tail the log files for the process(es) running on the Docker container:
 
 * `docker logs -f [container id]`
@@ -128,20 +174,13 @@ To tail the log files for the process(es) running on the Docker container:
 * example:  `docker logs -f de37db84cb30`
 
 ## Spring Configuration
-The following is a brief explanation of the Spring properties that are available for the support tool service.  You can edit and alter these with Spring cloud configuration and in the `application.yml` file within the main src for local development
+The following is a brief explanation of the Spring properties that are available for the support tool service.  For ease of maintenance, the same properties are used
+for both the web api (service) and external APIs, even though several only apply to one or the other. You can edit and alter these with Spring cloud configuration 
+and in the `application.yml` file within the main src for local development
 
 ```
-management.security.roles: MANAGEMENT #Default security role mainly for health endpoints
-
----
-# Contains properties for the tds-support-tool-service.
-
-server:
-  port: # the port to run tomcat on - default is 8080
-  context-path: # (Optional) the path to run the support tool application on (usually "/supporttool"
-
-management:
-  port: 8008 # the health and other actuator endpoints will run on "8008" while the web app runs on `server.port`
+management: # the health and other actuator endpoints will run on "8008" while the web app runs on `server.port
+  port: 8008
   security:
     enabled: false
   health:
@@ -150,46 +189,25 @@ management:
     rabbit:
       enabled: false
 
+server:
+  port: # the port to run tomcat on - default is 8080
+  context-path: # (Optional) the path to run the support tool application on (usually "/supporttool")
+
+internalClientPort: # port used for service-to-service conmmunication, not exposed to external addresses default is 8883
+
 spring:
+  mvc:
+    throw-exception-if-no-handler-found: true
   resources:
     add-mappings: true
+  cloud:
+    bus:
+      enabled: false
+  http.multipart.max-file-size: 50MB
 
-logstash-destination: # (Optional) the logstash  host, if one is configured for centralized logging
-
-spring:
+#Port defined in TDS_Build:docker-compose.yml
   rabbitmq:
-    addresses: # address of the rabbitmq servers to use
-    username: # the rabbitmq user, usually "services" when running on Kubernetes
-    password: # the password for the rabbitmq user
-  data:
-    mongodb:
-      host: # hostname of the mongodb instance to use. This mongo server will store state data for all support tool jobs
-      port: # the mongodb port (usually `27017`)
-      database: support-tool
-      username: # the mongodb username (with read and write privilages to the "support-tool" database
-      password: # the mongodb password
-  http:
-    multipart:
-      max-file-size: # the maximum file size to allow for test package uploads
-      max-request-size: # the maximum file size to allow for support tool requests
-
-# URLs for dependent services
-support-tool:
-  art-rest-url: # the ART rest endpoint root (e.g., `http://<ART HOSTNAME>/rest`)
-  assessment-url: # the Assessment Service API root (e.g., `http://tds-assessment-service`)
-  tis-api-url: # the Test Integration System API root (e.g., `http://<TIS HOSTNAME>/api`)
-  thss-api-url: # the Teeacher Handscoring System API root (e.g., `http://<THSS HOSTNAME>/api`)
-  progman-url: # the Program Management API root (e.g., `http://<PROGMAN HOST>/rest`)
-
-  progman-tenant-level: # the progman tenant level - either `DISTRICT`, `STATE`, `INSTITUTION`, or `CLIENT`
-  progman-tenant: # the progman tenant to load test packages into - refer to ART documentation for more information about tenancy
-
-  sso-client-id: # the SSO client id to use for authorized REST calls
-  sso-client-secret: # the SSO client secret to use for authorized REST calls
-  sso-username: # the SSO username used to create authorized OAuth REST calls to external services
-  sso-password: # the password of the SSO/OAuth user
-  sso-url: # the url for obtaining an SSO access token (e.g., `https://<SSO HOST>/auth/oauth2/access_token?realm=/sbac`)
-
+    port: 32846
 
 data:
   s3:
@@ -198,4 +216,38 @@ data:
     bucket-name: # Name of the bucket where loaded test packages should be stored
     test-package-prefix: # Path prefix of where the test packages should be stored
 
+# OAuth2  # configuration to enable OAuth2 security used by external APIS
+security:
+  oauth2:
+    token-info-url: ${support-tool.token-info-url}
+
+#SAML # configuration for SSO security used by web app
+saml:
+  key-store-file: # location of keystore file
+  key-store-password: ${tds.java.keystore.password}
+  private-key-entry-alias: ${tds.java.private.key.alias}
+  private-key-entry-password: ${tds.java.private.key.password}
+  idp-metadata-url: ${tds.idp.metadata.url}
+  sp-entity-id: ${tds.sp.entityid}
+
+# URLs for dependent services
+support-tool:
+  art-rest-url: # the ART rest endpoint root (e.g., `http://<ART HOSTNAME>/rest`)
+  assessment-url: # the Assessment Service API root (e.g., `http://tds-assessment-service`)
+  exam-url: http://localhost:8081
+  content-url:  http://localhost:32848
+  thss-api-url: # the Teeacher Handscoring System API root (e.g., `http://<THSS HOSTNAME>/api`)
+  tis-api-url: # the Test Integration System API root (e.g., `http://<TIS HOSTNAME>/api`)
+  permissions-url: # url to get retrieve permissions based on an auth token
+
+  progman-tenant-level: # the progman tenant level - either `DISTRICT`, `STATE`, `INSTITUTION`, or `CLIENT`
+  progman-tenant: # the progman tenant to load test packages into - refer to ART documentation for more information about tenancy
+  progman-url: # the Program Management API root (e.g., `http://<PROGMAN HOST>/rest`)
+
+  sso-client-id: # the SSO client id to use for authorized REST calls
+  sso-client-secret: # the SSO client secret to use for authorized REST calls
+  sso-password: # the password of the SSO/OAuth user
+  sso-url: # the url for obtaining an SSO access token (e.g., `https://<SSO HOST>/auth/oauth2/access_token?realm=/sbac`)
+  token-info-url: https://sso-deployment.sbtds.org:443/auth/oauth2/tokeninfo?access_token={access_token}
+  sso-username: # the SSO username used to create authorized OAuth REST calls to external services
 ```
