@@ -22,7 +22,8 @@ import java.util.Optional;
 @Component
 public class TDSLoaderStepHandler implements TestPackageHandler {
     private static final Logger log = LoggerFactory.getLogger(TDSLoaderStepHandler.class);
-    public static final String ERROR_TEXT_FOR_422_EXCEPTION = "Cannot process test package. Possible duplicate Form IDs.";
+    public static final String ERROR_TEXT_FOR_422_EXCEPTION =
+            "Cannot process test package. Please contact an administrator to investigate the issue.";
 
     private final TDSTestPackageService tdsTestPackageService;
     private final MongoTestPackageRepository mongoTestPackageRepository;
