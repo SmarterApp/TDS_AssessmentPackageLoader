@@ -3,7 +3,9 @@ package tds.support.tool.handlers.loader.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpClientErrorException;
 import tds.common.ValidationError;
 import tds.support.job.Error;
 import tds.support.job.*;
@@ -20,6 +22,7 @@ import java.util.Optional;
 @Component
 public class TDSLoaderStepHandler implements TestPackageHandler {
     private static final Logger log = LoggerFactory.getLogger(TDSLoaderStepHandler.class);
+    public static final String ERROR_TEXT_FOR_422_EXCEPTION = "Cannot process test package. Possible duplicate Form IDs.";
 
     private final TDSTestPackageService tdsTestPackageService;
     private final MongoTestPackageRepository mongoTestPackageRepository;
@@ -51,6 +54,13 @@ public class TDSLoaderStepHandler implements TestPackageHandler {
                 }
             } else {
                 step.setStatus(Status.SUCCESS);
+            }
+        } catch(HttpClientErrorException hcee) {
+            // Special handling of 422 error.
+            if (hcee.getStatusCode() == HttpStatus.UNPROCESSABLE_ENTITY) {
+                Step.handleException(job, step, hcee, ERROR_TEXT_FOR_422_EXCEPTION);
+            } else {
+                Step.handleException(job, step, hcee);
             }
         } catch (Exception e) {
             Step.handleException(job, step, e);
