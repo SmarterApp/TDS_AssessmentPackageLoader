@@ -28,7 +28,9 @@ public abstract class Option {
     @XmlAttribute
     public abstract int getSortOrder();
     @XmlAttribute
+    @JsonProperty(value="default")
     protected abstract Optional<String> getDefault();
+
     @XmlAttribute(name="default")
     public boolean defaultValue() {
         return parseBoolean(getDefault(), false);
@@ -65,6 +67,7 @@ public abstract class Option {
         public abstract Builder setSortOrder(int newSortOrder);
 
         @JacksonXmlProperty(localName = "default")
+        @JsonProperty(value="default")
         protected abstract Builder setDefault(Optional<String> newDefault);
 
 
