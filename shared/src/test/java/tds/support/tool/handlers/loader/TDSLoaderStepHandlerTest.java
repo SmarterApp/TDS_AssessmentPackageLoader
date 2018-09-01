@@ -3,10 +3,13 @@ package tds.support.tool.handlers.loader;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
 import tds.common.ValidationError;
+import tds.support.job.Error;
 import tds.support.job.Status;
 import tds.support.job.Step;
 import tds.support.job.TestPackageLoadJob;
@@ -22,6 +25,7 @@ import java.util.Optional;
 
 import static io.github.benas.randombeans.api.EnhancedRandom.random;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -146,6 +150,26 @@ public class TDSLoaderStepHandlerTest {
         verify(mockTestPackageMetadataRepository).findByJobId(mockJob.getId());
         verify(mockTestPackageRepository).findOne(mockMetadata.getTestPackageId());
         verify(mockService).loadTestPackage(mockJob.getName(), mockTestPackage);
+    }
+
+    @Test
+    public void shouldSanitize422Error() {
+        TestPackageLoadJob mockJob = random(TestPackageLoadJob.class);
+        Step mockStep = random(Step.class);
+        int errorsBefore = mockStep.getErrors().size();
+        TestPackageMetadata mockMetadata = random(TestPackageMetadata.class);
+
+        when(mockTestPackageMetadataRepository.findByJobId(mockJob.getId())).thenReturn(mockMetadata);
+        when(mockTestPackageRepository.findOne(mockMetadata.getTestPackageId())).thenReturn(mockTestPackage);
+        when(mockService.loadTestPackage(mockJob.getName(), mockTestPackage))
+                .thenThrow(new HttpClientErrorException(HttpStatus.UNPROCESSABLE_ENTITY));
+
+        handler.handle(mockJob, mockStep);
+
+        int errorsAfter = mockStep.getErrors().size();
+        assertThat(errorsAfter).isEqualTo(errorsBefore + 1);
+        assertTrue(mockStep.getErrors().get(errorsAfter-1)
+                .getMessage().contains(TDSLoaderStepHandler.ERROR_TEXT_FOR_422_EXCEPTION));
     }
 }
 

@@ -107,6 +107,9 @@ public class TestPackageJobServiceImpl implements TestPackageJobService {
                                     .filter(nonValidationSteps -> nonValidationSteps.getJobStepTarget() != TargetSystem.Internal)
                                     .forEach(nonValidationSteps -> nonValidationSteps.setStatus(Status.FAIL));
 
+                            // TDS-1747: remove the test package status entry if we fail validate step
+                            testPackageStatusService.delete(job.getName());
+
                             jobRepository.save(job);
                             throw new RuntimeException("Error: The test package failed validation. Aborting test package load.");
                         } else if (step.getName().equals(TestPackageLoadJob.TDS_UPLOAD) && step.getStatus() == Status.FAIL) {

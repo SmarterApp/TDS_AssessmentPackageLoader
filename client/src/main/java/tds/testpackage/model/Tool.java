@@ -42,6 +42,7 @@ public abstract class Tool {
             .put("American Sign Language",
                     Tool.builder().setName("American Sign Language")
                             .setStudentPackageFieldName("TDS_Acc-ASL")
+                            .setDependsOnToolType("Language")
                             .build())
             .put("Audio Playback Controls",
                     Tool.builder().setName("Audio Playback Controls")
@@ -108,6 +109,7 @@ public abstract class Tool {
             .put("Highlight",
                     Tool.builder().setName("Highlight")
                             .setStudentPackageFieldName("TDSAcc-Highlight")
+                            .setDependsOnToolType("Language")
                             .build())
             .put("Item Font Size",
                     Tool.builder().setName("Item Font Size")

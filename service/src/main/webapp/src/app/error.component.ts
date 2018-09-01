@@ -2,8 +2,8 @@ import {Component} from "@angular/core";
 
 @Component({
   selector: 'error',
-  template: '<h3 class="error">You are not authorized to view the TDS Support Tool application.<br>Please contact an administrator if this is in error.</h3>',
-  styles: ['h3.error { padding: 20px; color: #CC0000; }']
+  template: '<p class="blue msg">You have been logged out due to inactivity or are not authorized to view this page.</p><p class="blue msg">Please <a href="javascript:void(0)" onclick="window.document.logoutForm.submit()">log in again</a> or contact an administrator if this problem persists.</p><form name="logoutForm" method="post" action="saml/logout" class="hidden"></form>',
+  styles: ['p.msg { padding: 0 20px}']
 })
 export class ErrorComponent {
 }
