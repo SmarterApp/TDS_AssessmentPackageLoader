@@ -112,10 +112,14 @@ public class Step {
     }
 
     public static void handleException(final Job job, final Step step, final Exception e) {
-        log.error("An error occurred for step {} with job ID {}", step.getName(), job.getId(), e);
+        handleException(job, step, e, e.getMessage());
+    }
+
+    public static void handleException(final Job job, final Step step, final Exception e, final String errorText) {
+        log.error("An error occurred for step {} with job ID {}: {}", step.getName(), job.getId(), errorText, e);
 
         step.setStatus(Status.FAIL);
-        step.addError(new Error(String.format("Error occurred while communicating with %s: %s", step.target, e.getMessage()),
+        step.addError(new Error(String.format("Error occurred while communicating with %s: %s", step.target, errorText),
                 ErrorSeverity.CRITICAL));
     }
 
