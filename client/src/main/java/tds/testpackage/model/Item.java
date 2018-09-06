@@ -49,36 +49,42 @@ public abstract class Item {
         return Optional.ofNullable(getPoolProperties()).orElse(new ArrayList<>());
     }
 
+    @JsonProperty(value="fieldTest")
     protected abstract Optional<String> getFieldTest();
     @XmlAttribute
     public boolean fieldTest() {
         return parseBoolean(getFieldTest(), false);
     }
 
+    @JsonProperty(value="administrationRequired")
     protected abstract Optional<String> getAdministrationRequired();
     @XmlAttribute
     public boolean administrationRequired() {
         return parseBoolean(getAdministrationRequired(), true);
     }
 
+    @JsonProperty(value="active")
     protected abstract Optional<String> getActive();
     @XmlAttribute
     public boolean active() {
         return parseBoolean(getActive(), true);
     }
 
+    @JsonProperty(value="responseRequired")
     protected abstract Optional<String> getResponseRequired();
     @XmlAttribute
     public boolean responseRequired() {
         return parseBoolean(getResponseRequired(), true);
     }
 
+    @JsonProperty(value="handScored")
     protected abstract Optional<String> getHandScored();
     @XmlAttribute
     public boolean handScored() {
         return parseBoolean(getHandScored(), false);
     }
 
+    @JsonProperty(value="doNotScore")
     protected abstract Optional<String> getDoNotScore();
     @XmlAttribute
     public boolean doNotScore() {
@@ -201,24 +207,31 @@ public abstract class Item {
         public abstract Builder setPoolProperties(List<PoolProperty> newPoolProperties);
 
         @JacksonXmlProperty(localName = "fieldTest")
+        @JsonProperty(value = "fieldTest")
         public abstract Builder setFieldTest(Optional<String> newFieldTest);
 
         @JacksonXmlProperty(localName = "administrationRequired")
+        @JsonProperty(value = "administrationRequired")
         public abstract Builder setAdministrationRequired(Optional<String> newAdministrationRequired);
 
         @JacksonXmlProperty(localName = "active")
+        @JsonProperty(value = "active")
         public abstract Builder setActive(Optional<String> newActive);
 
         @JacksonXmlProperty(localName = "responseRequired")
+        @JsonProperty(value = "responseRequired")
         public abstract Builder setResponseRequired(Optional<String> newResponseRequired);
 
         @JacksonXmlProperty(localName = "handScored")
+        @JsonProperty(value = "handScored")
         public abstract Builder setHandScored(Optional<String> newHandScored);
 
         @JacksonXmlProperty(localName = "doNotScore")
+        @JsonProperty(value = "doNotScore")
         public abstract Builder setDoNotScore(Optional<String> newDoNotScore);
 
         @JacksonXmlProperty(localName = "TeacherHandScoring")
+        @JsonProperty(value = "TeacherHandScoring")
         public abstract Builder setTeacherHandScoring(Optional<TeacherHandScoring> newTeacherHandScoring);
 
         @JsonProperty(value = "position")
