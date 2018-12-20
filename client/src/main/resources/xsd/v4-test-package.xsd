@@ -648,12 +648,10 @@ The Dependency can be read as:
                 - type: an arbitrary designation, usually from some aspect of a taxonomy defining the subject-area.
                 (e.g., "strand", "contentlevel")
                 Other elementtypes exist outside of the taxonomy
-                - parentId: the id of another bpelement, segment, or assessment, generally within the taxonomy.
-                Since a BlueprintElement may have at most one parent, at most hierarchies may be expressed.
-                - minExamItems/maxExamItems: the minimum and maximum operational items to administer from this blueprint
+                - description:  (OPTIONAL) a human readable description of the blueprint element
+                - label:  (OPTIONAL)a human readable label of a BlueprintElement, or the Enhanced Content Specification ID
                 category
-                - minFieldTestItems/maxFieldTestItems: (OPTIONAL) the minimum and maximum field test items to administer
-                - default to "0"
+                - level: (OPTIONAL) The level description in the blueprint hierarchy
             </xs:documentation>
         </xs:annotation>
         <xs:complexType>
