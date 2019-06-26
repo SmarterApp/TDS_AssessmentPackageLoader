@@ -82,6 +82,11 @@ The following external dependencies are required to run the support tool:
     a. Item content metadata is fetched from this repository when loading into THSS. The rubric list is read from this file and posted to THSS for item scoring configuration
     b. Test packages that are uploaded to the support tool are persisted for archival purposes
 
+## Required Dependencies
+You must build these projects to ensure the necessary dependencies are installed in your local Maven cache
+
+* https://github.com/SmarterApp/TDS_Common
+
 ## Build
 To build all modules, use the "parent" `pom.xml` that is contained in the `TDS_SupportTool` directory:
 
