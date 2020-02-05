@@ -73,3 +73,8 @@ support-tool:
   sso-url: https://sso-deployment.sbtds.org/auth/oauth2/access_token?realm=/sbac
   token-info-url: https://sso-deployment.sbtds.org:443/auth/oauth2/tokeninfo?access_token={access_token}
   sso-username: ${support-tool.sso-username}
+
+---
+spring:
+  profiles:
+    active:

@@ -2,6 +2,7 @@ package tds.support.tool.security;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,12 @@ class SecurityConfiguration {
     @ConfigurationProperties(prefix = "security.oauth2")
     public ForgeRockTokenServices forgeRockTokenServices(final SbacTokenConverter tokenConverter) {
         return new ForgeRockTokenServices(tokenConverter);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "security.oauth2.token-provider", havingValue = "okta")
+    public OktaTokenServices oktaTokenServices(final SbacTokenConverter tokenConverter) {
+        return new OktaTokenServices(tokenConverter);
     }
 
     @Bean

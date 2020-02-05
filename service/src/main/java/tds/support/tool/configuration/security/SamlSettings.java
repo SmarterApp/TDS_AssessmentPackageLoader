@@ -13,6 +13,9 @@ public class SamlSettings {
     private String privateKeyEntryPassword;
     private String idpMetadataUrl;
     private String spEntityId;
+    private Integer maxAuthenticationAge;
+    private String logoutRedirectUrl = "/";
+    private boolean globalLogout = true;
     private LoadBalancedSettings loadBalance = new LoadBalancedSettings();
 
     /**
@@ -98,6 +101,42 @@ public class SamlSettings {
      */
     public String getEntityBaseUrl() {
         return loadBalance.getBaseUrl();
+    }
+
+    /**
+     * @return maximum time in seconds that system allows users to single sign-on since their initial authentication
+     * with the IDP. Setting this to a very high value can avoid getting hard-to-resolve "access denied"
+     * errors in some situations.
+     */
+    public Integer getMaxAuthenticationAge() {
+        return maxAuthenticationAge;
+    }
+
+    public void setMaxAuthenticationAge(final Integer maxAuthenticationAge) {
+        this.maxAuthenticationAge = maxAuthenticationAge;
+    }
+
+    /**
+     * @return URL to redirect to after a successful logout.
+     */
+    public String getLogoutRedirectUrl() {
+        return logoutRedirectUrl;
+    }
+
+    public void setLogoutRedirectUrl(final String logoutRedirectUrl) {
+        this.logoutRedirectUrl = logoutRedirectUrl;
+    }
+
+    /**
+     * @return true if performing SAML single logout, false if local logout only.
+     * IDP must support single logout if this flag is true.
+     */
+    public boolean isGlobalLogout() {
+        return globalLogout;
+    }
+
+    public void setGlobalLogout(final boolean globalLogout) {
+        this.globalLogout = globalLogout;
     }
 
     /**

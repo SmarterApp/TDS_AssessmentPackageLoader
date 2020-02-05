@@ -190,7 +190,12 @@ public abstract class SamlWebSecurityConfiguration extends WebSecurityConfigurer
     // SAML 2.0 WebSSO Assertion Consumer
     @Bean
     public WebSSOProfileConsumer webSSOprofileConsumer() {
-        return new WebSSOProfileConsumerImpl();
+        final WebSSOProfileConsumerImpl webSSOprofileConsumer = new WebSSOProfileConsumerImpl();
+        if (samlSettings.getMaxAuthenticationAge() != null) {
+            webSSOprofileConsumer.setMaxAuthenticationAge(samlSettings.getMaxAuthenticationAge());
+        }
+
+        return webSSOprofileConsumer;
     }
 
     // SAML 2.0 Holder-of-Key WebSSO Assertion Consumer
@@ -351,9 +356,9 @@ public abstract class SamlWebSecurityConfiguration extends WebSecurityConfigurer
     // Handler for successful logout
     @Bean
     public SimpleUrlLogoutSuccessHandler successLogoutHandler() {
-        final SimpleUrlLogoutSuccessHandler handler = new SimpleUrlLogoutSuccessHandler();
-        handler.setDefaultTargetUrl("/");
-        return handler;
+        SimpleUrlLogoutSuccessHandler successLogoutHandler = new SimpleUrlLogoutSuccessHandler();
+        successLogoutHandler.setDefaultTargetUrl(samlSettings.getLogoutRedirectUrl());
+        return successLogoutHandler;
     }
 
     // Logout handler terminating local session
@@ -376,10 +381,11 @@ public abstract class SamlWebSecurityConfiguration extends WebSecurityConfigurer
     // Overrides default logout processing filter with the one processing SAML
     // messages
     @Bean
-    public SAMLLogoutFilter samlLogoutFilter() {
-        return new SAMLLogoutFilter(successLogoutHandler(),
+    public CustomSAMLLogoutFilter samlLogoutFilter() {
+        return new CustomSAMLLogoutFilter(successLogoutHandler(),
                 new LogoutHandler[]{logoutHandler()},
-                new LogoutHandler[]{logoutHandler()}
+                new LogoutHandler[]{logoutHandler()},
+                samlSettings.isGlobalLogout()
         );
     }
 
@@ -498,7 +504,7 @@ public abstract class SamlWebSecurityConfiguration extends WebSecurityConfigurer
                 .anyRequest().authenticated();
         http
                 .logout()
-                .logoutSuccessUrl("/");
+                .logoutSuccessUrl(samlSettings.getLogoutRedirectUrl());
 
         http.csrf().disable();
 
