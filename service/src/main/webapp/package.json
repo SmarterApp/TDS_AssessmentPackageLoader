@@ -38,7 +38,7 @@
     "rxjs": "^5.4.2",
     "sbac-ui-kit": "git+https://github.com/SmarterApp/SBAC-Global-UI-Kit.git#v0.0.12",
     "sshpk": "^1.13.2",
-    "ssri": "^5.2.2",
+    "ssri": "^8.0.1",
     "url-parse": "^1.4.3",
     "zone.js": "^0.8.14"
   },
