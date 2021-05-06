@@ -30,7 +30,7 @@
     "handlebars": "^4.0.11",
     "hoek": "^5.0.3",
     "https-proxy-agent": "^2.2.0",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.21",
     "ng2-accordion": "0.0.15",
     "ng2-file-upload": "^1.2.1",
     "ngx-bootstrap": "^2.0.5",
