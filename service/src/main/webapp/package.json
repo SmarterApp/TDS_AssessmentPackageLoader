@@ -39,7 +39,7 @@
     "sbac-ui-kit": "git+https://github.com/SmarterApp/SBAC-Global-UI-Kit.git#v0.0.12",
     "sshpk": "^1.13.2",
     "ssri": "^5.2.2",
-    "url-parse": "^1.4.3",
+    "url-parse": "^1.5.0",
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
